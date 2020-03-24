@@ -10,14 +10,10 @@ export default class SideNavigationbar extends Component {
         super(props)
     }
 
-    componentDidMount(){
-        console.log (this.props.match.params.page);
-    }
-
     render() {
 
         return (
-            <Router>
+
                 <div style={{width: 250}} >
                     <Sidenav defaultOpenKeys={['3', '4']} activeKey="1">
                         <Sidenav.Body className="navBarHeight">
@@ -45,7 +41,12 @@ export default class SideNavigationbar extends Component {
                     </Sidenav>
                     <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-4">
                         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-
+                            {
+                                this.props.match.params.page ==='/'?
+                                  <Dashboard/>
+                                    :
+                                    null
+                            }
 
 
                         </div>
@@ -55,11 +56,6 @@ export default class SideNavigationbar extends Component {
 
 
 
-                <switch>
-                    <Route path="/app/:page" exact component={Dashboard}/>
-                </switch>
-
-            </Router>
         );
 
     }
