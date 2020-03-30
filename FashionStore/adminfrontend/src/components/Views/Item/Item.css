@@ -1,0 +1,11 @@
+
+.AddItemHeight{
+    background-color: #00c851;
+    height: 100vh;
+    width: 100%;
+}
+.SearchItemHeight{
+    background-color: green;
+    height: 100vh;
+    width: 100%;
+}

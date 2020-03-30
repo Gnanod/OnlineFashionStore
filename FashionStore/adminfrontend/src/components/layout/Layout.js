@@ -6,6 +6,8 @@ import {Switch} from "react-bootstrap";
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import Item from "../Views/Item/Item";
 import SearchItem from "../Views/Item/SearchItem";
+import Login from "../Views/Login/Login";
+import Logout from "../Views/LogOut/Logout";
 
 export default class Layout extends Component {
 
@@ -14,27 +16,41 @@ export default class Layout extends Component {
     }
 
     componentDidMount(){
-
+console.log("ppp"+localStorage.getItem("userLogged"));
     }
     render() {
-        return (
-
-            <div className="container-fluid ">
-                <div className="row">
-                    <div className="col-sm-2.5">
-                        <SideNavigationbar> </SideNavigationbar>
+        if(localStorage.getItem("userLogged")==="userLog"){
+            return (
+                <div className="container-fluid ">
+                    <div className="row">
+                        <div className="cols-sm-2">
+                            <SideNavigationbar> </SideNavigationbar>
+                        </div>
+                        <div role="main" className="col-sm-10 mainWidth">
+                            <Switch>
+                                <Route exact path="/" component={Dashboard}/>
+                                <Route exact path="/item/additem" component={Item}/>
+                                <Route exact path="/item/searchitem" component={SearchItem}/>
+                                <Route exact path="/logout" component={Logout}/>
+                            </Switch>
+                        </div>
                     </div>
-                    <main role="main" className="col-sm-9.5 ml-sm-auto col-lg-9 px-1 px-xl-5">
-                        <Switch>
-                            <Route exact path="/" component={Dashboard}/>
-                            <Route exact path="/item/additem" component={Item}/>
-                            <Route exact path="/item/searchitem" component={SearchItem}/>
-                        </Switch>
-                    </main>
                 </div>
-            </div>
 
-        );
+            );
+        }else{
+            console.log('LogOut')
+
+            return(
+
+                    <Switch>
+                        <Route  path="/login" component={Login}/>
+                    </Switch>
+
+
+            );
+        }
+
 
     }
 }

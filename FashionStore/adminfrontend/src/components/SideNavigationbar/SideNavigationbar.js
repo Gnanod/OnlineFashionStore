@@ -36,6 +36,9 @@ export default class SideNavigationbar extends Component {
                                         <Dropdown.Item eventKey="3-5-2">Action Params</Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>
+                                <Nav.Item eventKey="1" icon={<Icon icon="dashboard"/>}>
+                                    <Link to='/logout' > LogOut </Link>
+                                </Nav.Item>
                             </Nav>
                         </Sidenav.Body>
                     </Sidenav>
