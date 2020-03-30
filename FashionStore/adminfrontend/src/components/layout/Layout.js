@@ -16,7 +16,7 @@ export default class Layout extends Component {
     }
 
     componentDidMount(){
-console.log("ppp"+localStorage.getItem("userLogged"));
+
     }
     render() {
         if(localStorage.getItem("userLogged")==="userLog"){
@@ -32,6 +32,7 @@ console.log("ppp"+localStorage.getItem("userLogged"));
                                 <Route exact path="/item/additem" component={Item}/>
                                 <Route exact path="/item/searchitem" component={SearchItem}/>
                                 <Route exact path="/logout" component={Logout}/>
+
                             </Switch>
                         </div>
                     </div>
@@ -39,8 +40,6 @@ console.log("ppp"+localStorage.getItem("userLogged"));
 
             );
         }else{
-            console.log('LogOut')
-
             return(
 
                     <Switch>
