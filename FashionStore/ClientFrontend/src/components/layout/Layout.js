@@ -4,6 +4,8 @@ import {Footer} from "../Footer/Footer";
 import Auxi from "../Hoc/Auxi";
 import Home from "../Views/Home/Home";
 
+import {Route, Switch} from "react-router-dom";
+
 export default class Layout extends Component {
 
     render() {
@@ -11,7 +13,11 @@ export default class Layout extends Component {
 
             <Auxi>
                 <Navigationbar> </Navigationbar>
-                <Home/>
+                <Switch>
+                    <Route exact path="/" component={Home}/>
+
+                </Switch>
+
                 <Footer> </Footer>
             </Auxi>
 

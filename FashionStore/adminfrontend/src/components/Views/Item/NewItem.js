@@ -1,8 +1,8 @@
 
 import React,{Component} from "react";
-import './Item.css'
+import './Style/Item.css'
 
-export default  class Item extends Component{
+export default  class NewItem extends Component{
 
     render(){
 

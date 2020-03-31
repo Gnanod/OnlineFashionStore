@@ -24,13 +24,22 @@ export default class SideNavigationbar extends Component {
                                     <Dropdown.Item eventKey="2-4">Visit Depth</Dropdown.Item>
                                 </Dropdown>
                                 <Dropdown eventKey="3" title="Item Management" icon={<Icon icon="gear-circle"/>}>
-                                    <Dropdown.Item eventKey="3-1">
-                                        <Link to='/item/additem' > Add Item </Link>
+                                    <Dropdown.Item eventKey="3-3">
+                                        <Link to='/item/brandcategory' > Brand & Category </Link>
+
                                     </Dropdown.Item>
+                                    <Dropdown.Item eventKey="3-1">
+                                        <Link to='/item/newitem' > New Item </Link>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item eventKey="3-3">
+                                        <Link to='/item/itemcolor' > Item Color </Link>
+
+                                    </Dropdown.Item>
+
                                     <Dropdown.Item eventKey="3-2">
                                         <Link to='/item/SearchItem' > Search Item </Link>
                                     </Dropdown.Item>
-                                    <Dropdown.Item eventKey="3-3">Versions</Dropdown.Item>
+
                                     <Dropdown.Menu eventKey="3-5" title="Custom Action">
                                         <Dropdown.Item eventKey="3-5-1">Action Name</Dropdown.Item>
                                         <Dropdown.Item eventKey="3-5-2">Action Params</Dropdown.Item>

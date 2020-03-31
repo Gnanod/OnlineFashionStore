@@ -38,7 +38,9 @@ export default class Navigationbar extends Component {
                 <MDBCollapse id='navbarCollapse3' isOpen={collapseID} navbar >
                     <MDBNavbarNav left>
                         <MDBNavItem active>
-                            <MDBLink to='#!'>Home</MDBLink>
+
+
+                            <MDBLink to='/'>Home</MDBLink>
                         </MDBNavItem>
                         <MDBNavItem>
                             <MDBDropdown>
