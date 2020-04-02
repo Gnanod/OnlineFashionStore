@@ -13,12 +13,13 @@ import ItemColor from "../Views/Item/ItemColor";
 
 export default class Layout extends Component {
 
-    constructor(props){
-        super(props)
-    }
+
 
     componentDidMount(){
-
+        // if(localStorage.getItem("userLogged")!=="userLog"){
+        //     this.props.history.push('/login');
+        //     window.location.reload();
+        // }
     }
     render() {
         if(localStorage.getItem("userLogged")==="userLog"){
@@ -30,7 +31,7 @@ export default class Layout extends Component {
                         </div>
                         <div role="main" className="col-sm-10 mainWidth">
                             <Switch>
-                                <Route exact path="/" component={Dashboard}/>
+                                <Route exact path="/dashboard" component={Dashboard}/>
                                 <Route exact path="/item/newitem" component={NewItem}/>
                                 <Route exact path="/item/searchitem" component={SearchItem}/>
                                 <Route exact path="/item/brandcategory" component={BrandCategory}/>
@@ -47,7 +48,7 @@ export default class Layout extends Component {
             return(
 
                     <Switch>
-                        <Route  path="/login" component={Login}/>
+                        <Route  path="/" component={Login}/>
                     </Switch>
 
 

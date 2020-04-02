@@ -7,6 +7,9 @@ export default class Dashboard extends Component {
         super(props)
     }
 
+    componentDidMount(){
+
+    }
     render(){
 
         return(
