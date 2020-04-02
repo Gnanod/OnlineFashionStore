@@ -17,6 +17,9 @@ router.route('/').get(function (req,res) {
 router.route('/add').post(function (req,res) {
 
     let test = new TestTable(req.body);
+
+
+
     test.save()
         .then(test=>{
             res.status(200).json({'todo':'todo Added Successfully'});
