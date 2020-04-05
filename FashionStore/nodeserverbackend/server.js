@@ -28,9 +28,12 @@ app.listen(PORT,function(){
 
 ///////making router instance from express
  const testRoute = require('./routes/test.server.routes');
+ const brandRoute = require('./routes/brand.serve.routes');
+
 
 
 //////creating url and adding router to the server.Every http end point extend this url
  app.use('/api/test',testRoute);
+ app.use('/api/brand',brandRoute);
 
 
