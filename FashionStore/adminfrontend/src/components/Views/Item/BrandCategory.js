@@ -180,6 +180,10 @@ export default class BrandCategory extends Component {
                         );
 
 
+                    // sdfhskjdhs
+                    // sdgsjhdgs
+                    // sdgshg
+
                 } else {
                     this.setState({
                         brandDiscountValidation: true
