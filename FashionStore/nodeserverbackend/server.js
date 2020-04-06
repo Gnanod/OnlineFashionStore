@@ -29,11 +29,17 @@ app.listen(PORT,function(){
 ///////making router instance from express
  const testRoute = require('./routes/test.server.routes');
  const brandRoute = require('./routes/brand.serve.routes');
+ const categoryRoute = require('./routes/category.serve.routes');
 
 
 
 //////creating url and adding router to the server.Every http end point extend this url
  app.use('/api/test',testRoute);
+
  app.use('/api/brand',brandRoute);
+ app.use('/api/brand/getAllBrands',brandRoute);
+
+ app.use('/api/category',categoryRoute);
+ app.use('/api/category/getAllCategories',categoryRoute);
 
 
