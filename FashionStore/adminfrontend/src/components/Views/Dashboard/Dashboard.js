@@ -14,7 +14,7 @@ export default class Dashboard extends Component {
 
         return(
 
-            <div className=" container-fluid dashBoardHeight">
+            <div className="container-fluid dashBoardHeight">
 
                 dashboard
             </div>
