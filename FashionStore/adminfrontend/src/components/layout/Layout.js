@@ -10,6 +10,8 @@ import Login from "../Views/Login/Login";
 import Logout from "../Views/LogOut/Logout";
 import BrandCategory from "../Views/Item/BrandCategory";
 import ItemColor from "../Views/Item/ItemColor";
+import SupplierDetails from "../Views/Stock/SupplierDetails";
+import StockDetails from "../Views/Stock/StockDetails";
 
 export default class Layout extends Component {
 
@@ -37,6 +39,8 @@ export default class Layout extends Component {
                                 <Route exact path="/item/brandcategory" component={BrandCategory}/>
                                 <Route exact path="/item/itemcolor" component={ItemColor}/>
                                 <Route exact path="/logout" component={Logout}/>
+                                <Route exact path="/stock/suppliers" component={SupplierDetails}/>
+                                <Route exact path="/stock/stock" component={StockDetails}/>
 
                             </Switch>
                         </div>
