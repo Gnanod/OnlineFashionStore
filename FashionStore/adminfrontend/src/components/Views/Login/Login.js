@@ -55,7 +55,7 @@ export default  class Login extends Component {
 
                             <MDBCol md='6' xl='6' className='mt-xl-5'>
                                 <MDBAnimation type='fadeInRight' delay='.3s'>
-                                    <img src='/images/Bag.png' alt='' className='img-fluid'/>
+                                    <img src='/image/Bag.png' alt='' className='img-fluid'/>
                                 </MDBAnimation>
                             </MDBCol>
                         </MDBRow>
