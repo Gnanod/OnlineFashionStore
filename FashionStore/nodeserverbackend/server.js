@@ -33,13 +33,12 @@ app.listen(PORT,function(){
 
 
 
+
 //////creating url and adding router to the server.Every http end point extend this url
  app.use('/api/test',testRoute);
 
  app.use('/api/brand',brandRoute);
- app.use('/api/brand/getAllBrands',brandRoute);
-
  app.use('/api/category',categoryRoute);
- app.use('/api/category/getAllCategories',categoryRoute);
+
 
 

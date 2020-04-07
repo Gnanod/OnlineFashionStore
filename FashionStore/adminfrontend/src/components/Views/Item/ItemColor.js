@@ -13,7 +13,7 @@ import {
     MDBTableHead
 } from "mdbreact";
 
-import {PhotoshopPicker, SketchPicker, SwatchesPicker} from 'react-color';
+import { SwatchesPicker} from 'react-color';
 export default  class ItemColor extends Component{
 
     state = {

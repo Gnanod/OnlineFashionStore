@@ -15,11 +15,11 @@ export default class Layout extends Component {
                 <Navigationbar> </Navigationbar>
                 <Switch>
                     <Route exact path="/" component={Home}/>
-
                 </Switch>
 
                 <Footer> </Footer>
             </Auxi>
+
 
         );
 

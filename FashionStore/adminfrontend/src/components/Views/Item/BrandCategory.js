@@ -5,12 +5,11 @@ import {
     MDBBtn,
     MDBCard,
     MDBCardBody,
-    MDBCardText,
     MDBCardTitle,
     MDBCol,
     MDBInput,
     MDBRow, MDBTable,
-    MDBTableBody, MDBTableHead
+    MDBTableHead
 } from "mdbreact";
 
 import axios from "axios";
@@ -21,6 +20,7 @@ import 'sweetalert2/src/sweetalert2.scss'
 import constants from '../../Constants/constants';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import BrandCategoryTableBody from "./BrandCategoryTableBody";
 
 export default class BrandCategory extends Component {
 
@@ -204,8 +204,20 @@ export default class BrandCategory extends Component {
 
     addDetailsToTable(e){
         e.preventDefault();
-        console.log(this.state.brandName);
-        // console.log(this.state.selectedCharacterObject);
+
+        const newBrandCategory ={
+            category : this.state.selectedCharacterObject,
+            brand  :this.state.selectedBrandObject
+        }
+        const array = [newBrandCategory, ...this.state.brandCategoryArray];
+
+        this.setState({
+            brandCategoryArray :array
+
+        })
+        this.getAllBrands();
+        this.getAllCategories();
+        console.log(this.state.brandCategoryArray)
     }
 
     getAllBrands(){
@@ -371,19 +383,9 @@ export default class BrandCategory extends Component {
 
                                             </tr>
                                         </MDBTableHead>
-                                        <MDBTableBody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Mark</td>
-
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Jacob</td>
-
-                                            </tr>
-
-                                        </MDBTableBody>
+                                        <BrandCategoryTableBody
+                                            brandCategoryListList={this.state.brandCategoryArray}
+                                        />
                                     </MDBTable>
                                     <MDBBtn href="#">Save</MDBBtn>
 

@@ -40,7 +40,7 @@ export default class SideNavigationbar extends Component {
                             </Dropdown.Item>
 
                             <Dropdown.Item >
-                            <Link to='/item/SearchItem'> Search Item </Link>
+                            <Link to='/testdashboard'> Search Item </Link>
                             </Dropdown.Item>
                         </Dropdown>
 

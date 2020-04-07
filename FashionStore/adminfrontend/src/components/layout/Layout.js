@@ -10,20 +10,19 @@ import Login from "../Views/Login/Login";
 import Logout from "../Views/LogOut/Logout";
 import BrandCategory from "../Views/Item/BrandCategory";
 import ItemColor from "../Views/Item/ItemColor";
+import TestDashboard from "../Views/Dashboard/tetsDashboard";
 
 export default class Layout extends Component {
 
 
 
     componentDidMount(){
-        // if(localStorage.getItem("userLogged")!=="userLog"){
-        //     this.props.history.push('/login');
-        //     window.location.reload();
-        // }
+
     }
     render() {
         if(localStorage.getItem("userLogged")==="userLog"){
             return (
+
                 <div className="container-fluid ">
                     <div className="row">
                         <div className="cols-sm-2">
@@ -37,6 +36,7 @@ export default class Layout extends Component {
                                 <Route exact path="/item/brandcategory" component={BrandCategory}/>
                                 <Route exact path="/item/itemcolor" component={ItemColor}/>
                                 <Route exact path="/logout" component={Logout}/>
+                                <Route exact  path ="/testdashboard" component={TestDashboard}/>
 
                             </Switch>
                         </div>
