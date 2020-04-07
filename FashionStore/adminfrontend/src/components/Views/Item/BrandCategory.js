@@ -122,6 +122,7 @@ export default class BrandCategory extends Component {
                                     categoryName: ' ',
                                     categoryCode :' '
                                 })
+                                this.getAllCategories();
                             } else {
                                 Swal.fire(
                                     '',
@@ -169,6 +170,8 @@ export default class BrandCategory extends Component {
                                         brandCode: ' ',
                                         discount: 0
                                     })
+                                    this.getAllBrands();
+
                                 } else {
                                     Swal.fire(
                                         '',
@@ -204,20 +207,16 @@ export default class BrandCategory extends Component {
 
     addDetailsToTable(e){
         e.preventDefault();
-
         const newBrandCategory ={
             category : this.state.selectedCharacterObject,
             brand  :this.state.selectedBrandObject
         }
         const array = [newBrandCategory, ...this.state.brandCategoryArray];
-
         this.setState({
             brandCategoryArray :array
-
         })
         this.getAllBrands();
         this.getAllCategories();
-        console.log(this.state.brandCategoryArray)
     }
 
     getAllBrands(){
@@ -348,7 +347,6 @@ export default class BrandCategory extends Component {
                             <MDBCardBody>
                                 <MDBCardTitle>Add New Category</MDBCardTitle>
                                 <form onSubmit={this.addDetailsToTable}>
-                                    {/*<AutoComplete data={this.state.brands} value={brand=>this.state.brands.} onChange={this.onChangeGetBrandName} placeholder="BrandName"/>*/}
                                     <Autocomplete
                                         id="combo-box-demo"
                                         options={this.state.brands}

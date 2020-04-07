@@ -14,16 +14,16 @@ export default class SideNavigationbar extends Component {
             <Sidenav defaultOpenKeys={['3', '4']} activeKey="1">
                 <Sidenav.Body className="navBarHeight">
                     <Nav>
-                        <Nav.Item eventKey="1" icon={<Icon icon="dashboard"/>}>
+                        <Nav.Item  icon={<Icon icon="dashboard"/>}>
                             <Link to='/'> Dashboard </Link>
                         </Nav.Item>
                         <Dropdown eventKey="2" title="User Management" icon={<Icon icon="group"/>}>
 
-                            <Dropdown.Item eventKey="2-4">
+                            <Dropdown.Item >
                                 <Link to='/item/brandcategory'> Brand & Category </Link>
                             </Dropdown.Item>
-                            <Dropdown.Item eventKey="2-3">Loyalty</Dropdown.Item>
-                            <Dropdown.Item eventKey="2-4">Visit Depth</Dropdown.Item>
+                            <Dropdown.Item >Loyalty</Dropdown.Item>
+                            <Dropdown.Item >Visit Depth</Dropdown.Item>
                         </Dropdown>
                         <Dropdown  title="Item Management" icon={<Icon icon="gear-circle"/>}>
 
@@ -44,12 +44,12 @@ export default class SideNavigationbar extends Component {
                             </Dropdown.Item>
                         </Dropdown>
 
-                        <Dropdown title="Stock Management" icon={<Icon icon="gear-circle"/>}>
+                        <Dropdown eventKey="12" title="Stock Management" icon={<Icon icon="gear-circle"/>}>
 
-                            <Dropdown.Item eventKey="2-4">
+                            <Dropdown.Item eventKey="12-1">
                                 <Link to='/stock/suppliers'> Suppliers </Link>
-                            </Dropdown.Item>
-                            <Dropdown.Item eventKey="2-3">
+                            </Dropdown.Item >
+                            <Dropdown.Item eventKey="12-3">
                                 <Link to='/stock/stock'> Stock </Link></Dropdown.Item>
 
                         </Dropdown>
