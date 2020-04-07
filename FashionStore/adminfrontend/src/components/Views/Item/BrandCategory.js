@@ -109,6 +109,12 @@ export default class BrandCategory extends Component {
                     categoryName: this.state.categoryName,
                     categoryCode: this.state.categoryCode
                 }
+
+
+
+
+
+
                 axios.post(constants.backend_url+'api/category/add', newCategory)
                     .then(res => {
                             console.log(res)
