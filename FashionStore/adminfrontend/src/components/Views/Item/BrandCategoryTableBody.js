@@ -1,29 +1,37 @@
 import React, {Component} from "react";
 import './Style/Item.css'
-import {MDBTable, MDBTableBody} from "mdbreact";
+import {MDBAlert, MDBTableBody} from "mdbreact";
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 export default class BrandCategoryTableBody extends Component {
 
     render() {
-        const {brandCategoryListList} = this.props;
-
+        const {brandCategoryListList, noItem} = this.props;
         return (
-
             <MDBTableBody>
                 {
-                    brandCategoryListList.map(item => {
-                        return (
-                            <tr key={item.category.categoryCode}>
-                                <td>{item.brand.brandName}</td>
-                                <td>{item.category.categoryName}</td>
-
-                            </tr>
-                        )
-                    })
+                    noItem ?
+                        <tr >
+                            <td colSpan="2">
+                                <MDBAlert color="danger" >
+                                    No Items In List
+                                </MDBAlert>
+                            </td>
+                        </tr>
+                        :
+                        brandCategoryListList.map(item => {
+                            return (
+                                <tr key={item.brandCategoryId}>
+                                    <td>{item.brand.brandName}</td>
+                                    <td>{item.category.categoryName}</td>
+                                    <td>
+                                        <HighlightOffIcon className="deleteIconColor" fontSize="large" />
+                                    </td>
+                                </tr>
+                            )
+                        })
                 }
-
             </MDBTableBody>
-
         );
     }
 }

@@ -14,13 +14,12 @@ import {
 
 import axios from "axios";
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-
 import 'sweetalert2/src/sweetalert2.scss'
-
 import constants from '../../Constants/constants';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import BrandCategoryTableBody from "./BrandCategoryTableBody";
+import uuid from 'react-uuid';
 
 export default class BrandCategory extends Component {
 
@@ -39,12 +38,17 @@ export default class BrandCategory extends Component {
             categoryCode: ' ',
             categoryNameValidation: false,
             categoryCodeValidation: false,
-            categories :[],
-            brands :[],
-            brandValue :' ',
-            selectedBrandObject :' ',
-            selectedCharacterObject :' ',
-            brandCategoryArray :[]
+            categories: [],
+            brands: [],
+            brandValue: ' ',
+            selectedBrandObject: ' ',
+            selectedCharacterObject: ' ',
+            brandCategoryArray: [],
+            noItem: true,
+            selectedCharacterObjectValidation: false,
+            selectedBrandObjectValidation: false,
+            brandCategoryIdArray: [],
+            brandCategoryId : uuid()
 
         }
 
@@ -60,6 +64,12 @@ export default class BrandCategory extends Component {
         this.onChangeGetBrandName = this.onChangeGetBrandName.bind(this);
         this.onChangeGetCategoryName = this.onChangeGetCategoryName.bind(this);
         this.addDetailsToTable = this.addDetailsToTable.bind(this);
+        this.submitBrandsAndCategory = this.submitBrandsAndCategory.bind(this);
+
+
+    }
+
+    componentDidMount() {
         this.getAllBrands();
         this.getAllCategories();
     }
@@ -67,7 +77,7 @@ export default class BrandCategory extends Component {
     onChangeCategoryCode(e) {
         this.setState({
             categoryCode: e.target.value,
-            categoryCodeValidation :false
+            categoryCodeValidation: false
 
         })
     }
@@ -105,17 +115,11 @@ export default class BrandCategory extends Component {
         e.preventDefault();
         if (this.state.categoryName !== ' ') {
             if (this.state.categoryCode !== ' ') {
-                const newCategory={
+                const newCategory = {
                     categoryName: this.state.categoryName,
                     categoryCode: this.state.categoryCode
                 }
-
-
-
-
-
-
-                axios.post(constants.backend_url+'api/category/add', newCategory)
+                axios.post(constants.backend_url + 'api/category/add', newCategory)
                     .then(res => {
                             console.log(res)
                             if (res.data.category === 'success') {
@@ -126,13 +130,13 @@ export default class BrandCategory extends Component {
                                 );
                                 this.setState({
                                     categoryName: ' ',
-                                    categoryCode :' '
+                                    categoryCode: ' '
                                 })
                                 this.getAllCategories();
                             } else {
                                 Swal.fire(
                                     '',
-                                    'Category Added Faild)',
+                                    'Category Added Faild',
                                     'error'
                                 )
                             }
@@ -162,7 +166,7 @@ export default class BrandCategory extends Component {
                         brandName: this.state.brandName,
                         sellingDiscount: this.state.discount,
                     }
-                    axios.post(constants.backend_url+'api/brand/add', newBrand)
+                    axios.post(constants.backend_url + 'api/brand/add', newBrand)
                         .then(res => {
                                 console.log(res)
                                 if (res.data.brand === 'success') {
@@ -187,12 +191,6 @@ export default class BrandCategory extends Component {
                                 }
                             }
                         );
-
-
-                    // sdfhskjdhs
-                    // sdgsjhdgs
-                    // sdgshg
-
                 } else {
                     this.setState({
                         brandDiscountValidation: true
@@ -211,22 +209,92 @@ export default class BrandCategory extends Component {
 
     }
 
-    addDetailsToTable(e){
+    submitBrandsAndCategory(e) {
         e.preventDefault();
-        const newBrandCategory ={
-            category : this.state.selectedCharacterObject,
-            brand  :this.state.selectedBrandObject
+        if (this.state.brandCategoryArray.length !== 0) {
+            this.state.brandCategoryArray.map(item => {
+                const brandCategoryObj = {
+                    brandCode: item.brand.brandCode,
+                    categoryCode: item.category.categoryCode,
+
+                }
+
+                this.state.brandCategoryIdArray.push(brandCategoryObj);
+
+            });
+
+            axios.post(constants.backend_url + 'api/brandcategory/add', this.state.brandCategoryIdArray)
+                .then(res => {
+                        console.log(res);
+                        if (res.data.brandCategory === 'success') {
+                            Swal.fire(
+                                '',
+                                'Brand Category Details Added Success.',
+                                'success'
+                            );
+                            this.setState({
+                                brandCategoryIdArray: ' ',
+                                brandCategoryArray :'',
+                                noItem:true
+                            })
+                            this.getAllCategories();
+                            this.getAllBrands();
+                        } else {
+                            Swal.fire(
+                                '',
+                                'Category Added Faild)',
+                                'error'
+                            )
+                        }
+                    }
+                );
+
+
+        } else {
+            Swal.fire(
+                '',
+                'Table is Empty Please Add Items To Table',
+                'error'
+            )
         }
-        const array = [newBrandCategory, ...this.state.brandCategoryArray];
-        this.setState({
-            brandCategoryArray :array
-        })
-        this.getAllBrands();
-        this.getAllCategories();
     }
 
-    getAllBrands(){
-        axios.get(constants.backend_url+'api/brand/getAllBrands').then(response => {
+    addDetailsToTable(e) {
+        e.preventDefault();
+        if (this.state.selectedBrandObject !== ' ') {
+            if (this.state.selectedCharacterObject !== ' ') {
+                const newBrandCategory = {
+                    category: this.state.selectedCharacterObject,
+                    brand: this.state.selectedBrandObject,
+                    brandCategoryId : uuid()
+                }
+
+                const array = [newBrandCategory, ...this.state.brandCategoryArray];
+                this.setState({
+                    brandCategoryArray: array,
+                    noItem: false,
+                    brandCategoryId :uuid()
+                })
+                this.getAllBrands();
+                this.getAllCategories();
+
+            } else {
+                this.setState({
+                    selectedCharacterObjectValidation: true
+                })
+
+            }
+        } else {
+            this.setState({
+                selectedBrandObjectValidation: true
+            })
+        }
+
+
+    }
+
+    getAllBrands() {
+        axios.get(constants.backend_url + 'api/brand/getAllBrands').then(response => {
             this.setState({brands: response.data});
         }).catch(function (error) {
             console.log(error);
@@ -234,22 +302,25 @@ export default class BrandCategory extends Component {
         console.log(this.state.brands);
     }
 
-    onChangeGetBrandName(value){
+    onChangeGetBrandName(value) {
         console.log(value)
-        this.state.selectedBrandObject=value;
+        this.state.selectedBrandObject = value;
         this.setState({
-            selectedBrandObject :  this.state.selectedBrandObject
+            selectedBrandObject: this.state.selectedBrandObject,
+            selectedBrandObjectValidation: false
         });
 
     }
 
-    onChangeGetCategoryName(value){
+    onChangeGetCategoryName(value) {
         this.setState({
-            selectedCharacterObject : value
+            selectedCharacterObject: value,
+            selectedCharacterObjectValidation: false
         });
     }
-    getAllCategories(){
-        axios.get(constants.backend_url+'api/category/getAllCategories').then(response => {
+
+    getAllCategories() {
+        axios.get(constants.backend_url + 'api/category/getAllCategories').then(response => {
             this.setState({categories: response.data});
         }).catch(function (error) {
             console.log(error);
@@ -357,41 +428,56 @@ export default class BrandCategory extends Component {
                                         id="combo-box-demo"
                                         options={this.state.brands}
                                         getOptionLabel={(option) => option.brandName}
-                                        style={{ width: 300 }}
+                                        style={{width: 300}}
                                         onChange={(event, value) => this.onChangeGetBrandName(value)}
-                                        renderInput={(params) => <TextField {...params} label="Brand Name"  />}
+                                        renderInput={(params) => <TextField {...params} label="Brand Name"/>}
                                         size="sm"
                                     />
                                     <br/>
+                                    {
+                                        this.state.selectedBrandObjectValidation ? <MDBAlert color="danger">
+                                            Brand Name Field Is Empty
+                                        </MDBAlert> : ''
+                                    }
+
                                     <Autocomplete
                                         id="combo-box-demo"
                                         options={this.state.categories}
                                         getOptionLabel={(option) => option.categoryName}
-                                        style={{ width: 300 }}
+                                        style={{width: 300}}
                                         onChange={(event, value) => this.onChangeGetCategoryName(value)}
-                                        renderInput={(params) => <TextField {...params} label="Category Name"  />}
+                                        renderInput={(params) => <TextField {...params} label="Category Name"/>}
                                         size="sm"
                                     />
-                                    {/*<AutoComplete data={this.state.categories} placeholder="Category Name"/>*/}
+                                    <br/>
+                                    {
+                                        this.state.selectedCharacterObjectValidation ? <MDBAlert color="danger">
+                                            Category Name Field Is Empty
+                                        </MDBAlert> : ''
+                                    }
+
                                     <br/>
                                     <MDBBtn type="submit">Add</MDBBtn>
                                 </form>
 
-                                    <br/>
-                                    <br/>
-                                    <MDBTable>
-                                        <MDBTableHead color="primary-color" textWhite>
-                                            <tr>
-                                                <th>Brand Name</th>
-                                                <th>Category Name</th>
+                                <br/>
+                                <br/>
+                                <MDBTable>
+                                    <MDBTableHead color="primary-color" textWhite>
+                                        <tr>
+                                            <th>Brand Name</th>
+                                            <th>Category Name</th>
 
-                                            </tr>
-                                        </MDBTableHead>
-                                        <BrandCategoryTableBody
-                                            brandCategoryListList={this.state.brandCategoryArray}
-                                        />
-                                    </MDBTable>
-                                    <MDBBtn href="#">Save</MDBBtn>
+                                        </tr>
+                                    </MDBTableHead>
+                                    <BrandCategoryTableBody
+                                        brandCategoryListList={this.state.brandCategoryArray}
+                                        noItem={this.state.noItem}
+                                    />
+                                </MDBTable>
+                                <form onSubmit={this.submitBrandsAndCategory}>
+                                    <MDBBtn type="submit">Save</MDBBtn>
+                                </form>
 
 
                             </MDBCardBody>
