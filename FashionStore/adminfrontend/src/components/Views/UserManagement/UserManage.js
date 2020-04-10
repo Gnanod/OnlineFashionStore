@@ -26,15 +26,16 @@ class ParallaxIntro extends React.Component {
                         <MDBRow>
 
                             <MDBCol md='12' className='mb-4  text-center'>
-                                <h1 className='display-4 mb-0 pt-md-5 pt-5  font-weight-bold' >
+                                <h1 className='display-5 mb-0 pt-md-5 pt-5  font-weight-bold' >
                                     USER &nbsp;
                                     <span className='font-weight-bold h1col'>DETAILS</span>
                                 </h1>
                             </MDBCol>
-                            <MDBCol md="6">
+                            <MDBCol md="6" className="searchC">
                                 <MDBFormInline className="md-form">
                                     <MDBIcon icon="search" />
-                                    <input className="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search" />
+                                    <input className="form-control form-control-sm ml-3 " type="text" placeholder="Search" aria-label="Search" />
+                                    <MDBBtn outline size="sm">Search</MDBBtn>
                                 </MDBFormInline>
                             </MDBCol>
                             <div className=" container-fluid AddItemHeight">

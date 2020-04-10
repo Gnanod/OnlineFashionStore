@@ -19,3 +19,8 @@
 .rounded{
     border-radius: 50%;
 }
+
+.searchC{
+    position: relative;
+    left: 70%;
+}
