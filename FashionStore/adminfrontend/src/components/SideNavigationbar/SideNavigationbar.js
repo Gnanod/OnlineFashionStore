@@ -61,9 +61,6 @@ export default class SideNavigationbar extends Component {
 
                         {/*</Dropdown>*/}
 
-                        {/*<Dropdown eventKey="3" title="Item Management" icon={<Icon icon="gear-circle"/>}>*/}
-                            {/*<Dropdown.Item eventKey="3-1">*/}
-                                {/*<Link to='/item/brandcategory'> Brand & Category </Link>*/}
 
                             {/*</Dropdown.Item>*/}
                             {/*<Dropdown.Item eventKey="3-2">*/}

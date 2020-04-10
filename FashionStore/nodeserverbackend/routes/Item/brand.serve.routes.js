@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-let Brand = require('../models/Brand.model');
+let Brand = require('../../models/Brand.model');
+
 
 router.route('/add').post(function (req,res) {
     let brand = new Brand(req.body);

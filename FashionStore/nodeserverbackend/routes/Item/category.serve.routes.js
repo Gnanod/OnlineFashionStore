@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-let Category = require('../models/Category.model');
+let Category = require('../../models/Category.model');
 
 router.route('/add').post(function (req,res) {
 

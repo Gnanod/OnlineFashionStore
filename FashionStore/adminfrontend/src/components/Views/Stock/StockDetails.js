@@ -9,18 +9,11 @@ import {
     MDBCardTitle,
     MDBCol,
     MDBInput,
-    MDBRow, MDBTable,
-    MDBTableBody, MDBTableHead
+    MDBRow
 } from "mdbreact";
-
-import axios from "axios";
-import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 import 'sweetalert2/src/sweetalert2.scss'
 
-import constants from '../../Constants/constants';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 
 export default class StockDetails extends Component{
 
