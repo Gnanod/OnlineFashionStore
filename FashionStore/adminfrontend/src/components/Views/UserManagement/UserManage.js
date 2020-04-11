@@ -17,6 +17,9 @@ import './UserManage.css';
 
 export default class UserDetail extends Component {
 
+
+
+
     render() {
         return (
             <div id='parallaxintro'>
