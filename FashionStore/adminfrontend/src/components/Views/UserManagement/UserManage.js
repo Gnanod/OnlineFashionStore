@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from "react";
 import { BrowserRouter as Router } from 'react-router-dom';
 import {
     MDBMask,
@@ -15,7 +15,7 @@ import {
 } from 'mdbreact';
 import './UserManage.css';
 
-class ParallaxIntro extends React.Component {
+export default class UserDetail extends Component {
 
     render() {
         return (
@@ -181,5 +181,3 @@ class ParallaxIntro extends React.Component {
         );
     }
 }
-
-export default ParallaxIntro;

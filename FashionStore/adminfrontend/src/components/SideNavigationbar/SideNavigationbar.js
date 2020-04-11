@@ -22,6 +22,9 @@ export default class SideNavigationbar extends Component {
                             <Dropdown.Item >
                                 <Link to='/usermanagement'> User Details </Link>
                             </Dropdown.Item>
+                            <Dropdown.Item >
+                                <Link to='/useranalysis'> User Analysis </Link>
+                            </Dropdown.Item>
 
                         </Dropdown>
                         <Dropdown  title="Item Management" icon={<Icon icon="gear-circle"/>}>
