@@ -41,6 +41,10 @@ img {
     border: black;
 }
 
+.tableImage{
+    max-height:55px;
+}
+
 .btnClass{
     position: absolute;
     top: 15%;
@@ -59,4 +63,8 @@ img {
 
 .btnClass:hover {
     background-color: black;
+}
+
+.optionStyle{
+    margin-top: 10px;
 }

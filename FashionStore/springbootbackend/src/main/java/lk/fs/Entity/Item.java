@@ -1,14 +1,11 @@
 package lk.fs.Entity;
-
-import javax.persistence.*;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 
-
-@Entity
+@Document(collection =  "items")
 public class Item {
 
-    @Id
+
     private String itemCode;
     private String itemName;
     private String brandCode;

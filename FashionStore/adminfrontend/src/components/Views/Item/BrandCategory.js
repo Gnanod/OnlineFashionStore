@@ -242,7 +242,7 @@ export default class BrandCategory extends Component {
                         } else {
                             Swal.fire(
                                 '',
-                                'Category Added Faild)',
+                                'Category Added Faild',
                                 'error'
                             )
                         }
@@ -417,9 +417,7 @@ export default class BrandCategory extends Component {
 
                 <br/>
                 <MDBRow>
-
                     <MDBCol>
-
                         <MDBCard size="6">
                             <MDBCardBody>
                                 <MDBCardTitle>Add New Category</MDBCardTitle>
