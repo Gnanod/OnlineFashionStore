@@ -13,6 +13,9 @@ import ItemColor from "../Views/Item/ItemColor";
 import SupplierDetails from "../Views/Stock/SupplierDetails";
 import StockDetails from "../Views/Stock/StockDetails";
 import TestDashboard from "../Views/Dashboard/tetsDashboard";
+import UserDetail from "../Views/UserManagement/UserManage";
+import UserAnalysis from "../Views/UserManagement/UserAnalysis";
+import Test from "../Views/UserManagement/Test";
 
 export default class Layout extends Component {
 
@@ -40,7 +43,9 @@ export default class Layout extends Component {
                                 <Route exact path="/stock/suppliers" component={SupplierDetails}/>
                                 <Route exact path="/stock/stock" component={StockDetails}/>
                                 <Route exact  path ="/testdashboard" component={TestDashboard}/>
-
+                                <Route exact  path ="/usermanagement" component={UserDetail}/>
+                                <Route exact  path ="/useranalysis" component={UserAnalysis}/>
+                                <Route exact  path ="/usertest" component={Test}/>
                             </Switch>
                         </div>
                     </div>

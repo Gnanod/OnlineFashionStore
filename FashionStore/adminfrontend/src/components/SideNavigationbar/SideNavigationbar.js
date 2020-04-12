@@ -20,10 +20,15 @@ export default class SideNavigationbar extends Component {
                         <Dropdown eventKey="2" title="User Management" icon={<Icon icon="group"/>}>
 
                             <Dropdown.Item >
-                                <Link to='/item/brandcategory'> Brand & Category </Link>
+                                <Link to='/usermanagement'> User Details </Link>
                             </Dropdown.Item>
-                            <Dropdown.Item >Loyalty</Dropdown.Item>
-                            <Dropdown.Item >Visit Depth</Dropdown.Item>
+                            <Dropdown.Item >
+                                <Link to='/useranalysis'> User Analysis </Link>
+                            </Dropdown.Item>
+                            <Dropdown.Item >
+                                <Link to='/usertest'> Test </Link>
+                            </Dropdown.Item>
+
                         </Dropdown>
                         <Dropdown  title="Item Management" icon={<Icon icon="gear-circle"/>}>
 

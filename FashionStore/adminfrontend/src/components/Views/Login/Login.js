@@ -1,8 +1,7 @@
 import React,{Component} from "react";
-import { BrowserRouter as Router } from 'react-router-dom';
-import {MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBMask, MDBRow, MDBCol, MDBBtn, MDBView, MDBContainer, MDBFormInline, MDBAnimation} from 'mdbreact';
+import { MDBMask, MDBRow, MDBCol, MDBBtn, MDBView, MDBContainer, MDBAnimation} from 'mdbreact';
 import './Login.css';
-import { MDBCard, MDBCardBody, MDBInput, MDBIcon, MDBModalFooter } from 'mdbreact';
+import { MDBCard, MDBCardBody, MDBInput} from 'mdbreact';
 
 export default  class Login extends Component {
     constructor(props){
@@ -19,12 +18,6 @@ export default  class Login extends Component {
     render() {
         return (
             <div id='apppage'>
-                <Router>
-                    <div>
-                        <MDBNavbar>
-                        </MDBNavbar>
-                    </div>
-                </Router>
                 <MDBView>
                     <MDBMask className='white-text gradient' />
                     <MDBContainer
