@@ -15,7 +15,7 @@ import {
 } from 'mdbreact';
 import './UserManage.css';
 import { Bar } from "react-chartjs-2";
-import {SwatchesPicker} from "react-color";
+
 
 export default class UserAnalysis extends Component {
 
@@ -103,7 +103,7 @@ export default class UserAnalysis extends Component {
                             {/*    ---------------------------------------------Customer feedback----------------------------------------------------------------*/}
                             <MDBCol size="7"  >
                                 <MDBCard >
-                                    <MDBCardBody className="feedbackdiv feedbackcard">
+                                    <MDBCardBody className="feedbackdiv2 feedbackcard">
                                         <MDBTable scrollY  maxHeight="500px">
                                             {/*-------------------------------------------------------------*/}
                                             <MDBCard >
