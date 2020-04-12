@@ -1,167 +1,246 @@
-import React from 'react';
+import React, {Component} from "react";
 import { BrowserRouter as Router } from 'react-router-dom';
 import {
     MDBMask,
     MDBRow,
     MDBCol,
     MDBView,
-    MDBContainer,MDBPagination, MDBPageItem, MDBPageNav,
-    MDBCardText,
-    MDBIcon,MDBDataTable,MDBFormInline,
+    MDBContainer, MDBPagination, MDBPageItem, MDBPageNav,
+    MDBNavbar,
+    MDBIcon, MDBDataTable, MDBFormInline,
     MDBCard,
     MDBCardBody,
     MDBCardTitle,
-    MDBInput, MDBBtn, MDBTableHead, MDBTableBody, MDBTable
+    MDBInput, MDBBtn, MDBTableHead, MDBTableBody, MDBTable, MDBDropdown, MDBCardText
 } from 'mdbreact';
 import './test.css';
-const TablePage = props => {
+import { Bar } from "react-chartjs-2";
+import swal from 'sweetalert';
+import Layout from "../../layout/Layout";
 
 
-    return (
-        <div id='parallaxintro'>
-            <MDBView>
-                <MDBMask className='rgba-white-light' />
-                <MDBContainer className='d-flex justify-content-center align-items-center' style={{ height: '100%', width: '100%', paddingTop: '0rem' }}>
-                    <MDBRow>
 
-                        <MDBCol md='12' className='mb-4  text-center'>
-                            <h1 className='display-5 mb-0 pt-md-5 pt-5  font-weight-bold' >
-                                USER &nbsp;
-                                <span className='font-weight-bold h1col'>DETAILS</span>
-                            </h1>
-                        </MDBCol>
-                        <MDBCol md="6" className="searchC">
-                            <MDBFormInline className="md-form">
-                                <MDBIcon icon="search" />
-                                <input className="form-control form-control-sm ml-3 " type="text" placeholder="Search" aria-label="Search" />
-                                <MDBBtn outline size="sm">Search</MDBBtn>
-                            </MDBFormInline>
-                        </MDBCol>
-                        <div className=" container-fluid ">
-                            <MDBRow>
-                                <MDBCol size="7"  >
-                                    <MDBCard >
-                                        <MDBCardBody className="feedbackdiv feedbackcard">
-                                                <MDBTable scrollY  maxHeight="500px">
-                                                    {/*-------------------------------------------------------------*/}
-                                                    <MDBCard >
-                                                    <MDBCardBody>
-                                                        <h5 className='pink-text'><MDBIcon icon='envelope'/> New Feedback</h5>
-                                                        <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
-                                                        <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
+export default class Test extends Component {
+
+    constructor(props) {
+        super(props);
+        this.sweetalertfunction = this.sweetalertfunction.bind(this);
+    }
+    sweetalertfunction(){
+        console.log("button clicks");
+        swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this imaginary file!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            },
+            function(){
+                swal("Deleted!", "Your imaginary file has been deleted.", "success");
+            });
+    }
+
+    state = {
+        dataBar: {
+            labels: [ "2015", "2016", "2017", "2018", "2019", "2020"],
+            datasets: [
+                {
+                    label: "Number of customers",
+                    data: [30, 45, 40, 20, 50, 10],
+                    backgroundColor: [
+                        "rgba(236, 112, 99 )",
+                        "rgba(93, 173, 226)",
+                        "rgba(82, 190, 128 )",
+                        "rgba(113, 205, 205)",
+                        "rgba(170, 128, 252)",
+                        "rgba(255, 177, 101)"
+                    ],
+                    borderWidth: 2,
+                    borderColor: [
+                        "rgba(255, 134, 159, 1)",
+                        "rgba(98,  182, 239, 1)",
+                        "rgba(82, 190, 128, 1)",
+                        "rgba(113, 205, 205, 1)",
+                        "rgba(170, 128, 252, 1)",
+                        "rgba(255, 177, 101, 1)"
+                    ]
+                }
+            ]
+        },
+        barChartOptions: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                xAxes: [
+                    {
+                        barPercentage: 1,
+                        gridLines: {
+                            display: true,
+                            color: "rgba(0, 0, 0, 0.1)"
+                        }
+                    }
+                ],
+                yAxes: [
+                    {
+                        gridLines: {
+                            display: true,
+                            color: "rgba(0, 0, 0, 0.1)"
+                        },
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }
+                ]
+            }
+        }
+    }
+
+
+    render() {
+        return (
+            <div id='parallaxintro'>
+                <MDBView>
+                    <MDBMask className='rgba-white-light' />
+                    <MDBContainer className='d-flex justify-content-center align-items-center' style={{ height: '100%', width: '100%', paddingTop: '0rem' }}>
+                        <MDBRow>
+                            <MDBCol md='12' className='mb-4  text-center'>
+                                <h1 className='display-5 mb-0 pt-md-5 pt-5  font-weight-bold' >
+                                    USER &nbsp;
+                                    <span className='font-weight-bold h1col'>ANALYSIS</span>
+                                </h1>
+                            </MDBCol>
+                        </MDBRow>
+                    </MDBContainer>
+                    <br></br><br></br>
+                    <div className=" container-fluid itemColorMain">
+                        <MDBRow>
+                            <MDBCol size="5">
+                                <MDBCard>
+                                    <MDBCardBody className="charts">
+                                        <Bar data={this.state.dataBar} options={this.state.barChartOptions} />
+                                    </MDBCardBody>
+                                </MDBCard>
+                            </MDBCol>
+                            {/*    ---------------------------------------------Customer feedback----------------------------------------------------------------*/}
+                            <MDBCol size="7"  >
+                                <MDBCard >
+                                    <MDBCardBody className="feedbackdiv2 feedbackcard">
+                                        <MDBTable scrollY  maxHeight="500px">
+                                            {/*-------------------------------------------------------------*/}
+                                            <MDBCard >
+                                                <MDBCardBody>
+                                                    <h5 className='pink-text'><MDBIcon icon='envelope'/> New Feedback</h5>
+                                                    <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
+                                                    <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
                                                         his/her issues and requests that the user admin should consider</MDBCardText>
-                                                        <MDBBtn color='unique' >Delete</MDBBtn>
-                                                    </MDBCardBody>
-                                                    </MDBCard>
-                                                    <br/>
-                                                    {/*-------------------------------------------------------------*/}
+                                                    <MDBBtn color='unique' onClick={this.sweetalertfunction}>Delete</MDBBtn>
+                                                </MDBCardBody>
+                                            </MDBCard>
+                                            <br/>
+                                            {/*-------------------------------------------------------------*/}
 
-                                                    {/*-------------------------------------------------------------*/}
-                                                    <MDBCard >
-                                                        <MDBCardBody>
-                                                            <h5 className='pink-text'><MDBIcon icon='envelope'/> New Feedback</h5>
-                                                            <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
-                                                            <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
-                                                                his/her issues and requests that the user admin should consider</MDBCardText>
-                                                            <MDBBtn color='unique' >Delete</MDBBtn>
-                                                        </MDBCardBody>
-                                                    </MDBCard>
-                                                    <br/>
-                                                    {/*-------------------------------------------------------------*/}
-
-
-                                                    {/*-------------------------------------------------------------*/}
-                                                    <MDBCard >
-                                                        <MDBCardBody>
-                                                            <h5 className='pink-text'><MDBIcon icon='envelope'/> New Feedback</h5>
-                                                            <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
-                                                            <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
-                                                                his/her issues and requests that the user admin should consider</MDBCardText>
-                                                            <MDBBtn color='unique' >Delete</MDBBtn>
-                                                        </MDBCardBody>
-                                                    </MDBCard>
-                                                    <br/>
-                                                    {/*-------------------------------------------------------------*/}
+                                            {/*-------------------------------------------------------------*/}
+                                            <MDBCard >
+                                                <MDBCardBody>
+                                                    <h5 className='pink-text'><MDBIcon icon='envelope'/> New Feedback</h5>
+                                                    <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
+                                                    <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
+                                                        his/her issues and requests that the user admin should consider</MDBCardText>
+                                                    <MDBBtn color='unique' >Delete</MDBBtn>
+                                                </MDBCardBody>
+                                            </MDBCard>
+                                            <br/>
+                                            {/*-------------------------------------------------------------*/}
 
 
-                                                    {/*-------------------------------------------------------------*/}
-                                                    <MDBCard >
-                                                        <MDBCardBody>
-                                                            <h5 className='pink-text'><MDBIcon icon='envelope'/> New Feedback</h5>
-                                                            <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
-                                                            <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
-                                                                his/her issues and requests that the user admin should consider</MDBCardText>
-                                                            <MDBBtn color='unique' >Delete</MDBBtn>
-                                                        </MDBCardBody>
-                                                    </MDBCard>
-                                                    <br/>
-                                                    {/*-------------------------------------------------------------*/}
-
-                                                    {/*-------------------------------------------------------------*/}
-                                                    <MDBCard >
-                                                        <MDBCardBody>
-                                                            <h5 className='pink-text'><MDBIcon icon='envelope'/> New Feedback</h5>
-                                                            <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
-                                                            <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
-                                                                his/her issues and requests that the user admin should consider</MDBCardText>
-                                                            <MDBBtn color='unique' >Delete</MDBBtn>
-                                                        </MDBCardBody>
-                                                    </MDBCard>
-                                                    <br/>
-                                                    {/*-------------------------------------------------------------*/}
-
-                                                    {/*-------------------------------------------------------------*/}
-                                                    <MDBCard >
-                                                        <MDBCardBody>
-                                                            <h5 className='pink-text'><MDBIcon icon='envelope'/> New Feedback</h5>
-                                                            <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
-                                                            <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
-                                                                his/her issues and requests that the user admin should consider</MDBCardText>
-                                                            <MDBBtn color='unique' >Delete</MDBBtn>
-                                                        </MDBCardBody>
-                                                    </MDBCard>
-                                                    <br/>
-                                                    {/*-------------------------------------------------------------*/}
-
-                                                    {/*-------------------------------------------------------------*/}
-                                                    <MDBCard >
-                                                        <MDBCardBody>
-                                                            <h5 className='pink-text'><MDBIcon icon='envelope'/> New Feedback</h5>
-                                                            <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
-                                                            <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
-                                                                his/her issues and requests that the user admin should consider</MDBCardText>
-                                                            <MDBBtn color='unique' >Delete</MDBBtn>
-                                                        </MDBCardBody>
-                                                    </MDBCard>
-                                                    <br/>
-                                                    {/*-------------------------------------------------------------*/}
-
-                                                    {/*-------------------------------------------------------------*/}
-                                                    <MDBCard >
-                                                        <MDBCardBody>
-                                                            <h5 className='pink-text'><MDBIcon icon='envelope'/> New Feedback</h5>
-                                                            <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
-                                                            <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
-                                                                his/her issues and requests that the user admin should consider</MDBCardText>
-                                                            <MDBBtn color='unique' >Delete</MDBBtn>
-                                                        </MDBCardBody>
-                                                    </MDBCard>
-                                                    <br/>
-                                                    {/*-------------------------------------------------------------*/}
-                                                </MDBTable>
-                                        </MDBCardBody>
-                                    </MDBCard>
-                                </MDBCol>
-                            </MDBRow>
-                        </div>
-                    </MDBRow>
-                </MDBContainer>
-            </MDBView>
-        </div>
+                                            {/*-------------------------------------------------------------*/}
+                                            <MDBCard >
+                                                <MDBCardBody>
+                                                    <h5 className='pink-text'><MDBIcon icon='envelope'/> New Feedback</h5>
+                                                    <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
+                                                    <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
+                                                        his/her issues and requests that the user admin should consider</MDBCardText>
+                                                    <MDBBtn color='unique' >Delete</MDBBtn>
+                                                </MDBCardBody>
+                                            </MDBCard>
+                                            <br/>
+                                            {/*-------------------------------------------------------------*/}
 
 
+                                            {/*-------------------------------------------------------------*/}
+                                            <MDBCard >
+                                                <MDBCardBody>
+                                                    <h5 className='pink-text'><MDBIcon icon='envelope'/> New Feedback</h5>
+                                                    <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
+                                                    <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
+                                                        his/her issues and requests that the user admin should consider</MDBCardText>
+                                                    <MDBBtn color='unique' >Delete</MDBBtn>
+                                                </MDBCardBody>
+                                            </MDBCard>
+                                            <br/>
+                                            {/*-------------------------------------------------------------*/}
 
-    );
-};
+                                            {/*-------------------------------------------------------------*/}
+                                            <MDBCard >
+                                                <MDBCardBody>
+                                                    <h5 className='pink-text'><MDBIcon icon='envelope'/> New Feedback</h5>
+                                                    <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
+                                                    <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
+                                                        his/her issues and requests that the user admin should consider</MDBCardText>
+                                                    <MDBBtn color='unique' >Delete</MDBBtn>
+                                                </MDBCardBody>
+                                            </MDBCard>
+                                            <br/>
+                                            {/*-------------------------------------------------------------*/}
 
-export default TablePage;
+                                            {/*-------------------------------------------------------------*/}
+                                            <MDBCard >
+                                                <MDBCardBody>
+                                                    <h5 className='pink-text'><MDBIcon icon='envelope'/> New Feedback</h5>
+                                                    <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
+                                                    <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
+                                                        his/her issues and requests that the user admin should consider</MDBCardText>
+                                                    <MDBBtn color='unique' >Delete</MDBBtn>
+                                                </MDBCardBody>
+                                            </MDBCard>
+                                            <br/>
+                                            {/*-------------------------------------------------------------*/}
+
+                                            {/*-------------------------------------------------------------*/}
+                                            <MDBCard >
+                                                <MDBCardBody>
+                                                    <h5 className='pink-text'><MDBIcon icon='envelope'/> New Feedback</h5>
+                                                    <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
+                                                    <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
+                                                        his/her issues and requests that the user admin should consider</MDBCardText>
+                                                    <MDBBtn color='unique' >Delete</MDBBtn>
+                                                </MDBCardBody>
+                                            </MDBCard>
+                                            <br/>
+                                            {/*-------------------------------------------------------------*/}
+
+                                            {/*-------------------------------------------------------------*/}
+                                            <MDBCard >
+                                                <MDBCardBody>
+                                                    <h5 className='pink-text'><MDBIcon icon='envelope'/> New Feedback</h5>
+                                                    <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
+                                                    <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
+                                                        his/her issues and requests that the user admin should consider</MDBCardText>
+                                                    <MDBBtn color='unique' >Delete</MDBBtn>
+                                                </MDBCardBody>
+                                            </MDBCard>
+                                            <br/>
+                                            {/*-------------------------------------------------------------*/}
+                                        </MDBTable>
+                                    </MDBCardBody>
+                                </MDBCard>
+                            </MDBCol>
+                        </MDBRow>
+                    </div>
+                </MDBView>
+            </div>
+        );
+    }
+}

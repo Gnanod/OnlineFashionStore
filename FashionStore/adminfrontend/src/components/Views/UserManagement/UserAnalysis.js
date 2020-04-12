@@ -17,6 +17,7 @@ import './UserManage.css';
 import { Bar } from "react-chartjs-2";
 
 
+
 export default class UserAnalysis extends Component {
 
     state = {
