@@ -14,9 +14,52 @@ import {
     MDBInput, MDBBtn, MDBTableHead, MDBTableBody, MDBTable
 } from 'mdbreact';
 import './UserManage.css';
+import 'sweetalert2/src/sweetalert2.scss';
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 export default class UserDetail extends Component {
 
+    constructor(props) {
+        super(props);
+        this.sweetalertfunction = this.sweetalertfunction.bind(this);
+    }
+    sweetalertfunction(){
+        console.log("button clicks");
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
+                swalWithBootstrapButtons.fire(
+                    'Deleted!',
+                    'Customer deleted.',
+                    'success'
+                )
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                    'Cancelled',
+                    'Customer details not deleted',
+                    'error'
+                )
+            }
+        })
+    }
 
 
 
@@ -66,7 +109,7 @@ export default class UserDetail extends Component {
                                                                 <td>28.02.1996</td>
                                                                 <td>Male</td>
                                                                 <td>
-                                                                    <MDBBtn tag="a" size="sm" color="danger" >
+                                                                    <MDBBtn tag="a" size="sm" color="danger"  onClick={this.sweetalertfunction}>
                                                                         <MDBIcon size="lg" icon="times-circle" />
                                                                     </MDBBtn>
                                                                 </td>
@@ -78,7 +121,7 @@ export default class UserDetail extends Component {
                                                                 <td>12.05.1995</td>
                                                                 <td>Male</td>
                                                                 <td>
-                                                                    <MDBBtn tag="a" size="sm" color="danger">
+                                                                    <MDBBtn tag="a" size="sm" color="danger" onClick={this.sweetalertfunction}>
                                                                         <MDBIcon size="lg" icon="times-circle" />
                                                                     </MDBBtn>
                                                                 </td>
@@ -90,7 +133,7 @@ export default class UserDetail extends Component {
                                                                 <td>12.05.1998</td>
                                                                 <td>Female</td>
                                                                 <td>
-                                                                    <MDBBtn  tag="a" size="sm" color="danger">
+                                                                    <MDBBtn  tag="a" size="sm" color="danger" onClick={this.sweetalertfunction}>
                                                                         <MDBIcon size="lg" icon="times-circle" />
                                                                     </MDBBtn>
                                                                 </td>
@@ -102,7 +145,7 @@ export default class UserDetail extends Component {
                                                                 <td>12.05.1997</td>
                                                                 <td>Female</td>
                                                                 <td>
-                                                                    <MDBBtn tag="a" size="sm" color="danger">
+                                                                    <MDBBtn tag="a" size="sm" color="danger" onClick={this.sweetalertfunction}>
                                                                         <MDBIcon size="lg" icon="times-circle" />
                                                                     </MDBBtn>
                                                                 </td>
@@ -114,7 +157,7 @@ export default class UserDetail extends Component {
                                                                 <td>12.05.1995</td>
                                                                 <td>Male</td>
                                                                 <td>
-                                                                    <MDBBtn tag="a" size="sm" color="danger">
+                                                                    <MDBBtn tag="a" size="sm" color="danger" onClick={this.sweetalertfunction}>
                                                                         <MDBIcon size="lg" icon="times-circle" />
                                                                     </MDBBtn>
                                                                 </td>
@@ -126,7 +169,7 @@ export default class UserDetail extends Component {
                                                                 <td>28.02.1996</td>
                                                                 <td>Male</td>
                                                                 <td>
-                                                                    <MDBBtn tag="a" size="sm" color="danger" >
+                                                                    <MDBBtn tag="a" size="sm" color="danger" onClick={this.sweetalertfunction}>
                                                                         <MDBIcon size="lg" icon="times-circle" />
                                                                     </MDBBtn>
                                                                 </td>

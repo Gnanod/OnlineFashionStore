@@ -15,8 +15,8 @@ import {
 } from 'mdbreact';
 import './test.css';
 import { Bar } from "react-chartjs-2";
-import swal from 'sweetalert';
-import Layout from "../../layout/Layout";
+import 'sweetalert2/src/sweetalert2.scss';
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 
 
@@ -28,18 +28,11 @@ export default class Test extends Component {
     }
     sweetalertfunction(){
         console.log("button clicks");
-        swal({
-                title: "Are you sure?",
-                text: "Your will not be able to recover this imaginary file!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-danger",
-                confirmButtonText: "Yes, delete it!",
-                closeOnConfirm: false
-            },
-            function(){
-                swal("Deleted!", "Your imaginary file has been deleted.", "success");
-            });
+        Swal.fire(
+            '',
+            'Feedback Deleted',
+            'success'
+        );
     }
 
     state = {
@@ -148,7 +141,7 @@ export default class Test extends Component {
                                                     <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
                                                     <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
                                                         his/her issues and requests that the user admin should consider</MDBCardText>
-                                                    <MDBBtn color='unique' >Delete</MDBBtn>
+                                                    <MDBBtn color='unique' onClick={this.sweetalertfunction}>Delete</MDBBtn>
                                                 </MDBCardBody>
                                             </MDBCard>
                                             <br/>
@@ -162,7 +155,7 @@ export default class Test extends Component {
                                                     <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
                                                     <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
                                                         his/her issues and requests that the user admin should consider</MDBCardText>
-                                                    <MDBBtn color='unique' >Delete</MDBBtn>
+                                                    <MDBBtn color='unique' onClick={this.sweetalertfunction}>Delete</MDBBtn>
                                                 </MDBCardBody>
                                             </MDBCard>
                                             <br/>
@@ -176,7 +169,7 @@ export default class Test extends Component {
                                                     <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
                                                     <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
                                                         his/her issues and requests that the user admin should consider</MDBCardText>
-                                                    <MDBBtn color='unique' >Delete</MDBBtn>
+                                                    <MDBBtn color='unique' onClick={this.sweetalertfunction}>Delete</MDBBtn>
                                                 </MDBCardBody>
                                             </MDBCard>
                                             <br/>
@@ -189,7 +182,7 @@ export default class Test extends Component {
                                                     <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
                                                     <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
                                                         his/her issues and requests that the user admin should consider</MDBCardText>
-                                                    <MDBBtn color='unique' >Delete</MDBBtn>
+                                                    <MDBBtn color='unique' onClick={this.sweetalertfunction}>Delete</MDBBtn>
                                                 </MDBCardBody>
                                             </MDBCard>
                                             <br/>
@@ -202,7 +195,7 @@ export default class Test extends Component {
                                                     <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
                                                     <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
                                                         his/her issues and requests that the user admin should consider</MDBCardText>
-                                                    <MDBBtn color='unique' >Delete</MDBBtn>
+                                                    <MDBBtn color='unique' onClick={this.sweetalertfunction}>Delete</MDBBtn>
                                                 </MDBCardBody>
                                             </MDBCard>
                                             <br/>
@@ -215,7 +208,7 @@ export default class Test extends Component {
                                                     <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
                                                     <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
                                                         his/her issues and requests that the user admin should consider</MDBCardText>
-                                                    <MDBBtn color='unique' >Delete</MDBBtn>
+                                                    <MDBBtn color='unique' onClick={this.sweetalertfunction}>Delete</MDBBtn>
                                                 </MDBCardBody>
                                             </MDBCard>
                                             <br/>
@@ -228,7 +221,7 @@ export default class Test extends Component {
                                                     <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
                                                     <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
                                                         his/her issues and requests that the user admin should consider</MDBCardText>
-                                                    <MDBBtn color='unique' >Delete</MDBBtn>
+                                                    <MDBBtn color='unique' onClick={this.sweetalertfunction}>Delete</MDBBtn>
                                                 </MDBCardBody>
                                             </MDBCard>
                                             <br/>

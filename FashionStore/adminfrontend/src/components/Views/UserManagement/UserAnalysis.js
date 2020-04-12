@@ -13,12 +13,27 @@ import {
     MDBCardTitle,
     MDBInput, MDBBtn, MDBTableHead, MDBTableBody, MDBTable, MDBDropdown, MDBCardText
 } from 'mdbreact';
-import './UserManage.css';
+import './test.css';
 import { Bar } from "react-chartjs-2";
+import 'sweetalert2/src/sweetalert2.scss';
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 
 
-export default class UserAnalysis extends Component {
+export default class Test extends Component {
+
+    constructor(props) {
+        super(props);
+        this.sweetalertfunction = this.sweetalertfunction.bind(this);
+    }
+    sweetalertfunction(){
+        console.log("button clicks");
+        Swal.fire(
+            '',
+            'Feedback Deleted',
+            'success'
+        );
+    }
 
     state = {
         dataBar: {
@@ -113,7 +128,7 @@ export default class UserAnalysis extends Component {
                                                     <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
                                                     <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
                                                         his/her issues and requests that the user admin should consider</MDBCardText>
-                                                    <MDBBtn color='unique' >Delete</MDBBtn>
+                                                    <MDBBtn color='unique' onClick={this.sweetalertfunction}>Delete</MDBBtn>
                                                 </MDBCardBody>
                                             </MDBCard>
                                             <br/>
@@ -126,21 +141,7 @@ export default class UserAnalysis extends Component {
                                                     <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
                                                     <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
                                                         his/her issues and requests that the user admin should consider</MDBCardText>
-                                                    <MDBBtn color='unique' >Delete</MDBBtn>
-                                                </MDBCardBody>
-                                            </MDBCard>
-                                            <br/>
-                                            {/*-------------------------------------------------------------*/}
-
-
-                                            {/*-------------------------------------------------------------*/}
-                                            <MDBCard >
-                                                <MDBCardBody>
-                                                    <h5 className='pink-text'><MDBIcon icon='envelope'/> New Feedback</h5>
-                                                    <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
-                                                    <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
-                                                        his/her issues and requests that the user admin should consider</MDBCardText>
-                                                    <MDBBtn color='unique' >Delete</MDBBtn>
+                                                    <MDBBtn color='unique' onClick={this.sweetalertfunction}>Delete</MDBBtn>
                                                 </MDBCardBody>
                                             </MDBCard>
                                             <br/>
@@ -154,7 +155,21 @@ export default class UserAnalysis extends Component {
                                                     <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
                                                     <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
                                                         his/her issues and requests that the user admin should consider</MDBCardText>
-                                                    <MDBBtn color='unique' >Delete</MDBBtn>
+                                                    <MDBBtn color='unique' onClick={this.sweetalertfunction}>Delete</MDBBtn>
+                                                </MDBCardBody>
+                                            </MDBCard>
+                                            <br/>
+                                            {/*-------------------------------------------------------------*/}
+
+
+                                            {/*-------------------------------------------------------------*/}
+                                            <MDBCard >
+                                                <MDBCardBody>
+                                                    <h5 className='pink-text'><MDBIcon icon='envelope'/> New Feedback</h5>
+                                                    <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
+                                                    <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
+                                                        his/her issues and requests that the user admin should consider</MDBCardText>
+                                                    <MDBBtn color='unique' onClick={this.sweetalertfunction}>Delete</MDBBtn>
                                                 </MDBCardBody>
                                             </MDBCard>
                                             <br/>
@@ -167,7 +182,7 @@ export default class UserAnalysis extends Component {
                                                     <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
                                                     <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
                                                         his/her issues and requests that the user admin should consider</MDBCardText>
-                                                    <MDBBtn color='unique' >Delete</MDBBtn>
+                                                    <MDBBtn color='unique' onClick={this.sweetalertfunction}>Delete</MDBBtn>
                                                 </MDBCardBody>
                                             </MDBCard>
                                             <br/>
@@ -180,7 +195,7 @@ export default class UserAnalysis extends Component {
                                                     <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
                                                     <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
                                                         his/her issues and requests that the user admin should consider</MDBCardText>
-                                                    <MDBBtn color='unique' >Delete</MDBBtn>
+                                                    <MDBBtn color='unique' onClick={this.sweetalertfunction}>Delete</MDBBtn>
                                                 </MDBCardBody>
                                             </MDBCard>
                                             <br/>
@@ -193,7 +208,7 @@ export default class UserAnalysis extends Component {
                                                     <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
                                                     <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
                                                         his/her issues and requests that the user admin should consider</MDBCardText>
-                                                    <MDBBtn color='unique' >Delete</MDBBtn>
+                                                    <MDBBtn color='unique' onClick={this.sweetalertfunction}>Delete</MDBBtn>
                                                 </MDBCardBody>
                                             </MDBCard>
                                             <br/>
@@ -206,7 +221,7 @@ export default class UserAnalysis extends Component {
                                                     <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
                                                     <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
                                                         his/her issues and requests that the user admin should consider</MDBCardText>
-                                                    <MDBBtn color='unique' >Delete</MDBBtn>
+                                                    <MDBBtn color='unique' onClick={this.sweetalertfunction}>Delete</MDBBtn>
                                                 </MDBCardBody>
                                             </MDBCard>
                                             <br/>
