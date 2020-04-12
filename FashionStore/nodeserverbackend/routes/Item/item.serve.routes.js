@@ -5,13 +5,14 @@ let Item = require('../../models/item.model');
 
 
 router.route('/getAllItems').get(function (req,res) {
-    item.find(function (err,item) {
+    Item.find(function (err,item) {
         console.log(err)
         if(!err){
             res.json(item);
         }else{
             res.status(400).send('faild');
         }
+
     });
 });
 
