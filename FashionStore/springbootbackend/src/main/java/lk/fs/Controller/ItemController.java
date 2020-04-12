@@ -1,6 +1,4 @@
 package lk.fs.Controller;
-
-
 import lk.fs.Entity.Item;
 import lk.fs.Service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +34,8 @@ public class ItemController {
         }
         return itemService.addItem(itemDetails);
 
-
     }
+
+
+
 }

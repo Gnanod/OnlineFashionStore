@@ -99,48 +99,42 @@ export default class NewItem extends Component {
                 if(this.state.itemName !== ' '){
                     if(this.state.selectedCharacterObject !==' '){
                         if(this.state.itemDescription !==' '){
-                            if(this.state.image !==' '){
-                                const  formData = new FormData();
-                                formData.append('file',this.state.image);
-                                formData.append('itemCode',this.state.itemCode);
-                                formData.append('itemName',this.state.itemName);
-                                formData.append('description',this.state.itemDescription);
-                                formData.append('brandCode',this.state.selectedBrandObject.brandCode);
-                                formData.append('categoryCode',this.state.selectedCharacterObject.categoryCode);
 
-                                axios.post(constants.spring_backend_url + 'ItemController/addItem/',formData)
-                                    .then(res => {
-                                            if (res.status === 200) {
-                                                Swal.fire(
-                                                    '',
-                                                    'Item Details Added Successfully',
-                                                    'success'
-                                                );
-                                                this.setState({
-                                                    image: ' ',
-                                                    itemCode: ' ',
-                                                    itemName :' ',
-                                                    itemDescription : ' ',
-                                                    brandCode : ' ',
-                                                    categoryCode : ' ',
-                                                    imageURL :' ',
-                                                    imageURLValidation: false,
-                                                })
-                                                this.getAllCategories();
-                                            } else {
-                                                Swal.fire(
-                                                    '',
-                                                    'Item Added Faild',
-                                                    'error'
-                                                )
-                                            }
-                                        }
-                                    );
-                            }else{
-                                this.setState({
-                                    imageValidation: true
-                                })
+                            const newItem ={
+                                itemCode :this.state.itemCode,
+                                brandCode :this.state.selectedBrandObject.brandCode,
+                                itemName : this.state.itemName,
+                                categoryCode : this.state.selectedCharacterObject.categoryCode,
+                                description : this.state.itemDescription
                             }
+                            axios.post(constants.backend_url + 'api/item/add',newItem)
+                                .then(res => {
+                                        console.log(res);
+                                        if (res.data.item === 'success') {
+                                            Swal.fire(
+                                                '',
+                                                'Item Details Added Success.',
+                                                'success'
+                                            );
+                                            this.setState({
+                                                itemCode: ' ',
+                                                itemName: ' ',
+                                                itemDescription: ' ',
+                                                brandCode: ' ',
+                                                categoryCode: ' '
+                                            })
+                                            this.getAllCategories();
+                                            this.getAllBrands();
+                                        } else {
+                                            Swal.fire(
+                                                '',
+                                                'Item Added Faild',
+                                                'error'
+                                            )
+                                        }
+                                    }
+                                )
+
                         }else{
                             this.setState({
                                 itemDescriptionValidation: true
@@ -319,48 +313,6 @@ export default class NewItem extends Component {
                                             }
                                         </MDBCol>
                                     </MDBRow>
-
-                                    <MDBRow>
-                                        <MDBCol size="4">
-                                            {
-                                                this.state.imageURLValidation ? <img src={this.state.imageUrl}/> :''
-                                            }
-
-                                            {
-                                                this.state.imageURLValidation ?
-                                                    <button className="btnClass"
-                                                            onClick={this.removePhoto}>Remove</button> : ''
-                                            }
-
-                                        </MDBCol>
-
-                                    </MDBRow>
-
-                                    <br/>
-                                    <MDBRow>
-                                        <MDBCol size="9">
-                                            <div className="input-group">
-
-                                                <div className="custom-file">
-                                                    <MDBInput type="file" className="custom-file-input"
-                                                              id="inputGroupFile01"
-                                                              aria-describedby="inputGroupFileAddon01"
-                                                              onChange={this.onchangeFile}/>
-                                                    <label className="custom-file-label" htmlFor="inputGroupFile01">
-                                                        Choose file
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            {
-                                                this.state.imageValidation ?
-
-                                                    <MDBAlert color="danger">
-                                                        Image Field Is Empty
-                                                    </MDBAlert> : ''
-                                            }
-                                        </MDBCol>
-                                    </MDBRow>
-
 
                                     <br/>
                                     <MDBRow>
