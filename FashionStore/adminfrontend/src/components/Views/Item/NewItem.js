@@ -41,7 +41,6 @@ export default class NewItem extends Component {
             selectedCharacterObject: ' ',
             selectedCharacterObjectValidation: false,
             imageValidation :false
-
         }
 
 

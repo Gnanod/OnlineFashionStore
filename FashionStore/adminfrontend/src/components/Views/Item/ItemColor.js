@@ -192,6 +192,10 @@ export default class ItemColor extends Component {
                                 'Item Color Details Added Successfully',
                                 'success'
                             );
+                            this.setState({
+                                itemColorArray: [],
+                                noItem: true,
+                            })
 
                         } else {
                             Swal.fire(
