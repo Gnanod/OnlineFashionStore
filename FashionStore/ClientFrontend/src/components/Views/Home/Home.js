@@ -31,7 +31,7 @@ export default class Home extends Component {
 
     componentDidMount() {
         this.getAllCategories();
-        this.getAllNewItems();
+         this.getAllNewItems();
         // this.getAllItemDetails();
         // this.getDetailsOfNewItems();
     }
@@ -40,7 +40,7 @@ export default class Home extends Component {
     getAllNewItems() {
         axios.get(constants.backend_url + 'api/category/getAllCategories').then(response => {
             this.setState({categories: response.data});
-            this.getAllItemDetails();
+           this.getAllItemDetails();
         }).catch(function (error) {
             console.log(error);
         })
@@ -65,7 +65,7 @@ export default class Home extends Component {
     }
 
     getDetailsOfNewItems() {
-        console.log("KKKKK")
+
         this.state.newItems.map(item => {
             this.state.itemColors.map(response => {
 
@@ -115,23 +115,21 @@ export default class Home extends Component {
 
                                 {
                                     this.state.newItemArray.map(items => {
-                                        // console.log('LLLLLLL')
-                                        // console.log(items.itemArray.image.data)
-                                        //
-                                        // console.log('LLLLLL')
-                                        // const base64String = btoa(String.fromCharCode(...new Uint8Array(items.itemArray.image.data)));
-
-
+                                        console.log(items);
+                                         // = btoa(String.fromCharCode(...new Uint8Array(items.image.data)));
+                                        const base64String   =btoa(new Uint8Array(items.itemArray.image.data).reduce(function (data, byte) {
+                                            return data + String.fromCharCode(byte);
+                                        }, ''));
                                         return (
                                             <div className="col-sm-4 cardMarginTop">
                                                 <MDBCard style={{width: "22rem"}}>
                                                     <MDBCardImage className="img-fluid"
-                                                                  src={`data:image/jpeg;base64,${btoa(String.fromCharCode(...new Uint8Array(items.itemArray.image.data)))}`}
+                                                                  src={`data:image/jpeg;base64,${base64String}`}
                                                                   waves/>
                                                     <MDBCardBody>
-                                                        <MDBCardTitle>Item Name</MDBCardTitle>
+                                                        <MDBCardTitle>{items.itemArray.itemCode[0].itemName}</MDBCardTitle>
                                                         <MDBCardText>
-                                                            Price
+                                                         LKR  : {items.itemArray.price}
                                                         </MDBCardText>
                                                         <div className="row">
                                                             <div className="col-sm-2">
