@@ -1,13 +1,18 @@
 package lk.fs.Controller;
 
+import lk.fs.Entity.Item;
 import lk.fs.Entity.ItemColor;
 import lk.fs.Service.ItemColorService;
+import lk.fs.Service.ItemService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -19,13 +24,18 @@ public class ItemColorController {
     }
     @Autowired
     private ItemColorService itemColorService;
+    @Autowired
+    private ItemService itemService;
 
     @PostMapping(value = "addItemColor",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ItemColor addItemColorDetails(@RequestParam("file") MultipartFile file , @RequestParam("itemCode") String itemCode, @RequestParam("itemSize") String itemSize, @RequestParam("itemColor") String itemColor) {
+    public ItemColor addItemColorDetails(@RequestParam("file") MultipartFile file , @RequestParam("itemCode") List<ObjectId> itemCode, @RequestParam("itemSize") String itemSize, @RequestParam("itemColor") String itemColor) {
+
 
         ItemColor itemColorDetails = new ItemColor();
         try {
             itemColorDetails.setImage(file.getBytes());
+            System.out.println(file.getBytes());
+            System.out.println(itemColorDetails.getImage());
             itemColorDetails.setItemCode(itemCode);
             itemColorDetails.setItemColor(itemColor);
             itemColorDetails.setItemSize(itemSize);
@@ -41,5 +51,12 @@ public class ItemColorController {
     public String checkMethod(@RequestBody String name){
 
         return name;
+    }
+
+
+    @GetMapping(value = "getAll")
+    public List<ItemColor> getAll(@RequestBody String name){
+
+        return itemColorService.getAll();
     }
 }

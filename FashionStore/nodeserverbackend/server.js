@@ -32,6 +32,7 @@ const categoryRoute = require('./routes/Item/category.serve.routes');
 const brandCategoryRoute = require('./routes/Item/brandcategory.serve.routes');
 const itemRoute = require('./routes/Item/item.serve.routes');
 const itemSizeRoute = require('./routes/Item/ItemSize.serve.routes');
+const itemColor = require('./routes/Item/itemcolors.serve.routes');
 
 
 //////creating url and adding router to the server.Every http end point extend this url
@@ -42,6 +43,7 @@ app.use('/api/category', categoryRoute);
 app.use('/api/brandcategory', brandCategoryRoute);
 app.use('/api/item',itemRoute);
 app.use('/api/itemsize',itemSizeRoute);
+app.use('/api/itemcolor',itemColor);
 
 
 

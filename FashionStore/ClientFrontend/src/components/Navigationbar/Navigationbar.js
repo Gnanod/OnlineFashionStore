@@ -1,100 +1,80 @@
 import React, {Component} from 'react';
 import {
-    MDBCollapse,
-    MDBDropdown, MDBDropdownItem, MDBDropdownMenu, MDBDropdownToggle, MDBIcon,
-    MDBLink,
+    MDBCollapse, MDBContainer,
+    MDBMask,
     MDBNavbar,
     MDBNavbarBrand,
     MDBNavbarNav,
     MDBNavbarToggler,
-    MDBNavItem
+    MDBNavItem, MDBNavLink, MDBView
 } from "mdbreact";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import Auxi from "../Hoc/Auxi";
+import Home from "../Views/Home/Home";
+import {TestComponent} from "../Views/Home/TestComponent";
+import {HomePageImage} from "../Views/Home/HomePageImage";
+import {ItemDetail} from "../Views/Item/ItemDetail";
+
 
 export default class Navigationbar extends Component {
 
-    state = {
-        collapseID: ''
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            collapse: false,
+            isWideEnough: false,
+        };
+        this.onClick = this.onClick.bind(this);
+    }
 
-    toggleCollapse = collapseID => () =>
-        this.setState(prevState => ({
-            collapseID: prevState.collapseID !== collapseID ? collapseID : ''
-        }));
+    onClick() {
+        this.setState({
+            collapse: !this.state.collapse,
+        });
+    }
 
     render() {
-        const {isOpen, collapseID} = this.state;
-
         return (
-            <MDBNavbar
-                color='indigo' dark expand='md'
-                style={{marginTop: '20px'}}
-            >
-                <MDBNavbarBrand>
-                    <strong className='white-text'>GSTD Stores</strong>
-                </MDBNavbarBrand>
-                <MDBNavbarToggler
-                    onClick={this.toggleCollapse('navbarCollapse3')}
-                />
-                <MDBCollapse id='navbarCollapse3' isOpen={collapseID} navbar >
-                    <MDBNavbarNav left>
-                        <MDBNavItem active>
+            <div>
+                <header>
 
+                        <MDBNavbar  color="black" fixed="top" dark expand="md"
+                                   >
+                            <MDBNavbarBrand href="/">
+                                <strong>GSTD Stores</strong>
+                            </MDBNavbarBrand>
+                            {!this.state.isWideEnough && <MDBNavbarToggler onClick={this.onClick}/>}
+                            <MDBCollapse isOpen={this.state.collapse} navbar>
+                                <MDBNavbarNav left>
+                                    <MDBNavItem active>
+                                        <MDBNavLink to="/">Home</MDBNavLink>
+                                    </MDBNavItem>
+                                    <MDBNavItem>
+                                        <MDBNavLink to="/test">Link</MDBNavLink>
+                                    </MDBNavItem>
+                                    <MDBNavItem>
+                                        <MDBNavLink to="/item">Profile</MDBNavLink>
+                                    </MDBNavItem>
+                                </MDBNavbarNav>
+                            </MDBCollapse>
+                        </MDBNavbar>
 
-                            <MDBLink to='/'>Home</MDBLink>
-                        </MDBNavItem>
-                        <MDBNavItem>
-                            <MDBDropdown>
-                                <MDBDropdownToggle nav caret>
-                                    <div className='d-none d-md-inline'>Product</div>
-                                </MDBDropdownToggle>
-                                <MDBDropdownMenu className='dropdown-default' right>
-                                    <MDBDropdownItem href='#!'>Action</MDBDropdownItem>
-                                    <MDBDropdownItem href='#!'>
-                                        Another Action
-                                    </MDBDropdownItem>
-                                    <MDBDropdownItem href='#!'>
-                                        Something else here
-                                    </MDBDropdownItem>
-                                    <MDBDropdownItem href='#!'>
-                                        Something else here
-                                    </MDBDropdownItem>
-                                </MDBDropdownMenu>
-                            </MDBDropdown>
-                        </MDBNavItem>
-                        <MDBNavItem>
-                            <MDBLink to='#!'>Promotions</MDBLink>
-                        </MDBNavItem>
-                    </MDBNavbarNav>
-                    <MDBNavbarNav right>
-                        <MDBNavItem>
-                            <MDBLink className='waves-effect waves-light' to='#!'>
-                                <i className="fas fa-cart-arrow-down"></i>
-                            </MDBLink>
-                        </MDBNavItem>
+                    <Route exact path="/" component={HomePageImage}/>
 
-                        <MDBNavItem>
-                            <MDBDropdown>
-                                <MDBDropdownToggle nav caret>
-                                    <MDBIcon icon='user'/>
-                                </MDBDropdownToggle>
-                                <MDBDropdownMenu className='dropdown-default' right>
-                                    <MDBDropdownItem href='#!'>Action</MDBDropdownItem>
-                                    <MDBDropdownItem href='#!'>
-                                        Another Action
-                                    </MDBDropdownItem>
-                                    <MDBDropdownItem href='#!'>
-                                        Something else here
-                                    </MDBDropdownItem>
-                                    <MDBDropdownItem href='#!'>
-                                        Something else here
-                                    </MDBDropdownItem>
-                                </MDBDropdownMenu>
-                            </MDBDropdown>
-                        </MDBNavItem>
-                    </MDBNavbarNav>
-                </MDBCollapse>
-            </MDBNavbar>
+                </header>
+
+                <main className="container-fluid">
+
+                        <Switch>
+                            <Route exact path="/" component={Home}/>
+                            <Route exact path="/test" component={TestComponent}/>
+                            <Route exact path="/item" component={ItemDetail}/>
+                        </Switch>
+
+                </main>
+            </div>
         );
+
 
     }
 }

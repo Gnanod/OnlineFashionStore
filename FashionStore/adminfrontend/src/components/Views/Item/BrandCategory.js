@@ -65,6 +65,7 @@ export default class BrandCategory extends Component {
         this.onChangeGetCategoryName = this.onChangeGetCategoryName.bind(this);
         this.addDetailsToTable = this.addDetailsToTable.bind(this);
         this.submitBrandsAndCategory = this.submitBrandsAndCategory.bind(this);
+        this.deleteBrandCategory = this.deleteBrandCategory.bind(this);
 
 
     }
@@ -214,15 +215,11 @@ export default class BrandCategory extends Component {
         if (this.state.brandCategoryArray.length !== 0) {
             this.state.brandCategoryArray.map(item => {
                 const brandCategoryObj = {
-                    brandCode: item.brand.brandCode,
-                    categoryCode: item.category.categoryCode,
-
+                    brandCode: item.brand,
+                    categoryCode: item.category,
                 }
-
                 this.state.brandCategoryIdArray.push(brandCategoryObj);
-
             });
-
             axios.post(constants.backend_url + 'api/brandcategory/add', this.state.brandCategoryIdArray)
                 .then(res => {
                         console.log(res);
@@ -248,8 +245,6 @@ export default class BrandCategory extends Component {
                         }
                     }
                 );
-
-
         } else {
             Swal.fire(
                 '',
@@ -268,7 +263,6 @@ export default class BrandCategory extends Component {
                     brand: this.state.selectedBrandObject,
                     brandCategoryId : uuid()
                 }
-
                 const array = [newBrandCategory, ...this.state.brandCategoryArray];
                 this.setState({
                     brandCategoryArray: array,
@@ -325,6 +319,23 @@ export default class BrandCategory extends Component {
         }).catch(function (error) {
             console.log(error);
         })
+    }
+
+
+
+    deleteBrandCategory(id) {
+
+        const notDeletedItems = this.state.brandCategoryArray.filter(item => item.brandCategoryId !== id);
+        this.setState({
+            brandCategoryArray: notDeletedItems,
+                itemId: id
+            }
+        )
+        if (notDeletedItems.length === 0) {
+            this.setState({
+                noItem: true
+            })
+        }
 
     }
 
@@ -471,6 +482,8 @@ export default class BrandCategory extends Component {
                                     <BrandCategoryTableBody
                                         brandCategoryListList={this.state.brandCategoryArray}
                                         noItem={this.state.noItem}
+                                        deleteBrandCategory={this.deleteBrandCategory}
+
                                     />
                                 </MDBTable>
                                 <form onSubmit={this.submitBrandsAndCategory}>

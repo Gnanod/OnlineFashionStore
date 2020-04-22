@@ -1,20 +1,44 @@
 package lk.fs.Entity;
 
+import org.bson.types.ObjectId;
+
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 @Document(collection =  "itemcolors")
 public class ItemColor {
 
-    private String itemCode;
+
+    private List<ObjectId> itemCode;
     private String itemSize;
     private String itemColor;
+//    private String image;
     private byte[] image;
+    private double quantity;
+    private double price;
 
-    public String getItemCode() {
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public List<ObjectId> getItemCode() {
         return itemCode;
     }
 
-    public void setItemCode(String itemCode) {
+    public void setItemCode(List<ObjectId> itemCode) {
         this.itemCode = itemCode;
     }
 
@@ -41,6 +65,15 @@ public class ItemColor {
     public void setImage(byte[] image) {
         this.image = image;
     }
+
+
+//    public String getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(String image) {
+//        this.image = image;
+//    }
 }
 
 

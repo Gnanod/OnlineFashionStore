@@ -8,15 +8,15 @@ let item = new Schema({
     itemName :{
         type :String
     },
-    brandCode :{
-        type :String
-    },
-    categoryCode :{
-        type :String
-    },
+    brandCategory :[{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "BrandCategory",
+        required : true
+    }],
     description :{
         type :String
-    }
+    },
+
 });
 
 module.exports = mongoose.model('Item',item);

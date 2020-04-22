@@ -6,7 +6,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 export default class BrandCategoryTableBody extends Component {
 
     render() {
-        const {brandCategoryListList, noItem} = this.props;
+        const {brandCategoryListList, noItem,deleteBrandCategory} = this.props;
         return (
             <MDBTableBody>
                 {
@@ -25,7 +25,7 @@ export default class BrandCategoryTableBody extends Component {
                                     <td>{item.brand.brandName}</td>
                                     <td>{item.category.categoryName}</td>
                                     <td>
-                                        <HighlightOffIcon className="deleteIconColor" fontSize="large" />
+                                        <HighlightOffIcon onClick={()=>deleteBrandCategory(item.brandCategoryId)} className="deleteIconColor" fontSize="large" />
                                     </td>
                                 </tr>
                             )

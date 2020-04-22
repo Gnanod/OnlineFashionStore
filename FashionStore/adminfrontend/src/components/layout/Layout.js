@@ -16,6 +16,7 @@ import TestDashboard from "../Views/Dashboard/tetsDashboard";
 import UserDetail from "../Views/UserManagement/UserManage";
 import UserAnalysis from "../Views/UserManagement/UserAnalysis";
 import Test from "../Views/UserManagement/Test";
+import {NewArrivals} from "../Views/Item/NewArrivals";
 
 export default class Layout extends Component {
 
@@ -46,6 +47,7 @@ export default class Layout extends Component {
                                 <Route exact  path ="/usermanagement" component={UserDetail}/>
                                 <Route exact  path ="/useranalysis" component={UserAnalysis}/>
                                 <Route exact  path ="/usertest" component={Test}/>
+                                <Route exact  path ="/item/newarrivals" component={NewArrivals}/>
                             </Switch>
                         </div>
                     </div>

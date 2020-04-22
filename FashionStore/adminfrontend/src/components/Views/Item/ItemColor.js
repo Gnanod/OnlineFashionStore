@@ -23,6 +23,7 @@ import ItemColorTableBody from "./ItemColorTableBody";
 import uuid from "react-uuid";
 import 'sweetalert2/src/sweetalert2.scss';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
+import BrandCategoryTableBody from "./BrandCategoryTableBody";
 
 export default class ItemColor extends Component {
 
@@ -35,6 +36,7 @@ export default class ItemColor extends Component {
         this.onchangeFile = this.onchangeFile.bind(this);
         this.additemColorsToTable = this.additemColorsToTable.bind(this);
         this.submitItemsColors = this.submitItemsColors.bind(this);
+        this.deleteItemColor = this.deleteItemColor.bind(this);
 
         this.state = {
             background: '#ba68c8',
@@ -113,7 +115,7 @@ export default class ItemColor extends Component {
 
     onchangeFile(e) {
 
-        if(URL.createObjectURL(e.target.files[0]) !==' '){
+        if (URL.createObjectURL(e.target.files[0]) !== ' ') {
             this.setState({
                 image: e.target.files[0],
                 imageUrl: URL.createObjectURL(e.target.files[0]),
@@ -125,14 +127,31 @@ export default class ItemColor extends Component {
 
     }
 
+    deleteItemColor(id) {
+
+        const notDeletedItems = this.state.itemColorArray.filter(item => item.itemColorId !== id);
+        this.setState({
+                itemColorArray: notDeletedItems,
+                itemColorId: id
+            }
+        )
+        if (notDeletedItems.length === 0) {
+            this.setState({
+                noItem: true
+            })
+        }
+
+    }
+
 
     additemColorsToTable(e) {
         e.preventDefault();
-        if (this.state.itemCodeObject != ' ') {
-            if (this.state.itemSizeNameObject != ' ') {
+        if (this.state.itemCodeObject !== ' ') {
+            if (this.state.itemSizeNameObject !== ' ') {
                 if (this.state.image !== ' ') {
+                    console.log("this.state.itemCodeObject._id :" + this.state.itemCodeObject._id)
                     const newItemColor = {
-                        itemCode: this.state.itemCodeObject.itemCode,
+                        itemCode: this.state.itemCodeObject._id,
                         itemSize: this.state.itemSizeNameObject,
                         itemColorId: uuid(),
                         imageUrl: this.state.imageUrl,
@@ -181,7 +200,6 @@ export default class ItemColor extends Component {
             formData.append('file', item.image);
             formData.append('itemCode', item.itemCode);
             formData.append('itemSize', item.itemSize.sizeName);
-
             formData.append('itemColor', item.colorCode);
             console.log(formData)
             axios.post(constants.spring_backend_url + 'ColorsController/addItemColor', formData)
@@ -348,6 +366,8 @@ export default class ItemColor extends Component {
                                     <ItemColorTableBody
                                         itemColorArrayList={this.state.itemColorArray}
                                         noItem={this.state.noItem}
+                                        deleteItemColor={this.deleteItemColor}
+
                                     />
 
                                 </MDBTable>

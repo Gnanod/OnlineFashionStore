@@ -8,8 +8,8 @@ router.route('/add').post(function (req, res) {
     const brandCategory = req.body;
     brandCategory.map(bc => {
         let brandc = {
-            brandCode: bc.brandCode,
-            categoryCode: bc.categoryCode
+            brandCode: bc.brandCode._id,
+            categoryCode: bc.categoryCode._id
         }
         let brandCategoryObj = new BrandCategory(brandc);
         brandCategoryObj.save()
@@ -21,5 +21,25 @@ router.route('/add').post(function (req, res) {
     })
 
 });
+
+
+
+router.get("/getBrandCategoryId/:brand_id/:category_id",function (req,res) {
+    const brandId = req.params.brand_id;
+    const categoryId = req.params.category_id;
+    BrandCategory.findOne({ brandCode: brandId, categoryCode: categoryId },)
+        .exec()
+        .then(brandCategory =>{
+            if( brandCategory ){
+                res.status(200).json(brandCategory);
+            }else{
+                res.status(404).json({"message": "not found"});
+            }
+        })
+        .catch(err=>{
+            res.status(500).json(err);
+        })
+});
+
 
 module.exports = router;

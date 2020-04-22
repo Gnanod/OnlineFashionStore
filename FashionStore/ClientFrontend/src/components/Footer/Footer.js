@@ -11,7 +11,7 @@ export class Footer extends Component{
                             <MDBRow>
                                 <MDBCol md='6'>
                                     {/*<h5 className='title'>Powered By</h5>*/}
-                                    <img src={poweredBy} style={{width: '450px'}}/>
+                                    {/*<img src={poweredBy} style={{width: '450px'}}/>*/}
                                 </MDBCol>
                                 {/*<MDBCol md='6'>*/}
                                     {/*<h5 className='title'>Links</h5>*/}

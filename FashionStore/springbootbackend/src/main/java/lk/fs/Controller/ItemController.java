@@ -21,17 +21,17 @@ public class ItemController {
 
 
         Item itemDetails = new Item();
-        try {
-            itemDetails.setImage(file.getBytes());
-            itemDetails.setBrandCode(brandCode);
-            itemDetails.setItemCode(itemCode);
-            itemDetails.setItemName(itemName);
-            itemDetails.setDescription(description);
-            itemDetails.setCategoryCode(categoryCode);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            itemDetails.setImage(file.getBytes());
+//            itemDetails.setBrandCode(brandCode);
+//            itemDetails.setItemCode(itemCode);
+//            itemDetails.setItemName(itemName);
+//            itemDetails.setDescription(description);
+//            itemDetails.setCategoryCode(categoryCode);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         return itemService.addItem(itemDetails);
 
     }

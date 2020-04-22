@@ -40,7 +40,8 @@ export default class NewItem extends Component {
             selectedBrandObjectValidation: false,
             selectedCharacterObject: ' ',
             selectedCharacterObjectValidation: false,
-            imageValidation :false
+            imageValidation: false,
+            brandCategory_Id: ''
         }
 
 
@@ -75,7 +76,7 @@ export default class NewItem extends Component {
             image: e.target.files[0],
             imageUrl: URL.createObjectURL(e.target.files[0]),
             imageURLValidation: true,
-            imageValidation :false
+            imageValidation: false
         })
 
     }
@@ -85,8 +86,19 @@ export default class NewItem extends Component {
             image: ' ',
             imageUrl: ' ',
             imageURLValidation: false,
-            imageValidation :false
+            imageValidation: false
         })
+
+    }
+
+    // getBrandDetailsId(){
+    //     axios.get(constants.backend_url + 'api/brand/getAllBrands').then(response => {
+    //         this.setState({brands: response.data});
+    //     }).catch(function (error) {
+    //         console.log(error);
+    //     })
+    // }
+    getBrandDetailsId(_id, _id2) {
 
     }
 
@@ -95,56 +107,65 @@ export default class NewItem extends Component {
 
         if (this.state.itemCode !== ' ') {
             if (this.state.selectedBrandObject !== ' ') {
-                if(this.state.itemName !== ' '){
-                    if(this.state.selectedCharacterObject !==' '){
-                        if(this.state.itemDescription !==' '){
+                if (this.state.itemName !== ' ') {
+                    if (this.state.selectedCharacterObject !== ' ') {
+                        if (this.state.itemDescription !== ' ') {
 
-                            const newItem ={
-                                itemCode :this.state.itemCode,
-                                brandCode :this.state.selectedBrandObject.brandCode,
-                                itemName : this.state.itemName,
-                                categoryCode : this.state.selectedCharacterObject.categoryCode,
-                                description : this.state.itemDescription
-                            }
-                            axios.post(constants.backend_url + 'api/item/add',newItem)
-                                .then(res => {
-                                        console.log(res);
-                                        if (res.data.item === 'success') {
-                                            Swal.fire(
-                                                '',
-                                                'Item Details Added Success.',
-                                                'success'
-                                            );
-                                            this.setState({
-                                                itemCode: ' ',
-                                                itemName: ' ',
-                                                itemDescription: ' ',
-                                                brandCode: ' ',
-                                                categoryCode: ' '
-                                            })
-                                            this.getAllCategories();
-                                            this.getAllBrands();
-                                        } else {
-                                            Swal.fire(
-                                                '',
-                                                'Item Added Faild',
-                                                'error'
-                                            )
+                           // this.getBrandDetailsId(this.state.selectedBrandObject._id, this.state.selectedCharacterObject._id);
+
+                            axios.get(constants.backend_url + 'api/brandcategory/getBrandCategoryId/' + this.state.selectedBrandObject._id + '/' + this.state.selectedCharacterObject._id).then(response => {
+                                // console.log(response.data);
+                                //
+                                // this.setState({brandCategory_Id: response.data});
+                                const newItem = {
+                                    itemCode: this.state.itemCode,
+                                    brandCategoryId: response.data,
+                                    itemName: this.state.itemName,
+                                    description: this.state.itemDescription
+                                }
+                                axios.post(constants.backend_url + 'api/item/add', newItem)
+                                    .then(res => {
+                                            console.log(res);
+                                            if (res.data.item === 'success') {
+                                                Swal.fire(
+                                                    '',
+                                                    'Item Details Added Success.',
+                                                    'success'
+                                                );
+                                                this.setState({
+                                                    itemCode: ' ',
+                                                    itemName: ' ',
+                                                    itemDescription: ' ',
+                                                    brandCode: ' ',
+                                                    categoryCode: ' '
+                                                })
+                                                this.getAllCategories();
+                                                this.getAllBrands();
+                                            } else {
+                                                Swal.fire(
+                                                    '',
+                                                    'Item Added Faild',
+                                                    'error'
+                                                )
+                                            }
                                         }
-                                    }
-                                )
+                                    )
 
-                        }else{
+                            }).catch(function (error) {
+                                console.log(error);
+                            })
+
+                        } else {
                             this.setState({
                                 itemDescriptionValidation: true
                             })
                         }
-                    }else{
+                    } else {
                         this.setState({
                             selectedCharacterObjectValidation: true
                         })
                     }
-                }else{
+                } else {
                     this.setState({
                         itemNameValidation: true
                     })
@@ -159,7 +180,6 @@ export default class NewItem extends Component {
                 itemCodeValidation: true
             })
         }
-
 
 
     }
@@ -238,8 +258,8 @@ export default class NewItem extends Component {
 
                                                 this.state.itemCodeValidation ?
                                                     <MDBAlert color="danger">
-                                                    Item Code Field Is Empty
-                                                </MDBAlert> : ''
+                                                        Item Code Field Is Empty
+                                                    </MDBAlert> : ''
                                             }
                                         </MDBCol>
                                         <MDBCol size="4">
@@ -307,8 +327,8 @@ export default class NewItem extends Component {
                                                 this.state.itemDescriptionValidation ?
 
                                                     <MDBAlert color="danger">
-                                                    Description  Name Field Is Empty
-                                                </MDBAlert> : ''
+                                                        Description Name Field Is Empty
+                                                    </MDBAlert> : ''
                                             }
                                         </MDBCol>
                                     </MDBRow>
@@ -333,4 +353,6 @@ export default class NewItem extends Component {
             </div>
         );
     }
+
+
 }
