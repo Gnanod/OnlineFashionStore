@@ -31,21 +31,35 @@ export default class SupplierDetails extends Component{
         this.state = {
             companyName: '',
             companyWebsite: '',
-            description: ''
+            description: '',
+            firstName: '',
+            lastName: '',
+            companyNumber: '',
+            mobileNumber: '',
+            email: '',
+            fax: '',
+            address1: '',
+            address2: '',
+            city: '',
+            country: '',
+            state: ''
+
         }
 
 }
     render(){
         return(
 <div className="bg">
+
+    <div><h1 className="font-weight-bold text-center">Supplier Details</h1></div>
             <div className=" container-fluid BrandCategoryMain" >
 
                 <br/>
                 <br/>
                 <MDBRow>
                     <MDBCol size="6">
-                        <div className="card">
-                        <MDBCard>
+
+                        <MDBCard className="card">
                             <MDBCardBody>
                                 <MDBCardTitle>Supplier</MDBCardTitle>
                                 <form>
@@ -85,7 +99,7 @@ export default class SupplierDetails extends Component{
                                 </form>
                             </MDBCardBody>
                         </MDBCard>
-                        </div>
+
                     </MDBCol>
 
 
@@ -173,10 +187,7 @@ export default class SupplierDetails extends Component{
                                               value={this.state.companyName}
 
                                     />
-                                    <MDBInput label="Fax" size="sm"
-                                              value={this.state.companyName}
 
-                                    />
                                     {/*{*/}
                                     {/*this.state.brandNameValidation ? <MDBAlert color="danger">*/}
                                     {/*Brand Name Field Is Empty*/}
