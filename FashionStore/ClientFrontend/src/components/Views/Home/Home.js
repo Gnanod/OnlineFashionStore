@@ -6,7 +6,7 @@ import {
     MDBCardGroup,
     MDBCardImage,
     MDBCardText,
-    MDBCardTitle, MDBCol,
+    MDBCardTitle, MDBCol, MDBNavItem, MDBNavLink,
 } from "mdbreact";
 import axios from "axios";
 import constants from "../../Constants/constants";
@@ -117,7 +117,7 @@ export default class Home extends Component {
                                     this.state.newItemArray.map(items => {
                                         console.log(items);
                                          // = btoa(String.fromCharCode(...new Uint8Array(items.image.data)));
-                                        const base64String   =btoa(new Uint8Array(items.itemArray.image.data).reduce(function (data, byte) {
+                                        const base64String = btoa(new Uint8Array(items.itemArray.image.data).reduce(function (data, byte) {
                                             return data + String.fromCharCode(byte);
                                         }, ''));
                                         return (
@@ -132,9 +132,12 @@ export default class Home extends Component {
                                                          LKR  : {items.itemArray.price}
                                                         </MDBCardText>
                                                         <div className="row">
-                                                            <div className="col-sm-2">
-                                                                <MDBBtn href="#"
-                                                                        className="btnSize">View</MDBBtn>
+                                                            <div className="col-sm-6 btnSize">
+                                                                <MDBNavLink to={"/item/"+items.itemArray._id}>
+                                                                    <MDBBtn
+                                                                            className="btnSize">View</MDBBtn>
+                                                                </MDBNavLink>
+
                                                             </div>
                                                         </div>
 
@@ -173,13 +176,20 @@ export default class Home extends Component {
                             <div className="row">
                                 {
                                     this.state.categories.map(category => {
+                                        console.log("KKKKKKKKKKKK")
+                                        console.log(category)
+                                        console.log("OOOOOOOOOOOOOOO")
                                         return (
                                             <div className="col-sm-4 cardMarginTop">
                                                 <MDBCard style={{width: "22rem"}}>
                                                     <MDBCardBody>
                                                         <MDBCardTitle>{category.categoryName}</MDBCardTitle>
 
-                                                        <MDBBtn outline color="primary">View</MDBBtn>
+
+                                                        <MDBNavLink to={"/itemsaccordingtocategory/"+category._id}>
+                                                            <MDBBtn outline color="primary">View</MDBBtn>
+                                                        </MDBNavLink>
+
                                                     </MDBCardBody>
                                                 </MDBCard>
                                             </div>

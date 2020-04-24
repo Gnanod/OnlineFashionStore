@@ -4,6 +4,16 @@ import './Item.css'
 
 export class ItemDetail extends Component {
 
+
+    constructor(props){
+        super(props)
+    }
+
+    componentDidMount(){
+        console.log('HHHHHHHHHHHH')
+        console.log(this.props.match.params.id)
+        console.log('GGGGGGGGGGGG')
+    }
     render() {
         return (
             <div>

@@ -14,6 +14,7 @@ import Home from "../Views/Home/Home";
 import {TestComponent} from "../Views/Home/TestComponent";
 import {HomePageImage} from "../Views/Home/HomePageImage";
 import {ItemDetail} from "../Views/Item/ItemDetail";
+import {Itemsaccordingtocategory} from "../Views/Category/Itemsaccordingtocategory";
 
 
 export default class Navigationbar extends Component {
@@ -68,7 +69,9 @@ export default class Navigationbar extends Component {
                         <Switch>
                             <Route exact path="/" component={Home}/>
                             <Route exact path="/test" component={TestComponent}/>
-                            <Route exact path="/item" component={ItemDetail}/>
+                            {/*<Route exact path="/item" component={ItemDetail}/>*/}
+                            <Route exact path="/item/:id" component={ItemDetail}/>
+                            <Route exact path="/itemsaccordingtocategory/:id" component={Itemsaccordingtocategory}/>
                         </Switch>
 
                 </main>
