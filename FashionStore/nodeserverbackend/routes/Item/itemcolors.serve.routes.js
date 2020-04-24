@@ -29,12 +29,26 @@ router.route('/getnewitemdetailswithcolors').get(function (req, res) {
 
 router.route('/getAllNewItems').get(function (req, res) {
     NewArraivalItem.find().populate("itemCode").populate("brandCode").exec().then(item => {
-
         res.status(200).json(item)
     })
         .catch(err => {
             res.status(500).json(err);
         });
+});
+
+router.route('/getItemColorDetail/:id').get(function (req, res) {
+
+    let id = req.params.id;
+    console.log(id);
+    itemcolor.findOne({ _id: id }).populate("itemCode").exec().then(item => {
+        console.log(item);
+        res.status(200).json(item)
+    })
+        .catch(err => {
+            res.status(500).json(err);
+        });
+
+
 });
 
 router.route('/getNewItemDetailsById').get(function (req, res) {

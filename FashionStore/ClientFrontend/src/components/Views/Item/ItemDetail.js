@@ -1,19 +1,39 @@
 import React, {Component} from 'react';
 import {MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle} from "mdbreact";
 import './Item.css'
+import axios from "axios";
+import constants from "../../Constants/constants";
 
 export class ItemDetail extends Component {
 
 
     constructor(props){
         super(props)
+        this.state ={
+            itemColorId :''
+        }
+        this.getNewItemColorDetails = this.getNewItemColorDetails.bind(this);
     }
 
     componentDidMount(){
-        console.log('HHHHHHHHHHHH')
-        console.log(this.props.match.params.id)
-        console.log('GGGGGGGGGGGG')
+       this.setState({
+           itemColorId : this.props.match.params.id,
+           itemColorDetail : ''
+       });
+       this.getNewItemColorDetails();
+
     }
+
+    getNewItemColorDetails(){
+        axios.get(constants.backend_url + 'api/itemcolor/getItemColorDetail/'+this.props.match.params.id).then(response => {
+            this.setState({itemColorDetail: response.data});
+            console.log(response.data);
+        }).catch(function (error) {
+            console.log(error);
+        })
+    }
+
+
     render() {
         return (
             <div>

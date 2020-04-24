@@ -32,8 +32,6 @@ export default class Home extends Component {
     componentDidMount() {
         this.getAllCategories();
          this.getAllNewItems();
-        // this.getAllItemDetails();
-        // this.getDetailsOfNewItems();
     }
 
 
@@ -176,9 +174,6 @@ export default class Home extends Component {
                             <div className="row">
                                 {
                                     this.state.categories.map(category => {
-                                        console.log("KKKKKKKKKKKK")
-                                        console.log(category)
-                                        console.log("OOOOOOOOOOOOOOO")
                                         return (
                                             <div className="col-sm-4 cardMarginTop">
                                                 <MDBCard style={{width: "22rem"}}>
