@@ -55,6 +55,10 @@ export default class Navigationbar extends Component {
                                     <MDBNavItem>
                                         <MDBNavLink to="/item">Profile</MDBNavLink>
                                     </MDBNavItem>
+
+                                    <MDBNavItem>
+                                        <MDBNavLink to="/">Cart</MDBNavLink>
+                                    </MDBNavItem>
                                 </MDBNavbarNav>
                             </MDBCollapse>
                         </MDBNavbar>
