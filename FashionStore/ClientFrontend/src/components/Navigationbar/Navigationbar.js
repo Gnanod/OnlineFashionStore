@@ -14,7 +14,7 @@ import Home from "../Views/Home/Home";
 import {TestComponent} from "../Views/Home/TestComponent";
 import {HomePageImage} from "../Views/Home/HomePageImage";
 import {ItemDetail} from "../Views/Item/ItemDetail";
-
+import styled from "styled-components";
 
 export default class Navigationbar extends Component {
 
@@ -57,7 +57,12 @@ export default class Navigationbar extends Component {
                                     </MDBNavItem>
 
                                     <MDBNavItem>
-                                        <MDBNavLink to="/">Cart</MDBNavLink>
+                                        <MDBNavLink to="/cart" className="ml-auto">
+                                            <ButtonContainer>
+                                                <i className="fas fa-cart-plus"></i>
+                                                Cart
+                                            </ButtonContainer>
+                                        </MDBNavLink>
                                     </MDBNavItem>
                                 </MDBNavbarNav>
                             </MDBCollapse>
@@ -82,3 +87,20 @@ export default class Navigationbar extends Component {
 
     }
 }
+const ButtonContainer = styled.button`
+ text-transform:capitalize;
+ font-size:1rem;
+ background:transparent; 
+ color:#fff;
+ border-radius:0.4rem;
+ border:0rem;
+ cursor:pointer;
+ transition:all 0.5s ease-in-out;
+ &:hover{
+    background-color: black;
+ }
+  &:focus{
+    outline:none;
+ }
+ 
+`;

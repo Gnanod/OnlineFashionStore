@@ -1,3 +1,6 @@
 .HoverClass :hover{
     background-color: black;
 }
+.ml-auto{
+    float: right;
+}
