@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './StyleSP/Stock.css'
+
 import {
     MDBAlert,
     MDBBtn,
@@ -31,6 +32,9 @@ export default class StockDetails extends Component{
     render(){
         return(
             <div className="bg">
+
+                <div><h1 className="font-weight-bold text-center">Stock Details</h1></div>
+
                 <div className=" container-fluid BrandCategoryMain" >
 
                     <br/>
@@ -83,6 +87,7 @@ export default class StockDetails extends Component{
                                                        className="form-control datepicker"/>
 
                                             </div>
+
 
                                             <div className="md-form">
                                                 <input placeholder="End date" type="text" id="date-picker-example"
@@ -161,4 +166,6 @@ export default class StockDetails extends Component{
         );
     }
 }
+
+
 
