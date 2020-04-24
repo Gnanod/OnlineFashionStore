@@ -71,8 +71,8 @@ export default class UserDetail extends Component {
                     <MDBContainer className='d-flex justify-content-center align-items-center' style={{ height: '100%', width: '100%', paddingTop: '0rem' }}>
                         <MDBRow>
 
-                            <MDBCol md='12' className='mb-4  text-center'>
-                                <h1 className='display-5 mb-0 pt-md-5 pt-5  font-weight-bold' >
+                            <MDBCol md='12' className='  text-center'>
+                                <h1 className='display-5 mb-0 pt-md-5 font-weight-bold' >
                                     USER &nbsp;
                                     <span className='font-weight-bold h1col'>DETAILS</span>
                                 </h1>
