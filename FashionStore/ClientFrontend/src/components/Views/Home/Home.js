@@ -131,9 +131,8 @@ export default class Home extends Component {
                                                         </MDBCardText>
                                                         <div className="row">
                                                             <div className="col-sm-6 btnSize">
-                                                                <MDBNavLink to={"/item/"+items.itemArray._id}>
-                                                                    <MDBBtn
-                                                                            className="btnSize">View</MDBBtn>
+                                                                <MDBNavLink to={"/item/"+items.itemArray.itemCode[0]._id+"/"+items.itemArray._id}>
+                                                                    <MDBBtn className="btnSize" >View</MDBBtn>
                                                                 </MDBNavLink>
 
                                                             </div>

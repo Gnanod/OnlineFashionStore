@@ -80,7 +80,7 @@ export default class Navigationbar extends Component {
                             <Route exact path="/" component={Home}/>
                             <Route exact path="/test" component={TestComponent}/>
                             {/*<Route exact path="/item" component={ItemDetail}/>*/}
-                            <Route exact path="/item/:id" component={ItemDetail}/>
+                            <Route exact path="/item/:id/:colorId" component={ItemDetail}/>
                             <Route exact path="/itemsaccordingtocategory/:id" component={Itemsaccordingtocategory}/>
                         </Switch>
 

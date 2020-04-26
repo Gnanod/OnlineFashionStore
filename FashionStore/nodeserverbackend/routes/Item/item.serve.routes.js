@@ -10,7 +10,7 @@ router.route('/getAllItems').get(function (req, res) {
 
 
     Item.find(function (err, item) {
-        console.log(err)
+
         if (!err) {
             res.json(item);
         } else {
