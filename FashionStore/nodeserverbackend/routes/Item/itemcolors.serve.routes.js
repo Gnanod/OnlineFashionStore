@@ -6,7 +6,6 @@ let NewArraivalItem = require('../../models/NewArrivalItem.model');
 
 router.route('/getAllItemColors').get(function (req, res) {
     itemcolor.find().populate("itemCode").exec().then(item => {
-
         res.status(200).json(item)
     })
         .catch(err => {

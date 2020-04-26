@@ -4,6 +4,8 @@ import './Item.css'
 import axios from "axios";
 import constants from "../../Constants/constants";
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
+
 export class ItemDetail extends Component {
 
 
@@ -15,9 +17,11 @@ export class ItemDetail extends Component {
             itemName: ' ',
             itemColorObj: [],
             status: false,
-            itemColorCode :'',
+            autocompleteStatus: false,
+            itemColorCode: '',
             Url: ' ',
-            itemSizesAll : []
+            itemSizesAll: [],
+            itemPrice:''
         }
         this.getNewItemColorDetails = this.getNewItemColorDetails.bind(this);
         this.changePhotoUrl = this.changePhotoUrl.bind(this);
@@ -26,7 +30,7 @@ export class ItemDetail extends Component {
         this.onChangeItemSize = this.onChangeItemSize.bind(this);
         this.getNewItemColorDetails();
         this.getPhotoAccordingToColor();
-      //  this.getSizesAccordingToTheColor();
+        //  this.getSizesAccordingToTheColor();
     }
 
     componentDidMount() {
@@ -44,45 +48,58 @@ export class ItemDetail extends Component {
             }, ''));
             this.setState({
                 Url: base64String,
-                itemName :response.data.itemCode[0].itemName,
-                itemColorCode : response.data.itemColor
+                itemName: response.data.itemCode[0].itemName,
+                itemColorCode: response.data.itemColor
             })
-            this.getSizesAccordingToTheColor(response.data.itemColor);
+            this.getSizesAccordingToTheColor(response.data.itemColor, response.data.itemCode[0].itemCode);
         }).catch(function (error) {
             console.log(error);
         })
     }
 
-    getSizesAccordingToTheColor(color){
+    getSizesAccordingToTheColor(color, itemCode) {
         let colId = color.substr(1);
-        axios.get(constants.backend_url + 'api/itemcolor/getItemSizes/' +colId).then(response => {
-
-            const newSizes ={
-                itemSizes : response.data
-            }
-            const array = [newSizes,...this.state.itemSizesAll]
-            this.setState({
-                itemSizesAll :array
+        axios.get(constants.backend_url + 'api/itemcolor/getAllItemColors').then(response => {
+            response.data.map(item => {
+                if (item.itemCode[0].itemCode === itemCode && item.itemColor===color) {
+                    const newSizes = {
+                        itemSizes: item
+                    }
+                    const array = [newSizes,...this.state.itemSizesAll]
+                    this.setState({
+                        itemSizesAll: array,
+                        autocompleteStatus: true
+                    })
+                }
             })
-
         }).catch(function (error) {
             console.log(error);
         })
+
     }
 
     changePhotoUrl(itemColor) {
         const base64String = btoa(new Uint8Array(itemColor.itemColorObject.image.data).reduce(function (data, byte) {
             return data + String.fromCharCode(byte);
         }, ''));
+        console.log(itemColor.itemColor);
         this.setState({
             Url: base64String,
-            itemColorCode : itemColor.itemColor
+            itemColorCode: itemColor.itemColor
+        })
+        this.getSizesAccordingToTheColor(itemColor.itemColor, itemColor.itemColorObject.itemCode[0].itemCode);
+
+    }
+
+    ///////////////////////////// Add This Object To Cart ///////////////////////
+    onChangeItemSize(value) {
+        console.log(value)
+        let price =  value.itemSizes.price;
+        this.setState({
+            price :price
         })
     }
 
-    onChangeItemSize(e){
-
-    }
     getNewItemColorDetails() {
         axios.get(constants.backend_url + 'api/itemcolor/getAllItemColors').then(response => {
             response.data.map(item => {
@@ -147,18 +164,25 @@ export class ItemDetail extends Component {
                                                     })
                                                     : ''
                                             }
+                                            {
 
-                                            <Autocomplete
-                                                id="combo-box-demo"
-                                                options={this.state.itemSizesAll}
-                                                getOptionLabel={(option) => option.itemSize}
-                                                style={{width: 300}}
-                                                onChange={(event, value) => this.onChangeItemSize(value)}
-                                                renderInput={(params) => <TextField {...params} label="Brand Name"/>}
-                                                size="sm"
-                                            />
+                                                this.state.autocompleteStatus ?
+
+                                                    <Autocomplete
+                                                        id="combo-box-demo"
+                                                        options={this.state.itemSizesAll}
+                                                        getOptionLabel={(option) => option.itemSizes.itemSize}
+                                                        style={{width: 300}}
+                                                         onChange={(event, value) => this.onChangeItemSize(value)}
+                                                        renderInput={(params) => <TextField {...params}
+                                                                                            label="Item Sizes"/>}
+                                                    />
+                                                    : ' '
+                                            }
+
+                                            <h2 className="textAligns">LKR :{this.state.price}</h2>
                                             <h2 className="textAligns">Qty</h2>
-                                            <h2 className="textAligns">Price</h2>
+
                                             <h2>Add To Cart</h2>
                                             <h2>Add To wishlist</h2>
                                         </div>
