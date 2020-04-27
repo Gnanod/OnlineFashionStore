@@ -5,6 +5,7 @@ import axios from "axios";
 import constants from "../../Constants/constants";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
+import Loader from "react-loader-spinner";
 
 export class ItemDetail extends Component {
 
@@ -21,7 +22,8 @@ export class ItemDetail extends Component {
             itemColorCode: '',
             Url: ' ',
             itemSizesAll: [],
-            itemPrice:''
+            itemPrice:'',
+            loaderStatus : true
         }
         this.getNewItemColorDetails = this.getNewItemColorDetails.bind(this);
         this.changePhotoUrl = this.changePhotoUrl.bind(this);
@@ -68,7 +70,8 @@ export class ItemDetail extends Component {
                     const array = [newSizes,...this.state.itemSizesAll]
                     this.setState({
                         itemSizesAll: array,
-                        autocompleteStatus: true
+                        autocompleteStatus: true,
+                        loaderStatus :false
                     })
                 }
             })
@@ -114,6 +117,7 @@ export class ItemDetail extends Component {
                         itemName: item.itemCode[0].itemName,
                         itemColorObj: array,
                         status: true,
+
                     });
                 }
 
@@ -141,51 +145,85 @@ export class ItemDetail extends Component {
                                 <MDBCardBody>
 
                                     <div className="row">
-                                        <div className="col-sm-6">
-                                            <MDBCardImage className="imageClass "
-                                                          src={`data:image/jpeg;base64,${this.state.Url}`}
-                                                          waves/>
-                                        </div>
-                                        <div className="col-sm-6">
-                                            <MDBCardTitle className="itemNameText">{this.state.itemName}</MDBCardTitle>
-                                            {
-                                                this.state.status ?
-                                                    this.state.itemColorObj.map(item => {
-                                                        const style = {
-                                                            backgroundColor: item.itemColor,
-                                                            width: 50,
-                                                            height: 50
-                                                        }
-                                                        return (
-                                                            <button style={style}
-                                                                    onClick={() => this.changePhotoUrl(item)}>
-                                                            </button>
-                                                        )
-                                                    })
-                                                    : ''
-                                            }
-                                            {
 
-                                                this.state.autocompleteStatus ?
+                                        {
+                                            this.state.loaderStatus ?
+                                                <div  className="col-sm-12">
+                                                    <div className="row">
+                                                        <div className="col-sm-4">
 
-                                                    <Autocomplete
-                                                        id="combo-box-demo"
-                                                        options={this.state.itemSizesAll}
-                                                        getOptionLabel={(option) => option.itemSizes.itemSize}
-                                                        style={{width: 300}}
-                                                         onChange={(event, value) => this.onChangeItemSize(value)}
-                                                        renderInput={(params) => <TextField {...params}
-                                                                                            label="Item Sizes"/>}
-                                                    />
-                                                    : ' '
-                                            }
+                                                        </div>
+                                                        <div  className="col-sm-4">
+                                                            <Loader className="loaderClass"
 
-                                            <h2 className="textAligns">LKR :{this.state.price}</h2>
-                                            <h2 className="textAligns">Qty</h2>
+                                                                    type="ThreeDots"
+                                                                    color="#00BFFF"
+                                                                    height={500}
+                                                                    width={350}
+                                                                    timeout={30000} //3 secs
 
-                                            <h2>Add To Cart</h2>
-                                            <h2>Add To wishlist</h2>
-                                        </div>
+                                                            />
+                                                        </div>
+                                                        <div  className="col-sm-4">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                :
+                                                <div className="col-sm-12">
+                                                    <div className="row">
+                                                        <div className="col-sm-6">
+                                                            <MDBCardImage className="imageClass "
+                                                                          src={`data:image/jpeg;base64,${this.state.Url}`}
+                                                                          waves/>
+                                                        </div>
+                                                        <div className="col-sm-6">
+                                                            <MDBCardTitle className="itemNameText">{this.state.itemName}</MDBCardTitle>
+                                                            {
+                                                                this.state.status ?
+                                                                    this.state.itemColorObj.map(item => {
+                                                                        const style = {
+                                                                            backgroundColor: item.itemColor,
+                                                                            width: 50,
+                                                                            height: 50
+                                                                        }
+                                                                        return (
+                                                                            <button style={style}
+                                                                                    onClick={() => this.changePhotoUrl(item)}>
+                                                                            </button>
+                                                                        )
+                                                                    })
+                                                                    : ''
+                                                            }
+                                                            {
+
+                                                                this.state.autocompleteStatus ?
+
+                                                                    <Autocomplete
+                                                                        id="combo-box-demo"
+                                                                        options={this.state.itemSizesAll}
+                                                                        getOptionLabel={(option) => option.itemSizes.itemSize}
+                                                                        style={{width: 300}}
+                                                                        onChange={(event, value) => this.onChangeItemSize(value)}
+                                                                        renderInput={(params) => <TextField {...params}
+                                                                                                            label="Item Sizes"/>}
+                                                                    />
+                                                                    : ' '
+                                                            }
+
+                                                            <h2 className="textAligns">LKR :{this.state.price}</h2>
+                                                            <h2 className="textAligns">Qty</h2>
+
+                                                            <h2>Add To Cart</h2>
+                                                            <h2>Add To wishlist</h2>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                        }
+
+
 
                                     </div>
                                 </MDBCardBody>

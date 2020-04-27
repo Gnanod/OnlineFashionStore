@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import constants from "../../Constants/constants";
 import uuid from 'react-uuid';
+import Loader from 'react-loader-spinner';
 
 export default class Home extends Component {
 
@@ -25,7 +26,8 @@ export default class Home extends Component {
             newItems: [],
             itemColors: [],
             newItemArray: [],
-            arrayId: []
+            arrayId: [],
+            loaderStatus :true
         }
     }
 
@@ -74,7 +76,8 @@ export default class Home extends Component {
                     }
                     const array = [newArray, ...this.state.newItemArray];
                     this.setState({
-                        newItemArray: array
+                        newItemArray: array,
+                        loaderStatus :false
                     })
 
 
@@ -112,37 +115,62 @@ export default class Home extends Component {
                             <div className="row">
 
                                 {
-                                    this.state.newItemArray.map(items => {
-                                        console.log(items);
-                                         // = btoa(String.fromCharCode(...new Uint8Array(items.image.data)));
-                                        const base64String = btoa(new Uint8Array(items.itemArray.image.data).reduce(function (data, byte) {
-                                            return data + String.fromCharCode(byte);
-                                        }, ''));
-                                        return (
-                                            <div className="col-sm-4 cardMarginTop">
-                                                <MDBCard style={{width: "22rem"}}>
-                                                    <MDBCardImage className="img-fluid"
-                                                                  src={`data:image/jpeg;base64,${base64String}`}
-                                                                  waves/>
-                                                    <MDBCardBody>
-                                                        <MDBCardTitle>{items.itemArray.itemCode[0].itemName}</MDBCardTitle>
-                                                        <MDBCardText>
-                                                         LKR  : {items.itemArray.price}
-                                                        </MDBCardText>
-                                                        <div className="row">
-                                                            <div className="col-sm-6 btnSize">
-                                                                <MDBNavLink to={"/item/"+items.itemArray.itemCode[0]._id+"/"+items.itemArray._id}>
-                                                                    <MDBBtn className="btnSize" >View</MDBBtn>
-                                                                </MDBNavLink>
+                                    this.state.loaderStatus?
+                                        <div  className="col-sm-12">
+                                            <div className="row">
+                                                <div className="col-sm-4">
 
-                                                            </div>
-                                                        </div>
+                                                </div>
+                                                <div  className="col-sm-4">
+                                                    <Loader className="loaderClass"
 
-                                                    </MDBCardBody>
-                                                </MDBCard>
+                                                            type="ThreeDots"
+                                                            color="#00BFFF"
+                                                            height={500}
+                                                            width={350}
+                                                            timeout={30000} //3 secs
+
+                                                    />
+                                                </div>
+                                                <div  className="col-sm-4">
+
+                                                </div>
                                             </div>
-                                        );
-                                    })
+                                        </div>
+
+
+                                        :
+                                        this.state.newItemArray.map(items => {
+                                            console.log(items);
+                                            // = btoa(String.fromCharCode(...new Uint8Array(items.image.data)));
+                                            const base64String = btoa(new Uint8Array(items.itemArray.image.data).reduce(function (data, byte) {
+                                                return data + String.fromCharCode(byte);
+                                            }, ''));
+                                            return (
+                                                <div className="col-sm-4 cardMarginTop">
+                                                    <MDBCard style={{width: "22rem"}}>
+                                                        <MDBCardImage className="img-fluid"
+                                                                      src={`data:image/jpeg;base64,${base64String}`}
+                                                                      waves/>
+                                                        <MDBCardBody>
+                                                            <MDBCardTitle>{items.itemArray.itemCode[0].itemName}</MDBCardTitle>
+                                                            <MDBCardText>
+                                                                LKR  : {items.itemArray.price}
+                                                            </MDBCardText>
+                                                            <div className="row">
+                                                                <div className="col-sm-6 btnSize">
+                                                                    <MDBNavLink to={"/item/"+items.itemArray.itemCode[0]._id+"/"+items.itemArray._id}>
+                                                                        <MDBBtn className="btnSize" >View</MDBBtn>
+                                                                    </MDBNavLink>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </MDBCardBody>
+                                                    </MDBCard>
+                                                </div>
+                                            );
+                                        })
                                 }
 
 
