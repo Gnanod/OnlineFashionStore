@@ -6,7 +6,6 @@ let size = require('../../models/ItemSizes.model');
 
 router.route('/getAllSizes').get(function (req,res) {
     size.find(function (err,size) {
-        console.log(err)
         if(!err){
             res.json(size);
         }else{

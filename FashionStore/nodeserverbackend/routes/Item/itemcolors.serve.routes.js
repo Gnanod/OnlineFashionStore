@@ -6,9 +6,6 @@ let NewArraivalItem = require('../../models/NewArrivalItem.model');
 
 router.route('/getAllItemColors').get(function (req, res) {
     itemcolor.find().populate("itemCode").exec().then(item => {
-        console.log('GGGGG')
-        console.log(item)
-        console.log('GGGGG')
         res.status(200).json(item)
     })
         .catch(err => {
@@ -18,9 +15,6 @@ router.route('/getAllItemColors').get(function (req, res) {
 
 router.route('/getnewitemdetailswithcolors').get(function (req, res) {
     itemcolor.find().populate("itemCode").exec().then(item => {
-        console.log('GGGGG')
-        console.log(item.itemCode)
-        console.log('GGGGG')
         res.status(200).json(item)
     })
         .catch(err => {
@@ -31,6 +25,17 @@ router.route('/getnewitemdetailswithcolors').get(function (req, res) {
 
 router.route('/getAllNewItems').get(function (req, res) {
     NewArraivalItem.find().populate("itemCode").populate("brandCode").exec().then(item => {
+        res.status(200).json(item)
+    })
+        .catch(err => {
+            res.status(500).json(err);
+        });
+});
+
+router.route('/getItemColorDetail/:id').get(function (req, res) {
+    let id = req.params.id;
+
+    itemcolor.findOne({ _id: id }).populate("itemCode").exec().then(item => {
 
         res.status(200).json(item)
     })
@@ -38,6 +43,23 @@ router.route('/getAllNewItems').get(function (req, res) {
             res.status(500).json(err);
         });
 });
+
+router.route('/getItemSizes/:itemColorId').get(function (req, res) {
+    let id = '#'+req.params.itemColorId;
+    console.log('LLLLLLLLL')
+    console.log(id);
+    console.log('LLLLLLLL')
+    itemcolor.find({ itemColor: id }).populate("itemCode").exec().then(item => {
+        console.log(item);
+        res.status(200).json(item)
+    })
+        .catch(err => {
+            res.status(500).json(err);
+        });
+});
+
+
+
 
 router.route('/getNewItemDetailsById').get(function (req, res) {
 

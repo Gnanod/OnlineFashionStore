@@ -1,8 +1,128 @@
 import React, {Component} from 'react';
 import {MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle} from "mdbreact";
 import './Item.css'
+import axios from "axios";
+import constants from "../../Constants/constants";
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
 
 export class ItemDetail extends Component {
+
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            itemColorId: '',
+            itemColorDetail: '',
+            itemName: ' ',
+            itemColorObj: [],
+            status: false,
+            autocompleteStatus: false,
+            itemColorCode: '',
+            Url: ' ',
+            itemSizesAll: [],
+            itemPrice:''
+        }
+        this.getNewItemColorDetails = this.getNewItemColorDetails.bind(this);
+        this.changePhotoUrl = this.changePhotoUrl.bind(this);
+        this.getPhotoAccordingToColor = this.getPhotoAccordingToColor.bind(this);
+        this.getSizesAccordingToTheColor = this.getSizesAccordingToTheColor.bind(this);
+        this.onChangeItemSize = this.onChangeItemSize.bind(this);
+        this.getNewItemColorDetails();
+        this.getPhotoAccordingToColor();
+        //  this.getSizesAccordingToTheColor();
+    }
+
+    componentDidMount() {
+        this.setState({
+            itemColorId: this.props.match.params.id,
+            itemColorObjectId: this.props.match.params.colorId,
+
+        });
+    }
+
+    getPhotoAccordingToColor() {
+        axios.get(constants.backend_url + 'api/itemcolor/getItemColorDetail/' + this.props.match.params.colorId).then(response => {
+            const base64String = btoa(new Uint8Array(response.data.image.data).reduce(function (data, byte) {
+                return data + String.fromCharCode(byte);
+            }, ''));
+            this.setState({
+                Url: base64String,
+                itemName: response.data.itemCode[0].itemName,
+                itemColorCode: response.data.itemColor
+            })
+            this.getSizesAccordingToTheColor(response.data.itemColor, response.data.itemCode[0].itemCode);
+        }).catch(function (error) {
+            console.log(error);
+        })
+    }
+
+    getSizesAccordingToTheColor(color, itemCode) {
+        let colId = color.substr(1);
+        axios.get(constants.backend_url + 'api/itemcolor/getAllItemColors').then(response => {
+            response.data.map(item => {
+                if (item.itemCode[0].itemCode === itemCode && item.itemColor===color) {
+                    const newSizes = {
+                        itemSizes: item
+                    }
+                    const array = [newSizes,...this.state.itemSizesAll]
+                    this.setState({
+                        itemSizesAll: array,
+                        autocompleteStatus: true
+                    })
+                }
+            })
+        }).catch(function (error) {
+            console.log(error);
+        })
+
+    }
+
+    changePhotoUrl(itemColor) {
+        const base64String = btoa(new Uint8Array(itemColor.itemColorObject.image.data).reduce(function (data, byte) {
+            return data + String.fromCharCode(byte);
+        }, ''));
+        console.log(itemColor.itemColor);
+        this.setState({
+            Url: base64String,
+            itemColorCode: itemColor.itemColor
+        })
+        this.getSizesAccordingToTheColor(itemColor.itemColor, itemColor.itemColorObject.itemCode[0].itemCode);
+
+    }
+
+    ///////////////////////////// Add This Object To Cart ///////////////////////
+    onChangeItemSize(value) {
+        console.log(value)
+        let price =  value.itemSizes.price;
+        this.setState({
+            price :price
+        })
+    }
+
+    getNewItemColorDetails() {
+        axios.get(constants.backend_url + 'api/itemcolor/getAllItemColors').then(response => {
+            response.data.map(item => {
+                if (this.props.match.params.id === item.itemCode[0]._id) {
+                    const newItemColorObj = {
+                        itemColor: item.itemColor,
+                        itemColorObjId: item._id,
+                        itemColorObject: item
+                    }
+                    const array = [newItemColorObj, ...this.state.itemColorObj];
+                    this.setState({
+                        itemName: item.itemCode[0].itemName,
+                        itemColorObj: array,
+                        status: true,
+                    });
+                }
+
+            })
+            this.setState({itemColorDetail: response.data});
+        }).catch(function (error) {
+            console.log(error);
+        })
+    }
 
     render() {
         return (
@@ -11,31 +131,60 @@ export class ItemDetail extends Component {
                 <br/>
                 <br/>
                 <br/>
-                <div >
-
+                <div>
                     <div className="row ">
                         <div className="col-sm-2">
                         </div>
                         <div className="col-sm-8 ">
 
-                            <MDBCard >
+                            <MDBCard>
                                 <MDBCardBody>
 
                                     <div className="row">
                                         <div className="col-sm-6">
                                             <MDBCardImage className="imageClass "
-                                                          src="https://s3.ap-south-1.amazonaws.com/www.kellyfelder.com/gallery/3f96cff1fc0f29e3afa3fb39f54423132db94900.jpg"
+                                                          src={`data:image/jpeg;base64,${this.state.Url}`}
                                                           waves/>
                                         </div>
                                         <div className="col-sm-6">
-                                            <MDBCardTitle className="itemNameText">Item Name</MDBCardTitle>
-                                            <h2 className="textAligns">Price</h2>
-                                            <h2 className="textAligns">Color</h2>
-                                            <h2 className="textAligns">Color</h2>
-                                            <h2 className="textAligns">Size</h2>
+                                            <MDBCardTitle className="itemNameText">{this.state.itemName}</MDBCardTitle>
+                                            {
+                                                this.state.status ?
+                                                    this.state.itemColorObj.map(item => {
+                                                        const style = {
+                                                            backgroundColor: item.itemColor,
+                                                            width: 50,
+                                                            height: 50
+                                                        }
+                                                        return (
+                                                            <button style={style}
+                                                                    onClick={() => this.changePhotoUrl(item)}>
+                                                            </button>
+                                                        )
+                                                    })
+                                                    : ''
+                                            }
+                                            {
+
+                                                this.state.autocompleteStatus ?
+
+                                                    <Autocomplete
+                                                        id="combo-box-demo"
+                                                        options={this.state.itemSizesAll}
+                                                        getOptionLabel={(option) => option.itemSizes.itemSize}
+                                                        style={{width: 300}}
+                                                         onChange={(event, value) => this.onChangeItemSize(value)}
+                                                        renderInput={(params) => <TextField {...params}
+                                                                                            label="Item Sizes"/>}
+                                                    />
+                                                    : ' '
+                                            }
+
+                                            <h2 className="textAligns">LKR :{this.state.price}</h2>
                                             <h2 className="textAligns">Qty</h2>
-                                            <h2 >Add To Cart</h2>
-                                            <h2 >Add To wishlist</h2>
+
+                                            <h2>Add To Cart</h2>
+                                            <h2>Add To wishlist</h2>
                                         </div>
 
                                     </div>
@@ -50,4 +199,6 @@ export class ItemDetail extends Component {
             </div>
         );
     }
+
+
 }
