@@ -297,6 +297,66 @@ export class NewArrivals extends Component {
 
 
                 </MDBRow>
+        <br/>
+        <br/>
+                <MDBRow>
+                    <MDBCol size="8">
+                        <MDBCard>
+                            <MDBCardBody>
+                                <MDBCardTitle>Delete New Arrivals</MDBCardTitle>
+
+                                <br/>
+                                <MDBRow>
+                                    <MDBCol size="6">
+                                        <MDBTable>
+                                            <MDBTableHead color="primary-color" textWhite>
+                                                <tr>
+                                                    <th>Item Code</th>
+                                                    <th>Item Name</th>
+
+                                                </tr>
+                                            </MDBTableHead>
+                                            <MDBTableBody>
+                                                {
+                                                    this.state.noItem ?
+                                                        <tr >
+                                                            <td colSpan="2">
+                                                                <MDBAlert color="danger" >
+                                                                    No Items In List
+                                                                </MDBAlert>
+                                                            </td>
+                                                        </tr>
+                                                        :
+
+                                                        this.state.newArraivalItemArray.map(newItem => {
+                                                            return (
+                                                                <tr key={newItem.newArraivalId}>
+                                                                    <td>{newItem.itemCode}</td>
+                                                                    <td>{newItem.itemName}</td>
+                                                                    <MDBBtn tag="a" size="sm" color="danger"
+                                                                            onClick={()=>this.deletenewArrailavls(newItem.newArraivalId)}>
+                                                                        <MDBIcon size="lg" icon="times-circle"/>
+                                                                    </MDBBtn>
+
+                                                                </tr>
+                                                            )
+                                                        })
+                                                }
+
+
+                                            </MDBTableBody>
+                                        </MDBTable>
+                                    </MDBCol>
+                                </MDBRow>
+
+
+                            </MDBCardBody>
+                        </MDBCard>
+
+                    </MDBCol>
+
+
+                </MDBRow>
 
 
             </div>

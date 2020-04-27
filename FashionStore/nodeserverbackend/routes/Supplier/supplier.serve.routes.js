@@ -7,10 +7,10 @@ let Supplier = require('../../models/Supplier.model');
 router.route('/add').post(function (req,res) {
     let supplier = new Supplier(req.body);
     supplier.save()
-        .then(supplier=>{
+        .then(sup=>{
             res.status(200).json({'supplier':'success'});
         }).catch(err=>{
-        res.status(400).send('fail');
+        res.status(400).send('faild');
     });
 });
 

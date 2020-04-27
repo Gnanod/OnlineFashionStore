@@ -61,3 +61,4 @@ let supplier = new Schema({
 });
 
 module.exports = mongoose.model('Supplier',supplier);
+

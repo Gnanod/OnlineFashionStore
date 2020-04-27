@@ -56,15 +56,15 @@ router.route('/addNewArraivalItems').post(function (req, res) {
 });
 
 
-outer.route('/getAllNewArrivals').get(function (req, res) {
-    NewArraivalItem.find(function (err, item) {
-        if (!err) {
-            res.json(item);
-        } else {
-            res.status(400).send('faild');
-        }
-    });
-});
+// outer.route('/getAllNewArrivals').get(function (req, res) {
+//     NewArraivalItem.find(function (err, item) {
+//         if (!err) {
+//             res.json(item);
+//         } else {
+//             res.status(400).send('faild');
+//         }
+//     });
+// });
 
 
 

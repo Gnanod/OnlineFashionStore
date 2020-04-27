@@ -112,6 +112,7 @@ export default class SupplierDetails extends Component{
 
         onChangeDescription(e)
         {
+            console.log(e.target.value);
             this.setState({
                 description: e.target.value
                 // descriptionValidation: false
@@ -224,6 +225,7 @@ export default class SupplierDetails extends Component{
         onSubmit(e)
         {
             e.preventDefault();
+
             if(this.state.companyName !== ''){
                 if(this.state.companyWebsite !== ''){
                     console.log("ulaaaalaaalaaaa1");
@@ -259,11 +261,11 @@ export default class SupplierDetails extends Component{
                                                                         state: this.state.state
                                                                     }
 
-                                                                    axios.post(constants.backend_url + '/api/supplier/add', newSupplier)
+                                                                    axios.post(constants.backend_url + 'api/supplier/add', newSupplier)
                                                                         .then(res => {
                                                                                 console.log(res)
                                                                             console.log(newSupplier);
-                                                                                if (res.data.category === 'success') {
+                                                                                if (res.data.supplier === 'success') {
                                                                                     Swal.fire(
                                                                                         '',
                                                                                         'Supplier Details Added Successfully.',
@@ -413,12 +415,15 @@ export default class SupplierDetails extends Component{
                                     }
 
                                     <div className="form-group">
-                                        <label htmlFor="exampleFormControlTextarea2"  value={this.state.description}
-                                               onChange={this.onChangeDescription}>Description</label>
+                                        <label htmlFor="exampleFormControlTextarea2"
+                                               >Description</label>
                                         <textarea className="form-control rounded-0" id="exampleFormControlTextarea2"
-                                                  rows="3">
+                                                  rows="3"
+                                                  value={this.state.description}
+                                                  onChange={this.onChangeDescription}
+                                        />
 
-                                        </textarea>
+
                                         {/*{*/}
                                         {/*    this.state.descriptionValidation ? <MDBAlert color="danger">*/}
                                         {/*        Description Field Is Empty*/}
