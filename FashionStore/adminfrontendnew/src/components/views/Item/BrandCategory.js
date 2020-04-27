@@ -15,11 +15,13 @@ import {
 import axios from "axios";
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
-import constants from '../../Constants/constants';
+
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import BrandCategoryTableBody from "./BrandCategoryTableBody";
 import uuid from 'react-uuid';
+import {NavLink} from "react-router-dom";
+import constants from "../../../constants/constants";
 
 export default class BrandCategory extends Component {
 
@@ -74,7 +76,6 @@ export default class BrandCategory extends Component {
         this.getAllBrands();
         this.getAllCategories();
     }
-
 
     onChangeCategoryCode(e) {
         this.setState({
@@ -344,10 +345,38 @@ export default class BrandCategory extends Component {
 
         return (
 
-            <div className=" container-fluid BrandCategoryMain">
+            <div >
+                <MDBCard className="mb-5">
+                    <MDBCardBody id="breadcrumb" className="d-flex align-items-center justify-content-between">
+                        <NavLink exact={true} to="/brandcategory" >
+                            <button type="button" className="btn btn-primary"> Brand & Category</button>
+                        </NavLink>
+                        <NavLink exact={true} to="/item">
+                            <button type="button" className="btn btn-success">New Item</button>
+                        </NavLink>
 
-                <br/>
-                <br/>
+                        <NavLink exact={true} to="/itemcolor" >
+                            <button type="button" className="btn btn-success"> ItemColor</button>
+                        </NavLink>
+
+                        <NavLink exact={true} to="/newarraivalitems" >
+                            <button type="button" className="btn btn-success"> New Arrivals</button>
+
+                        </NavLink>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </MDBCardBody>
+                </MDBCard>
                 <MDBRow>
                     <MDBCol size="6">
                         <MDBCard>

@@ -10,7 +10,7 @@ router.route('/getAllItems').get(function (req, res) {
 
 
     Item.find(function (err, item) {
-        console.log(err)
+
         if (!err) {
             res.json(item);
         } else {
@@ -56,6 +56,15 @@ router.route('/addNewArraivalItems').post(function (req, res) {
 });
 
 
+// outer.route('/getAllNewArrivals').get(function (req, res) {
+//     NewArraivalItem.find(function (err, item) {
+//         if (!err) {
+//             res.json(item);
+//         } else {
+//             res.status(400).send('faild');
+//         }
+//     });
+// });
 
 
 
