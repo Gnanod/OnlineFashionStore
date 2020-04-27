@@ -75,6 +75,7 @@ export default class BrandCategory extends Component {
         this.getAllCategories();
     }
 
+
     onChangeCategoryCode(e) {
         this.setState({
             categoryCode: e.target.value,
