@@ -40,7 +40,7 @@ public class ItemColorController {
             itemColorDetails.setItemColor(itemColor);
             itemColorDetails.setItemSize(itemSize);
 
-        } catch (IOException e) {
+        }catch (IOException e) {
             e.printStackTrace();
         }
         return itemColorService.addItemColorDetails(itemColorDetails);
@@ -60,3 +60,6 @@ public class ItemColorController {
         return itemColorService.getAll();
     }
 }
+
+
+

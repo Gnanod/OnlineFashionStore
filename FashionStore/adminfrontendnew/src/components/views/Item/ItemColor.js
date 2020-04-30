@@ -116,7 +116,6 @@ export default class ItemColor extends Component {
     }
 
     onchangeFile(e) {
-
         if (URL.createObjectURL(e.target.files[0]) !== ' ') {
             this.setState({
                 image: e.target.files[0],
