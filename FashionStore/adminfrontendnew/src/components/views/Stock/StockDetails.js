@@ -23,15 +23,9 @@ export default class StockDetails extends Component{
 
 
         this.state = {
-            brand: '',
-            supplier: '',
-            itemColourId: '',
-            startDate: Date,
-            endDate: Date,
-            buyingPrice: Number,
-            sellingPrice: Number,
-            quantity: Number,
-            discount: Number
+            companyName: '',
+            companyWebsite: '',
+            description: ''
         }
 
     }
@@ -50,7 +44,7 @@ export default class StockDetails extends Component{
                             <div className="card">
                                 <MDBCard>
                                     <MDBCardBody>
-                                        <MDBCardTitle>Stock Details</MDBCardTitle>
+                                        <MDBCardTitle>Product Details</MDBCardTitle>
                                         <form>
                                             <MDBInput label="Brand" size="sm"
 
@@ -60,7 +54,7 @@ export default class StockDetails extends Component{
 
                                                       value={this.state.description}
                                             />
-                                            <MDBInput label="Item ColourID" size="sm"
+                                            <MDBInput label="Category" size="sm"
                                                       value={this.state.companyName}
 
                                             />
@@ -77,6 +71,15 @@ export default class StockDetails extends Component{
                                             {/*Brand Code Field Is Empty*/}
                                             {/*</MDBAlert> : ''*/}
                                             {/*}*/}
+
+                                            <MDBInput label="Size" size="sm"
+
+                                                        value={this.state.description}
+                                        />
+                                            <MDBInput label="Colour" size="sm"
+
+                                                      value={this.state.description}
+                                            />
 
 
                                             <div className="md-form">
