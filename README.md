@@ -12,3 +12,4 @@ where user can register into our system. View the items available, purchase or a
 ###### o	Admin 
 The admin can log into the admin panel and view all the available customers who have been registered into the system. The admin has the capability to delete a customer but an email will be sent with the reason attached. We thought of adding that functionality because some users may not be appropriate to be as a customer. The admin can view the feedbacks given by the customers/users. Also the total amount of users in the system per each month is displayed as a bar chart so that admin can get a clear idea about the customer interest growth rate.
 
+Edit Readme
