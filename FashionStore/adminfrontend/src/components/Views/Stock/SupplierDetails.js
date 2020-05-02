@@ -80,14 +80,6 @@ export default class SupplierDetails extends Component{
         this.onChangeState = this.onChangeState.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
-        // this.getAllSupplier = this.getAllSupplier.bind(this);
-        // this.getAllContactInfo = this.getAllContactInfo.bind(this);
-        // this.getAllAddressInfo = this.getAllAddressInfo.bind(this);
-        // this.onChangeGetBrandName = this.onChangeGetBrandName.bind(this);
-        // this.onChangeGetCategoryName = this.onChangeGetCategoryName.bind(this);
-        // this.addDetailsToTable = this.addDetailsToTable.bind(this);
-        // this.submitBrandsAndCategory = this.submitBrandsAndCategory.bind(this);
-        // this.deleteBrandCategory = this.deleteBrandCategory.bind(this);
 
 
     }
