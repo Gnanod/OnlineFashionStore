@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { BrowserRouter as Router } from 'react-router-dom';
+import {BrowserRouter as Router, NavLink} from 'react-router-dom';
 import {
     MDBMask,
     MDBRow,
@@ -17,7 +17,7 @@ import './UserManage.css';
 import 'sweetalert2/src/sweetalert2.scss';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 
-export default class UserDetail extends Component {
+export default class UserDetails extends Component {
 
     constructor(props) {
         super(props);
@@ -66,17 +66,32 @@ export default class UserDetail extends Component {
     render() {
         return (
             <div id='parallaxintro'>
+
+                <MDBCard className="mb-5">
+                    <MDBCardBody id="breadcrumb" className="d-flex align-items-center justify-content-between">
+                        <NavLink exact={true} to="/usermanage" activeClassName="activeClass">
+                            <button type="button" className="btn btn-primary">User Details</button>
+                        </NavLink>
+                        <NavLink exact={true} to="useranalysis" >
+                            <button type="button" className="btn btn-success"> User Analysis</button>
+                        </NavLink>
+                        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                    </MDBCardBody>
+                </MDBCard>
+
+
+
                 <MDBView>
                     <MDBMask className='rgba-white-light' />
                     <MDBContainer className='d-flex justify-content-center align-items-center' style={{ height: '100%', width: '100%', paddingTop: '0rem' }}>
                         <MDBRow>
 
-                            <MDBCol md='12' className='  text-center'>
-                                <h1 className='display-5 mb-0 pt-md-5 font-weight-bold' >
-                                    USER &nbsp;
-                                    <span className='font-weight-bold h1col'>DETAILS</span>
-                                </h1>
-                            </MDBCol>
+                            {/*<MDBCol md='12' className='  text-center'>*/}
+                            {/*    <h1 className='display-5 mb-0 pt-md-5 font-weight-bold' >*/}
+                            {/*        USER &nbsp;*/}
+                            {/*        <span className='font-weight-bold h1col'>DETAILS</span>*/}
+                            {/*    </h1>*/}
+                            {/*</MDBCol>*/}
                             <MDBCol md="6" className="searchC">
                                 <MDBFormInline className="md-form">
                                     <MDBIcon icon="search" />

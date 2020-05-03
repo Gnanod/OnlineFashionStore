@@ -7,6 +7,7 @@ import {Item} from "./views/Item/Item";
 import BrandCategory from "./views/Item/BrandCategory";
 import ItemColor from "./views/Item/ItemColor";
 import {NewArrivals} from "./views/Item/NewArrivals";
+import UserDetails from "./views/UserManagement/UserManage";
 
 class Routes extends React.Component {
   render() {
@@ -19,6 +20,9 @@ class Routes extends React.Component {
         <Route path='/brandcategory' component={BrandCategory} />
         <Route path='/itemcolor' component={ItemColor} />
         <Route path='/newarraivalitems' component={NewArrivals} />
+        <Route path='/usermanage' component={UserDetails} />
+        <Route path='/useranalysis' component={UserAnalysis} />
+
       </Switch>
     );
   }
