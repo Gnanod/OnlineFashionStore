@@ -22,8 +22,8 @@ export class ItemDetail extends Component {
             itemColorCode: '',
             Url: ' ',
             itemSizesAll: [],
-            itemPrice:'',
-            loaderStatus : true
+            itemPrice: '',
+            loaderStatus: true
         }
         this.getNewItemColorDetails = this.getNewItemColorDetails.bind(this);
         this.changePhotoUrl = this.changePhotoUrl.bind(this);
@@ -61,18 +61,24 @@ export class ItemDetail extends Component {
 
     getSizesAccordingToTheColor(color, itemCode) {
         let colId = color.substr(1);
+        this.setState({
+            itemSizesAll:[]
+        })
         axios.get(constants.backend_url + 'api/itemcolor/getAllItemColors').then(response => {
             response.data.map(item => {
-                if (item.itemCode[0].itemCode === itemCode && item.itemColor===color) {
-                    const newSizes = {
-                        itemSizes: item
+                if (item.itemCode[0].itemCode === itemCode && item.itemColor === color) {
+                    if (this.state.itemSizesAll.length === 0) {
+                        const newSizes = {
+                            itemSizes: item
+                        }
+                        const array = [newSizes, ...this.state.itemSizesAll]
+                        this.setState({
+                            itemSizesAll: array,
+                            autocompleteStatus: true,
+                            loaderStatus: false
+                        })
                     }
-                    const array = [newSizes,...this.state.itemSizesAll]
-                    this.setState({
-                        itemSizesAll: array,
-                        autocompleteStatus: true,
-                        loaderStatus :false
-                    })
+
                 }
             })
         }).catch(function (error) {
@@ -97,10 +103,13 @@ export class ItemDetail extends Component {
     ///////////////////////////// Add This Object To Cart ///////////////////////
     onChangeItemSize(value) {
         console.log(value)
-        let price =  value.itemSizes.price;
-        this.setState({
-            price :price
-        })
+        if(value !==null){
+            let price = value.itemSizes.price;
+            this.setState({
+                price: price
+            })
+        }
+
     }
 
     getNewItemColorDetails() {
@@ -148,12 +157,12 @@ export class ItemDetail extends Component {
 
                                         {
                                             this.state.loaderStatus ?
-                                                <div  className="col-sm-12">
+                                                <div className="col-sm-12">
                                                     <div className="row">
                                                         <div className="col-sm-4">
 
                                                         </div>
-                                                        <div  className="col-sm-4">
+                                                        <div className="col-sm-4">
                                                             <Loader className="loaderClass"
 
                                                                     type="ThreeDots"
@@ -164,7 +173,7 @@ export class ItemDetail extends Component {
 
                                                             />
                                                         </div>
-                                                        <div  className="col-sm-4">
+                                                        <div className="col-sm-4">
 
                                                         </div>
                                                     </div>
@@ -178,7 +187,8 @@ export class ItemDetail extends Component {
                                                                           waves/>
                                                         </div>
                                                         <div className="col-sm-6">
-                                                            <MDBCardTitle className="itemNameText">{this.state.itemName}</MDBCardTitle>
+                                                            <MDBCardTitle
+                                                                className="itemNameText">{this.state.itemName}</MDBCardTitle>
                                                             {
                                                                 this.state.status ?
                                                                     this.state.itemColorObj.map(item => {
@@ -222,7 +232,6 @@ export class ItemDetail extends Component {
 
                                                 </div>
                                         }
-
 
 
                                     </div>

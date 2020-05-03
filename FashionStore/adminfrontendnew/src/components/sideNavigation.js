@@ -19,7 +19,7 @@ const TopNavigation = () => {
                         Dashboard
                     </MDBListGroupItem>
                 </NavLink>
-                <NavLink to={'/item' || '/brandcategory'} activeClassName="activeClass">
+                <NavLink to="/item" activeClassName="activeClass">
                     <MDBListGroupItem>
                         <MDBIcon icon="table" className="mr-3"/>
                         Item

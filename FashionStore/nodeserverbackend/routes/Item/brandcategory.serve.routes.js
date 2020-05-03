@@ -23,7 +23,6 @@ router.route('/add').post(function (req, res) {
 });
 
 
-
 router.get("/getBrandCategoryId/:brand_id/:category_id",function (req,res) {
     const brandId = req.params.brand_id;
     const categoryId = req.params.category_id;
