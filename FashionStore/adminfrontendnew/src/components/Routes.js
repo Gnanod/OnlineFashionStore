@@ -8,6 +8,7 @@ import BrandCategory from "./views/Item/BrandCategory";
 import ItemColor from "./views/Item/ItemColor";
 import {NewArrivals} from "./views/Item/NewArrivals";
 import UserDetails from "./views/UserManagement/UserManage";
+import UserAnalysis from "./views/UserManagement/UserAnalysis";
 
 class Routes extends React.Component {
   render() {

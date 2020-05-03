@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { BrowserRouter as Router } from 'react-router-dom';
+import {BrowserRouter as Router, NavLink} from 'react-router-dom';
 import {
     MDBMask,
     MDBRow,
@@ -13,14 +13,14 @@ import {
     MDBCardTitle,
     MDBInput, MDBBtn, MDBTableHead, MDBTableBody, MDBTable, MDBDropdown, MDBCardText
 } from 'mdbreact';
-import './test.css';
 import { Bar } from "react-chartjs-2";
 import 'sweetalert2/src/sweetalert2.scss';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
+import './UserManage.css'
 
 
 
-export default class Test extends Component {
+export default class UserAnalysis extends Component {
 
     constructor(props) {
         super(props);
@@ -94,19 +94,33 @@ export default class Test extends Component {
     render() {
         return (
             <div id='parallaxintro'>
-                <MDBView>
-                    <MDBMask className='rgba-white-light' />
-                    <MDBContainer className='d-flex justify-content-center align-items-center' style={{ height: '100%', width: '100%', paddingTop: '0rem' }}>
-                        <MDBRow>
-                            <MDBCol md='12' className='mb-4  text-center'>
-                                <h1 className='display-5 mb-0 pt-md-5 pt-5  font-weight-bold' >
-                                    USER &nbsp;
-                                    <span className='font-weight-bold h1col'>ANALYSIS</span>
-                                </h1>
-                            </MDBCol>
-                        </MDBRow>
-                    </MDBContainer>
-                    <br></br><br></br>
+                {/*<MDBView>*/}
+                {/*    <MDBMask className='rgba-white-light' />*/}
+
+
+                    <MDBCard className="mb-5">
+                        <MDBCardBody id="breadcrumb" className="d-flex align-items-center justify-content-between">
+                            <NavLink exact={true} to="/usermanage" >
+                                <button type="button" className="btn btn-primary">User Details</button>
+                            </NavLink>
+                            <NavLink exact={true} to="useranalysis" activeClassName="activeClass" >
+                                <button type="button" className="btn btn-success"> User Analysis</button>
+                            </NavLink>
+                            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                        </MDBCardBody>
+                    </MDBCard>
+
+                    {/*<MDBContainer className='d-flex justify-content-center align-items-center' style={{ height: '100%', width: '100%', paddingTop: '0rem' }}>*/}
+                    {/*    <MDBRow>*/}
+                    {/*        <MDBCol md='12' className='mb-4  text-center'>*/}
+                    {/*            <h1 className='display-5 mb-0 pt-md-5 pt-5  font-weight-bold' >*/}
+                    {/*                USER &nbsp;*/}
+                    {/*                <span className='font-weight-bold h1col'>ANALYSIS</span>*/}
+                    {/*            </h1>*/}
+                    {/*        </MDBCol>*/}
+                    {/*    </MDBRow>*/}
+                    {/*</MDBContainer>*/}
+                    {/*<br></br><br></br>*/}
                     <div className=" container-fluid itemColorMain">
                         <MDBRow>
                             <MDBCol size="5">
@@ -120,7 +134,7 @@ export default class Test extends Component {
                             <MDBCol size="7"  >
                                 <MDBCard >
                                     <MDBCardBody className="feedbackdiv2 feedbackcard">
-                                        <MDBTable scrollY  maxHeight="500px">
+                                        <MDBTable scrollY  maxHeight="420px">
                                             {/*-------------------------------------------------------------*/}
                                             <MDBCard >
                                                 <MDBCardBody>
@@ -232,7 +246,7 @@ export default class Test extends Component {
                             </MDBCol>
                         </MDBRow>
                     </div>
-                </MDBView>
+                {/*</MDBView>*/}
             </div>
         );
     }
