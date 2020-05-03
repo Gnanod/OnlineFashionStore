@@ -12,6 +12,7 @@ import {
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Auxi from "../Hoc/Auxi";
 import Home from "../Views/Home/Home";
+import Cart from "../Views/Home/Cart";
 import {TestComponent} from "../Views/Home/TestComponent";
 import {HomePageImage} from "../Views/Home/HomePageImage";
 import {ItemDetail} from "../Views/Item/ItemDetail";
@@ -130,6 +131,7 @@ export default class Navigationbar extends Component {
                             {/*<Route exact path="/item" component={ItemDetail}/>*/}
                             <Route exact path="/item/:id/:colorId" component={ItemDetail}/>
                             <Route exact path="/itemsaccordingtocategory/:id" component={Itemsaccordingtocategory}/>
+                            <Route exact path="/Cart" component={Cart}/>
                         </Switch>
 
                     <MDBContainer>
