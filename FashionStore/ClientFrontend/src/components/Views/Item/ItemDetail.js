@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle} from "mdbreact";
+import {MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBNavLink} from "mdbreact";
 import './Item.css'
 import axios from "axios";
 import constants from "../../Constants/constants";
@@ -22,14 +22,20 @@ export class ItemDetail extends Component {
             itemColorCode: '',
             Url: ' ',
             itemSizesAll: [],
+            items:'',
             itemPrice: '',
+            selected:'',
+            price:'',
             loaderStatus: true
+
         }
+
         this.getNewItemColorDetails = this.getNewItemColorDetails.bind(this);
         this.changePhotoUrl = this.changePhotoUrl.bind(this);
         this.getPhotoAccordingToColor = this.getPhotoAccordingToColor.bind(this);
         this.getSizesAccordingToTheColor = this.getSizesAccordingToTheColor.bind(this);
         this.onChangeItemSize = this.onChangeItemSize.bind(this);
+        this.printSelected=this.printSelected.bind(this);
         this.getNewItemColorDetails();
         this.getPhotoAccordingToColor();
         //  this.getSizesAccordingToTheColor();
@@ -106,10 +112,16 @@ export class ItemDetail extends Component {
         if(value !==null){
             let price = value.itemSizes.price;
             this.setState({
-                price: price
+                price: price,
+                selected:value
+
             })
+
         }
 
+    }
+    printSelected(){
+        console.log(this.state.selected);
     }
 
     getNewItemColorDetails() {
@@ -224,7 +236,12 @@ export class ItemDetail extends Component {
                                                             <h2 className="textAligns">LKR :{this.state.price}</h2>
                                                             <h2 className="textAligns">Qty</h2>
 
-                                                            <h2>Add To Cart</h2>
+                                                            <div className="col-sm-6 btnSize">
+                                                                <MDBNavLink to={"/Cart/"+this.state.selected}>
+                                                                    <MDBBtn className="btnSize1" >Add to Cart</MDBBtn>
+                                                                </MDBNavLink>
+
+                                                            </div>
                                                             <h2>Add To wishlist</h2>
                                                         </div>
                                                     </div>

@@ -40,6 +40,7 @@ export default class Home extends Component {
     getAllNewItems() {
         axios.get(constants.backend_url + 'api/category/getAllCategories').then(response => {
             this.setState({categories: response.data});
+            console.log(this.state.categories)
            this.getAllItemDetails();
         }).catch(function (error) {
             console.log(error);
@@ -164,6 +165,7 @@ export default class Home extends Component {
                                                                     </MDBNavLink>
 
                                                                 </div>
+
                                                             </div>
 
                                                         </MDBCardBody>
