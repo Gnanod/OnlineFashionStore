@@ -84,40 +84,40 @@ export default class Navigationbar extends Component {
             <div>
                 <header>
 
-                        <MDBNavbar  color="black" fixed="top" dark expand="md"
-                                   >
-                            <MDBNavbarBrand href="/">
-                                <strong>GSTD Stores</strong>
-                            </MDBNavbarBrand>
-                            {!this.state.isWideEnough && <MDBNavbarToggler onClick={this.onClick}/>}
-                            <MDBCollapse isOpen={this.state.collapse} navbar>
-                                <MDBNavbarNav left>
-                                    <MDBNavItem active>
-                                        <MDBNavLink to="/">Home</MDBNavLink>
-                                    </MDBNavItem>
-                                    <MDBNavItem>
-                                        <MDBNavLink to="/test">Link</MDBNavLink>
-                                    </MDBNavItem>
-                                    <MDBNavItem>
-                                        <MDBNavLink to="/item">Profile</MDBNavLink>
-                                    </MDBNavItem>
+                    <MDBNavbar  color="black" fixed="top" dark expand="md"
+                    >
+                        <MDBNavbarBrand href="/">
+                            <strong>GSTD Stores</strong>
+                        </MDBNavbarBrand>
+                        {!this.state.isWideEnough && <MDBNavbarToggler onClick={this.onClick}/>}
+                        <MDBCollapse isOpen={this.state.collapse} navbar>
+                            <MDBNavbarNav left>
+                                <MDBNavItem active>
+                                    <MDBNavLink to="/">Home</MDBNavLink>
+                                </MDBNavItem>
+                                <MDBNavItem>
+                                    <MDBNavLink to="/test">Link</MDBNavLink>
+                                </MDBNavItem>
+                                <MDBNavItem>
+                                    <MDBNavLink to="/item">Profile</MDBNavLink>
+                                </MDBNavItem>
 
-                                    <MDBNavItem>
-                                        <MDBNavLink to="/cart" className="ml-auto">
-                                            <ButtonContainer>
-                                                <i className="fas fa-cart-plus"></i>
-                                                Cart
-                                            </ButtonContainer>
-                                        </MDBNavLink>
-                                    </MDBNavItem>
-                                </MDBNavbarNav>
-                                <MDBNavbarNav right>
-                                    <MDBNavItem>
-                                        <MDBBtn color="dark" onClick={this.toggle}> <i className="fas fa-user"></i>&nbsp;&nbsp;&nbsp;Login</MDBBtn>
-                                    </MDBNavItem>
-                                </MDBNavbarNav>
-                            </MDBCollapse>
-                        </MDBNavbar>
+                                <MDBNavItem>
+                                    <MDBNavLink to="/cart" className="ml-auto">
+                                        <ButtonContainer>
+                                            <i className="fas fa-cart-plus"></i>
+                                            Cart
+                                        </ButtonContainer>
+                                    </MDBNavLink>
+                                </MDBNavItem>
+                            </MDBNavbarNav>
+                            <MDBNavbarNav right>
+                                <MDBNavItem>
+                                    <MDBBtn color="dark" onClick={this.toggle}> <i className="fas fa-user"></i>&nbsp;&nbsp;&nbsp;Login</MDBBtn>
+                                </MDBNavItem>
+                            </MDBNavbarNav>
+                        </MDBCollapse>
+                    </MDBNavbar>
 
                     <Route exact path="/" component={HomePageImage}/>
 
@@ -125,35 +125,35 @@ export default class Navigationbar extends Component {
 
                 <main className="container-fluid">
 
-                        <Switch>
-                            <Route exact path="/" component={Home}/>
-                            <Route exact path="/test" component={TestComponent}/>
-                            {/*<Route exact path="/item" component={ItemDetail}/>*/}
-                            <Route exact path="/item/:id/:colorId" component={ItemDetail}/>
-                            <Route exact path="/itemsaccordingtocategory/:id" component={Itemsaccordingtocategory}/>
-                            <Route exact path="/Cart/:id" component={Cart}/>
-                        </Switch>
+                    <Switch>
+                        <Route exact path="/" component={Home}/>
+                        <Route exact path="/test" component={TestComponent}/>
+                        {/*<Route exact path="/item" component={ItemDetail}/>*/}
+                        <Route exact path="/item/:id/:colorId" component={ItemDetail}/>
+                        <Route exact path="/itemsaccordingtocategory/:id" component={Itemsaccordingtocategory}/>
+                        <Route exact path="/Cart/:id" component={Cart}/>
+                    </Switch>
 
                     <MDBContainer>
                         <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
                             <MDBModalHeader toggle={this.toggle} ></MDBModalHeader>
                             <MDBModalBody>
-                                            <MDBCard>
-                                                <MDBCardBody className="mx-4">
-                                                    <div className="text-center">
-                                                        <h2 className="loginh3 mb-5">
-                                                            <strong className="loginh3 ">LOGIN</strong>
-                                                        </h2>
-                                                    </div>
-                                                    <MDBInput label="Your email" group type="email" validate error="wrong" success="right"/>
-                                                    <MDBInput label="Your password" group type="password" validate containerClass="mb-0"/>
-                                                    <div className="text-center mb-3">
-                                                        <MDBBtn type="button" gradient="blue" rounded className="btn-block z-depth-1a">
-                                                            LOGIN
-                                                        </MDBBtn>
-                                                    </div>
-                                                </MDBCardBody>
-                                            </MDBCard>
+                                <MDBCard>
+                                    <MDBCardBody className="mx-4">
+                                        <div className="text-center">
+                                            <h2 className="loginh3 mb-5">
+                                                <strong className="loginh3 ">LOGIN</strong>
+                                            </h2>
+                                        </div>
+                                        <MDBInput label="Your email" group type="email" validate error="wrong" success="right"/>
+                                        <MDBInput label="Your password" group type="password" validate containerClass="mb-0"/>
+                                        <div className="text-center mb-3">
+                                            <MDBBtn type="button" gradient="blue" rounded className="btn-block z-depth-1a">
+                                                LOGIN
+                                            </MDBBtn>
+                                        </div>
+                                    </MDBCardBody>
+                                </MDBCard>
                                 <MDBModalFooter className="mx-5 pt-3 mb-1">
                                     <p className="font-small grey-text d-flex justify-content-end">
                                         Not a member?
@@ -182,35 +182,35 @@ export default class Navigationbar extends Component {
                                         <form className="needs-validation" onSubmit={this.submitHandler} noValidate>
                                             <MDBRow>
                                                 {/*<MDBCol  md="12" className="mb-3">*/}
-                                                    <label htmlFor="defaultFormRegisterNameEx" className="grey-text">First name</label>
-                                                    <input value={this.state.fname} name="fname" onChange={this.changeHandler} type="text" id="defaultFormRegisterNameEx" className="form-control" placeholder="First name" required/>
+                                                <label htmlFor="defaultFormRegisterNameEx" className="grey-text">First name</label>
+                                                <input value={this.state.fname} name="fname" onChange={this.changeHandler} type="text" id="defaultFormRegisterNameEx" className="form-control" placeholder="First name" required/>
                                                 <div className="invalid-feedback">Please provide the first name.</div>
 
                                                 {/*</MDBCol>*/}
                                                 {/*<MDBCol  md="12" className="mb-3">*/}
-                                                    <label htmlFor="defaultFormRegisterEmailEx2" className="grey-text">Last name</label>
-                                                    <input value={this.state.lname} name="lname" onChange={this.changeHandler} type="text" id="defaultFormRegisterEmailEx2" className="form-control" placeholder="Last name" required/>
+                                                <label htmlFor="defaultFormRegisterEmailEx2" className="grey-text">Last name</label>
+                                                <input value={this.state.lname} name="lname" onChange={this.changeHandler} type="text" id="defaultFormRegisterEmailEx2" className="form-control" placeholder="Last name" required/>
                                                 <div className="invalid-feedback">Please provide the last name.</div>
 
                                                 {/*</MDBCol>*/}
                                                 {/*<MDBCol md="4" className="mb-3">*/}
-                                                    <label htmlFor="defaultFormRegisterConfirmEx3" className="grey-text">Email</label>
-                                                    <input value={this.state.email} onChange={this.changeHandler} type="email" id="defaultFormRegisterConfirmEx3" className="form-control" name="email" placeholder="Your Email address"/>
+                                                <label htmlFor="defaultFormRegisterConfirmEx3" className="grey-text">Email</label>
+                                                <input value={this.state.email} onChange={this.changeHandler} type="email" id="defaultFormRegisterConfirmEx3" className="form-control" name="email" placeholder="Your Email address"/>
                                                 <div className="invalid-feedback">Please provide an email.</div>
 
                                                 {/*</MDBCol>*/}
                                             </MDBRow>
                                             <MDBRow>
                                                 {/*<MDBCol md="6" className="mb-0">*/}
-                                                    <label htmlFor="defaultFormRegisterPasswordEx4" className="grey-text">Date of Birth</label>
-                                                    <input onChange={this.changeHandler} type="date" id="defaultFormRegisterPasswordEx4" className="form-control" name="DOB" placeholder="Date of Birth" required/>
-                                                    <div className="invalid-feedback">Please provide DOB</div>
+                                                <label htmlFor="defaultFormRegisterPasswordEx4" className="grey-text">Date of Birth</label>
+                                                <input onChange={this.changeHandler} type="date" id="defaultFormRegisterPasswordEx4" className="form-control" name="DOB" placeholder="Date of Birth" required/>
+                                                <div className="invalid-feedback">Please provide DOB</div>
 
                                                 {/*</MDBCol>*/}
                                                 {/*<MDBCol md="6" className="mb-0">*/}
-                                                    <label htmlFor="defaultFormRegisterPasswordEx4" className="grey-text">State</label>
-                                                    <input value={this.state.gender} onChange={this.changeHandler} type="text" id="defaultFormRegisterPasswordEx4" className="form-control" name="gender" placeholder="Gender" required/>
-                                                    <div className="invalid-feedback">Please provide your gender.</div>
+                                                <label htmlFor="defaultFormRegisterPasswordEx4" className="grey-text">State</label>
+                                                <input value={this.state.gender} onChange={this.changeHandler} type="text" id="defaultFormRegisterPasswordEx4" className="form-control" name="gender" placeholder="Gender" required/>
+                                                <div className="invalid-feedback">Please provide your gender.</div>
 
                                                 {/*</MDBCol>*/}
                                             </MDBRow>

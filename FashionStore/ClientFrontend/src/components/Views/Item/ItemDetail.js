@@ -235,15 +235,20 @@ export class ItemDetail extends Component {
 
                                                             <h2 className="textAligns">LKR :{this.state.price}</h2>
                                                             <h2 className="textAligns">Qty</h2>
-
+                                                            <br/><br/>
                                                             <div className="col-sm-6 btnSize">
-                                                                <MDBNavLink to={"/Cart/"+this.state.selected}>
+                                                                <MDBNavLink to={"/Cart/"+JSON.stringify(this.state.selected)}>
                                                                     <MDBBtn className="btnSize1" >Add to Cart</MDBBtn>
+                                                                </MDBNavLink>
+                                                                <MDBNavLink to={"/Cart/"+JSON.stringify(this.state.selected)}>
+                                                                    <MDBBtn className="btnSize" >Add to Wishlist</MDBBtn>
                                                                 </MDBNavLink>
 
                                                             </div>
-                                                            <h2>Add To wishlist</h2>
+
+
                                                         </div>
+
                                                     </div>
 
 
