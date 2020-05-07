@@ -1,38 +1,46 @@
 import React, {Component} from 'react';
-
+import CartColumns from './CartColumns';
 class Cart extends Component {
     constructor(props) {
         super(props)
         this.state = {
             cartitem:'',
-            cartList:''
+            cartList:[]
         }
         this.printSelected=this.printSelected.bind(this);
-        this.addtoList=this.addtoList.bind(this);
+
     }
 
     componentDidMount() {
         this.setState({
-            cartitem: this.props.match.params.id
+            cartitem: this.props.match.params.id,
+
         });
-        this.addtoList();
+
     }
     printSelected(){
         console.log(this.state.cartitem);
         console.log(this.state.cartList);
     }
-    addtoList(){
-        this.setState({
-            cartList:this.state.cartitem
-        })
-    }
+
     render() {
         return (
             <div>
                 <br/><br/><br/><br/>
+                <div>
+                    <ul>
+                        {(this.state.list || []).map(item => (
+                            <li key={item}>{item}</li>
+                        ))}
+                    </ul>
+                </div>
+
                 <h1>Product cart</h1>
                 <p>${this.state.cartitem}</p>
+                <CartColumns></CartColumns>
                 <button onClick={this.printSelected}></button>
+
+
             </div>
         );
     }

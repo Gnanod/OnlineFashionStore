@@ -6,6 +6,9 @@ import constants from "../../Constants/constants";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Loader from "react-loader-spinner";
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
+
 
 export class ItemDetail extends Component {
 
@@ -35,7 +38,7 @@ export class ItemDetail extends Component {
         this.getPhotoAccordingToColor = this.getPhotoAccordingToColor.bind(this);
         this.getSizesAccordingToTheColor = this.getSizesAccordingToTheColor.bind(this);
         this.onChangeItemSize = this.onChangeItemSize.bind(this);
-        this.printSelected=this.printSelected.bind(this);
+        this.addToCart=this.addToCart.bind(this);
         this.getNewItemColorDetails();
         this.getPhotoAccordingToColor();
         //  this.getSizesAccordingToTheColor();
@@ -120,8 +123,41 @@ export class ItemDetail extends Component {
         }
 
     }
-    printSelected(){
+    addToCart(){
         console.log(this.state.selected);
+        let cartItem=this.state.selected;
+        const cartt = {
+            userId:'C001',
+            cartName:this.state.itemName,
+            cartPrice:cartItem.itemSizes.price,
+            quantity:cartItem.itemSizes.quantity,
+            //cartUrl:cartItem.itemSizes.image,
+            }
+        console.log(cartt);
+       axios.post(constants.backend_url + 'api/cart/add', cartt)
+            .then(res => {
+                    console.log("HI")
+                    console.log(cartt);
+                    if (res.data.cart === 'success') {
+                        Swal.fire(
+                            '',
+                            'Cart Added Fail',
+                            'error'
+                        );
+
+                    } else {
+                        Swal.fire(
+                            '',
+
+                        'Cart Details Added Successfully.',
+                            'success'
+                        )
+                    }
+                }
+            );
+
+        console.log(this.state.itemName);
+        console.log(cartt);
     }
 
     getNewItemColorDetails() {
@@ -237,9 +273,9 @@ export class ItemDetail extends Component {
                                                             <h2 className="textAligns">Qty</h2>
                                                             <br/><br/>
                                                             <div className="col-sm-6 btnSize">
-                                                                <MDBNavLink to={"/Cart/"+JSON.stringify(this.state.selected)}>
-                                                                    <MDBBtn className="btnSize1" >Add to Cart</MDBBtn>
-                                                                </MDBNavLink>
+                                                                <button className="btnSize1"
+                                                                        onClick={() => this.addToCart()}>Add to Cart
+                                                                </button>
                                                                 <MDBNavLink to={"/Cart/"+JSON.stringify(this.state.selected)}>
                                                                     <MDBBtn className="btnSize" >Add to Wishlist</MDBBtn>
                                                                 </MDBNavLink>
