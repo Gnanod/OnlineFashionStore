@@ -23,8 +23,8 @@ router.route('/getDetails/:id').get(function (req, res) {
     console.log("Cart called!")
     let id = req.params.id;
 
-    Cart.findOne({ userId: id }).populate("itemCode").exec().then(item => {
-        console.log("Succesfull!")
+    Cart.find({ userId: id }).exec().then(item => {
+        console.log(item)
         res.status(200).json(item)
     })
         .catch(err => {

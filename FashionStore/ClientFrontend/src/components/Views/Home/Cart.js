@@ -1,7 +1,11 @@
+
 import React, {Component} from 'react';
 import CartColumns from './CartColumns';
 import axios from "axios";
 import constants from "../../Constants/constants";
+import Loader from "react-loader-spinner";
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 class Cart extends Component {
     constructor(props) {
         super(props)
@@ -32,15 +36,8 @@ class Cart extends Component {
     getDetails() {
         console.log("Cart!")
         axios.get(constants.backend_url + 'api/cart/getDetails/'+ this.state.userId).then(response => {
-            response.data.product.map(item => {
-                const newItem = {
-                    itemSizes: item
-                }
-                const array = [newItem, ...this.state.cartList]
-                this.setState({
-                    cartList: array
-                })
-            })
+            console.log("map")
+            this.setState({cartList: response.data});
         }).catch(function (error) {
             console.log(error);
         })
@@ -52,7 +49,7 @@ class Cart extends Component {
                 <br/><br/><br/><br/>
          <h1>Hi Cart</h1>
 
-
+            <button onClick={this.printSelected}></button>
             </div>
         );
     }
