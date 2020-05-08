@@ -19,4 +19,18 @@ router.route('/add').post(function (req,res) {
     });
 });
 
+router.route('/getDetails/:id').get(function (req, res) {
+    console.log("Cart called!")
+    let id = req.params.id;
+
+    Cart.findOne({ userId: id }).populate("itemCode").exec().then(item => {
+        console.log("Succesfull!")
+        res.status(200).json(item)
+    })
+        .catch(err => {
+            console.log("Fail")
+            res.status(500).json(err);
+        });
+});
+
 module.exports = router;
