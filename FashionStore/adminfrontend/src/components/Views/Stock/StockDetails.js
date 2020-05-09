@@ -10,7 +10,7 @@ import {
     MDBCardTitle,
     MDBCol,
     MDBInput,
-    MDBRow
+    MDBRow, MDBTable, MDBTableHead
 } from "mdbreact";
 
 import 'sweetalert2/src/sweetalert2.scss'
@@ -19,6 +19,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import axios from "axios";
 import constants from "../../Constants/constants";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import BrandCategoryTableBody from "../Item/BrandCategoryTableBody";
 
 
 export default class StockDetails extends Component{
@@ -55,6 +56,7 @@ export default class StockDetails extends Component{
         this.onChangeDiscount = this.onChangeDiscount.bind(this);
         this.onChangeTotalPrice = this.onChangeTotalPrice.bind(this);
         this.onSubmitPrices = this.onSubmitPrices.bind(this);
+        // this.AddStockPricesToTable = this.AddStockPricesToTable.bind(this);
         // this.getAllSuppliers = this.getAllSuppliers.bind(this);
         // this.getAllItemColourId = this.getAllItemColourId.bind(this);
         // this.onChangeGetCompanyName = this.onChangeGetCompanyName.bind(this);
@@ -218,6 +220,12 @@ export default class StockDetails extends Component{
         }
     }
 
+    // AddStockPricesToTable(e)
+    // {
+    //     e.preventDefault();
+    //
+    //     if(this.state)
+    // }
 
     render(){
         return(
@@ -358,6 +366,24 @@ export default class StockDetails extends Component{
                                     </form>
                                 </MDBCardBody>
                             </MDBCard>
+                            <br/>
+                            <br/>
+                            <MDBTable>
+                                <MDBTableHead color="primary-color" textWhite>
+                                    <tr>
+                                        <th>Buying Price</th>
+                                        <th>Selling Price</th>
+                                        <th>Quantity</th>
+                                        <th>Discount</th>
+                                        <th>Total Price</th>
+
+                                    </tr>
+                                </MDBTableHead>
+
+                            </MDBTable>
+                            <form >
+                                <MDBBtn type="submit">Save</MDBBtn>
+                            </form>
 
                         </MDBCol>
 
