@@ -7,6 +7,7 @@ let Cart = require('../../models/Cart.model');
 
 router.route('/add').post(function (req,res) {
     let cart = new Cart  (req.body);
+    
     console.log("hi");
     console.log(cart);
     cart.save()

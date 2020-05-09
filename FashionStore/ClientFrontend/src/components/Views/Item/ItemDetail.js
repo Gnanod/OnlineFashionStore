@@ -6,8 +6,9 @@ import constants from "../../Constants/constants";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Loader from "react-loader-spinner";
-import Swal from 'sweetalert2/dist/sweetalert2.js'
-import 'sweetalert2/src/sweetalert2.scss'
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+import 'sweetalert2/src/sweetalert2.scss';
+
 
 
 export class ItemDetail extends Component {
@@ -126,18 +127,18 @@ export class ItemDetail extends Component {
     addToCart(){
         console.log(this.state.selected);
         let cartItem=this.state.selected;
-        const cartt = {
+       const cartt = {
             userId:'C001',
             cartName:this.state.itemName,
             cartPrice:cartItem.itemSizes.price,
-            quantity:cartItem.itemSizes.quantity,
-            //cartUrl:cartItem.itemSizes.image,
-            }
-        console.log(cartt);
+            quantity:1,
+           itemTotal:cartItem.itemSizes.price
+       }
+
        axios.post(constants.backend_url + 'api/cart/add', cartt)
             .then(res => {
                     console.log("HI")
-                    console.log(cartt);
+
                     if (res.data.cart === 'success') {
                         Swal.fire(
                             '',
@@ -158,6 +159,7 @@ export class ItemDetail extends Component {
 
         console.log(this.state.itemName);
         console.log(cartt);
+
     }
 
     getNewItemColorDetails() {

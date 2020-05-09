@@ -17,6 +17,15 @@ let cart = new Schema({
     userId :{
         type :String,
         required: true
+    },
+    itemTotal:{
+        type: Number,
+        required: true
+    },
+    image :{
+        type :Buffer,
+        contentType: String
+
     }
 
 });
