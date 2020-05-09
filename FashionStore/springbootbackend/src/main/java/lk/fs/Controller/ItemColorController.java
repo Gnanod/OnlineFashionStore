@@ -28,19 +28,19 @@ public class ItemColorController {
     private ItemService itemService;
 
     @PostMapping(value = "addItemColor",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ItemColor addItemColorDetails(@RequestParam("file") MultipartFile file , @RequestParam("itemCode") List<ObjectId> itemCode, @RequestParam("itemSize") String itemSize, @RequestParam("itemColor") String itemColor) {
+    public ItemColor addItemColorDetails(@RequestParam("file") MultipartFile file , @RequestParam("itemCode") List<ObjectId> itemCode, @RequestParam("itemSize") String itemSize, @RequestParam("itemColor") String itemColor, @RequestParam("itemColorsId") String itemColorsId) {
 
 
         ItemColor itemColorDetails = new ItemColor();
         try {
             itemColorDetails.setImage(file.getBytes());
-            System.out.println(file.getBytes());
-            System.out.println(itemColorDetails.getImage());
             itemColorDetails.setItemCode(itemCode);
             itemColorDetails.setItemColor(itemColor);
             itemColorDetails.setItemSize(itemSize);
+            System.out.println("itemColorsId :"+itemColorsId);
+            itemColorDetails.setItemColorsId(itemColorsId);
 
-        } catch (IOException e) {
+        }catch (IOException e) {
             e.printStackTrace();
         }
         return itemColorService.addItemColorDetails(itemColorDetails);
@@ -60,3 +60,6 @@ public class ItemColorController {
         return itemColorService.getAll();
     }
 }
+
+
+

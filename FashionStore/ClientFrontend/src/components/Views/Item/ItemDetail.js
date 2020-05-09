@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
-import {MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle} from "mdbreact";
+import {MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBNavLink} from "mdbreact";
 import './Item.css'
 import axios from "axios";
 import constants from "../../Constants/constants";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Loader from "react-loader-spinner";
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+import 'sweetalert2/src/sweetalert2.scss';
+
+
 
 export class ItemDetail extends Component {
 
@@ -22,14 +26,21 @@ export class ItemDetail extends Component {
             itemColorCode: '',
             Url: ' ',
             itemSizesAll: [],
-            itemPrice:'',
-            loaderStatus : true
+            items:'',
+            itemPrice: '',
+            loaderStatus: true,
+            price :'',
+            selected:'',
+
+
         }
+
         this.getNewItemColorDetails = this.getNewItemColorDetails.bind(this);
         this.changePhotoUrl = this.changePhotoUrl.bind(this);
         this.getPhotoAccordingToColor = this.getPhotoAccordingToColor.bind(this);
         this.getSizesAccordingToTheColor = this.getSizesAccordingToTheColor.bind(this);
         this.onChangeItemSize = this.onChangeItemSize.bind(this);
+        this.addToCart=this.addToCart.bind(this);
         this.getNewItemColorDetails();
         this.getPhotoAccordingToColor();
         //  this.getSizesAccordingToTheColor();
@@ -61,18 +72,24 @@ export class ItemDetail extends Component {
 
     getSizesAccordingToTheColor(color, itemCode) {
         let colId = color.substr(1);
+        this.setState({
+            itemSizesAll:[]
+        })
         axios.get(constants.backend_url + 'api/itemcolor/getAllItemColors').then(response => {
             response.data.map(item => {
-                if (item.itemCode[0].itemCode === itemCode && item.itemColor===color) {
-                    const newSizes = {
-                        itemSizes: item
+                if (item.itemCode[0].itemCode === itemCode && item.itemColor === color) {
+                    if (this.state.itemSizesAll.length === 0) {
+                        const newSizes = {
+                            itemSizes: item
+                        }
+                        const array = [newSizes, ...this.state.itemSizesAll]
+                        this.setState({
+                            itemSizesAll: array,
+                            autocompleteStatus: true,
+                            loaderStatus: false
+                        })
                     }
-                    const array = [newSizes,...this.state.itemSizesAll]
-                    this.setState({
-                        itemSizesAll: array,
-                        autocompleteStatus: true,
-                        loaderStatus :false
-                    })
+
                 }
             })
         }).catch(function (error) {
@@ -97,10 +114,53 @@ export class ItemDetail extends Component {
     ///////////////////////////// Add This Object To Cart ///////////////////////
     onChangeItemSize(value) {
         console.log(value)
-        let price =  value.itemSizes.price;
-        this.setState({
-            price :price
-        })
+        if(value !==null){
+            let price = value.itemSizes.price;
+            this.setState({
+                price: price,
+                selected:value
+
+            })
+
+        }
+
+    }
+    addToCart(){
+        console.log(this.state.selected);
+        let cartItem=this.state.selected;
+       const cartt = {
+            userId:'C001',
+            cartName:this.state.itemName,
+            cartPrice:cartItem.itemSizes.price,
+            quantity:1,
+           itemTotal:cartItem.itemSizes.price
+       }
+
+       axios.post(constants.backend_url + 'api/cart/add', cartt)
+            .then(res => {
+                    console.log("HI")
+
+                    if (res.data.cart === 'success') {
+                        Swal.fire(
+                            '',
+                            'Cart Added Fail',
+                            'error'
+                        );
+
+                    } else {
+                        Swal.fire(
+                            '',
+
+                        'Cart Details Added Successfully.',
+                            'success'
+                        )
+                    }
+                }
+            );
+
+        console.log(this.state.itemName);
+        console.log(cartt);
+
     }
 
     getNewItemColorDetails() {
@@ -148,12 +208,12 @@ export class ItemDetail extends Component {
 
                                         {
                                             this.state.loaderStatus ?
-                                                <div  className="col-sm-12">
+                                                <div className="col-sm-12">
                                                     <div className="row">
                                                         <div className="col-sm-4">
 
                                                         </div>
-                                                        <div  className="col-sm-4">
+                                                        <div className="col-sm-4">
                                                             <Loader className="loaderClass"
 
                                                                     type="ThreeDots"
@@ -164,7 +224,7 @@ export class ItemDetail extends Component {
 
                                                             />
                                                         </div>
-                                                        <div  className="col-sm-4">
+                                                        <div className="col-sm-4">
 
                                                         </div>
                                                     </div>
@@ -178,7 +238,8 @@ export class ItemDetail extends Component {
                                                                           waves/>
                                                         </div>
                                                         <div className="col-sm-6">
-                                                            <MDBCardTitle className="itemNameText">{this.state.itemName}</MDBCardTitle>
+                                                            <MDBCardTitle
+                                                                className="itemNameText">{this.state.itemName}</MDBCardTitle>
                                                             {
                                                                 this.state.status ?
                                                                     this.state.itemColorObj.map(item => {
@@ -213,16 +274,25 @@ export class ItemDetail extends Component {
 
                                                             <h2 className="textAligns">LKR :{this.state.price}</h2>
                                                             <h2 className="textAligns">Qty</h2>
+                                                            <br/><br/>
+                                                            <div className="col-sm-6 btnSize">
+                                                                <button className="btnSize1"
+                                                                        onClick={() => this.addToCart()}>Add to Cart
+                                                                </button>
+                                                                <MDBNavLink to={"/Cart/"+JSON.stringify(this.state.selected)}>
+                                                                    <MDBBtn className="btnSize" >Add to Wishlist</MDBBtn>
+                                                                </MDBNavLink>
 
-                                                            <h2>Add To Cart</h2>
-                                                            <h2>Add To wishlist</h2>
+                                                            </div>
+
+
                                                         </div>
+
                                                     </div>
 
 
                                                 </div>
                                         }
-
 
 
                                     </div>

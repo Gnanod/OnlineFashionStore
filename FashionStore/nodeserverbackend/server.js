@@ -1,3 +1,5 @@
+
+
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -36,6 +38,7 @@ const itemColor = require('./routes/Item/itemcolors.serve.routes');
 const supplier = require('./routes/Supplier/supplier.serve.routes');
 const stockDetails = require('./routes/Stock/stock.serve.routes');
 const stockPrice = require('./routes/Stock/stockprices.serve.routes');
+const cart = require('./routes/Cart/cart.serve.routes');
 
 //////creating url and adding router to the server.Every http end point extend this url
 
@@ -49,6 +52,6 @@ app.use('/api/itemcolor',itemColor);
 app.use('/api/supplier',supplier);
 app.use('/api/stockdetails',stockDetails);
 app.use('/api/stockprice',stockPrice);
-
+app.use('/api/cart',cart);
 
 

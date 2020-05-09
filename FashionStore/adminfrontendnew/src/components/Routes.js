@@ -17,6 +17,10 @@ class Routes extends React.Component {
         <Route path='/' exact component={DashboardPage} />
         <Route path='/dashboard' component={DashboardPage} />
         <Route path='/404' component={NotFoundPage} />
+        <Route exact path='/item' component={Item} />
+        <Route exact path='/item/brandcategory' component={BrandCategory} />
+        <Route exact path='/item/itemcolor' component={ItemColor} />
+        <Route exact path='/item/newarraivalitems' component={NewArrivals} />
         <Route path='/item' component={Item} />
         <Route path='/brandcategory' component={BrandCategory} />
         <Route path='/itemcolor' component={ItemColor} />

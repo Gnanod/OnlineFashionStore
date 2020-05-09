@@ -348,18 +348,18 @@ export default class BrandCategory extends Component {
             <div >
                 <MDBCard className="mb-5">
                     <MDBCardBody id="breadcrumb" className="d-flex align-items-center justify-content-between">
-                        <NavLink exact={true} to="/brandcategory" >
+                        <NavLink exact={true} to="/item/brandcategory" >
                             <button type="button" className="btn btn-primary"> Brand & Category</button>
                         </NavLink>
                         <NavLink exact={true} to="/item">
                             <button type="button" className="btn btn-success">New Item</button>
                         </NavLink>
 
-                        <NavLink exact={true} to="/itemcolor" >
+                        <NavLink exact={true} to="/item/itemcolor" >
                             <button type="button" className="btn btn-success"> ItemColor</button>
                         </NavLink>
 
-                        <NavLink exact={true} to="/newarraivalitems" >
+                        <NavLink exact={true} to="/item/newarraivalitems" >
                             <button type="button" className="btn btn-success"> New Arrivals</button>
 
                         </NavLink>

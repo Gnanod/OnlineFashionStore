@@ -7,6 +7,9 @@ let itemcolors = new Schema({
         ref : "Item",
         required : true
     }],
+    itemColorId :{
+        type :String
+    },
     itemSize :{
         type :String
     },

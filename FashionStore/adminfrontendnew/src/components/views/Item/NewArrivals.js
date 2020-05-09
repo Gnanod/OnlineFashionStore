@@ -27,6 +27,8 @@ export class NewArrivals extends Component {
         this.getAllItemCodes = this.getAllItemCodes.bind(this);
         this.saveDetails = this.saveDetails.bind(this);
         this.deletenewArrailavls = this.deletenewArrailavls.bind(this);
+        this.getAllNewArrailItems = this.getAllNewArrailItems.bind(this);
+        this.deletenewArrailavlItem = this.deletenewArrailavlItem.bind(this);
 
         this.state = {
             itemCodes: [],
@@ -35,12 +37,15 @@ export class NewArrivals extends Component {
             newArraivalItemArray: [],
             newItemCodeArray: [],
             noItem :true,
-            newArraivalId : uuid()
+            newArraivalId : uuid(),
+            newArraivalItems :[],
+            newArrailvaItemStatus :true
         }
     }
 
     componentDidMount() {
         this.getAllItemCodes();
+        this.getAllNewArrailItems();
     }
 
     getAllItemCodes() {
@@ -52,7 +57,30 @@ export class NewArrivals extends Component {
 
     }
 
-    sweetalertfunction() {
+
+    deletenewArrailavlItem(_id) {
+        console.log(_id)
+        this.sweetalertfunction(_id);
+    }
+
+    delete(_id){
+
+    }
+    getAllNewArrailItems() {
+        console.log('KKKKK')
+        axios.get(constants.backend_url + 'api/itemcolor/getAllNewArraivalItems').then(response => {
+            console.log(response.data)
+            this.setState({
+                newArraivalItems: response.data,
+                newArrailvaItemStatus :false
+            });
+        }).catch(function (error) {
+            console.log(error);
+        })
+
+    }
+
+    sweetalertfunction(_id) {
         console.log("button clicks");
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -72,11 +100,26 @@ export class NewArrivals extends Component {
             reverseButtons: true
         }).then((result) => {
             if (result.value) {
-                swalWithBootstrapButtons.fire(
-                    'Deleted!',
-                    'Customer deleted.',
-                    'success'
-                )
+                axios.delete(constants.backend_url + 'api/itemcolor/deleteNewArraivalItems/'+_id)
+                    .then(response=>{
+                        if (response.data.delete === 'success') {
+                            swalWithBootstrapButtons.fire(
+                                'Deleted!',
+                                'NewArrival Item is deleted.',
+                                'success'
+                            )
+                            this.getAllNewArrailItems();
+                        }else{
+                            swalWithBootstrapButtons.fire(
+                                'Cancelled',
+                                'NewArrival details not deleted',
+                                'error'
+                            )
+                        }
+
+                    })
+                    .catch(err => console.log(err))
+
             } else if (
                 /* Read more about handling dismissals below */
                 result.dismiss === Swal.DismissReason.cancel
@@ -182,18 +225,18 @@ export class NewArrivals extends Component {
 
                 <MDBCard className="mb-5">
                     <MDBCardBody id="breadcrumb" className="d-flex align-items-center justify-content-between">
-                        <NavLink exact={true} to="/newarraivalitems" >
+                        <NavLink exact={true} to="/item/newarraivalitems" >
                             <button type="button" className="btn btn-primary"> New Arrivals</button>
 
                         </NavLink>
-                        <NavLink exact={true} to="/itemcolor" >
+                        <NavLink exact={true} to="/item/itemcolor" >
                             <button type="button" className="btn btn-success"> ItemColor</button>
                         </NavLink>
 
                         <NavLink exact={true} to="/item" activeClassName="activeClass">
                             <button type="button" className="btn btn-success">New Item</button>
                         </NavLink>
-                        <NavLink exact={true} to="/brandcategory" >
+                        <NavLink exact={true} to="/item/brandcategory" >
                             <button type="button" className="btn btn-success"> Brand & Category</button>
                         </NavLink>
                         <div></div>
@@ -318,7 +361,7 @@ export class NewArrivals extends Component {
                                             </MDBTableHead>
                                             <MDBTableBody>
                                                 {
-                                                    this.state.noItem ?
+                                                    this.state.newArrailvaItemStatus ?
                                                         <tr >
                                                             <td colSpan="2">
                                                                 <MDBAlert color="danger" >
@@ -328,13 +371,13 @@ export class NewArrivals extends Component {
                                                         </tr>
                                                         :
 
-                                                        this.state.newArraivalItemArray.map(newItem => {
+                                                        this.state.newArraivalItems.map(newItem => {
                                                             return (
-                                                                <tr key={newItem.newArraivalId}>
-                                                                    <td>{newItem.itemCode}</td>
-                                                                    <td>{newItem.itemName}</td>
+                                                                <tr key={newItem._id}>
+                                                                    <td>{newItem.itemCode[0].itemCode}</td>
+                                                                    <td>{newItem.itemCode[0].itemName}</td>
                                                                     <MDBBtn tag="a" size="sm" color="danger"
-                                                                            onClick={()=>this.deletenewArrailavls(newItem.newArraivalId)}>
+                                                                            onClick={()=>this.deletenewArrailavlItem(newItem._id)}>
                                                                         <MDBIcon size="lg" icon="times-circle"/>
                                                                     </MDBBtn>
 
@@ -362,4 +405,5 @@ export class NewArrivals extends Component {
             </div>
         );
     }
+
 }
