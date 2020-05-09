@@ -34,7 +34,30 @@ export default class Navigationbar extends Component {
             fname: "",
             lname: "",
             email: "",
-            gender: ""
+            gender: "",
+
+            // options: [
+            //     {
+            //         text: "Option 1",
+            //         value: "1"
+            //     },
+            //     {
+            //         text: "Option 2",
+            //         value: "2"
+            //     },
+            //     {
+            //         text: "Option 3",
+            //         value: "3"
+            //     },
+            //     {
+            //         text: "Option 4",
+            //         value: "4"
+            //     },
+            //     {
+            //         text: "Option 5",
+            //         value: "5"
+            //     }
+            // ]
         };
         this.onClick = this.onClick.bind(this);
     }
@@ -210,6 +233,18 @@ export default class Navigationbar extends Component {
                                                 {/*<MDBCol md="6" className="mb-0">*/}
                                                 <label htmlFor="defaultFormRegisterPasswordEx4" className="grey-text">State</label>
                                                 <input value={this.state.gender} onChange={this.changeHandler} type="text" id="defaultFormRegisterPasswordEx4" className="form-control" name="gender" placeholder="Gender" required/>
+                                                {/*<MDBSelect*/}
+                                                {/*    options={this.state.options}*/}
+                                                {/*    selected="Choose your option"*/}
+                                                {/*    color="primary"*/}
+                                                {/*    label="Example label"*/}
+                                                {/*/>*/}
+                                                <select id="cars"  onChange={this.changeHandler}>
+                                                    <option value="volvo">Volvo</option>
+                                                    <option value="saab">Saab</option>
+                                                    <option value="opel">Opel</option>
+                                                    <option value="audi">Audi</option>
+                                                </select>
                                                 <div className="invalid-feedback">Please provide your gender.</div>
 
                                                 {/*</MDBCol>*/}
