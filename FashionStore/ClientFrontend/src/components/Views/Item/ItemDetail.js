@@ -28,9 +28,10 @@ export class ItemDetail extends Component {
             itemSizesAll: [],
             items:'',
             itemPrice: '',
+            loaderStatus: true,
+            price :'',
             selected:'',
-            price:'',
-            loaderStatus: true
+
 
         }
 

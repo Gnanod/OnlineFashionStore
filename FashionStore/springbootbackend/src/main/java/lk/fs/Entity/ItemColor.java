@@ -13,10 +13,19 @@ public class ItemColor {
     private List<ObjectId> itemCode;
     private String itemSize;
     private String itemColor;
+    private String itemColorsId;
 //    private String image;
     private byte[] image;
     private double quantity;
     private double price;
+
+    public String getItemColorsId() {
+        return itemColorsId;
+    }
+
+    public void setItemColorsId(String itemColorsId) {
+        this.itemColorsId = itemColorsId;
+    }
 
     public double getQuantity() {
         return quantity;

@@ -55,7 +55,9 @@ export default class ItemColor extends Component {
             itemSizeNameObjectValidation: false,
             itemColorId: uuid(),
             noItem: true,
-            imageName: ' '
+            imageName: ' ',
+            brandName :'',
+            categoryName :''
         };
     }
 
@@ -151,29 +153,38 @@ export default class ItemColor extends Component {
             if (this.state.itemSizeNameObject !== ' ') {
                 if (this.state.image !== ' ') {
                     console.log("this.state.itemCodeObject._id :" + this.state.itemCodeObject._id)
-                    const newItemColor = {
-                        itemCode: this.state.itemCodeObject._id,
-                        itemSize: this.state.itemSizeNameObject,
-                        itemColorId: uuid(),
-                        imageUrl: this.state.imageUrl,
-                        colorCode: this.state.background,
-                        image: this.state.image
-                    }
+                    console.log( this.state.itemCodeObject.brandCategory[0]);
+                    axios.get(constants.backend_url + 'api/brandcategory/getBrandCategory/'+this.state.itemCodeObject.brandCategory[0]).then(response => {
 
-                    const array = [newItemColor, ...this.state.itemColorArray];
-                    this.setState({
-                        itemColorArray: array,
-                        noItem: false,
-                        itemColorId: uuid()
+                        console.log('kkkkkkkkkkkkkk');
+                      console.log(this.state.itemCodeObject.itemCode);
+                        console.log('kkkkkkkkkkkk');
+                        const newItemColor = {
+                            itemCode: this.state.itemCodeObject._id,
+                            itemSize: this.state.itemSizeNameObject,
+                            itemColorId: uuid(),
+                            imageUrl: this.state.imageUrl,
+                            colorCode: this.state.background,
+                            image: this.state.image,
+                            itemColorsId : this.state.itemCodeObject.itemCode+response.data.brandCode[0].brandName+ response.data.categoryCode[0].categoryName+this.state.background
+                        }
+
+                        const array = [newItemColor, ...this.state.itemColorArray];
+                        this.setState({
+                            itemColorArray: array,
+                            noItem: false,
+                            itemColorId: uuid()
+                        })
+
+                        this.setState({
+                            itemColorId: uuid(),
+                            imageURLValidation: false,
+                            imageUrl: ' ',
+                            imageName: ' '
+                        })
+                    }).catch(function (error) {
+                        console.log(error);
                     })
-
-                    this.setState({
-                        itemColorId: uuid(),
-                        imageURLValidation: false,
-                        imageUrl: ' ',
-                        imageName: ' '
-                    })
-
 
                 } else {
                     this.setState({
@@ -202,6 +213,7 @@ export default class ItemColor extends Component {
             formData.append('itemCode', item.itemCode);
             formData.append('itemSize', item.itemSize.sizeName);
             formData.append('itemColor', item.colorCode);
+            formData.append('itemColorsId',item.itemColorsId);
             console.log(formData)
             axios.post(constants.spring_backend_url + 'ColorsController/addItemColor', formData)
                 .then(res => {
