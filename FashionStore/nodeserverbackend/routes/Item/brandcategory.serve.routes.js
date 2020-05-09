@@ -41,4 +41,22 @@ router.get("/getBrandCategoryId/:brand_id/:category_id",function (req,res) {
 });
 
 
+router.get("/getBrandCategory/:id",function (req,res) {
+    const id = req.params.id;
+
+    BrandCategory.findOne({ _id: id}).populate('brandCode').populate('categoryCode')
+        .exec()
+        .then(brandCategory =>{
+            if( brandCategory ){
+                res.status(200).json(brandCategory);
+            }else{
+                res.status(404).json({"message": "not found"});
+            }
+        })
+        .catch(err=>{
+            res.status(500).json(err);
+        })
+});
+
+
 module.exports = router;

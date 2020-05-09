@@ -23,7 +23,8 @@ export class ItemDetail extends Component {
             Url: ' ',
             itemSizesAll: [],
             itemPrice: '',
-            loaderStatus: true
+            loaderStatus: true,
+            price :'',
         }
         this.getNewItemColorDetails = this.getNewItemColorDetails.bind(this);
         this.changePhotoUrl = this.changePhotoUrl.bind(this);
