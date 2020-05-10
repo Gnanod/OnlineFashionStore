@@ -20,6 +20,8 @@ import axios from "axios";
 import constants from "../../Constants/constants";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import BrandCategoryTableBody from "../Item/BrandCategoryTableBody";
+import uuid from "react-uuid";
+import StockPriceTableBody from "./StockPriceTableBody";
 
 
 export default class StockDetails extends Component{
@@ -42,7 +44,9 @@ export default class StockDetails extends Component{
             discount: 0,
             discountValidation: false,
             totalPrice: 0,
-            totalPriceValidation: false
+            totalPriceValidation: false,
+            stockPriceArray: [],
+            noItem: true,
             // suppliers: [],
             // selectedSupplierObject: ' ',
             // selectedSupplierObjectValidation: false
@@ -56,7 +60,9 @@ export default class StockDetails extends Component{
         this.onChangeDiscount = this.onChangeDiscount.bind(this);
         this.onChangeTotalPrice = this.onChangeTotalPrice.bind(this);
         this.onSubmitPrices = this.onSubmitPrices.bind(this);
-        // this.AddStockPricesToTable = this.AddStockPricesToTable.bind(this);
+        this.AddStockPricesToTable = this.AddStockPricesToTable.bind(this);
+        this.deleteStockPrice = this.deleteStockPrice.bind(this);
+        // this.stockPriceArray = this.stockPriceArray.bind(this);
         // this.getAllSuppliers = this.getAllSuppliers.bind(this);
         // this.getAllItemColourId = this.getAllItemColourId.bind(this);
         // this.onChangeGetCompanyName = this.onChangeGetCompanyName.bind(this);
@@ -220,12 +226,76 @@ export default class StockDetails extends Component{
         }
     }
 
-    // AddStockPricesToTable(e)
-    // {
-    //     e.preventDefault();
-    //
-    //     if(this.state)
-    // }
+    AddStockPricesToTable(e)
+    {
+        e.preventDefault();
+
+        if(this.state.buyingPrice != 0) {
+            if (this.state.sellingPrice != 0) {
+                if (this.state.quantity != 0) {
+                    if (this.state.discount != 0) {
+                        if (this.state.totalPrice != 0) {
+                            const newStockPrice = {
+                                buyingPrice: this.state.buyingPrice,
+                                sellingPrice: this.sellingPrice,
+                                quantity: this.state.quantity,
+                                discount: this.discount,
+                                totalPrice: this.state.totalPrice,
+                                stockPriceId: uuid()
+                            }
+                            const array = [newStockPrice, ...this.state.stockPriceArray];
+                            this.setState({
+                                stockPriceArray: array,
+                                noItem: false,
+                                stockPriceId: uuid()
+                            })
+                            // this.getAllBrands();
+                            // this.getAllCategories();
+                        }else {
+                            this.setState({
+                                totalPriceValidation: true
+                            })
+
+                        }
+                    }else {
+                        this.setState({
+                            discountValidation: true
+                        })
+
+                    }
+                }else {
+                    this.setState({
+                        quantityValidation: true
+                    })
+
+                }
+            }else {
+                this.setState({
+                    sellingPriceValidation: true
+                })
+
+            }
+        }else {
+            this.setState({
+                buyingPriceValidation: true
+            })
+
+        }
+    }
+
+    deleteStockPrice(id){
+        const nonDeletedItems = this.state.stockPriceArray.filter(stockP => stockP.stockPriceId !== id);
+        this.setState({
+                brandCategoryArray: nonDeletedItems,
+                stockPriceId: id
+            }
+        )
+        if (nonDeletedItems.length === 0) {
+            this.setState({
+                noItem: true
+            })
+        }
+    }
 
     render(){
         return(
@@ -312,7 +382,7 @@ export default class StockDetails extends Component{
                             <MDBCard>
                                 <MDBCardBody>
                                     <MDBCardTitle>Stock Prices</MDBCardTitle>
-                                    <form onSubmit={this.onSubmitPrices}>
+                                    <form onSubmit={this.AddStockPricesToTable}>
                                         <MDBInput label="Buying Price" size="sm"
                                                   value={this.state.buyingPrice}
                                                   onChange={this.onChangeBuyingPrice}
@@ -379,9 +449,14 @@ export default class StockDetails extends Component{
 
                                     </tr>
                                 </MDBTableHead>
+                                <StockPriceTableBody
+                                    stockPriceList={this.state.stockPriceArray}
+                                    noItem={this.state.noItem}
+                                    deleteStockPrice={this.deleteStockPrice}
 
+                                />
                             </MDBTable>
-                            <form >
+                            <form onSubmit={this.onSubmitPrices}>
                                 <MDBBtn type="submit">Save</MDBBtn>
                             </form>
 
