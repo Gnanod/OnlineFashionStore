@@ -13,6 +13,32 @@ router.route('/getAllItemColors').get(function (req, res) {
         });
 });
 
+router.route('/getAllNewArraivalItems').get(function (req, res) {
+    NewArraivalItem.find().populate("itemCode").exec().then(item => {
+
+        res.status(200).json(item)
+    })
+        .catch(err => {
+            res.status(500).json(err);
+        });
+});
+
+router.delete("/deleteNewArraivalItems/:id",function (req,res) {
+
+    const id = req.params.id;
+
+    NewArraivalItem.findByIdAndRemove({_id: id})
+        .exec()
+        .then(result=>{
+            res.status(200).json({'delete':'success'});
+
+        })
+        .catch(err=>{
+            res.status(500).json(err);
+        })
+});
+
+
 router.route('/getnewitemdetailswithcolors').get(function (req, res) {
     itemcolor.find().populate("itemCode").exec().then(item => {
         res.status(200).json(item)
