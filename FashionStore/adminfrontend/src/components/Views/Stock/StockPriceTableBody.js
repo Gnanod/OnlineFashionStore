@@ -14,7 +14,7 @@ export default class StockPriceTableBody extends Component {
                         <tr >
                             <td colSpan="2">
                                 <MDBAlert color="danger" >
-                                    No Items In List
+                                    No Stock Prices In List
                                 </MDBAlert>
                             </td>
                         </tr>
