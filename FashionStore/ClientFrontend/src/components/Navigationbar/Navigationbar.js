@@ -16,6 +16,7 @@ import Cart from "../Views/Home/Cart";
 import {TestComponent} from "../Views/Home/TestComponent";
 import {HomePageImage} from "../Views/Home/HomePageImage";
 import {ItemDetail} from "../Views/Item/ItemDetail";
+import Wishlist from "../Views/Wishlist/Wishlist";
 import './Navigationbar.css'
 import { MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter , MDBCol} from 'mdbreact';
 import {Itemsaccordingtocategory} from "../Views/Category/Itemsaccordingtocategory";
@@ -115,6 +116,14 @@ export default class Navigationbar extends Component {
                                 <MDBNavItem>
                                     <MDBBtn color="dark" onClick={this.toggle}> <i className="fas fa-user"></i>&nbsp;&nbsp;&nbsp;Login</MDBBtn>
                                 </MDBNavItem>
+                                <MDBNavItem>
+                                    <MDBNavLink to="/Wishlist" className="ml-auto">
+                                        <ButtonContainer>
+                                            <i className="fas fa-heart"></i>
+                                            WishList
+                                        </ButtonContainer>
+                                    </MDBNavLink>
+                                </MDBNavItem>
                             </MDBNavbarNav>
                         </MDBCollapse>
                     </MDBNavbar>
@@ -132,6 +141,7 @@ export default class Navigationbar extends Component {
                         <Route exact path="/item/:id/:colorId" component={ItemDetail}/>
                         <Route exact path="/itemsaccordingtocategory/:id" component={Itemsaccordingtocategory}/>
                         <Route exact path="/Cart" component={Cart}/>
+                        <Route exact path="/Wishlist" component={Wishlist}/>
                     </Switch>
 
                     <MDBContainer>

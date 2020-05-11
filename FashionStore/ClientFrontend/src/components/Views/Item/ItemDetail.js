@@ -6,8 +6,9 @@ import constants from "../../Constants/constants";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Loader from "react-loader-spinner";
-import Swal from 'sweetalert2/dist/sweetalert2.js'
-import 'sweetalert2/src/sweetalert2.scss'
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+import 'sweetalert2/src/sweetalert2.scss';
+
 
 
 export class ItemDetail extends Component {
@@ -43,6 +44,9 @@ export class ItemDetail extends Component {
         this.getNewItemColorDetails();
         this.getPhotoAccordingToColor();
         //  this.getSizesAccordingToTheColor();
+        this.decrementQuantity=this.decrementQuantity.bind(this);
+        this.addToWhishList=this.addToWhishList.bind(this);
+
     }
 
     componentDidMount() {
@@ -127,18 +131,19 @@ export class ItemDetail extends Component {
     addToCart(){
         console.log(this.state.selected);
         let cartItem=this.state.selected;
+        this.decrementQuantity(cartItem.itemSizes._id,cartItem.itemSizes.quantity);
         const cartt = {
             userId:'C001',
             cartName:this.state.itemName,
             cartPrice:cartItem.itemSizes.price,
-            quantity:cartItem.itemSizes.quantity,
-            //cartUrl:cartItem.itemSizes.image,
-            }
-        console.log(cartt);
-       axios.post(constants.backend_url + 'api/cart/add', cartt)
+            quantity:1,
+            itemTotal:cartItem.itemSizes.price
+        }
+
+        axios.post(constants.backend_url + 'api/cart/add', cartt)
             .then(res => {
                     console.log("HI")
-                    console.log(cartt);
+
                     if (res.data.cart === 'success') {
                         Swal.fire(
                             '',
@@ -150,7 +155,7 @@ export class ItemDetail extends Component {
                         Swal.fire(
                             '',
 
-                        'Cart Details Added Successfully.',
+                            'Cart Details Added Successfully.',
                             'success'
                         )
                     }
@@ -159,6 +164,7 @@ export class ItemDetail extends Component {
 
         console.log(this.state.itemName);
         console.log(cartt);
+
     }
 
     getNewItemColorDetails() {
@@ -184,6 +190,56 @@ export class ItemDetail extends Component {
         }).catch(function (error) {
             console.log(error);
         })
+    }
+    decrementQuantity(id,quantity){
+        console.log(id);
+        axios.get(constants.backend_url + 'api/cart/updateQuantity/'+id+'/'+(quantity-1))
+            .then(res => {
+
+                    if (res.data.cart === 'success') {
+                        console.log("sucess update")
+
+                    } else {
+                        console.log("failure update")
+                    }
+                }
+            );
+
+    }
+    addToWhishList(){
+        console.log(this.state.selected);
+        let cartItem=this.state.selected;
+
+        const wishlist = {
+            userId:'C001',
+            cartName:this.state.itemName,
+            cartPrice:cartItem.itemSizes.price,
+            //quantity:1,
+            itemId:cartItem.itemSizes._id
+        }
+        console.log(wishlist);
+        axios.post(constants.backend_url + 'api/wishlist/add', wishlist )
+            .then(res => {
+                    console.log("HI")
+
+                    if (res.data.wish === 'success') {
+                        Swal.fire(
+                            '',
+                            'Wishlist Added Fail',
+                            'error'
+                        );
+
+                    } else {
+                        Swal.fire(
+                            '',
+
+                            'Wishlist Details Added Successfully.',
+                            'success'
+                        )
+                    }
+                }
+            );
+
     }
 
     render() {
@@ -277,9 +333,9 @@ export class ItemDetail extends Component {
                                                                 <button className="btnSize1"
                                                                         onClick={() => this.addToCart()}>Add to Cart
                                                                 </button>
-                                                                <MDBNavLink to={"/Cart/"+JSON.stringify(this.state.selected)}>
-                                                                    <MDBBtn className="btnSize" >Add to Wishlist</MDBBtn>
-                                                                </MDBNavLink>
+                                                                <button className="btnSize1"
+                                                                        onClick={() => this.addToWhishList()}>Add to WishList
+                                                                </button>
 
                                                             </div>
 

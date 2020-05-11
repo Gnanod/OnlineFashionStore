@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-class CartColumns extends Component {
+class WishListColumns extends Component {
     render() {
         return (
             <div className="container-fluid text-center d-none d-lg-block">
@@ -19,7 +19,11 @@ class CartColumns extends Component {
 
                     </div>
                     <div className="col-10 mx-auto col-lg-2">
-                        <p className="text-uppercase">quantity</p>
+                        <p className="text-uppercase">Reviews</p>
+
+                    </div>
+                    <div className="col-10 mx-auto col-lg-2">
+                        <p className="text-uppercase">Add to Cart</p>
 
                     </div>
                     <div className="col-10 mx-auto col-lg-2">
@@ -27,16 +31,13 @@ class CartColumns extends Component {
 
                     </div>
 
-                    <div className="col-10 mx-auto col-lg-2">
-                        <p className="text-uppercase">Total</p>
 
-                    </div>
 
                 </div>
-                
+
             </div>
         );
     }
 }
 
-export default CartColumns;
+export default WishListColumns;

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema= mongoose.Schema;
 
-let cart = new Schema({
+let wishlist = new Schema({
     cartName :{
         type :String,
         required: true
@@ -10,25 +10,20 @@ let cart = new Schema({
         type :Number,
         required: true
     },
-    quantity:{
+    /*quantity:{
         type: Number,
         required: true
-    },
+    },*/
     userId :{
         type :String,
         required: true
     },
-    itemTotal:{
-        type: Number,
+    itemId:{
+        type: String,
         required: true
-    },
-    image :{
-        type :Buffer,
-        contentType: String
-
     }
 
 });
 
-module.exports = mongoose.model('Cart',cart);
+module.exports = mongoose.model('Wishlist',wishlist);
 

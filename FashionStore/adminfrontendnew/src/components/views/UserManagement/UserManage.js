@@ -73,8 +73,12 @@ export default class UserDetails extends Component {
                             <button type="button" className="btn btn-primary">User Details</button>
                         </NavLink>
                         <NavLink exact={true} to="useranalysis" >
-                            <button type="button" className="btn btn-success"> User Analysis</button>
+                            <button type="button" className="btn btn-success "> User Analysis</button>
                         </NavLink>
+                        {/*<MDBFormInline className="md-form m-0">*/}
+                        {/*    <input className="form-control form-control-sm" type="search" placeholder="Type your query" aria-label="Search"/>*/}
+                        {/*    <MDBBtn size="sm" color="primary" className="my-0" type="submit"><MDBIcon icon="search" /></MDBBtn>*/}
+                        {/*</MDBFormInline>*/}
                         <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                     </MDBCardBody>
                 </MDBCard>
@@ -93,10 +97,9 @@ export default class UserDetails extends Component {
                             {/*    </h1>*/}
                             {/*</MDBCol>*/}
                             <MDBCol md="6" className="searchC">
-                                <MDBFormInline className="md-form">
-                                    <MDBIcon icon="search" />
-                                    <input className="form-control form-control-sm ml-3 " type="text" placeholder="Search" aria-label="Search" />
-                                    <MDBBtn outline size="sm">Search</MDBBtn>
+                                <MDBFormInline className="md-form m-0">
+                                    <input className="form-control form-control-sm" type="search" placeholder="Search..." aria-label="Search"/>
+                                    <MDBBtn size="sm" color="primary" className="my-0" type="submit"><MDBIcon icon="search" /></MDBBtn>
                                 </MDBFormInline>
                             </MDBCol>
                             <div className=" container-fluid AddItemHeight">
