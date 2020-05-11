@@ -1409,6 +1409,19 @@ export default class Test extends Component {
                                             <br/>
                                             {/*-------------------------------------------------------------*/}
 
+                                            {/*-------------------------------------------------------------*/}
+                                            <MDBCard >
+                                                <MDBCardBody>
+                                                    <h5 className='pink-text'><MDBIcon icon='envelope'/> New Feedback</h5>
+                                                    <MDBCardTitle className='font-weight-bold'>Customer name</MDBCardTitle>
+                                                    <MDBCardText>This is a Feedback message from the customer - About his feedbacks and thoughts. suggestions,
+                                                        his/her issues and requests that the user admin should consider</MDBCardText>
+                                                    <MDBBtn color='unique' onClick={this.sweetalertfunction}>Delete</MDBBtn>
+                                                </MDBCardBody>
+                                            </MDBCard>
+                                            <br/>
+                                            {/*-------------------------------------------------------------*/}
+
 
 
                                             {/*-------------------------------------------------------------*/}
