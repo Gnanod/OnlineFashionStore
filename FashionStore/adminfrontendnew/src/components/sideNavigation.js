@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from "../assets/mdb-react.png";
+import logo from "../assets/Fashion_Log2.jpg";
 import { MDBListGroup, MDBListGroupItem, MDBIcon } from 'mdbreact';
 import { NavLink } from 'react-router-dom';
 
@@ -15,21 +15,40 @@ const TopNavigation = () => {
             <MDBListGroup className="list-group-flush">
                 <NavLink exact={true} to="/" activeClassName="activeClass">
                     <MDBListGroupItem>
-                        <MDBIcon icon="chart-pie" className="mr-3"/>
+                        <MDBIcon icon="chart-pie" className="mr-2"/>
                         Dashboard
                     </MDBListGroupItem>
                 </NavLink>
                 <NavLink to="/item" activeClassName="activeClass">
                     <MDBListGroupItem>
-                        <MDBIcon icon="table" className="mr-3"/>
-                        Item
+                        <MDBIcon icon="table" className="mr-2"/>
+                        Item Management
                     </MDBListGroupItem>
                 </NavLink>
 
                 <NavLink to={'/usermanage'} activeClassName="activeClass">
                     <MDBListGroupItem>
-                        <MDBIcon icon="user" className="mr-3"/>
+                        <MDBIcon icon="user" className="mr-2"/>
                         User Management
+                    </MDBListGroupItem>
+                </NavLink>
+
+                <NavLink to="/supplier" activeClassName="activeClass">
+                    <MDBListGroupItem>
+                        <MDBIcon icon="user" className="mr-2"/>
+                        Supplier Management
+                    </MDBListGroupItem>
+                </NavLink>
+                <NavLink to="/stock" activeClassName="activeClass">
+                    <MDBListGroupItem>
+                        <MDBIcon icon="table" className="mr-2"/>
+                        Stock Management
+                    </MDBListGroupItem>
+                </NavLink>
+                <NavLink to="/logout" activeClassName="activeClass">
+                    <MDBListGroupItem>
+                        <MDBIcon icon=" " className="mr-2"/>
+                        LogOut
                     </MDBListGroupItem>
                 </NavLink>
 

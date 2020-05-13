@@ -17,10 +17,8 @@ import axios from "axios";
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 import 'sweetalert2/src/sweetalert2.scss'
+import constants from "../../../constants/constants";
 
-import constants from '../../Constants/constants';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 
 export default class SupplierDetails extends Component{
 
@@ -56,7 +54,8 @@ export default class SupplierDetails extends Component{
             country: '',
             countryValidation: false,
             state: '',
-            stateValidation: false
+            stateValidation: false,
+            supplier: []
 
         }
 
@@ -79,15 +78,8 @@ export default class SupplierDetails extends Component{
         this.onChangeCountry = this.onChangeCountry.bind(this);
         this.onChangeState = this.onChangeState.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.getAllSupplier = this.getAllSupplier.bind(this);
 
-        // this.getAllSupplier = this.getAllSupplier.bind(this);
-        // this.getAllContactInfo = this.getAllContactInfo.bind(this);
-        // this.getAllAddressInfo = this.getAllAddressInfo.bind(this);
-        // this.onChangeGetBrandName = this.onChangeGetBrandName.bind(this);
-        // this.onChangeGetCategoryName = this.onChangeGetCategoryName.bind(this);
-        // this.addDetailsToTable = this.addDetailsToTable.bind(this);
-        // this.submitBrandsAndCategory = this.submitBrandsAndCategory.bind(this);
-        // this.deleteBrandCategory = this.deleteBrandCategory.bind(this);
 
 
     }
@@ -213,14 +205,14 @@ export default class SupplierDetails extends Component{
             });
         }
 
-    // getAllSupplier(){
-    //     axios.get(constants.backend_url + '/api/supplier/getAllSuppliers').then(response => {
-    //         this.setState({supplier: response.data});
-    //     }).catch(function (error) {
-    //         console.log(error);
-    //     })
-    //     console.log(this.state.supplier);
-    // }
+    getAllSupplier(){
+        axios.get(constants.backend_url + '/api/supplier/getAllSuppliers').then(response => {
+            this.setState({supplier: response.data});
+        }).catch(function (error) {
+            console.log(error);
+        })
+        console.log(this.state.supplier);
+    }
 
         onSubmit(e)
         {
@@ -228,11 +220,8 @@ export default class SupplierDetails extends Component{
 
             if(this.state.companyName !== ''){
                 if(this.state.companyWebsite !== ''){
-                    console.log("ulaaaalaaalaaaa1");
                     // if(this.state.description !== ''){
-                        console.log("ulaaaalaaalaaaa2");
                         if(this.state.firstName !== ''){
-                            console.log("ulaaaalaaalaaaa3");
                             if(this.state.lastName !== ''){
                                 if(this.state.companyNumber !== ''){
                                     if(this.state.mobileNumber !== ''){
@@ -243,7 +232,6 @@ export default class SupplierDetails extends Component{
                                                         if(this.state.city !== ''){
                                                             if(this.state.country !== ''){
                                                                 if(this.state.state !== ''){
-                                                                    console.log("aaaaaaaaaaaaaaaaaaaaaaaaa");
                                                                     const newSupplier = {
                                                                         companyName: this.state.companyName,
                                                                         companyWebsite: this.state.companyWebsite,
@@ -563,6 +551,52 @@ export default class SupplierDetails extends Component{
                                 </form>
                             </MDBCardBody>
                         </MDBCard>
+
+                <br/>
+                    <br/>
+
+                <MDBTable>
+                    <MDBTableHead color="primary-color" textWhite>
+                        <tr>
+                            <th>Company Name</th>
+                            <th>Website</th>
+                            <th>Description</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Company Number</th>
+                            <th>Mobile Number</th>
+                            <th>Email</th>
+                            <th>Fax</th>
+                            <th>Address1</th>
+                            <th>Address2</th>
+                            <th>City</th>
+                            <th>County</th>
+                            <th>State</th>
+
+                        </tr>
+                        {/*:*/}
+                        {/*option = {this.state.supplier}*/}
+                        {/*option.map(supp => {*/}
+                        {/*<tr key={supp.companyName}>*/}
+                        {/*<td>{supp.companyWebsite}</td>*/}
+                        {/*<td>{supp.description}</td>*/}
+                        {/*<td>{supp.firstName}</td>*/}
+                        {/*<td>{supp.last}</td>*/}
+                        {/*<td>{supp.companyNumber}</td>*/}
+                        {/*<td>*/}
+                        {/*<HighlightOffIcon onClick={()=>deleteStockPrice(stockP.stockPriceId)} className="deleteIconColor" fontSize="large" />*/}
+                        {/*</td>*/}
+                        {/*</tr>*/}
+
+                    {/*})*/}
+                    </MDBTableHead>
+                    {/*<BrandCategoryTableBody*/}
+                    {/*    brandCategoryListList={this.state.brandCategoryArray}*/}
+                    {/*    noItem={this.state.noItem}*/}
+                    {/*    deleteBrandCategory={this.deleteBrandCategory}*/}
+
+                    {/*/>*/}
+                </MDBTable>
 
 
             </div>

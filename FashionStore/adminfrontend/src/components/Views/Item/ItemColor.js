@@ -110,12 +110,13 @@ export default class ItemColor extends Component {
             imageValidation: false,
             imageName: ' '
         })
+        e.target.files.length
 
     }
 
     onchangeFile(e) {
-
-        if (URL.createObjectURL(e.target.files[0]) !== ' ') {
+// console.log("length"+e.target.files.length)
+        if (e.target.files.length ) {
             this.setState({
                 image: e.target.files[0],
                 imageUrl: URL.createObjectURL(e.target.files[0]),

@@ -5,25 +5,30 @@ import SideNavigation from './components/sideNavigation';
 import Footer from './components/Footer';
 import './index.css';
 import {BrowserRouter as Router} from "react-router-dom";
+import LoginRoutes from "./components/LoginRoutes";
 
 class App extends Component {
 
   render() {
-    return (
-        <Router>
-        <div className="flexible-content">
+      if(localStorage.getItem("userLogged")==="userLog") {
+          return (
+              <Router>
+                  <div className="flexible-content">
+                      <SideNavigation/>
+                      <main id="content" className="p-5">
+                          <Routes/>
+                      </main>
+                      <Footer/>
+                  </div>
+              </Router>
+          );
+      }else{
+          return(
 
-          <SideNavigation />
+              <LoginRoutes/>
 
-          <main id="content" className="p-5">
-            <Routes />
-          </main>
-
-          <Footer />
-
-        </div>
-        </Router>
-    );
+          );
+      }
   }
 }
 
