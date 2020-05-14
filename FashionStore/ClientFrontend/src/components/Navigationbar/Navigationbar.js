@@ -18,10 +18,11 @@ import {HomePageImage} from "../Views/Home/HomePageImage";
 import {ItemDetail} from "../Views/Item/ItemDetail";
 import Wishlist from "../Views/Wishlist/Wishlist";
 import './Navigationbar.css'
-import { MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter , MDBCol} from 'mdbreact';
+import { MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter , MDBCol, MDBAlert} from 'mdbreact';
 import {Itemsaccordingtocategory} from "../Views/Category/Itemsaccordingtocategory";
 
 import styled from "styled-components";
+import profile from "../Views/Profile/profile";
 
 export default class Navigationbar extends Component {
 
@@ -36,6 +37,8 @@ export default class Navigationbar extends Component {
             lname: "",
             email: "",
             gender: "",
+            password: "",
+            confirmpass: ""
 
             // options: [
             //     {
@@ -88,7 +91,9 @@ export default class Navigationbar extends Component {
             fname: "",
             lname: "",
             email: "",
-            gender: ""
+            gender: "",
+            password: "",
+            confirmpass: ""
 
         });
     }
@@ -122,9 +127,9 @@ export default class Navigationbar extends Component {
                                 {/*<MDBNavItem>*/}
                                     {/*<MDBNavLink to="/test">Link</MDBNavLink>*/}
                                 {/*</MDBNavItem>*/}
-                                {/*<MDBNavItem>*/}
-                                    {/*<MDBNavLink to="/item">Profile</MDBNavLink>*/}
-                                {/*</MDBNavItem>*/}
+                                <MDBNavItem>
+                                    <MDBNavLink to="/profile">Profile</MDBNavLink>
+                                </MDBNavItem>
 
                                 <MDBNavItem>
                                     <MDBNavLink to="/cart" className="ml-auto">
@@ -165,6 +170,7 @@ export default class Navigationbar extends Component {
                         <Route exact path="/itemsaccordingtocategory/:id" component={Itemsaccordingtocategory}/>
                         <Route exact path="/Cart" component={Cart}/>
                         <Route exact path="/Wishlist" component={Wishlist}/>
+                        <Route exact path="/profile" component={profile}/>
                     </Switch>
 
                     <MDBContainer>
@@ -240,8 +246,30 @@ export default class Navigationbar extends Component {
                                                 <div className="invalid-feedback">Please provide DOB</div>
 
                                                 {/*</MDBCol>*/}
+
                                                 {/*<MDBCol md="6" className="mb-0">*/}
-                                                <label htmlFor="defaultFormRegisterPasswordEx4" className="grey-text">State</label>
+                                                <label htmlFor="defaultFormRegisterPasswordEx4" className="grey-text">Password</label>
+                                                <input onChange={this.changeHandler} type="password" id="defaultFormRegisterPasswordEx4" className="form-control" name="password" placeholder="Password" required/>
+                                                <div className="invalid-feedback">Please provide the password</div>
+
+                                                {/*</MDBCol>*/}
+
+
+                                                {/*<MDBCol md="6" className="mb-0">*/}
+                                                <label htmlFor="defaultFormRegisterPasswordEx4" className="grey-text">Confirm Password</label>
+                                                <input onChange={this.changeHandler} type="password" id="defaultFormRegisterPasswordEx4" className="form-control" name="confirmpass" placeholder="Confirm Password" required/>
+                                                <div className="invalid-feedback">Please provide the confirm password</div>
+                                                {
+                                                    this.state.password != this.state.confirmpass ? <MDBAlert color="danger">
+                                                        password and confirm password does not match
+                                                    </MDBAlert> : ''
+                                                }
+
+
+                                                {/*</MDBCol>*/}
+
+                                                {/*<MDBCol md="6" className="mb-0">*/}
+                                                <label htmlFor="defaultFormRegisterPasswordEx4" className="grey-text">Gender</label>
                                                 <input value={this.state.gender} onChange={this.changeHandler} type="text" id="defaultFormRegisterPasswordEx4" className="form-control" name="gender" placeholder="Gender" required/>
                                                 {/*<MDBSelect*/}
                                                 {/*    options={this.state.options}*/}
@@ -256,7 +284,6 @@ export default class Navigationbar extends Component {
                                                     <option value="audi">Audi</option>
                                                 </select>
                                                 <div className="invalid-feedback">Please provide your gender.</div>
-
                                                 {/*</MDBCol>*/}
                                             </MDBRow>
                                             <br></br>
