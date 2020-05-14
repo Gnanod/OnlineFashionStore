@@ -107,4 +107,22 @@ router.route('/updateQuantity/:id/:quantity').get(function (req, res) {
         res.status(400).send('fail');
     });
 });
+router.route('/addPhoto/:id/:image').get(function (req, res) {
+
+    let id = req.params.id;
+
+
+    itemcolor.findOne({_id:id}).then(item => {
+
+        console.log(item.image)
+        Cart.update({itemId:id},{$set: {image:item.image}}).then(sup=>{
+            console.log("image successful");
+            res.status(200).json({'itemColor':'successful'});
+        }).catch(err=>{
+            console.log("itemColor fail");
+            res.status(400).send('fail');
+        });
+    });
+
+});
 module.exports = router;

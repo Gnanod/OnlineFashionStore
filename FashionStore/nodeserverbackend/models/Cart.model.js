@@ -26,6 +26,10 @@ let cart = new Schema({
         type :Buffer,
         contentType: String
 
+    },
+    itemId:{
+        type: String,
+        required: true
     }
 
 });

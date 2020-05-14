@@ -7,6 +7,7 @@ import Loader from "react-loader-spinner";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import './CartStyle.css';
 import 'sweetalert2/src/sweetalert2.scss';
+
 import {MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardText, MDBCardTitle, MDBNavLink} from "mdbreact";
 
 class Cart extends Component {
@@ -46,7 +47,7 @@ class Cart extends Component {
     getDetails() {
         console.log("Cart!")
         axios.get(constants.backend_url + 'api/cart/getDetails/'+ this.state.userId).then(response => {
-            console.log("map")
+            console.log(response.data)
             this.setState({cartList: response.data});
         }).catch(function (error) {
             console.log(error);
@@ -128,52 +129,66 @@ class Cart extends Component {
         <CartColumns></CartColumns>
         <div>
 
-        {this.state.cartList.map(item => (
-
+        {this.state.cartList.map(item => {
+            const base64String = btoa(new Uint8Array(item.image.data).reduce(function (data, byte) {
+                return data + String.fromCharCode(byte);
+            }, ''));
+            return(
                 <div className="row my-1 text-capitalize text-center">
-            <div className="col-10 mx-auto col-lg-2">
-            <span>{item.cartName}</span>
-            </div>
+                    <div className="col-10 mx-auto col-lg-2" >
+                        <MDBCard style={{height: "13rem"}}>
+                        <MDBCardImage className="img-fluid"
+                                      src={`data:image/jpeg;base64,${base64String}`}
+                                      waves/>
+                        </MDBCard>
 
-            <div className="col-10 mx-auto col-lg-2">
-            <span>{item.cartName}</span>
-            </div>
+                    </div>
 
-            <div className="col-10 mx-auto col-lg-2">
-            <span>Rs. {item.cartPrice}</span>
-        </div>
+                    <div className="col-10 mx-auto col-lg-2">
+                        <span>{item.cartName}</span>
+                    </div>
 
-        <div className="col-10 mx-auto col-lg-2 my-2 my-lg-0">
-            <div className="d-flex justify-content-center">
-            <div>
-            <button  className="btn1 mx-1" onClick={()=>this.increment(item._id,item.quantity)}>+</button>
-        </div>
-        <span className="btn11" >{item.quantity}</span>
-            <div className="d-flex justify-content-center">
-            <div>
-            <button  className="btn1 mx-1" onClick={()=>this.decrement(item._id,item.quantity)}>-</button>
-        </div>
-        </div>
-        </div>
-        </div>
-        <div className="col-10 mx-auto col-lg-2">
-            <div className="cart-icon" >
-            <i className="fa fa-trash" aria-hidden="true" onClick={()=>this.remove1(item._id)}></i>
-        </div>
+                    <div className="col-10 mx-auto col-lg-2">
+                        <span>Rs. {item.cartPrice}</span>
+                    </div>
 
-        </div>
+                    <div className="col-10 mx-auto col-lg-2 my-2 my-lg-0">
+                        <div className="d-flex justify-content-center">
+                            <div>
+                                <button className="btn1 mx-1" onClick={() => this.increment(item._id, item.quantity)}>+
+                                </button>
+                            </div>
+                            <span className="btn11">{item.quantity}</span>
+                            <div className="d-flex justify-content-center">
+                                <div>
+                                    <button className="btn1 mx-1"
+                                            onClick={() => this.decrement(item._id, item.quantity)}>-
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-10 mx-auto col-lg-2">
+                        <span>Rs. {item.cartPrice * (item.quantity)}</span>
+                    </div>
+                    <div className="col-10 mx-auto col-lg-2">
+                        <div className="cart-icon">
+                            <i className="fa fa-trash" aria-hidden="true" onClick={() => this.remove1(item._id)}></i>
+                        </div>
 
-        <div className="col-10 mx-auto col-lg-2">
-            <span>Rs. {item.cartPrice*(item.quantity)}</span>
-        </div>
-
-        </div>
+                    </div>
 
 
 
 
+                </div>
 
-    ))}
+            )
+
+
+
+
+        })}
 
 
     <br/>
