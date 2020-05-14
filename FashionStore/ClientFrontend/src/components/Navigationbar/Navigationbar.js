@@ -98,7 +98,7 @@ export default class Navigationbar extends Component {
         });
     }
 
-    submitHandler = event => {
+    submitUser = event => {
         event.preventDefault();
         event.target.className += " was-validated";
     };
@@ -218,7 +218,7 @@ export default class Navigationbar extends Component {
                                         {/*<MDBInput label="Your email" group type="email" validate error="wrong" success="right"/>*/}
                                         {/*<MDBInput label="Your password" group type="password" validate containerClass="mb-0"/>*/}
 
-                                        <form className="needs-validation" onSubmit={this.submitHandler} noValidate>
+                                        <form className="needs-validation" onSubmit={this.submitUser} noValidate>
                                             <MDBRow>
                                                 {/*<MDBCol  md="12" className="mb-3">*/}
                                                 <label htmlFor="defaultFormRegisterNameEx" className="grey-text">First name</label>
