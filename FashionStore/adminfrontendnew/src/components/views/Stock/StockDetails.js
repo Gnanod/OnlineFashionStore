@@ -22,6 +22,8 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 import uuid from "react-uuid";
 import StockPriceTableBody from "./StockPriceTableBody";
 import constants from "../../../constants/constants";
+import BrandCategoryTableBody from "../Item/BrandCategoryTableBody";
+import StocksTableBody from "./StyleSP/StocksTableBody";
 
 
 export default class StockDetails extends Component{
@@ -46,6 +48,7 @@ export default class StockDetails extends Component{
             totalPrice: 0,
             totalPriceValidation: false,
             stockPriceArray: [],
+            stocksArray:[],
             noItem: true,
             suppliers: [],
             ItemColourId: [],
@@ -64,6 +67,7 @@ export default class StockDetails extends Component{
         this.onChangeTotalPrice = this.onChangeTotalPrice.bind(this);
         this.onSubmitPrices = this.onSubmitPrices.bind(this);
         this.AddStockPricesToTable = this.AddStockPricesToTable.bind(this);
+        this.AddStocksToTable = this.AddStocksToTable.bind(this);
         this.deleteStockPrice = this.deleteStockPrice.bind(this);
         // this.stockPriceArray = this.stockPriceArray.bind(this);
         this.getAllSuppliers = this.getAllSuppliers.bind(this);
@@ -88,7 +92,7 @@ export default class StockDetails extends Component{
     }
 
     getAllSuppliers() {
-        axios.get(constants.backend_url + '/api/supplier/getAllSuppliers').then(response => {
+        axios.get(constants.backend_url + 'api/supplier/getAllSuppliers').then(response => {
             this.setState({suppliers: response.data});
         }).catch(function (error) {
             console.log(error);
@@ -97,7 +101,7 @@ export default class StockDetails extends Component{
     }
 
     getAllItemColourId() {
-        axios.get(constants.backend_url + '/api/itemcolor/getAllItemColors').then(response => {
+        axios.get(constants.backend_url + 'api/itemcolor/getAllItemColors').then(response => {
             this.setState({ItemColourId: response.data});
         }).catch(function (error) {
             console.log(error);
@@ -374,6 +378,71 @@ export default class StockDetails extends Component{
         }
     }
 
+    deleteStocks(id){
+        const nonDeletedItems = this.state.stocksArray.filter(stocks => stocks.stocksId !== id);
+        this.setState({
+            stocksArray: nonDeletedItems,
+            stocksId: id
+            }
+        )
+        if (nonDeletedItems.length === 0) {
+            this.setState({
+                noItem: true
+            })
+        }
+    }
+
+    AddStocksToTable(e)
+    {
+        e.preventDefault();
+
+        if(this.state.selectedSupplierObject != '') {
+            if (this.state.selectedItemColourIdObject != '') {
+                if (this.state.startDate != '') {
+                    if (this.state.endDate != '') {
+                        const newStocks = {
+                            selectedSupplierObject: this.state.selectedSupplierObject,
+                            selectedItemColourIdObject: this.selectedItemColourIdObject,
+                            startDate: this.state.startDate,
+                            endDate: this.endDate,
+                            stocksId: uuid()
+                        }
+                        const array = [newStocks, ...this.state.stocksArray];
+                        this.setState({
+                            stocksArray: array,
+                            noItem: false,
+                            stocksId: uuid()
+                        })
+
+                        this.getAllSuppliers();
+                        this.getAllItemColourId();
+
+                    }else {
+                        this.setState({
+                            endDateValidation: true
+                        })
+
+                    }
+                }else {
+                    this.setState({
+                        startDateValidation: true
+                    })
+
+                }
+            }else {
+                this.setState({
+                    selectedItemColourIdObjectValidation: true
+                })
+
+            }
+        }else {
+            this.setState({
+                selectedSupplierObjectValidation: true
+            })
+
+        }
+    }
+
     render(){
         return(
             <div className="bg">
@@ -390,10 +459,10 @@ export default class StockDetails extends Component{
                                 <MDBCard>
                                     <MDBCardBody>
                                         <MDBCardTitle>Stock Details</MDBCardTitle>
-                                        <form onSubmit={this.submitStocks}>
+                                        <form onSubmit={this.AddStocksToTable}>
                                             <Autocomplete
                                                 id="combo-box-demo"
-                                                options={this.state.supplier}
+                                                options={this.state.suppliers}
                                                 getOptionLabel={(option) => option.companyName}
                                                 style={{width: 300}}
                                                 onChange={(event, value) => this.onChangeGetCompanyName(value)}
@@ -451,9 +520,34 @@ export default class StockDetails extends Component{
                                             }
                                             <MDBBtn type="submit">Save</MDBBtn>
                                         </form>
+
                                     </MDBCardBody>
                                 </MDBCard>
                             </div>
+
+                            <br/>
+                            <br/>
+                            <MDBTable>
+                                <MDBTableHead color="primary-color" textWhite>
+                                    <tr>
+                                        <th>Supplier</th>
+                                        <th>Item Colour ID</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+
+
+                                    </tr>
+                                </MDBTableHead>
+                                <StocksTableBody
+                                stocksList={this.state.stocksArray}
+                                noItem={this.state.noItem}
+                                // deleteBrandCategory={this.deleteBrandCategory}
+
+                                />
+                            </MDBTable>
+                            <form onSubmit={this.onSubmitStock}>
+                                <MDBBtn type="submit">Save</MDBBtn>
+                            </form>
                         </MDBCol>
 
 
@@ -513,6 +607,7 @@ export default class StockDetails extends Component{
 
                                         <MDBBtn type="submit">Save</MDBBtn>
                                     </form>
+
                                 </MDBCardBody>
                             </MDBCard>
                             <br/>
