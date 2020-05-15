@@ -18,13 +18,22 @@ import './profile.css';
 import 'sweetalert2/src/sweetalert2.scss';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import {colors} from "@material-ui/core";
+import axios from "axios";
+import constants from "../../Constants/constants";
 
 
 export default class profile extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            feedback: ''
+        };
         this.sweetalertfunction = this.sweetalertfunction.bind(this);
+        this.submitfeedback = this.submitfeedback.bind(this);
+
+
+        this.onChangeFeedback = this.onChangeFeedback.bind(this);
     }
     sweetalertfunction(){
         console.log("button clicks");
@@ -63,6 +72,53 @@ export default class profile extends Component {
             }
         })
     }
+
+    onChangeFeedback(event){
+        this.setState({
+            feedback:event.target.value
+        })
+    }
+
+    submitfeedback (event){
+        event.preventDefault();
+
+        if(this.state.feedback != ''){
+                                        console.log("Validation complete");
+
+                                        const newfeedback = {
+                                            feedback: this.state.feedback
+                                        }
+                                        axios.post(constants.backend_url + 'api/feedback/add', newfeedback)
+                                            .then(res => {
+                                                    console.log(res)
+                                                    if (res.data.feedback === 'successful') {
+                                                        Swal.fire(
+                                                            '',
+                                                            'Feedback added successfully !.',
+                                                            'success'
+                                                        );
+                                                        this.setState({
+                                                            feedback:""
+                                                        })
+                                                    } else {
+                                                        Swal.fire(
+                                                            '',
+                                                            'Feedback not added !',
+                                                            'error'
+                                                        )
+                                                    }
+                                                }
+                                            );
+
+
+        }else{console.log("Feedback empty");
+            Swal.fire(
+                '',
+                'Please enter a feedback',
+                'error'
+            );
+        }
+    };
 
 
 
@@ -210,12 +266,17 @@ export default class profile extends Component {
 
                                     <MDBRow className="Feedbakadmin">
                                         <MDBCol md="12">
-                                            <form>
+                                            <form onSubmit={this.submitfeedback}>
                                                 <br></br>
                                                 <h2 className="font-weight-bold h2col2"  >Feedback</h2>
-                                                <MDBInputGroup prepend="Your feedback" type="textarea" />
+                                                <MDBInputGroup
+                                                    prepend="Your feedback"
+                                                    type="textarea"
+                                                    value={this.state.feedback}
+                                                    onChange={this.onChangeFeedback}
+                                                />
                                                 <div className="text-center mt-4">
-                                                    <MDBBtn type="button" color="danger" rounded className="btn-block z-depth-1a">
+                                                    <MDBBtn type="submit" color="danger" rounded className="btn-block z-depth-1a">
                                                         <i className="fas fa-envelope" > </i> &nbsp;&nbsp;&nbsp;<b>Submit</b>
                                                     </MDBBtn>
                                                 </div>

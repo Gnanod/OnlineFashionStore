@@ -40,6 +40,8 @@ const stockDetails = require('./routes/Stock/stock.serve.routes');
 const stockPrice = require('./routes/Stock/stockprices.serve.routes');
 const cart = require('./routes/Cart/cart.serve.routes');
 const wishlist = require('./routes/Wishlist/wishlist.serve.routes');
+const userDetail = require('./routes/User/user.server.routes');
+const feedbackmessage = require('./routes/Feedback/feedbak.server.routes');
 
 //////creating url and adding router to the server.Every http end point extend this url
 
@@ -55,5 +57,7 @@ app.use('/api/stockdetails',stockDetails);
 app.use('/api/stockprice',stockPrice);
 app.use('/api/cart',cart);
 app.use('/api/wishlist',wishlist);
+app.use('/api/userDetail',userDetail);
+app.use('/api/feedback',feedbackmessage);
 
 
