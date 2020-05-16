@@ -153,7 +153,7 @@ export class NewArrivals extends Component {
                                 newArraivalItemArray: [],
                                 noItem :true
                             })
-                            this.getAllItemCodes();
+                            this.getAllNewArrailItems();
                         } else {
                             Swal.fire(
                                 '',

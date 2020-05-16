@@ -106,7 +106,9 @@ export default class UserAnalysis extends Component {
                             <NavLink exact={true} to="/usermanage" >
                                 <button type="button" className="btn btn-success">User Details</button>
                             </NavLink>
-
+                            <NavLink exact={true} to="/usermanage/adminmanage" >
+                                <button type="button" className="btn btn-success "> Admin Manage</button>
+                            </NavLink>
                             <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                         </MDBCardBody>
                     </MDBCard>

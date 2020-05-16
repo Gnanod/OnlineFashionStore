@@ -1,16 +1,8 @@
 const mongoose = require('mongoose');
 const Schema= mongoose.Schema;
 
-let cart = new Schema({
-    cartName :{
-        type :String,
-        required: true
-    },
-    cartPrice :{
-        type :Number,
-        required: true
-    },
-    quantity:{
+let order = new Schema({
+    orderId:{
         type: Number,
         required: true
     },
@@ -22,17 +14,20 @@ let cart = new Schema({
         type: Number,
         required: true
     },
-    image :{
-        type :Buffer,
-        contentType: String
-
+    itemName:{
+        type: String,
+        required: true
     },
     itemId:{
         type: String,
+        required: true
+    },
+    itemPrice:{
+        type: Number,
         required: true
     }
 
 });
 
-module.exports = mongoose.model('Cart',cart);
+module.exports = mongoose.model('Order',order);
 

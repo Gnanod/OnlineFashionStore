@@ -7,6 +7,7 @@ import Loader from "react-loader-spinner";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import './CartStyle.css';
 import 'sweetalert2/src/sweetalert2.scss';
+
 import {MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardText, MDBCardTitle, MDBNavLink} from "mdbreact";
 
 class Cart extends Component {
@@ -21,6 +22,7 @@ class Cart extends Component {
             quantity:'',
             itemTot:'',
             fullTot:0,
+            orderId:'',
             loaderStatus :true
 
         }
@@ -31,6 +33,8 @@ class Cart extends Component {
         this.increment=this.increment.bind(this);
         this.clearCart=this.clearCart.bind(this);
         this.getSubTotal=this.getSubTotal.bind(this);
+        this.confirmPurchase=this.confirmPurchase.bind(this);
+        this.getLastId=this.getLastId.bind(this);
 
     }
 
@@ -46,7 +50,7 @@ class Cart extends Component {
     getDetails() {
         console.log("Cart!")
         axios.get(constants.backend_url + 'api/cart/getDetails/'+ this.state.userId).then(response => {
-            console.log("map")
+            console.log(response.data)
             this.setState({cartList: response.data});
         }).catch(function (error) {
             console.log(error);
@@ -54,12 +58,15 @@ class Cart extends Component {
         this.getSubTotal(this.state.userId);
     }
     decrement(id,quantity){
+
         if(quantity != 1 ){
             console.log("dec");
             axios.get(constants.backend_url + 'api/cart/decQuantity/'+ id+'/'+(quantity-1)).then(response => {
 
-            })
-            window.location.reload(false);
+            });
+            this.getDetails();
+
+            // window.location.reload(false);
         }else{
             Swal.fire(
                 '',
@@ -77,6 +84,7 @@ class Cart extends Component {
 
         })
         window.location.reload(false);
+
 
     }
 
@@ -118,6 +126,56 @@ class Cart extends Component {
             })
         });
     }
+    confirmPurchase(){
+            let a=this.getLastId();
+            console.log(this.state.orderId)
+        this.state.cartList.map(item => {
+            let order={
+                orderId:a,
+                userId: this.state.userId,
+                itemTotal:this.state.fullTot,
+                itemName:item.cartName,
+                itemId:item.itemId,
+                itemPrice:item.cartPrice,
+                oderTime: new Date().toLocaleString()
+            }
+            axios.post(constants.backend_url + 'api/cart/addOrder', order)
+                .then(res => {
+                        console.log("HI")
+
+                        if (res.data.cart === 'success') {
+                            Swal.fire(
+                                '',
+                                'Cart Added Fail',
+                                'error'
+                            );
+
+                        } else {
+                            Swal.fire(
+                                '',
+
+                                'Cart Details Added Successfully.',
+                                'success'
+                            )
+                        }
+                    }
+                );
+        })
+
+
+
+    }
+    getLastId(){
+
+
+       let a=Math.floor(Math.random() * Date.now());
+       console.log(a);
+        this.setState({
+            orderId:a
+        })
+        return a;
+
+    }
 
     render() {
         return (
@@ -128,52 +186,66 @@ class Cart extends Component {
         <CartColumns></CartColumns>
         <div>
 
-        {this.state.cartList.map(item => (
-
+        {this.state.cartList.map(item => {
+            const base64String = btoa(new Uint8Array(item.image.data).reduce(function (data, byte) {
+                return data + String.fromCharCode(byte);
+            }, ''));
+            return(
                 <div className="row my-1 text-capitalize text-center">
-            <div className="col-10 mx-auto col-lg-2">
-            <span>{item.cartName}</span>
-            </div>
+                    <div className="col-10 mx-auto col-lg-2" >
+                        <MDBCard style={{height: "13rem"}}>
+                        <MDBCardImage className="img-fluid"
+                                      src={`data:image/jpeg;base64,${base64String}`}
+                                      waves/>
+                        </MDBCard>
 
-            <div className="col-10 mx-auto col-lg-2">
-            <span>{item.cartName}</span>
-            </div>
+                    </div>
 
-            <div className="col-10 mx-auto col-lg-2">
-            <span>Rs. {item.cartPrice}</span>
-        </div>
+                    <div className="col-10 mx-auto col-lg-2">
+                        <span>{item.cartName}</span>
+                    </div>
 
-        <div className="col-10 mx-auto col-lg-2 my-2 my-lg-0">
-            <div className="d-flex justify-content-center">
-            <div>
-            <button  className="btn1 mx-1" onClick={()=>this.increment(item._id,item.quantity)}>+</button>
-        </div>
-        <span className="btn11" >{item.quantity}</span>
-            <div className="d-flex justify-content-center">
-            <div>
-            <button  className="btn1 mx-1" onClick={()=>this.decrement(item._id,item.quantity)}>-</button>
-        </div>
-        </div>
-        </div>
-        </div>
-        <div className="col-10 mx-auto col-lg-2">
-            <div className="cart-icon" >
-            <i className="fa fa-trash" aria-hidden="true" onClick={()=>this.remove1(item._id)}></i>
-        </div>
+                    <div className="col-10 mx-auto col-lg-2">
+                        <span>Rs. {item.cartPrice}</span>
+                    </div>
 
-        </div>
+                    <div className="col-10 mx-auto col-lg-2 my-2 my-lg-0">
+                        <div className="d-flex justify-content-center">
+                            <div>
+                                <button className="btn1 mx-1" onClick={() => this.increment(item._id, item.quantity)}>+
+                                </button>
+                            </div>
+                            <span className="btn11">{item.quantity}</span>
+                            <div className="d-flex justify-content-center">
+                                <div>
+                                    <button className="btn1 mx-1"
+                                            onClick={() => this.decrement(item._id, item.quantity)}>-
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-10 mx-auto col-lg-2">
+                        <span>Rs. {item.cartPrice * (item.quantity)}</span>
+                    </div>
+                    <div className="col-10 mx-auto col-lg-2">
+                        <div className="cart-icon">
+                            <i className="fa fa-trash" aria-hidden="true" onClick={() => this.remove1(item._id)}></i>
+                        </div>
 
-        <div className="col-10 mx-auto col-lg-2">
-            <span>Rs. {item.cartPrice*(item.quantity)}</span>
-        </div>
-
-        </div>
+                    </div>
 
 
 
 
+                </div>
 
-    ))}
+            )
+
+
+
+
+        })}
 
 
     <br/>
@@ -182,6 +254,7 @@ class Cart extends Component {
         <span>Full Total     :</span>
         <span>{this.state.fullTot}</span>
         </div>
+            <button  className="btn btn-blue" onClick={()=>this.confirmPurchase()}>Confirm Purchase</button>
         </div>
 
 
