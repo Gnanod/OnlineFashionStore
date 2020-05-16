@@ -14,15 +14,15 @@ router.route('/add').post(function (req,res) {
     });
 });
 
-// router.route('/getAllSuppliers').get(function (req,res) {
-//     Supplier.find(function (err,supplier) {
-//         if(!err){
-//             res.json(supplier);
-//         }else{
-//             res.status(400).send('fail');
-//         }
-//     });
-// });
+router.route('/getAllusers').get(function (req,res) {
+    UserDetail.find().exec().then(item => {
+
+        res.status(200).json(item)
+    })
+        .catch(err => {
+            res.status(500).json(err);
+        });
+ });
 
 
 module.exports = router;

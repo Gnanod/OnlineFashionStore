@@ -46,7 +46,7 @@ const TopNavigation = () => {
                     </MDBListGroupItem>
                 </NavLink>
 
-                <NavLink to="/item" activeClassName="activeClass">
+                <NavLink to="/order" activeClassName="activeClass">
                     <MDBListGroupItem>
                         <MDBIcon icon="table" className="mr-3"/>
                         Order Management
