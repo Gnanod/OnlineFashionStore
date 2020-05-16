@@ -23,7 +23,7 @@ import uuid from "react-uuid";
 import StockPriceTableBody from "./StockPriceTableBody";
 import constants from "../../../constants/constants";
 import BrandCategoryTableBody from "../Item/BrandCategoryTableBody";
-import StocksTableBody from "./StyleSP/StocksTableBody";
+import StocksTableBody from "./StocksTableBody";
 
 
 export default class StockDetails extends Component{
@@ -74,7 +74,13 @@ export default class StockDetails extends Component{
         this.getAllItemColourId = this.getAllItemColourId.bind(this);
         this.onChangeGetCompanyName = this.onChangeGetCompanyName.bind(this);
         this.onSubmitStock = this.onSubmitStock.bind(this);
+
     }
+
+
+
+
+
 
     onChangeStartDate(e){
         this.setState({
@@ -491,6 +497,7 @@ export default class StockDetails extends Component{
                                             Item Colour ID Field Is Empty
                                             </MDBAlert> : ''
                                             }
+
 
 
                                             <div className="md-form">
