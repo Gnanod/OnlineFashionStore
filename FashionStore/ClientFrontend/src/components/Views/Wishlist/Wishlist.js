@@ -74,7 +74,7 @@ class Wishlist extends Component {
                     }
                 }
             );
-        axios.get(constants.backend_url + 'api/cart/addPhoto/'+ cartItem.itemId+'/'+cartItem.image).then(response => {
+        axios.get(constants.backend_url + 'api/cart/addPhoto/'+ cartItem.itemId).then(response => {
 
         })
 

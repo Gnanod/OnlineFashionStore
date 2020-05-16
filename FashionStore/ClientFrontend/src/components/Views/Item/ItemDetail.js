@@ -162,7 +162,7 @@ export class ItemDetail extends Component {
                     }
                 }
             );
-        axios.get(constants.backend_url + 'api/cart/addPhoto/'+ cartItem.itemSizes._id+'/'+cartItem.itemSizes.image).then(response => {
+        axios.get(constants.backend_url + 'api/cart/addPhoto/'+ cartItem.itemSizes._id).then(response => {
 
         })
 

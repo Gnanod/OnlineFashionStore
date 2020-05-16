@@ -120,7 +120,7 @@ router.route('/updateQuantity/:id/:quantity').get(function (req, res) {
         res.status(400).send('fail');
     });
 });
-router.route('/addPhoto/:id/:image').get(function (req, res) {
+router.route('/addPhoto/:id').get(function (req, res) {
 
     let id = req.params.id;
 
