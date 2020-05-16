@@ -45,12 +45,6 @@ const TopNavigation = () => {
                         Stock Management
                     </MDBListGroupItem>
                 </NavLink>
-                <NavLink to="/logout" activeClassName="activeClass">
-                    <MDBListGroupItem>
-                        <MDBIcon icon=" " className="mr-2"/>
-                        LogOut
-                    </MDBListGroupItem>
-                </NavLink>
 
                 <NavLink to="/item" activeClassName="activeClass">
                     <MDBListGroupItem>
@@ -58,6 +52,15 @@ const TopNavigation = () => {
                         Order Management
                     </MDBListGroupItem>
                 </NavLink>
+
+                <NavLink to="/logout" activeClassName="activeClass">
+                    <MDBListGroupItem>
+                        <MDBIcon icon=" " className="mr-2"/>
+                        LogOut
+                    </MDBListGroupItem>
+                </NavLink>
+
+
 
 
                 {/*<NavLink to="/profile" activeClassName="activeClass">*/}
