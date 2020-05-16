@@ -18,6 +18,11 @@ let wishlist = new Schema({
         type :String,
         required: true
     },
+    image :{
+        type :Buffer,
+        contentType: String
+
+    },
     itemId:{
         type: String,
         required: true

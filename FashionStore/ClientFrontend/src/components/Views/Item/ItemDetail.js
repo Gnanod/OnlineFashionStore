@@ -167,7 +167,8 @@ export class ItemDetail extends Component {
             cartName:this.state.itemName,
             cartPrice:cartItem.itemSizes.price,
             quantity:1,
-            itemTotal:cartItem.itemSizes.price
+            itemTotal:cartItem.itemSizes.price,
+            itemId:cartItem.itemSizes._id
         }
 
         axios.post(constants.backend_url + 'api/cart/add', cartt)
@@ -190,6 +191,9 @@ export class ItemDetail extends Component {
                     }
                 }
             );
+        axios.get(constants.backend_url + 'api/cart/addPhoto/'+ cartItem.itemSizes._id).then(response => {
+
+        })
 
         console.log(this.state.itemName);
         console.log(cartt);
@@ -277,6 +281,9 @@ export class ItemDetail extends Component {
                     }
                 }
             );
+        axios.get(constants.backend_url + 'api/wishlist/addPhoto/'+ cartItem.itemSizes._id).then(response => {
+
+        })
 
     }
 
