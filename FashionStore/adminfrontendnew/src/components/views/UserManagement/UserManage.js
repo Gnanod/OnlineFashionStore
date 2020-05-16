@@ -69,12 +69,14 @@ export default class UserDetails extends Component {
 
                 <MDBCard className="mb-5">
                     <MDBCardBody id="breadcrumb" className="d-flex align-items-center justify-content-between">
+
                         <NavLink exact={true} to="/usermanage" activeClassName="activeClass">
                             <button type="button" className="btn btn-primary">User Details</button>
                         </NavLink>
-                        <NavLink exact={true} to="useranalysis" >
+                        <NavLink exact={true} to="/usermanage/useranalysis" >
                             <button type="button" className="btn btn-success "> User Analysis</button>
                         </NavLink>
+
                         {/*<MDBFormInline className="md-form m-0">*/}
                         {/*    <input className="form-control form-control-sm" type="search" placeholder="Type your query" aria-label="Search"/>*/}
                         {/*    <MDBBtn size="sm" color="primary" className="my-0" type="submit"><MDBIcon icon="search" /></MDBBtn>*/}

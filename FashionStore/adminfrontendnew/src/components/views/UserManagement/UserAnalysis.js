@@ -100,12 +100,13 @@ export default class UserAnalysis extends Component {
 
                     <MDBCard className="mb-5">
                         <MDBCardBody id="breadcrumb" className="d-flex align-items-center justify-content-between">
+                            <NavLink exact={true} to="/usermanage/useranalysis" activeClassName="activeClass" >
+                                <button type="button" className="btn btn-primary"> User Analysis</button>
+                            </NavLink>
                             <NavLink exact={true} to="/usermanage" >
-                                <button type="button" className="btn btn-primary">User Details</button>
+                                <button type="button" className="btn btn-success">User Details</button>
                             </NavLink>
-                            <NavLink exact={true} to="useranalysis" activeClassName="activeClass" >
-                                <button type="button" className="btn btn-success"> User Analysis</button>
-                            </NavLink>
+
                             <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                         </MDBCardBody>
                     </MDBCard>

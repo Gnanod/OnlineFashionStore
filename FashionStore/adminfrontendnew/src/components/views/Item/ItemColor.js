@@ -118,7 +118,9 @@ export default class ItemColor extends Component {
     }
 
     onchangeFile(e) {
-        if (URL.createObjectURL(e.target.files[0]) !== ' ') {
+        console.log("e.target.files.length"+e.target.files.length)
+        // if (URL.createObjectURL(e.target.files[0]) !== ' ') {
+        if(e.target.files.length){
             this.setState({
                 image: e.target.files[0],
                 imageUrl: URL.createObjectURL(e.target.files[0]),
@@ -127,6 +129,8 @@ export default class ItemColor extends Component {
                 imageName: e.target.files[0].name
             });
         }
+
+        // }
 
     }
 
@@ -143,7 +147,6 @@ export default class ItemColor extends Component {
                 noItem: true
             })
         }
-
     }
 
 

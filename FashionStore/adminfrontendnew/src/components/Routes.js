@@ -9,6 +9,10 @@ import ItemColor from "./views/Item/ItemColor";
 import {NewArrivals} from "./views/Item/NewArrivals";
 import UserDetails from "./views/UserManagement/UserManage";
 import UserAnalysis from "./views/UserManagement/UserAnalysis";
+import SupplierDetails from "./views/Stock/SupplierDetails";
+import StockDetails from "./views/Stock/StockDetails";
+import Login from "./views/Login/Login";
+import Logout from "./views/LogOut/Logout";
 
 class Routes extends React.Component {
   render() {
@@ -21,12 +25,11 @@ class Routes extends React.Component {
         <Route exact path='/item/brandcategory' component={BrandCategory} />
         <Route exact path='/item/itemcolor' component={ItemColor} />
         <Route exact path='/item/newarraivalitems' component={NewArrivals} />
-        <Route path='/item' component={Item} />
-        <Route path='/brandcategory' component={BrandCategory} />
-        <Route path='/itemcolor' component={ItemColor} />
-        <Route path='/newarraivalitems' component={NewArrivals} />
-        <Route path='/usermanage' component={UserDetails} />
-        <Route path='/useranalysis' component={UserAnalysis} />
+        <Route exact path='/usermanage' component={UserDetails} />
+        <Route exact path='/usermanage/useranalysis' component={UserAnalysis} />
+        <Route exact path='/supplier' component={SupplierDetails} />
+        <Route exact path='/stock' component={StockDetails} />
+        <Route exact path='/logout' component={Logout} />
 
       </Switch>
     );

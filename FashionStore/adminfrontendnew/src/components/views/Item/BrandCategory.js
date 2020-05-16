@@ -257,6 +257,7 @@ export default class BrandCategory extends Component {
     }
 
     addDetailsToTable(e) {
+
         e.preventDefault();
         if (this.state.selectedBrandObject !== ' ') {
             if (this.state.selectedCharacterObject !== ' ') {

@@ -18,10 +18,14 @@ import {HomePageImage} from "../Views/Home/HomePageImage";
 import {ItemDetail} from "../Views/Item/ItemDetail";
 import Wishlist from "../Views/Wishlist/Wishlist";
 import './Navigationbar.css'
-import { MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter , MDBCol} from 'mdbreact';
+import { MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter , MDBCol, MDBAlert} from 'mdbreact';
 import {Itemsaccordingtocategory} from "../Views/Category/Itemsaccordingtocategory";
-
+import 'sweetalert2/src/sweetalert2.scss';
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 import styled from "styled-components";
+import profile from "../Views/Profile/profile";
+import axios from "axios";
+import constants from "../Constants/constants";
 
 export default class Navigationbar extends Component {
 
@@ -32,10 +36,14 @@ export default class Navigationbar extends Component {
             isWideEnough: false,
             modal: false,
             model2 : false,
-            fname: "",
-            lname: "",
-            email: "",
-            gender: "",
+            fname: '',
+            lname: '',
+            email: '',
+            gender: '',
+            password: '',
+            phone: '',
+            confirmpass: '',
+            dob:''
 
             // options: [
             //     {
@@ -61,6 +69,16 @@ export default class Navigationbar extends Component {
             // ]
         };
         this.onClick = this.onClick.bind(this);
+        this.submitUser = this.submitUser.bind(this);
+
+        this.onChangeFname = this.onChangeFname.bind(this);
+        this.onChangeLname = this.onChangeLname.bind(this);
+        this.onChangeEmail = this.onChangeEmail.bind(this);
+        this.onChangePhone = this.onChangePhone.bind(this);
+        this.onChangeGender = this.onChangeGender.bind(this);
+        this.onChangeDOB = this.onChangeDOB.bind(this);
+        this.onChangePassword = this.onChangePassword.bind(this);
+        this.onChangeConfirmPassword = this.onChangeConfirmPassword.bind(this);
     }
 
     onClick() {
@@ -88,19 +106,147 @@ export default class Navigationbar extends Component {
             fname: "",
             lname: "",
             email: "",
-            gender: ""
+            gender: "",
+            password: "",
+            phone: "",
+            confirmpass: ""
 
         });
     }
 
-    submitHandler = event => {
+    onChangeFname(event){
+        this.setState({
+            feedback:event.target.value,
+            [event.target.name]: event.target.value
+        })
+    }
+
+    onChangeLname(event){
+        this.setState({
+            feedback:event.target.value,
+            [event.target.name]: event.target.value
+        })
+    }
+
+    onChangeEmail(event){
+        this.setState({
+            feedback:event.target.value,
+            [event.target.name]: event.target.value
+        })
+    }
+
+    onChangeGender(event){
+        this.setState({
+            feedback:event.target.value,
+            [event.target.name]: event.target.value
+        })
+    }
+
+    onChangeDOB(event){
+        this.setState({
+            feedback:event.target.value,
+            [event.target.name]: event.target.value
+        })
+    }
+
+    onChangePassword(event){
+        this.setState({
+            feedback:event.target.value,
+            [event.target.name]: event.target.value
+        })
+    }
+
+    onChangeConfirmPassword(event){
+        this.setState({
+            feedback:event.target.value,
+            [event.target.name]: event.target.value
+        })
+    }
+
+    onChangePhone(event){
+        this.setState({
+            feedback:event.target.value,
+            [event.target.name]: event.target.value
+        })
+
+    }
+
+
+
+    submitUser(event) {
         event.preventDefault();
         event.target.className += " was-validated";
-    };
 
-    changeHandler = event => {
-        this.setState({ [event.target.name]: event.target.value });
+
+
+        if(this.state.password == this.state.confirmpass){
+            if(this.state.fname != ''){
+                if(this.state.lname != ''){
+                    if(this.state.email != ''){
+                        if(this.state.gender != ''){
+                            if(this.state.phone != '' ){
+                                if(this.state.password != ''){
+                                    if(this.state.confirmpass != ''){
+                                        if(this.state.dob != ''){
+                                            console.log("Validation complete");
+
+                                            const newuserDetail = {
+                                                firstName: this.state.fname,
+                                                lastName: this.state.lname,
+                                                phoneNumber: this.state.phone,
+                                                gender: this.state.gender,
+                                                email: this.state.email,
+                                                password: this.state.password,
+                                                dob: this.state.dob
+                                            }
+                                            axios.post(constants.backend_url + 'api/userDetail/add', newuserDetail)
+                                                .then(res => {
+                                                        console.log(res)
+                                                        console.log(newuserDetail);
+                                                        if (res.data.userDetail === 'successful') {
+                                                            Swal.fire(
+                                                                '',
+                                                                'User Details added successfully !.',
+                                                                'success'
+                                                            );
+                                                            this.setState({
+                                                                fname: '',
+                                                                lname: '',
+                                                                email: '',
+                                                                gender: '',
+                                                                password: '',
+                                                                phone: '',
+                                                                confirmpass: ''
+                                                            })
+                                                        } else {
+                                                            Swal.fire(
+                                                                '',
+                                                                'User Details not added !',
+                                                                'error'
+                                                            )
+                                                        }
+                                                    }
+                                                );
+                                        }else{console.log("dob empty");}
+                                    }else{console.log(" confirm pass empty");}
+                                }else{console.log("pass empty");}
+                            }else{console.log("phone empty");}
+                        }else{console.log("gender empty");}
+                    }else{console.log("email empty");}
+                }else{console.log("lname empty");}
+            }else{console.log("fname == ''");}
+        }else{console.log("pass != confirm pass");
+            Swal.fire(
+                '',
+                'password and confirm password are not the same !',
+                'error'
+            );
+        }
     };
+    //
+    // changeHandler = event => {
+    //     this.setState({ [event.target.name]: event.target.value });
+    // };
 
 
     render() {
@@ -119,11 +265,11 @@ export default class Navigationbar extends Component {
                                 <MDBNavItem active>
                                     <MDBNavLink to="/">Home</MDBNavLink>
                                 </MDBNavItem>
+                                {/*<MDBNavItem>*/}
+                                    {/*<MDBNavLink to="/test">Link</MDBNavLink>*/}
+                                {/*</MDBNavItem>*/}
                                 <MDBNavItem>
-                                    <MDBNavLink to="/test">Link</MDBNavLink>
-                                </MDBNavItem>
-                                <MDBNavItem>
-                                    <MDBNavLink to="/item">Profile</MDBNavLink>
+                                    <MDBNavLink to="/profile">Profile</MDBNavLink>
                                 </MDBNavItem>
 
                                 <MDBNavItem>
@@ -165,6 +311,7 @@ export default class Navigationbar extends Component {
                         <Route exact path="/itemsaccordingtocategory/:id" component={Itemsaccordingtocategory}/>
                         <Route exact path="/Cart" component={Cart}/>
                         <Route exact path="/Wishlist" component={Wishlist}/>
+                        <Route exact path="/profile" component={profile}/>
                     </Switch>
 
                     <MDBContainer>
@@ -212,37 +359,65 @@ export default class Navigationbar extends Component {
                                         {/*<MDBInput label="Your email" group type="email" validate error="wrong" success="right"/>*/}
                                         {/*<MDBInput label="Your password" group type="password" validate containerClass="mb-0"/>*/}
 
-                                        <form className="needs-validation" onSubmit={this.submitHandler} noValidate>
+                                        <form className="needs-validation" onSubmit={this.submitUser} noValidate>
                                             <MDBRow>
                                                 {/*<MDBCol  md="12" className="mb-3">*/}
-                                                <label htmlFor="defaultFormRegisterNameEx" className="grey-text">First name</label>
-                                                <input value={this.state.fname} name="fname" onChange={this.changeHandler} type="text" id="defaultFormRegisterNameEx" className="form-control" placeholder="First name" required/>
+                                                <label htmlFor="firstnameid" className="grey-text">First name</label>
+                                                <input value={this.state.fname} name="fname" onChange={this.onChangeFname} type="text" id="firstnameid" className="form-control" placeholder="First name" required/>
                                                 <div className="invalid-feedback">Please provide the first name.</div>
 
                                                 {/*</MDBCol>*/}
                                                 {/*<MDBCol  md="12" className="mb-3">*/}
-                                                <label htmlFor="defaultFormRegisterEmailEx2" className="grey-text">Last name</label>
-                                                <input value={this.state.lname} name="lname" onChange={this.changeHandler} type="text" id="defaultFormRegisterEmailEx2" className="form-control" placeholder="Last name" required/>
+                                                <label htmlFor="lastnameid" className="grey-text">Last name</label>
+                                                <input value={this.state.lname} name="lname" onChange={this.onChangeLname} type="text" id="lastnameid" className="form-control" placeholder="Last name" required/>
                                                 <div className="invalid-feedback">Please provide the last name.</div>
 
                                                 {/*</MDBCol>*/}
                                                 {/*<MDBCol md="4" className="mb-3">*/}
-                                                <label htmlFor="defaultFormRegisterConfirmEx3" className="grey-text">Email</label>
-                                                <input value={this.state.email} onChange={this.changeHandler} type="email" id="defaultFormRegisterConfirmEx3" className="form-control" name="email" placeholder="Your Email address"/>
+                                                <label htmlFor="emailid" className="grey-text">Email</label>
+                                                <input value={this.state.email} onChange={this.onChangeEmail}  type="email" id="emailid" className="form-control" name="email" placeholder="Your Email address"/>
                                                 <div className="invalid-feedback">Please provide an email.</div>
 
                                                 {/*</MDBCol>*/}
                                             </MDBRow>
                                             <MDBRow>
                                                 {/*<MDBCol md="6" className="mb-0">*/}
-                                                <label htmlFor="defaultFormRegisterPasswordEx4" className="grey-text">Date of Birth</label>
-                                                <input onChange={this.changeHandler} type="date" id="defaultFormRegisterPasswordEx4" className="form-control" name="DOB" placeholder="Date of Birth" required/>
-                                                <div className="invalid-feedback">Please provide DOB</div>
+                                                <label htmlFor="phoneid" className="grey-text">Contact number</label>
+                                                <input onChange={this.onChangePhone} type="text" value={this.state.phone} id="phoneid" className="form-control" name="phone" placeholder="Contact number" required/>
+                                                <div className="invalid-feedback">Please provide the contact number</div>
 
                                                 {/*</MDBCol>*/}
+
                                                 {/*<MDBCol md="6" className="mb-0">*/}
-                                                <label htmlFor="defaultFormRegisterPasswordEx4" className="grey-text">State</label>
-                                                <input value={this.state.gender} onChange={this.changeHandler} type="text" id="defaultFormRegisterPasswordEx4" className="form-control" name="gender" placeholder="Gender" required/>
+                                                <label htmlFor="phoneid" className="grey-text">Date of Birth</label>
+                                                <input onChange={this.onChangeDOB} type="date" value={this.state.dob} id="dobid" className="form-control" name="dob"  required/>
+                                                <div className="invalid-feedback">Please provide the Date of Birth</div>
+                                                {/*</MDBCol>*/}
+
+                                                {/*<MDBCol md="6" className="mb-0">*/}
+                                                <label htmlFor="passwordid" className="grey-text">Password</label>
+                                                <input onChange={this.onChangePassword} type="password" value={this.state.password} id="passwordid" className="form-control" name="password" placeholder="Password" required/>
+                                                <div className="invalid-feedback">Please provide the password</div>
+
+                                                {/*</MDBCol>*/}
+
+
+                                                {/*<MDBCol md="6" className="mb-0">*/}
+                                                <label htmlFor="conpasswordid" className="grey-text">Confirm Password</label>
+                                                <input onChange={this.onChangeConfirmPassword} type="password" value={this.state.confirmpass} id="conpasswordid" className="form-control" name="confirmpass" placeholder="Confirm Password" required/>
+                                                <div className="invalid-feedback">Please provide the confirm password</div>
+                                                {
+                                                    this.state.password != this.state.confirmpass ? <MDBAlert color="danger">
+                                                        password and confirm password does not match
+                                                    </MDBAlert> : ''
+                                                }
+
+
+                                                {/*</MDBCol>*/}
+
+                                                {/*<MDBCol md="6" className="mb-0">*/}
+                                                <label htmlFor="genderid" className="grey-text">Gender</label>
+                                                <input value={this.state.gender} onChange={this.onChangeGender} type="text" id="genderid" className="form-control" name="gender" placeholder="Gender" required/>
                                                 {/*<MDBSelect*/}
                                                 {/*    options={this.state.options}*/}
                                                 {/*    selected="Choose your option"*/}
@@ -256,7 +431,6 @@ export default class Navigationbar extends Component {
                                                     <option value="audi">Audi</option>
                                                 </select>
                                                 <div className="invalid-feedback">Please provide your gender.</div>
-
                                                 {/*</MDBCol>*/}
                                             </MDBRow>
                                             <br></br>
