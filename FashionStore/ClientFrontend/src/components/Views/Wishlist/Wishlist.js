@@ -41,17 +41,19 @@ class Wishlist extends Component {
 
         let cartItem=item;
        // this.decrementQuantity(cartItem.itemSizes._id,cartItem.itemSizes.quantity);
+        console.log("HI wish cart")
         const cartt = {
             userId:'C001',
             cartName:item.cartName,
             cartPrice:item.cartPrice,
             quantity:1,
-            itemTotal:item.cartPrice
+            itemTotal:item.cartPrice,
+            itemId:cartItem.itemId
         }
 
         axios.post(constants.backend_url + 'api/cart/add', cartt)
             .then(res => {
-                    console.log("HI")
+                    console.log("HI wish cart")
 
                     if (res.data.cart === 'success') {
                         Swal.fire(
@@ -72,8 +74,10 @@ class Wishlist extends Component {
                     }
                 }
             );
+        axios.get(constants.backend_url + 'api/cart/addPhoto/'+ cartItem.itemId+'/'+cartItem.image).then(response => {
 
-        console.log(this.state.itemName);
+        })
+
         console.log(cartt);
 
     }
