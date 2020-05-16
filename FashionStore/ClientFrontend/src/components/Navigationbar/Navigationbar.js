@@ -119,12 +119,7 @@ export default class Navigationbar extends Component {
                                 <MDBNavItem active>
                                     <MDBNavLink to="/">Home</MDBNavLink>
                                 </MDBNavItem>
-                                {/*<MDBNavItem>*/}
-                                    {/*<MDBNavLink to="/test">Link</MDBNavLink>*/}
-                                {/*</MDBNavItem>*/}
-                                {/*<MDBNavItem>*/}
-                                    {/*<MDBNavLink to="/item">Profile</MDBNavLink>*/}
-                                {/*</MDBNavItem>*/}
+
 
                                 <MDBNavItem>
                                     <MDBNavLink to="/cart" className="ml-auto">

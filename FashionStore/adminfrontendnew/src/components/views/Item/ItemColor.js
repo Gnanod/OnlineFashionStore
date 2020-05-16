@@ -118,7 +118,7 @@ export default class ItemColor extends Component {
     }
 
     onchangeFile(e) {
-        console.log("e.target.files.length"+e.target.files.length)
+
         // if (URL.createObjectURL(e.target.files[0]) !== ' ') {
         if(e.target.files.length){
             this.setState({

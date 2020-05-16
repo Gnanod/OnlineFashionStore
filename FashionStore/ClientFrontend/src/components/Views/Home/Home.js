@@ -75,12 +75,28 @@ export default class Home extends Component {
                         itemArray: response,
                         arrayId: uuid()
                     }
-                    const array = [newArray, ...this.state.newItemArray];
-                    this.setState({
-                        newItemArray: array,
-                        loaderStatus :false
-                    })
+                    let status =false;
 
+                    if(this.state.newItemArray.length===0){
+                        const array = [newArray, ...this.state.newItemArray];
+                        this.setState({
+                            newItemArray: array,
+                            loaderStatus :false
+                        })
+                    }else{
+                        this.state.newItemArray.map(stateItem=>{
+                            if(response.itemCode[0].itemCode===stateItem.itemArray.itemCode[0].itemCode){
+                                status=true;
+                            }
+                        })
+                        if(!status){
+                            const array = [newArray, ...this.state.newItemArray];
+                            this.setState({
+                                newItemArray: array,
+                                loaderStatus :false
+                            })
+                        }
+                    }
 
                 }
             });
