@@ -42,6 +42,7 @@ const cart = require('./routes/Cart/cart.serve.routes');
 const wishlist = require('./routes/Wishlist/wishlist.serve.routes');
 const userDetail = require('./routes/User/user.server.routes');
 const feedbackmessage = require('./routes/Feedback/feedbak.server.routes');
+const adminDetail = require('./routes/Admin/admin.server.rotes');
 
 //////creating url and adding router to the server.Every http end point extend this url
 
@@ -59,5 +60,6 @@ app.use('/api/cart',cart);
 app.use('/api/wishlist',wishlist);
 app.use('/api/userDetail',userDetail);
 app.use('/api/feedback',feedbackmessage);
+app.use('/api/adminDetail',adminDetail);
 
 

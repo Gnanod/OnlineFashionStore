@@ -109,6 +109,7 @@ export default class Navigationbar extends Component {
             gender: "",
             password: "",
             phone: "",
+            dob: '',
             confirmpass: ""
 
         });
@@ -116,56 +117,56 @@ export default class Navigationbar extends Component {
 
     onChangeFname(event){
         this.setState({
-            feedback:event.target.value,
+            fname:event.target.value,
             [event.target.name]: event.target.value
         })
     }
 
     onChangeLname(event){
         this.setState({
-            feedback:event.target.value,
+            lname:event.target.value,
             [event.target.name]: event.target.value
         })
     }
 
     onChangeEmail(event){
         this.setState({
-            feedback:event.target.value,
+            email:event.target.value,
             [event.target.name]: event.target.value
         })
     }
 
     onChangeGender(event){
         this.setState({
-            feedback:event.target.value,
+            gender:event.target.value,
             [event.target.name]: event.target.value
         })
     }
 
     onChangeDOB(event){
         this.setState({
-            feedback:event.target.value,
+            dob:event.target.value,
             [event.target.name]: event.target.value
         })
     }
 
     onChangePassword(event){
         this.setState({
-            feedback:event.target.value,
+            password:event.target.value,
             [event.target.name]: event.target.value
         })
     }
 
     onChangeConfirmPassword(event){
         this.setState({
-            feedback:event.target.value,
+            confirmpass:event.target.value,
             [event.target.name]: event.target.value
         })
     }
 
     onChangePhone(event){
         this.setState({
-            feedback:event.target.value,
+            phone:event.target.value,
             [event.target.name]: event.target.value
         })
 
@@ -216,6 +217,7 @@ export default class Navigationbar extends Component {
                                                                 gender: '',
                                                                 password: '',
                                                                 phone: '',
+                                                                dob: '',
                                                                 confirmpass: ''
                                                             })
                                                         } else {

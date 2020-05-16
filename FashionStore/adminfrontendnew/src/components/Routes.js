@@ -13,6 +13,7 @@ import SupplierDetails from "./views/Stock/SupplierDetails";
 import StockDetails from "./views/Stock/StockDetails";
 import Login from "./views/Login/Login";
 import Logout from "./views/LogOut/Logout";
+import AdminManage from "./views/UserManagement/AdminAdd";
 
 class Routes extends React.Component {
   render() {
@@ -30,6 +31,7 @@ class Routes extends React.Component {
         <Route exact path='/supplier' component={SupplierDetails} />
         <Route exact path='/stock' component={StockDetails} />
         <Route exact path='/logout' component={Logout} />
+        <Route exact path='/usermanage/adminManage' component={AdminManage} />
 
       </Switch>
     );
