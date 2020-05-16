@@ -58,12 +58,15 @@ class Cart extends Component {
         this.getSubTotal(this.state.userId);
     }
     decrement(id,quantity){
+
         if(quantity != 1 ){
             console.log("dec");
             axios.get(constants.backend_url + 'api/cart/decQuantity/'+ id+'/'+(quantity-1)).then(response => {
 
-            })
-            window.location.reload(false);
+            });
+            this.getDetails();
+
+            // window.location.reload(false);
         }else{
             Swal.fire(
                 '',

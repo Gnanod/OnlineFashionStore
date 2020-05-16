@@ -74,9 +74,7 @@ class Wishlist extends Component {
                     }
                 }
             );
-        axios.get(constants.backend_url + 'api/cart/addPhoto/'+ cartItem.itemId).then(response => {
 
-        })
 
         console.log(cartt);
 
@@ -102,7 +100,7 @@ class Wishlist extends Component {
                 )*/
             }
         })
-        window.location.reload(false);
+        // window.location.reload(false);
     }
     clearWishlist(){
         console.log("clear");
