@@ -243,6 +243,9 @@ export class ItemDetail extends Component {
                     }
                 }
             );
+        axios.get(constants.backend_url + 'api/wishlist/addPhoto/'+ cartItem.itemSizes._id).then(response => {
+
+        })
 
     }
 

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const router = express.Router();
 let Cart = require('../../models/Cart.model');
 let itemcolor = require('../../models/ItemColor.model');
+let Order = require('../../models/Order.model');
 
 
 router.route('/add').post(function (req,res) {
@@ -95,6 +96,18 @@ router.route('/getSub/:id').get(function (req, res) {
             console.log("fail")
         });
 });
+router.route('/addOrder').post(function (req,res) {
+
+    let order=new Order  (req.body);
+
+    order.save().then(sup=>{
+        console.log("image successful");
+        res.status(200).json({'itemColor':'successful'});
+    }).catch(err=>{
+        console.log("itemColor fail");
+        res.status(400).send('fail');
+    });
+});
 router.route('/updateQuantity/:id/:quantity').get(function (req, res) {
     console.log("In the dec")
     let id = req.params.id;
@@ -125,4 +138,5 @@ router.route('/addPhoto/:id/:image').get(function (req, res) {
     });
 
 });
+
 module.exports = router;

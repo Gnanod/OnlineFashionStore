@@ -22,6 +22,7 @@ class Cart extends Component {
             quantity:'',
             itemTot:'',
             fullTot:0,
+            orderId:'',
             loaderStatus :true
 
         }
@@ -32,6 +33,8 @@ class Cart extends Component {
         this.increment=this.increment.bind(this);
         this.clearCart=this.clearCart.bind(this);
         this.getSubTotal=this.getSubTotal.bind(this);
+        this.confirmPurchase=this.confirmPurchase.bind(this);
+        this.getLastId=this.getLastId.bind(this);
 
     }
 
@@ -79,6 +82,7 @@ class Cart extends Component {
         })
         window.location.reload(false);
 
+
     }
 
     remove1(id){
@@ -118,6 +122,56 @@ class Cart extends Component {
                 fullTot:response.data
             })
         });
+    }
+    confirmPurchase(){
+            let a=this.getLastId();
+            console.log(this.state.orderId)
+        this.state.cartList.map(item => {
+            let order={
+                orderId:a,
+                userId: this.state.userId,
+                itemTotal:this.state.fullTot,
+                itemName:item.cartName,
+                itemId:item.itemId,
+                itemPrice:item.cartPrice,
+                oderTime: new Date().toLocaleString()
+            }
+            axios.post(constants.backend_url + 'api/cart/addOrder', order)
+                .then(res => {
+                        console.log("HI")
+
+                        if (res.data.cart === 'success') {
+                            Swal.fire(
+                                '',
+                                'Cart Added Fail',
+                                'error'
+                            );
+
+                        } else {
+                            Swal.fire(
+                                '',
+
+                                'Cart Details Added Successfully.',
+                                'success'
+                            )
+                        }
+                    }
+                );
+        })
+
+
+
+    }
+    getLastId(){
+
+
+       let a=Math.floor(Math.random() * Date.now());
+       console.log(a);
+        this.setState({
+            orderId:a
+        })
+        return a;
+
     }
 
     render() {
@@ -197,6 +251,7 @@ class Cart extends Component {
         <span>Full Total     :</span>
         <span>{this.state.fullTot}</span>
         </div>
+            <button  className="btn btn-blue" onClick={()=>this.confirmPurchase()}>Confirm Purchase</button>
         </div>
 
 
