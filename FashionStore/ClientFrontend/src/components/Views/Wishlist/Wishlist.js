@@ -55,22 +55,25 @@ class Wishlist extends Component {
             .then(res => {
                     console.log("HI wish cart")
 
-                    if (res.data.cart === 'success') {
+                    if (res.data.cart === 'successful') {
+                        this.remove1(item._id);
                         Swal.fire(
                             '',
-                            'Cart Added Fail',
-                            'error'
+                            'Cart Details Added Successfully.',
+
+                            'success'
+
                         );
 
                     } else {
-
                         Swal.fire(
                             '',
 
-                            'Cart Details Added Successfully.',
+                            'Cart Added Fail',
                             'success'
                         )
-                        this.remove1(item._id);
+
+
                     }
                 }
             );
@@ -82,22 +85,23 @@ class Wishlist extends Component {
     remove1(id){
         console.log("remove");
         axios.get(constants.backend_url + 'api/wishlist/deleteItem/'+ id).then(response => {
-            if (response.data.cart === 'success') {
-                /*Swal.fire(
-                    '',
-                    'Cart Deleted Fail',
-                    'error'
+            if (response.data.wishlist === 'successful') {
+                Swal.fire(
+                     '',
+                    'Item Deleted Sucessfull',
+                    'success'
 
-                );*/
+                );
+                this.getDetails();
 
             } else {
-               /* Swal.fire(
-                    '',
+               Swal.fire(
+                     '',
+                    'Item Deleted Fail',
+                    'error'
 
 
-                    'Cart Deleted Sucessfull',
-                    'success'
-                )*/
+                )
             }
         })
         // window.location.reload(false);
