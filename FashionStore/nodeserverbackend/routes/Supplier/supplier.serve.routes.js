@@ -5,6 +5,7 @@ let Supplier = require('../../models/Supplier.model');
 
 
 router.route('/add').post(function (req,res) {
+    console.log("Supplier Addddd");
     let supplier = new Supplier(req.body);
     supplier.save()
         .then(sup=>{
