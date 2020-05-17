@@ -82,7 +82,7 @@ class OrderTable extends Component {
 
                                 <form>
                                     <MDBTable responsive>
-                                        <MDBTableHead color="secondary-color" textWhite>
+                                        <MDBTableHead color="primary-color" textWhite>
                                             <tr>
                                                 <th>Order ID</th>
                                                 <th>Date</th>

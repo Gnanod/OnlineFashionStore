@@ -156,15 +156,15 @@ router.route('/addPhoto/:id').get(function (req, res) {
 });
 router.route('/getOrders').get(function (req, res) {
 
-    //Order.find( ).exec().then(item => {
-    //Order.aggregate({ $group: { id: '$orderId', name: { $max: '$n' } } })
-        //console.log(item)
-      //  res.status(200).json(item)
-    //})
-       // .catch(err => {
-           // console.log("Fail")
-          //  res.status(500).json(err);
-        //});
+    Order.find( ).exec().then(item => {
+    //Order.aggregate({ $group: { id: '$orderId', userId: '$userId',itemTotal:'$itemTotal' } }).exec().then(item => {
+        console.log(item)
+        res.status(200).json(item)
+    })
+        .catch(err => {
+            console.log("Fail")
+            res.status(500).json(err);
+        });
 
 
 
