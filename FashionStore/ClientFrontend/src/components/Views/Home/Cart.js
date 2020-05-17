@@ -187,9 +187,9 @@ class Cart extends Component {
         <div>
 
         {this.state.cartList.map(item => {
-            const base64String = btoa(new Uint8Array(item.image.data).reduce(function (data, byte) {
-                return data + String.fromCharCode(byte);
-            }, ''));
+                const base64String = btoa(new Uint8Array(item.image.data).reduce(function (data, byte) {
+                    return data + String.fromCharCode(byte);
+                }, ''));
             return(
                 <div className="row my-1 text-capitalize text-center">
                     <div className="col-10 mx-auto col-lg-2" >

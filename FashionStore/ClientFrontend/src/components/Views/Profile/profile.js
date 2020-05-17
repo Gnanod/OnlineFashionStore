@@ -27,7 +27,8 @@ export default class profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            feedback: ''
+            feedback: '',
+            CustName: 'Samitha '
         };
         this.sweetalertfunction = this.sweetalertfunction.bind(this);
         this.submitfeedback = this.submitfeedback.bind(this);
@@ -86,7 +87,8 @@ export default class profile extends Component {
                                         console.log("Validation complete");
 
                                         const newfeedback = {
-                                            feedback: this.state.feedback
+                                            feedback: this.state.feedback,
+                                            Name: this.state.CustName
                                         }
                                         axios.post(constants.backend_url + 'api/feedback/add', newfeedback)
                                             .then(res => {
