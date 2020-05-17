@@ -31,28 +31,7 @@ export default class UserAnalysis extends Component {
             detailList:[],
             countMale: 0,
             countFemale: 0,
-            dataBar: {
-                labels: [ "Male", "Female"],
-                datasets: [
-                    {
-                        label: "Gender attraction towards website",
-
-
-                        data: [30, 45],
-
-
-                        backgroundColor: [
-                            "rgba(236, 112, 99 )",
-                            "rgba(93, 173, 226)",
-                        ],
-                        borderWidth: 2,
-                        borderColor: [
-                            "rgba(255, 134, 159, 1)",
-                            "rgba(98,  182, 239, 1)",
-                        ]
-                    }
-                ]
-            },
+            dataBar: {},
             barChartOptions: {
                 responsive: true,
                 maintainAspectRatio: false,
@@ -118,9 +97,48 @@ export default class UserAnalysis extends Component {
 
 
     getUserDetails(){
-        console.log("get user details");
         axios.get(constants.backend_url + 'api/userDetail/getAllusers').then(response => {
-            this.setState({detailList:response.data})
+
+            console.log('JJJJJJJJJJJJ');
+            console.log(response.data);
+            console.log('JJJJJJJJJJJJ');
+            let maleCount=0;
+            let femaleCount=0;
+            response.data.map(user=>{
+                if(user.gender === 'Male'){
+                    maleCount++;
+                }
+                if(user.gender === 'Female'){
+                    femaleCount ++;
+                }
+            })
+            this.setState({
+                detailList:response.data,
+                countMale :maleCount,
+                countFemale :femaleCount,
+                dataBar: {
+                    labels: [ "Male", "Female"],
+                    datasets: [
+                        {
+                            label: "Gender attraction towards website",
+
+
+                            data: [maleCount, femaleCount],
+
+
+                            backgroundColor: [
+                                "rgba(236, 112, 99 )",
+                                "rgba(93, 173, 226)",
+                            ],
+                            borderWidth: 2,
+                            borderColor: [
+                                "rgba(255, 134, 159, 1)",
+                                "rgba(98,  182, 239, 1)",
+                            ]
+                        }
+                    ]
+                }
+            })
         }).catch(function (error) {
             console.log(error);
         })
@@ -149,17 +167,6 @@ export default class UserAnalysis extends Component {
                         </MDBCardBody>
                     </MDBCard>
 
-                    {/*<MDBContainer className='d-flex justify-content-center align-items-center' style={{ height: '100%', width: '100%', paddingTop: '0rem' }}>*/}
-                    {/*    <MDBRow>*/}
-                    {/*        <MDBCol md='12' className='mb-4  text-center'>*/}
-                    {/*            <h1 className='display-5 mb-0 pt-md-5 pt-5  font-weight-bold' >*/}
-                    {/*                USER &nbsp;*/}
-                    {/*                <span className='font-weight-bold h1col'>ANALYSIS</span>*/}
-                    {/*            </h1>*/}
-                    {/*        </MDBCol>*/}
-                    {/*    </MDBRow>*/}
-                    {/*</MDBContainer>*/}
-                    {/*<br></br><br></br>*/}
                     <div className=" container-fluid itemColorMain">
                         <MDBRow>
                             <MDBCol size="5">

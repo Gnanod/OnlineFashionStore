@@ -141,21 +141,22 @@ class Cart extends Component {
             }
             axios.post(constants.backend_url + 'api/cart/addOrder', order)
                 .then(res => {
-                        console.log("HI")
+                        console.log(res.data.order)
 
-                        if (res.data.cart === 'success') {
+                        if (res.data.order === 'successful') {
                             Swal.fire(
                                 '',
-                                'Cart Added Fail',
-                                'error'
+                                ' Your Order has Placed  Successfully.',
+                                'success'
                             );
+                            this.clearCart(this.state.userId);
 
                         } else {
                             Swal.fire(
                                 '',
+                                'Order Purchase Fail',
+                                'error'
 
-                                'Cart Details Added Successfully.',
-                                'success'
                             )
                         }
                     }
