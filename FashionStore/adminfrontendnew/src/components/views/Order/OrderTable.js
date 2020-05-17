@@ -10,7 +10,7 @@ import {
     MDBCard,
     MDBCardBody,
     MDBCardTitle,
-    MDBInput, MDBBtn, MDBTableHead, MDBTableBody, MDBTable, MDBAlert
+    MDBInput, MDBBtn, MDBTableHead, MDBTableBody, MDBTable, MDBAlert, MDBListGroup, MDBListGroupItem
 } from 'mdbreact';
 import {BrowserRouter as Router, NavLink} from 'react-router-dom';
 import axios from "axios";
@@ -25,7 +25,9 @@ class OrderTable extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            selectedId:'',
             resultArray : [],
+            item:[],
             orderList: []
 
 
@@ -33,6 +35,7 @@ class OrderTable extends Component {
         this.getDetails = this.getDetails.bind(this);
         this.SortData = this.SortData.bind(this);
         this.viewItem = this.viewItem.bind(this);
+        this.deleteItem = this.deleteItem.bind(this);
 
     }
     componentDidMount() {
@@ -67,6 +70,40 @@ class OrderTable extends Component {
     }
     viewItem(id){
        console.log(id)
+        this.setState({selectedId:id})
+        axios.get(constants.backend_url + 'api/cart/viewOrders/'+id).then(response => {
+
+            this.setState({item: response.data});
+
+        }).catch(function (error) {
+            console.log(error);
+        })
+    }
+    deleteItem(id){
+        console.log(id)
+
+        axios.get(constants.backend_url + 'api/cart/deleteOrders/'+id).then(res => {
+
+            if (res.data.order === 'successful') {
+                Swal.fire(
+                    '',
+                    ' Item Deleted Successfully.',
+                    'success'
+                );
+                this.getDetails();
+
+            } else {
+                Swal.fire(
+                    '',
+                    'Item Deleted Fail',
+                    'error'
+
+                )
+            }
+
+        }).catch(function (error) {
+            console.log(error);
+        })
     }
     render() {
         return (
@@ -77,17 +114,9 @@ class OrderTable extends Component {
                         <NavLink exact={true} to="/order" activeClassName="activeClass">
                             <button type="button" className="btn btn-primary">Order Details</button>
                         </NavLink>
-                        <NavLink exact={true} to="/usermanage/useranalysis" >
-                            <button type="button" className="btn btn-success "> User Analysis</button>
-                        </NavLink>
-                        <NavLink exact={true} to="/usermanage/adminmanage" >
-                            <button type="button" className="btn btn-success "> Admin Manage</button>
-                        </NavLink>
 
-                        {/*<MDBFormInline className="md-form m-0">*/}
-                        {/*    <input className="form-control form-control-sm" type="search" placeholder="Type your query" aria-label="Search"/>*/}
-                        {/*    <MDBBtn size="sm" color="primary" className="my-0" type="submit"><MDBIcon icon="search" /></MDBBtn>*/}
-                        {/*</MDBFormInline>*/}
+
+
                         <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                     </MDBCardBody>
                 </MDBCard>
@@ -131,7 +160,7 @@ class OrderTable extends Component {
                                                             </MDBBtn>&nbsp;&nbsp;&nbsp;
                                                         </td>
                                                         <td>
-                                                            <MDBBtn tag="a" size="sm" color="danger" >
+                                                            <MDBBtn tag="a" size="sm" color="danger" onClick={()=>this.deleteItem(item.orderId)}>
                                                                 <MDBIcon size="lg" icon="times-circle" />
                                                             </MDBBtn>
                                                         </td>
@@ -191,6 +220,50 @@ class OrderTable extends Component {
                     <MDBCol md="4">
                         <MDBCard>
                             <MDBCardBody>
+                                <p className="h4 text-center py-1">Order Details</p>
+                                <label htmlFor="defaultFormCardNameEx1" className="grey-text font-weight-light">Order ID</label>
+
+                                <div className="input-group">
+                                    <div className="input-group-prepend">
+                                            <span className="input-group-text" id="basic-addon">
+                                              <i className="fa fa-table prefix"></i>
+                                            </span>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Order ID"
+                                        aria-label="Name"
+                                        aria-describedby="basic-addon"
+                                        value={this.state.selectedId}
+
+                                    /></div>
+                                <MDBTable responsive>
+                                    <MDBTableHead color="grey-color" textBlack>
+                                        <tr>
+                                            <th>Item Name</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </MDBTableHead>
+                                    <MDBTableBody>
+
+                                {this.state.item.map(item => {
+
+                                    return (
+
+
+                                        <tr>
+                                            <td>{item.itemName}</td>
+                                            <td>{item.itemPrice}</td>
+
+                                        </tr>
+
+
+
+
+                                    )})}
+                                    </MDBTableBody>
+                                </MDBTable>
 
                             </MDBCardBody>
                         </MDBCard>
