@@ -6,7 +6,6 @@ import {
     MDBBtn,
     MDBCard,
     MDBCardBody,
-    MDBCardText,
     MDBCardTitle,
     MDBCol,
     MDBInput,
@@ -22,7 +21,6 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 import uuid from "react-uuid";
 import StockPriceTableBody from "./StockPriceTableBody";
 import constants from "../../../constants/constants";
-import BrandCategoryTableBody from "../Item/BrandCategoryTableBody";
 import StocksTableBody from "./StocksTableBody";
 
 
@@ -30,7 +28,6 @@ export default class StockDetails extends Component{
 
     constructor(props) {
         super(props);
-
 
         this.state = {
             startDate: Date,
@@ -77,12 +74,6 @@ export default class StockDetails extends Component{
 
         this.getAllSuppliers();
     }
-
-
-
-
-
-
     onChangeStartDate(e){
         this.setState({
             startDate: e.target.value,

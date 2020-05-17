@@ -66,10 +66,8 @@ export default class Home extends Component {
     }
 
     getDetailsOfNewItems() {
-
         this.state.newItems.map(item => {
             this.state.itemColors.map(response => {
-
                 if (item.itemCode[0]._id === response.itemCode[0]._id) {
                     const newArray = {
                         itemArray: response,
