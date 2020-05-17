@@ -25,11 +25,15 @@ class OrderTable extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            cartitem: '',
+            resultArray : [],
             orderList: []
+
 
         }
         this.getDetails = this.getDetails.bind(this);
+        this.SortData = this.SortData.bind(this);
+        this.viewItem = this.viewItem.bind(this);
+
     }
     componentDidMount() {
         this.getDetails();
@@ -39,10 +43,30 @@ class OrderTable extends Component {
         axios.get(constants.backend_url + 'api/cart/getOrders').then(response => {
             console.log(response.data)
             this.setState({orderList: response.data});
+            this.SortData();
         }).catch(function (error) {
             console.log(error);
         })
 
+    }
+    SortData(){
+        const result = [];
+        const map = new Map();
+        for (const item of this.state.orderList) {
+            if(!map.has(item.orderId)){
+                map.set(item.orderId, true);    // set any value to Map
+                result.push({
+                    orderId: item.orderId,
+                    itemTotal: item.itemTotal,
+                    userId:item.userId,
+                    oderTime:item.oderTime
+                });
+            }
+        }
+        this.setState({resultArray:result})
+    }
+    viewItem(id){
+       console.log(id)
     }
     render() {
         return (
@@ -75,7 +99,7 @@ class OrderTable extends Component {
                                 <MDBCol md="4" className="searchC">
                                     <MDBFormInline className="md-form m-0">
                                         <input className="form-control form-control-sm" type="search" placeholder="Search..." aria-label="Search"/>
-                                        <MDBBtn size="sm" color="secondary" className="my-0" type="submit"><MDBIcon icon="search" /></MDBBtn>
+                                        <MDBBtn size="sm" color="primary" className="my-0" type="submit"><MDBIcon icon="search" /></MDBBtn>
                                     </MDBFormInline>
                                 </MDBCol>
                                 <br></br>
@@ -93,16 +117,16 @@ class OrderTable extends Component {
                                             </tr>
                                         </MDBTableHead>
                                         <MDBTableBody>
-                                            {this.state.orderList.map(item => {
+                                            {this.state.resultArray.map(item => {
 
                                                 return (
                                                     <tr>
                                                         <td>{item.orderId}</td>
-                                                        <td>2020.05.18</td>
+                                                        <td>{item.oderTime}</td>
                                                         <td>{item.itemTotal}</td>
                                                         <td>{item.userId}</td>
                                                         <td>
-                                                            <MDBBtn tag="a" size="sm" color="success" >
+                                                            <MDBBtn tag="a" size="sm" color="success"  onClick={()=>this.viewItem(item.orderId)}>
                                                                 <MDBIcon size="lg" icon="pen" />
                                                             </MDBBtn>&nbsp;&nbsp;&nbsp;
                                                         </td>
@@ -129,7 +153,7 @@ class OrderTable extends Component {
                                             </MDBPageNav>
                                         </MDBPageItem>
                                         <MDBPageItem active >
-                                            <MDBPageNav className="page-link secondary-color" >
+                                            <MDBPageNav className="page-link primary-color" >
                                                 1 <span className="sr-only " >(current)</span>
                                             </MDBPageNav>
                                         </MDBPageItem>

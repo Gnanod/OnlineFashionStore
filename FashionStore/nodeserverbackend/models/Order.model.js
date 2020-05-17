@@ -22,6 +22,10 @@ let order = new Schema({
         type: String,
         required: true
     },
+    oderTime:{
+        type: String,
+        required: true
+    },
     itemPrice:{
         type: Number,
         required: true

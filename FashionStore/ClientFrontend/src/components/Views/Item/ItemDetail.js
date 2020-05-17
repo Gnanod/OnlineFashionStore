@@ -179,16 +179,16 @@ export class ItemDetail extends Component {
                     if (res.data.cart === 'successful') {
                         Swal.fire(
                             '',
-                            'Cart Added Fail',
-                            'error'
+                            'Cart Details Added Successfully.',
+                            'success'
                         );
 
                     } else {
 
                             Swal.fire(
                                 '',
-                                'Cart Details Added Successfully.',
-                                'success'
+                            'Cart Added Fail',
+                            'error'
                             )
 
 

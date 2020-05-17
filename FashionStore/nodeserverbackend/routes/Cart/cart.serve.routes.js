@@ -17,7 +17,7 @@ router.route('/add').post(function (req,res) {
             //res.status(200).json({'cart':'successful'});
             itemcolor.findOne({_id:cart.itemId}).then(item => {
 
-               // console.log(item.image)
+                console.log(item.image)
                 Cart.updateMany({itemId:cart.itemId},{$set: {image:item.image}}).then(sup=>{
                     console.log("image successful");
                     res.status(200).json({'cart':'successful'});
@@ -30,10 +30,10 @@ router.route('/add').post(function (req,res) {
         //console.log("fail");
         res.status(400).send('fail');
     });
- Cart.findOne({itemId:'5ebd97d161523312a6c2d3c1'}).then(item1 =>{
+/* Cart.findOne({itemId:'5ebd97d161523312a6c2d3c1'}).then(item1 =>{
      console.log("After Image")
      console.log(item1.image)
- })
+ })*/
 
 });
 
@@ -117,10 +117,10 @@ router.route('/addOrder').post(function (req,res) {
     let order=new Order  (req.body);
 
     order.save().then(sup=>{
-        console.log("image successful");
-        res.status(200).json({'itemColor':'successful'});
+       // console.log("image successful");
+        res.status(200).json({'order':'successful'});
     }).catch(err=>{
-        console.log("itemColor fail");
+        //console.log("itemColor fail");
         res.status(400).send('fail');
     });
 });
