@@ -75,6 +75,7 @@ export default class StockDetails extends Component{
         this.onChangeGetCompanyName = this.onChangeGetCompanyName.bind(this);
         this.onSubmitStock = this.onSubmitStock.bind(this);
 
+        this.getAllSuppliers();
     }
 
 
@@ -100,6 +101,9 @@ export default class StockDetails extends Component{
     getAllSuppliers() {
         axios.get(constants.backend_url + 'api/supplier/getAllSuppliers').then(response => {
             this.setState({suppliers: response.data});
+            console.log("Suppler")
+            console.log(response.data)
+            console.log("Supplier")
         }).catch(function (error) {
             console.log(error);
         })
