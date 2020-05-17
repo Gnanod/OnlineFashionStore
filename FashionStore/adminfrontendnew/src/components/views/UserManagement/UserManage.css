@@ -40,6 +40,11 @@
     background-color: #9fa8da;
 }
 
+.feedbacktext{
+    /*font-weight: bold !important;*/
+    font-size: 18px !important;
+}
+
 /*.leftmargin{*/
 /*    margin-left: 0px !important;*/
 /*}*/

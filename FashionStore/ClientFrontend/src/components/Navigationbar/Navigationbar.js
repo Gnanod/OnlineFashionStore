@@ -43,7 +43,9 @@ export default class Navigationbar extends Component {
             password: '',
             phone: '',
             confirmpass: '',
-            dob:''
+            dob:'',
+            MaleCount:0,
+            FemaleCount:0
 
             // options: [
             //     {
@@ -190,45 +192,61 @@ export default class Navigationbar extends Component {
                                     if(this.state.confirmpass != ''){
                                         if(this.state.dob != ''){
                                             console.log("Validation complete");
-
-                                            const newuserDetail = {
-                                                firstName: this.state.fname,
-                                                lastName: this.state.lname,
-                                                phoneNumber: this.state.phone,
-                                                gender: this.state.gender,
-                                                email: this.state.email,
-                                                password: this.state.password,
-                                                dob: this.state.dob
-                                            }
-                                            axios.post(constants.backend_url + 'api/userDetail/add', newuserDetail)
-                                                .then(res => {
-                                                        console.log(res)
-                                                        console.log(newuserDetail);
-                                                        if (res.data.userDetail === 'successful') {
-                                                            Swal.fire(
-                                                                '',
-                                                                'User Details added successfully !.',
-                                                                'success'
-                                                            );
-                                                            this.setState({
-                                                                fname: '',
-                                                                lname: '',
-                                                                email: '',
-                                                                gender: '',
-                                                                password: '',
-                                                                phone: '',
-                                                                dob: '',
-                                                                confirmpass: ''
-                                                            })
-                                                        } else {
-                                                            Swal.fire(
-                                                                '',
-                                                                'User Details not added !',
-                                                                'error'
-                                                            )
+                                            if(this.state.gender == 'Male' || this.state.gender == 'Female' ){
+                                                if(this.state.gender == 'Male'){
+                                                    this.state.MaleCount = this.state.MaleCount + 1;
+                                                }else{
+                                                    this.state.FemaleCount = this.state.FemaleCount + 1;
+                                                }
+                                                const newuserDetail = {
+                                                    firstName: this.state.fname,
+                                                    lastName: this.state.lname,
+                                                    phoneNumber: this.state.phone,
+                                                    gender: this.state.gender,
+                                                    email: this.state.email,
+                                                    password: this.state.password,
+                                                    dob: this.state.dob,
+                                                    male:this.state.MaleCount,
+                                                    female:this.state.FemaleCount
+                                                }
+                                                axios.post(constants.backend_url + 'api/userDetail/add', newuserDetail)
+                                                    .then(res => {
+                                                            console.log(res)
+                                                            console.log(newuserDetail);
+                                                            if (res.data.userDetail === 'successful') {
+                                                                Swal.fire(
+                                                                    '',
+                                                                    'User Details added successfully !.',
+                                                                    'success'
+                                                                );
+                                                                this.setState({
+                                                                    fname: '',
+                                                                    lname: '',
+                                                                    email: '',
+                                                                    gender: '',
+                                                                    password: '',
+                                                                    phone: '',
+                                                                    dob: '',
+                                                                    confirmpass: ''
+                                                                })
+                                                            } else {
+                                                                Swal.fire(
+                                                                    '',
+                                                                    'User Details not added !',
+                                                                    'error'
+                                                                )
+                                                            }
                                                         }
-                                                    }
-                                                );
+                                                    );
+
+                                            } else{
+                                                Swal.fire(
+                                                    '',
+                                                    'Enter correct gender !.',
+                                                    'error');
+                                            }
+
+
                                         }else{console.log("dob empty");}
                                     }else{console.log(" confirm pass empty");}
                                 }else{console.log("pass empty");}
