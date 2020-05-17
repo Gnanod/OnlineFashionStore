@@ -253,7 +253,7 @@ export default class SupplierDetails extends Component{
                                                                         .then(res => {
                                                                                 console.log(res)
                                                                             console.log(newSupplier);
-                                                                                if (res.data.supplier === 'success') {
+                                                                                if (res.data.supplier === 'successful') {
                                                                                     Swal.fire(
                                                                                         '',
                                                                                         'Supplier Details Added Successfully.',
