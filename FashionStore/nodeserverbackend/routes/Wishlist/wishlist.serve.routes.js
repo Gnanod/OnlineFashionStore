@@ -15,7 +15,7 @@ router.route('/add').post(function (req,res) {
             itemcolor.findOne({_id:wishlist.itemId}).then(item => {
 
                 console.log(item.image)
-                Wishlist.update({itemId:wishlist.itemId},{$set: {image:item.image}}).then(sup=>{
+                Wishlist.updateMany({itemId:wishlist.itemId},{$set: {image:item.image}}).then(sup=>{
                     console.log("image successful");
                     res.status(200).json({'itemColor':'successful'});
                 }).catch(err=>{

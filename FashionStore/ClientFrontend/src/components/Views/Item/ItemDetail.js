@@ -174,9 +174,9 @@ export class ItemDetail extends Component {
 
         axios.post(constants.backend_url + 'api/cart/add', cartt)
             .then(res => {
-                    console.log("HI")
+                    console.log(res.data.cart)
 
-                    if (res.data.cart === 'success') {
+                    if (res.data.cart === 'successful') {
                         Swal.fire(
                             '',
                             'Cart Added Fail',
