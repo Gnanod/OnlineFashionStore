@@ -253,7 +253,7 @@ export default class SupplierDetails extends Component{
                                                                         .then(res => {
                                                                                 console.log(res)
                                                                             console.log(newSupplier);
-                                                                                if (res.data.supplier === 'success') {
+                                                                                if (res.data.supplier === 'successful') {
                                                                                     Swal.fire(
                                                                                         '',
                                                                                         'Supplier Details Added Successfully.',
@@ -382,6 +382,7 @@ export default class SupplierDetails extends Component{
                                         <MDBCardTitle>Supplier</MDBCardTitle>
 
                                     <MDBInput label="Company Name" size="sm"
+                                              pattern="[a-zA-Z]*"
                                               value={this.state.companyName}
                                               onChange={this.onChangeCompanyName}
                                     />
@@ -424,6 +425,7 @@ export default class SupplierDetails extends Component{
                                     <MDBCardTitle>Contact Infromation</MDBCardTitle>
 
                                     <MDBInput label="First Name" size="sm"
+                                              pattern="[a-zA-Z]*"
                                               value={this.state.firstName}
                                               onChange={this.onChangeFirstName}
 
@@ -436,6 +438,7 @@ export default class SupplierDetails extends Component{
                                     }
 
                                     <MDBInput label="Last Name" size="sm"
+                                              pattern="[a-zA-Z]*"
                                               value={this.state.lastName}
                                               onChange={this.onChangeLastName}
                                     />
@@ -446,6 +449,7 @@ export default class SupplierDetails extends Component{
                                     }
 
                                     <MDBInput label="Company Number" size="sm"
+                                              pattern="[0-9]*"
                                               value={this.state.companyNumber}
                                               onChange={this.onChangeCompanyNumber}
                                     />
@@ -456,6 +460,7 @@ export default class SupplierDetails extends Component{
                                     }
 
                                     <MDBInput label="Mobile Number" size="sm"
+                                              pattern="[0-9]*"
                                               value={this.state.mobileNumber}
                                               onChange={this.onChangeMobileNumber}
                                     />
@@ -466,6 +471,7 @@ export default class SupplierDetails extends Component{
                                     }
 
                                     <MDBInput label="Email" size="sm"
+
                                               value={this.state.email}
                                               onChange={this.onChangeEmail}
                                     />
@@ -476,6 +482,7 @@ export default class SupplierDetails extends Component{
                                     }
 
                                     <MDBInput label="Fax" size="sm"
+                                              pattern="[0-9]*"
                                               value={this.state.fax}
                                               onChange={this.onChangeFax}
                                     />
@@ -501,6 +508,7 @@ export default class SupplierDetails extends Component{
                                     }
 
                                     <MDBInput label="Address 2" size="sm"
+                                              pattern="[a-zA-Z]*"
                                               value={this.state.address2}
                                               onChange={this.onChangeAddress2}
 
@@ -512,6 +520,7 @@ export default class SupplierDetails extends Component{
                                     }
 
                                     <MDBInput label="Town/City" size="sm"
+                                              pattern="[a-zA-Z]*"
                                               value={this.state.city}
                                               onChange={this.onChangeCity}
 
@@ -523,6 +532,7 @@ export default class SupplierDetails extends Component{
                                     }
 
                                     <MDBInput label="Country" size="sm"
+                                              pattern="[a-zA-Z]*"
                                               value={this.state.country}
                                               onChange={this.onChangeCountry}
 
@@ -534,6 +544,7 @@ export default class SupplierDetails extends Component{
                                     }
 
                                     <MDBInput label="State" size="sm"
+                                              pattern="[a-zA-Z]*"
                                               value={this.state.state}
                                               onChange={this.onChangeState}
 

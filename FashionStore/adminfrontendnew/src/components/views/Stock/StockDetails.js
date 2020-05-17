@@ -185,13 +185,13 @@ export default class StockDetails extends Component{
             if(this.state.sellingPrice !== 0){
                 if(this.state.quantity !== 0){
                     if(this.state.discount !== 0){
-                        if(this.state.totalPrice !== 0){
+                        // if(this.state.totalPrice !== 0){
                             const stockPrices = {
                                 buyingPrice: this.state.buyingPrice,
                                 sellingPrice: this.state.sellingPrice,
                                 quantity: this.state.quantity,
                                 discount: this.state.discount,
-                                totalPrice: this.state.totalPrice
+                                totalPrice: this.state.quantity * this.state.buyingPrice
                             }
                             axios.post(constants.backend_url + 'api/stockprice/add', stockPrices)
                                 .then(res => {
@@ -220,11 +220,11 @@ export default class StockDetails extends Component{
                                         }
                                     }
                                 );
-                        }else{
-                            this.setState({
-                                totalPriceValidation: true
-                            })
-                        }
+                        // }else{
+                        //     this.setState({
+                        //         totalPriceValidation: true
+                        //     })
+                        // }
                     }else{
                         this.setState({
                             discountValidation: true
@@ -321,13 +321,13 @@ export default class StockDetails extends Component{
             if (this.state.sellingPrice != 0) {
                 if (this.state.quantity != 0) {
                     if (this.state.discount != 0) {
-                        if (this.state.totalPrice != 0) {
+                        // if (this.state.totalPrice != 0) {
                             const newStockPrice = {
                                 buyingPrice: this.state.buyingPrice,
                                 sellingPrice: this.sellingPrice,
                                 quantity: this.state.quantity,
                                 discount: this.discount,
-                                totalPrice: this.state.totalPrice,
+                                totalPrice: this.state.quantity * this.state.buyingPrice,
                                 stockPriceId: uuid()
                             }
                             const array = [newStockPrice, ...this.state.stockPriceArray];
@@ -338,12 +338,12 @@ export default class StockDetails extends Component{
                             })
                             // this.getAllBrands();
                             // this.getAllCategories();
-                        }else {
-                            this.setState({
-                                totalPriceValidation: true
-                            })
-
-                        }
+                        // }else {
+                        //     this.setState({
+                        //         totalPriceValidation: true
+                        //     })
+                        //
+                        // }
                     }else {
                         this.setState({
                             discountValidation: true
@@ -373,7 +373,7 @@ export default class StockDetails extends Component{
     deleteStockPrice(id){
         const nonDeletedItems = this.state.stockPriceArray.filter(stockP => stockP.stockPriceId !== id);
         this.setState({
-                brandCategoryArray: nonDeletedItems,
+            stockPriceArray: nonDeletedItems,
                 stockPriceId: id
             }
         )
@@ -602,15 +602,15 @@ export default class StockDetails extends Component{
                                                 Discount Field Is Empty
                                             </MDBAlert> : ''
                                         }
-                                        <MDBInput label="Total Price" size="sm"
-                                                  value={this.state.totalPrice}
-                                                  onChange={this.onChangeTotalPrice}
-                                        />
-                                        {
-                                            this.state.totalPriceValidation ? <MDBAlert color="danger">
-                                                Total Price Field Is Empty
-                                            </MDBAlert> : ''
-                                        }
+                                        {/*<MDBInput label="Total Price" size="sm"*/}
+                                                  {/*value={this.state.totalPrice}*/}
+                                                  {/*onChange={this.onChangeTotalPrice}*/}
+                                        {/*/>*/}
+                                        {/*{*/}
+                                            {/*this.state.totalPriceValidation ? <MDBAlert color="danger">*/}
+                                                {/*Total Price Field Is Empty*/}
+                                            {/*</MDBAlert> : ''*/}
+                                        {/*}*/}
 
                                         <MDBBtn type="submit">Save</MDBBtn>
                                     </form>
