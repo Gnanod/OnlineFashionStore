@@ -12,7 +12,17 @@ router.route('/add').post(function (req,res) {
     wishlist.save()
         .then(sup=>{
             console.log("successful");
-            res.status(200).json({'cart':'successful'});
+            itemcolor.findOne({_id:wishlist.itemId}).then(item => {
+
+                console.log(item.image)
+                Wishlist.update({itemId:wishlist.itemId},{$set: {image:item.image}}).then(sup=>{
+                    console.log("image successful");
+                    res.status(200).json({'itemColor':'successful'});
+                }).catch(err=>{
+                    console.log("itemColor fail");
+                    res.status(400).send('fail');
+                });
+            });
         }).catch(err=>{
         console.log("wishlist fail");
         res.status(400).send('fail');

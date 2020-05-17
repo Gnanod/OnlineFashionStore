@@ -292,6 +292,7 @@ export default class Navigationbar extends Component {
                                     <MDBNavLink to="/profile">Profile</MDBNavLink>
                                 </MDBNavItem>
 
+
                                 <MDBNavItem>
                                     <MDBNavLink to="/cart" className="ml-auto">
                                         <ButtonContainer>

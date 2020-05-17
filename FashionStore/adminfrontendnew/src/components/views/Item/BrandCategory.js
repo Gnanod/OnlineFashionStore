@@ -462,7 +462,7 @@ export default class BrandCategory extends Component {
                     <MDBCol>
                         <MDBCard size="6">
                             <MDBCardBody>
-                                <MDBCardTitle>Add New Category</MDBCardTitle>
+                                <MDBCardTitle>Add New Brand & Category</MDBCardTitle>
                                 <form onSubmit={this.addDetailsToTable}>
                                     <Autocomplete
                                         id="combo-box-demo"

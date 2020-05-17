@@ -63,20 +63,18 @@ class Wishlist extends Component {
                         );
 
                     } else {
-                        this.remove1(item._id);
+
                         Swal.fire(
                             '',
 
                             'Cart Details Added Successfully.',
                             'success'
                         )
-
+                        this.remove1(item._id);
                     }
                 }
             );
-        axios.get(constants.backend_url + 'api/cart/addPhoto/'+ cartItem.itemId).then(response => {
 
-        })
 
         console.log(cartt);
 
@@ -102,7 +100,7 @@ class Wishlist extends Component {
                 )*/
             }
         })
-        window.location.reload(false);
+        // window.location.reload(false);
     }
     clearWishlist(){
         console.log("clear");

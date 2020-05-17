@@ -1,5 +1,14 @@
 import React, {Component} from 'react';
-import {MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBNavLink} from "mdbreact";
+import {
+    MDBBreadcrumb,
+    MDBBreadcrumbItem,
+    MDBBtn,
+    MDBCard,
+    MDBCardBody,
+    MDBCardImage,
+    MDBCardTitle,
+    MDBNavLink
+} from "mdbreact";
 import './Item.css'
 import axios from "axios";
 import constants from "../../Constants/constants";
@@ -8,6 +17,8 @@ import TextField from '@material-ui/core/TextField';
 import Loader from "react-loader-spinner";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
+import {Rating} from "../Ratings/Rating";
+import StarRatings from "react-star-ratings";
 
 
 
@@ -31,7 +42,9 @@ export class ItemDetail extends Component {
             loaderStatus: true,
             price :'',
             selected:'',
-
+            item_Id:'',
+            averageRates :0,
+            ratingItems :''
 
         }
 
@@ -46,15 +59,24 @@ export class ItemDetail extends Component {
         //  this.getSizesAccordingToTheColor();
         this.decrementQuantity=this.decrementQuantity.bind(this);
         this.addToWhishList=this.addToWhishList.bind(this);
-
+        this.getAverageRate = this.getAverageRate.bind(this);
     }
 
     componentDidMount() {
         this.setState({
             itemColorId: this.props.match.params.id,
             itemColorObjectId: this.props.match.params.colorId,
-
         });
+    }
+
+    getAverageRate(){
+        axios.get(constants.backend_url + 'api/comment/getComment/'+this.state.item_Id).then(response => {
+            this.setState({
+                ratingItems :response.data
+            })
+        }).catch(function (error) {
+            console.log(error);
+        })
     }
 
     getPhotoAccordingToColor() {
@@ -65,33 +87,43 @@ export class ItemDetail extends Component {
             this.setState({
                 Url: base64String,
                 itemName: response.data.itemCode[0].itemName,
+                item_Id :response.data.itemCode[0]._id,
                 itemColorCode: response.data.itemColor
             })
+            this.state.itemSizesAll.length=0;
             this.getSizesAccordingToTheColor(response.data.itemColor, response.data.itemCode[0].itemCode);
+            this.getAverageRate();
         }).catch(function (error) {
             console.log(error);
         })
     }
 
     getSizesAccordingToTheColor(color, itemCode) {
-        let colId = color.substr(1);
         this.setState({
             itemSizesAll:[]
         })
         axios.get(constants.backend_url + 'api/itemcolor/getAllItemColors').then(response => {
+            let averageRate=0;
+            this.state.ratingItems.map(item => {
+                averageRate+=item.rates;
+                // console.log(item.rates);
+            });
+            averageRate = averageRate/5.0;
             response.data.map(item => {
                 if (item.itemCode[0].itemCode === itemCode && item.itemColor === color) {
-                    if (this.state.itemSizesAll.length === 0) {
+                    // if (this.state.itemSizesAll.length === 0) {
                         const newSizes = {
                             itemSizes: item
                         }
                         const array = [newSizes, ...this.state.itemSizesAll]
+
                         this.setState({
                             itemSizesAll: array,
                             autocompleteStatus: true,
+                            averageRate:averageRate,
                             loaderStatus: false
                         })
-                    }
+                    // }
 
                 }
             })
@@ -116,13 +148,11 @@ export class ItemDetail extends Component {
 
     ///////////////////////////// Add This Object To Cart ///////////////////////
     onChangeItemSize(value) {
-        console.log(value)
         if(value !==null){
             let price = value.itemSizes.price;
             this.setState({
                 price: price,
                 selected:value
-
             })
 
         }
@@ -131,6 +161,7 @@ export class ItemDetail extends Component {
     addToCart(){
         console.log(this.state.selected);
         let cartItem=this.state.selected;
+        console.log(cartItem);
         this.decrementQuantity(cartItem.itemSizes._id,cartItem.itemSizes.quantity);
         const cartt = {
             userId:'C001',
@@ -153,18 +184,18 @@ export class ItemDetail extends Component {
                         );
 
                     } else {
-                        Swal.fire(
-                            '',
 
-                            'Cart Details Added Successfully.',
-                            'success'
-                        )
+                            Swal.fire(
+                                '',
+                                'Cart Details Added Successfully.',
+                                'success'
+                            )
+
+
                     }
                 }
             );
-        axios.get(constants.backend_url + 'api/cart/addPhoto/'+ cartItem.itemSizes._id).then(response => {
 
-        })
 
         console.log(this.state.itemName);
         console.log(cartt);
@@ -180,13 +211,23 @@ export class ItemDetail extends Component {
                         itemColorObjId: item._id,
                         itemColorObject: item
                     }
-                    const array = [newItemColorObj, ...this.state.itemColorObj];
-                    this.setState({
-                        itemName: item.itemCode[0].itemName,
-                        itemColorObj: array,
-                        status: true,
-
+                    let itemStatus =false;
+                    this.state.itemColorObj.map(color=>{
+                        if(color.itemColor === newItemColorObj.itemColor){
+                            itemStatus=true;
+                        }
                     });
+
+                    if(!itemStatus){
+                        const array = [newItemColorObj, ...this.state.itemColorObj];
+                        this.setState({
+                            itemName: item.itemCode[0].itemName,
+                            itemColorObj: array,
+                            status: true,
+
+                        });
+                    }
+
                 }
 
             })
@@ -225,7 +266,6 @@ export class ItemDetail extends Component {
         axios.post(constants.backend_url + 'api/wishlist/add', wishlist )
             .then(res => {
                     console.log("HI")
-
                     if (res.data.wish === 'success') {
                         Swal.fire(
                             '',
@@ -243,9 +283,6 @@ export class ItemDetail extends Component {
                     }
                 }
             );
-        axios.get(constants.backend_url + 'api/wishlist/addPhoto/'+ cartItem.itemSizes._id).then(response => {
-
-        })
 
     }
 
@@ -276,13 +313,11 @@ export class ItemDetail extends Component {
                                                         </div>
                                                         <div className="col-sm-4">
                                                             <Loader className="loaderClass"
-
                                                                     type="ThreeDots"
                                                                     color="#00BFFF"
                                                                     height={500}
                                                                     width={350}
                                                                     timeout={30000} //3 secs
-
                                                             />
                                                         </div>
                                                         <div className="col-sm-4">
@@ -301,22 +336,35 @@ export class ItemDetail extends Component {
                                                         <div className="col-sm-6">
                                                             <MDBCardTitle
                                                                 className="itemNameText">{this.state.itemName}</MDBCardTitle>
-                                                            {
-                                                                this.state.status ?
-                                                                    this.state.itemColorObj.map(item => {
-                                                                        const style = {
-                                                                            backgroundColor: item.itemColor,
-                                                                            width: 50,
-                                                                            height: 50
-                                                                        }
-                                                                        return (
-                                                                            <button style={style}
-                                                                                    onClick={() => this.changePhotoUrl(item)}>
-                                                                            </button>
-                                                                        )
-                                                                    })
-                                                                    : ''
-                                                            }
+                                                            {/*<div className="col-sm-6">*/}
+                                                             <div className="row">
+                                                                 <StarRatings
+                                                                     rating={this.state.averageRate}
+                                                                     starRatedColor="blue"
+                                                                     numberOfStars={5}
+                                                                     name='rating'
+                                                                 />
+                                                             </div>
+                                                            <div className="row">
+                                                                {
+                                                                    this.state.status ?
+                                                                        this.state.itemColorObj.map(item => {
+                                                                            const style = {
+                                                                                backgroundColor: item.itemColor,
+                                                                                width: 50,
+                                                                                height: 50
+                                                                            }
+                                                                            return (
+                                                                                <button style={style}
+                                                                                        onClick={() => this.changePhotoUrl(item)}>
+                                                                                </button>
+                                                                            )
+                                                                        })
+                                                                        : ''
+                                                                }
+                                                            </div>
+                                                            {/*</div>*/}
+
                                                             {
 
                                                                 this.state.autocompleteStatus ?
@@ -332,31 +380,73 @@ export class ItemDetail extends Component {
                                                                     />
                                                                     : ' '
                                                             }
-
+                                                            <br/>
                                                             <h2 className="textAligns">LKR :{this.state.price}</h2>
-                                                            <h2 className="textAligns">Qty</h2>
                                                             <br/><br/>
                                                             <div className="col-sm-6 btnSize">
-                                                                <button className="btnSize1"
-                                                                        onClick={() => this.addToCart()}>Add to Cart
-                                                                </button>
-                                                                <button className="btnSize1"
-                                                                        onClick={() => this.addToWhishList()}>Add to WishList
-                                                                </button>
+
 
                                                             </div>
 
-
+                                                            <div className="row">
+                                                                <div className="col-sm-6">
+                                                                    <button className="btnSize1"
+                                                                            onClick={() => this.addToCart()}>Add to Cart
+                                                                    </button>
+                                                                </div>
+                                                                <div className="col-sm-6">
+                                                                    <button className="btnSize1"
+                                                                            onClick={() => this.addToWhishList()}>Add to WishList
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div className="row">
+                                                                <div className="col-sm-12">
+                                                                    <Rating
+                                                                        selected={this.state.item_Id}
+                                                                    />
+                                                                </div>
+                                                            </div>
                                                         </div>
-
                                                     </div>
 
+                                                    <br/>
+
+                                                    <div className="row">
+                                                        <div className="col-sm-12">
+                                                            <MDBBreadcrumb light color="blue lighten-1">
+                                                                <MDBBreadcrumbItem iconRegular icon="star">Customer Reviews</MDBBreadcrumbItem>
+                                                            </MDBBreadcrumb>
+                                                        </div>
+                                                    </div>
+
+                                                    {
+                                                        this.state.ratingItems.map(item=>{
+                                                            return(
+                                                                <div className="row">
+                                                                    <div className="col-sm-12">
+                                                                        <MDBBreadcrumb >
+                                                                            <MDBBreadcrumbItem active >
+                                                                                <span className="labelAlign">{item.userId}</span>
+                                                                                <br/>
+                                                                                <span>{item.comment}</span>
+                                                                            </MDBBreadcrumbItem>
+                                                                        </MDBBreadcrumb>
+                                                                    </div>
+                                                                </div>
+                                                            )
+                                                        })
+                                                    }
 
                                                 </div>
+
                                         }
 
 
                                     </div>
+                                    <br/>
+                                    <br/>
+
                                 </MDBCardBody>
                             </MDBCard>
 

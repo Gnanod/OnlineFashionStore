@@ -17,6 +17,7 @@
     "react-loader-spinner": "^3.1.14",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
+    "react-star-ratings": "^2.3.0",
     "react-uuid": "^1.0.2",
     "styled-components": "^5.1.0",
     "sweetalert-react": "^0.4.11",

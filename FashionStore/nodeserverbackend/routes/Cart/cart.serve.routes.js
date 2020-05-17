@@ -9,16 +9,28 @@ let Order = require('../../models/Order.model');
 router.route('/add').post(function (req,res) {
     let cart = new Cart  (req.body);
 
-    //console.log("hi");
-    //console.log(cart);
+    console.log("hi");
+    console.log(cart.itemId);
     cart.save()
         .then(sup=>{
             // console.log("successful");
-            res.status(200).json({'cart':'successful'});
+            //res.status(200).json({'cart':'successful'});
+            itemcolor.findOne({_id:cart.itemId}).then(item => {
+
+                console.log(item.image)
+                Cart.update({itemId:cart.itemId},{$set: {image:item.image}}).then(sup=>{
+                    console.log("image successful");
+                    res.status(200).json({'itemColor':'successful'});
+                }).catch(err=>{
+                    console.log("itemColor fail");
+                    res.status(400).send('fail');
+                });
+            });
         }).catch(err=>{
         //console.log("fail");
         res.status(400).send('fail');
     });
+
 });
 
 router.route('/getDetails/:id').get(function (req, res) {

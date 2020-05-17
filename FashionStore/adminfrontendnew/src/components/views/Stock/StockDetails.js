@@ -22,6 +22,8 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 import uuid from "react-uuid";
 import StockPriceTableBody from "./StockPriceTableBody";
 import constants from "../../../constants/constants";
+import BrandCategoryTableBody from "../Item/BrandCategoryTableBody";
+import StocksTableBody from "./StocksTableBody";
 
 
 export default class StockDetails extends Component{
@@ -46,6 +48,7 @@ export default class StockDetails extends Component{
             totalPrice: 0,
             totalPriceValidation: false,
             stockPriceArray: [],
+            stocksArray:[],
             noItem: true,
             suppliers: [],
             ItemColourId: [],
@@ -64,13 +67,20 @@ export default class StockDetails extends Component{
         this.onChangeTotalPrice = this.onChangeTotalPrice.bind(this);
         this.onSubmitPrices = this.onSubmitPrices.bind(this);
         this.AddStockPricesToTable = this.AddStockPricesToTable.bind(this);
+        this.AddStocksToTable = this.AddStocksToTable.bind(this);
         this.deleteStockPrice = this.deleteStockPrice.bind(this);
         // this.stockPriceArray = this.stockPriceArray.bind(this);
         this.getAllSuppliers = this.getAllSuppliers.bind(this);
         this.getAllItemColourId = this.getAllItemColourId.bind(this);
         this.onChangeGetCompanyName = this.onChangeGetCompanyName.bind(this);
         this.onSubmitStock = this.onSubmitStock.bind(this);
+
     }
+
+
+
+
+
 
     onChangeStartDate(e){
         this.setState({
@@ -88,7 +98,7 @@ export default class StockDetails extends Component{
     }
 
     getAllSuppliers() {
-        axios.get(constants.backend_url + '/api/supplier/getAllSuppliers').then(response => {
+        axios.get(constants.backend_url + 'api/supplier/getAllSuppliers').then(response => {
             this.setState({suppliers: response.data});
         }).catch(function (error) {
             console.log(error);
@@ -97,7 +107,7 @@ export default class StockDetails extends Component{
     }
 
     getAllItemColourId() {
-        axios.get(constants.backend_url + '/api/itemcolor/getAllItemColors').then(response => {
+        axios.get(constants.backend_url + 'api/itemcolor/getAllItemColors').then(response => {
             this.setState({ItemColourId: response.data});
         }).catch(function (error) {
             console.log(error);
@@ -175,13 +185,13 @@ export default class StockDetails extends Component{
             if(this.state.sellingPrice !== 0){
                 if(this.state.quantity !== 0){
                     if(this.state.discount !== 0){
-                        if(this.state.totalPrice !== 0){
+                        // if(this.state.totalPrice !== 0){
                             const stockPrices = {
                                 buyingPrice: this.state.buyingPrice,
                                 sellingPrice: this.state.sellingPrice,
                                 quantity: this.state.quantity,
                                 discount: this.state.discount,
-                                totalPrice: this.state.totalPrice
+                                totalPrice: this.state.quantity * this.state.buyingPrice
                             }
                             axios.post(constants.backend_url + 'api/stockprice/add', stockPrices)
                                 .then(res => {
@@ -210,11 +220,11 @@ export default class StockDetails extends Component{
                                         }
                                     }
                                 );
-                        }else{
-                            this.setState({
-                                totalPriceValidation: true
-                            })
-                        }
+                        // }else{
+                        //     this.setState({
+                        //         totalPriceValidation: true
+                        //     })
+                        // }
                     }else{
                         this.setState({
                             discountValidation: true
@@ -311,13 +321,13 @@ export default class StockDetails extends Component{
             if (this.state.sellingPrice != 0) {
                 if (this.state.quantity != 0) {
                     if (this.state.discount != 0) {
-                        if (this.state.totalPrice != 0) {
+                        // if (this.state.totalPrice != 0) {
                             const newStockPrice = {
                                 buyingPrice: this.state.buyingPrice,
                                 sellingPrice: this.sellingPrice,
                                 quantity: this.state.quantity,
                                 discount: this.discount,
-                                totalPrice: this.state.totalPrice,
+                                totalPrice: this.state.quantity * this.state.buyingPrice,
                                 stockPriceId: uuid()
                             }
                             const array = [newStockPrice, ...this.state.stockPriceArray];
@@ -328,12 +338,12 @@ export default class StockDetails extends Component{
                             })
                             // this.getAllBrands();
                             // this.getAllCategories();
-                        }else {
-                            this.setState({
-                                totalPriceValidation: true
-                            })
-
-                        }
+                        // }else {
+                        //     this.setState({
+                        //         totalPriceValidation: true
+                        //     })
+                        //
+                        // }
                     }else {
                         this.setState({
                             discountValidation: true
@@ -363,7 +373,7 @@ export default class StockDetails extends Component{
     deleteStockPrice(id){
         const nonDeletedItems = this.state.stockPriceArray.filter(stockP => stockP.stockPriceId !== id);
         this.setState({
-                brandCategoryArray: nonDeletedItems,
+            stockPriceArray: nonDeletedItems,
                 stockPriceId: id
             }
         )
@@ -371,6 +381,71 @@ export default class StockDetails extends Component{
             this.setState({
                 noItem: true
             })
+        }
+    }
+
+    deleteStocks(id){
+        const nonDeletedItems = this.state.stocksArray.filter(stocks => stocks.stocksId !== id);
+        this.setState({
+            stocksArray: nonDeletedItems,
+            stocksId: id
+            }
+        )
+        if (nonDeletedItems.length === 0) {
+            this.setState({
+                noItem: true
+            })
+        }
+    }
+
+    AddStocksToTable(e)
+    {
+        e.preventDefault();
+
+        if(this.state.selectedSupplierObject != '') {
+            if (this.state.selectedItemColourIdObject != '') {
+                if (this.state.startDate != '') {
+                    if (this.state.endDate != '') {
+                        const newStocks = {
+                            selectedSupplierObject: this.state.selectedSupplierObject,
+                            selectedItemColourIdObject: this.selectedItemColourIdObject,
+                            startDate: this.state.startDate,
+                            endDate: this.endDate,
+                            stocksId: uuid()
+                        }
+                        const array = [newStocks, ...this.state.stocksArray];
+                        this.setState({
+                            stocksArray: array,
+                            noItem: false,
+                            stocksId: uuid()
+                        })
+
+                        this.getAllSuppliers();
+                        this.getAllItemColourId();
+
+                    }else {
+                        this.setState({
+                            endDateValidation: true
+                        })
+
+                    }
+                }else {
+                    this.setState({
+                        startDateValidation: true
+                    })
+
+                }
+            }else {
+                this.setState({
+                    selectedItemColourIdObjectValidation: true
+                })
+
+            }
+        }else {
+            this.setState({
+                selectedSupplierObjectValidation: true
+            })
+
         }
     }
 
@@ -390,10 +465,10 @@ export default class StockDetails extends Component{
                                 <MDBCard>
                                     <MDBCardBody>
                                         <MDBCardTitle>Stock Details</MDBCardTitle>
-                                        <form onSubmit={this.submitStocks}>
+                                        <form onSubmit={this.AddStocksToTable}>
                                             <Autocomplete
                                                 id="combo-box-demo"
-                                                options={this.state.supplier}
+                                                options={this.state.suppliers}
                                                 getOptionLabel={(option) => option.companyName}
                                                 style={{width: 300}}
                                                 onChange={(event, value) => this.onChangeGetCompanyName(value)}
@@ -424,6 +499,7 @@ export default class StockDetails extends Component{
                                             }
 
 
+
                                             <div className="md-form">
                                                 <input placeholder="Start date" type="date" id="date-picker-example"
                                                        className="form-control datepicker"
@@ -451,9 +527,34 @@ export default class StockDetails extends Component{
                                             }
                                             <MDBBtn type="submit">Save</MDBBtn>
                                         </form>
+
                                     </MDBCardBody>
                                 </MDBCard>
                             </div>
+
+                            <br/>
+                            <br/>
+                            <MDBTable>
+                                <MDBTableHead color="primary-color" textWhite>
+                                    <tr>
+                                        <th>Supplier</th>
+                                        <th>Item Colour ID</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+
+
+                                    </tr>
+                                </MDBTableHead>
+                                <StocksTableBody
+                                stocksList={this.state.stocksArray}
+                                noItem={this.state.noItem}
+                                // deleteBrandCategory={this.deleteBrandCategory}
+
+                                />
+                            </MDBTable>
+                            <form onSubmit={this.onSubmitStock}>
+                                <MDBBtn type="submit">Save</MDBBtn>
+                            </form>
                         </MDBCol>
 
 
@@ -501,18 +602,19 @@ export default class StockDetails extends Component{
                                                 Discount Field Is Empty
                                             </MDBAlert> : ''
                                         }
-                                        <MDBInput label="Total Price" size="sm"
-                                                  value={this.state.totalPrice}
-                                                  onChange={this.onChangeTotalPrice}
-                                        />
-                                        {
-                                            this.state.totalPriceValidation ? <MDBAlert color="danger">
-                                                Total Price Field Is Empty
-                                            </MDBAlert> : ''
-                                        }
+                                        {/*<MDBInput label="Total Price" size="sm"*/}
+                                                  {/*value={this.state.totalPrice}*/}
+                                                  {/*onChange={this.onChangeTotalPrice}*/}
+                                        {/*/>*/}
+                                        {/*{*/}
+                                            {/*this.state.totalPriceValidation ? <MDBAlert color="danger">*/}
+                                                {/*Total Price Field Is Empty*/}
+                                            {/*</MDBAlert> : ''*/}
+                                        {/*}*/}
 
                                         <MDBBtn type="submit">Save</MDBBtn>
                                     </form>
+
                                 </MDBCardBody>
                             </MDBCard>
                             <br/>
