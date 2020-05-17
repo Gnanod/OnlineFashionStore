@@ -63,14 +63,14 @@ class Wishlist extends Component {
                         );
 
                     } else {
-                        this.remove1(item._id);
+
                         Swal.fire(
                             '',
 
                             'Cart Details Added Successfully.',
                             'success'
                         )
-
+                        this.remove1(item._id);
                     }
                 }
             );

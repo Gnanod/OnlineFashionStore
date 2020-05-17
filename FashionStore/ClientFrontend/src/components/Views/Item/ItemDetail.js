@@ -161,6 +161,7 @@ export class ItemDetail extends Component {
     addToCart(){
         console.log(this.state.selected);
         let cartItem=this.state.selected;
+        console.log(cartItem);
         this.decrementQuantity(cartItem.itemSizes._id,cartItem.itemSizes.quantity);
         const cartt = {
             userId:'C001',
@@ -183,17 +184,18 @@ export class ItemDetail extends Component {
                         );
 
                     } else {
-                        Swal.fire(
-                            '',
-                            'Cart Details Added Successfully.',
-                            'success'
-                        )
+
+                            Swal.fire(
+                                '',
+                                'Cart Details Added Successfully.',
+                                'success'
+                            )
+
+
                     }
                 }
             );
-        axios.get(constants.backend_url + 'api/cart/addPhoto/'+ cartItem.itemSizes._id).then(response => {
 
-        })
 
         console.log(this.state.itemName);
         console.log(cartt);
@@ -281,9 +283,6 @@ export class ItemDetail extends Component {
                     }
                 }
             );
-        axios.get(constants.backend_url + 'api/wishlist/addPhoto/'+ cartItem.itemSizes._id).then(response => {
-
-        })
 
     }
 
