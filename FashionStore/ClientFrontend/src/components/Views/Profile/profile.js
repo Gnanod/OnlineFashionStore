@@ -9,7 +9,7 @@ import {
     MDBNavbar,
     MDBAvatar,
     MDBIcon,MDBDataTable,MDBFormInline,
-    MDBCard,
+    MDBCard,MDBEdgeHeader,
     MDBCardBody,
     MDBCardTitle,
     MDBInput, MDBBtn, MDBTableHead, MDBTableBody, MDBTable
@@ -28,13 +28,19 @@ export default class profile extends Component {
         super(props);
         this.state = {
             feedback: '',
-            CustName: 'Samitha '
+            CustName: 'samiii',
+            CustomerId: '5ec11310db8e0e381027ca88',
+            detailList:[]
         };
         this.sweetalertfunction = this.sweetalertfunction.bind(this);
         this.submitfeedback = this.submitfeedback.bind(this);
-
+        this.getDetailuser = this.getDetailuser.bind(this);
 
         this.onChangeFeedback = this.onChangeFeedback.bind(this);
+    }
+
+    componentDidMount() {
+        this.getDetailuser();
     }
     sweetalertfunction(){
         console.log("button clicks");
@@ -123,13 +129,22 @@ export default class profile extends Component {
     };
 
 
+    getDetailuser(){
+        console.log("get user details");
+        axios.get(constants.backend_url + 'api/userDetail/getDetailuser/' + this.state.CustomerId).then(response => {
+            this.setState({detailList:response.data})
+        }).catch(function (error) {
+            console.log(error);
+        })
+    }
 
     render() {
         return (
             <div id='parallaxintro'>
 
                 <MDBCard className="my-5 px-5 pb-5">
-                    <MDBCardBody>
+                    <MDBCardBody >
+
                         {/*<MDBRow>*/}
                         {/*    <MDBCol md="12">*/}
                         {/*        <MDBCard reverse>*/}
@@ -197,19 +212,31 @@ export default class profile extends Component {
                         {/*    </MDBCol>*/}
                         {/*</MDBRow>*/}
                         {/*<hr className="mb-5 mt-4" />*/}
-                        <MDBRow>
-                            <MDBCol md="12">
-                                <MDBCard reverse>
+
+
+
+                                <MDBRow>
+                            <MDBCol md="12" >
+
+                                {
+                                    this.state.detailList.map(item => {
+
+                                        return(
+
+
+
+                                            <div>
+                                <MDBCard reverse >
                                     {/*<MDBView hover cascade waves>*/}
                                     {/*    <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(146).jpg" alt="" className="img-fluid"/>*/}
                                     {/*    <MDBMask overlay="white-slight" className="waves-light" />*/}
                                     {/*</MDBView>*/}
-                                    <MDBCardBody cascade className="text-center">
+                                    <MDBCardBody cascade className="text-center "  >
+                                        <br/>
+                                        <h2 className="font-weight-bold h2col"  > {item.firstName + " " + item.lastName}  </h2>
 
+                                        <br/>
 
-
-
-                                        <h2 className="font-weight-bold h2col"  >Welcome USER</h2>
                                         <MDBBtn className="btn-fb waves-light">
                                             <i className="fas fa-user"></i>&nbsp;&nbsp;&nbsp;
                                             Profile
@@ -221,10 +248,10 @@ export default class profile extends Component {
                                         </MDBBtn>
                                     </MDBCardBody>
                                 </MDBCard>
-                                <MDBContainer className="mt-5">
 
+                                <MDBContainer className="mt-5">
                                     <section className="my-5">
-                                        <MDBRow>
+                                        <MDBRow className="txtalign">
                                             <MDBCol lg="5" className="text-center text-lg-left">
                                                 <img className="img-fluid" src="https://mdbootstrap.com/img/Photos/Others/screens-section.jpg" alt=""/>
                                             </MDBCol>
@@ -236,7 +263,7 @@ export default class profile extends Component {
                                                     <MDBCol xl="10" md="11" size="10">
                                                         <h5 className="font-weight-bold mb-3">Name</h5>
                                                         <p className="grey-text">
-                                                            Samitha Vidhanaarachchci
+                                                           {item.firstName}
                                                         </p>
                                                     </MDBCol>
                                                 </MDBRow>
@@ -247,7 +274,18 @@ export default class profile extends Component {
                                                     <MDBCol xl="10" md="11" size="10">
                                                         <h5 className="font-weight-bold mb-3">Email Address</h5>
                                                         <p className="grey-text">
-                                                            samithavidhanaarachchi@gmail.com
+                                                            {item.email}
+                                                        </p>
+                                                    </MDBCol>
+                                                </MDBRow>
+                                                <MDBRow className="mb-3">
+                                                    <MDBCol size="1">
+                                                        <MDBIcon icon="calendar-alt" size="lg" className="indigo-text" />
+                                                    </MDBCol>
+                                                    <MDBCol xl="10" md="11" size="10">
+                                                        <h5 className="font-weight-bold mb-3">Phone Number</h5>
+                                                        <p className="grey-text">
+                                                            {item.phoneNumber}
                                                         </p>
                                                     </MDBCol>
                                                 </MDBRow>
@@ -258,15 +296,21 @@ export default class profile extends Component {
                                                     <MDBCol xl="10" md="11" size="10">
                                                         <h5 className="font-weight-bold mb-3">Date of Birth</h5>
                                                         <p className="grey-text">
-                                                            02.28.1996
+                                                            {item.dob}
                                                         </p>
                                                     </MDBCol>
                                                 </MDBRow>
                                             </MDBCol>
                                         </MDBRow>
                                     </section>
+                                </MDBContainer>
+                            </div>
 
-                                    <MDBRow className="Feedbakadmin">
+                                )
+                                })}
+
+
+                                <MDBRow className="Feedbakadmin">
                                         <MDBCol md="12">
                                             <form onSubmit={this.submitfeedback}>
                                                 <br></br>
@@ -287,9 +331,11 @@ export default class profile extends Component {
                                         </MDBCol>
                                     </MDBRow>
 
-                                </MDBContainer>
+
                             </MDBCol>
                         </MDBRow>
+
+
                     </MDBCardBody>
                 </MDBCard>
             </div>
