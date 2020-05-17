@@ -16,7 +16,8 @@
 }
 
 .h2col{
-    color: #8e24aa;
+    color: #154360
+;
 }
 .rounded{
     border-radius: 50%;
@@ -48,9 +49,14 @@
 /*}*/
 
 .Feedbakadmin{
-    background-color: #8e24aa;
+    background-color: #154360
+;
 }
 
 .h2col2{
     color: white;
+}
+
+.txtalign{
+    text-align: left;
 }
