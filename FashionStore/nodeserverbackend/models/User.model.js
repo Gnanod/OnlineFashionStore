@@ -29,6 +29,14 @@ let userDetail = new Schema({
     dob :{
         type :String,
         required: true
+    },
+    male: {
+        type :Number,
+        required: true
+    },
+    female: {
+        type :Number,
+        required: true
     }
 });
 

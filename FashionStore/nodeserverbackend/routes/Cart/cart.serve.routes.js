@@ -9,16 +9,28 @@ let Order = require('../../models/Order.model');
 router.route('/add').post(function (req,res) {
     let cart = new Cart  (req.body);
 
-    //console.log("hi");
-    //console.log(cart);
+    console.log("hi");
+    console.log(cart.itemId);
     cart.save()
         .then(sup=>{
-            // console.log("successful");
-            res.status(200).json({'cart':'successful'});
+
+            itemcolor.findOne({_id:cart.itemId}).then(item => {
+
+                console.log(item.image)
+                Cart.updateMany({itemId:cart.itemId},{$set: {image:item.image}}).then(sup=>{
+                    console.log("image successful");
+                    res.status(200).json({'cart':'successful'});
+                }).catch(err=>{
+                    console.log("itemColor fail");
+                    res.status(400).send('fail');
+                });
+            });
         }).catch(err=>{
-        //console.log("fail");
+
         res.status(400).send('fail');
     });
+
+
 });
 
 router.route('/getDetails/:id').get(function (req, res) {
@@ -36,16 +48,16 @@ router.route('/getDetails/:id').get(function (req, res) {
 });
 
 router.route('/decQuantity/:id/:quantity').get(function (req, res) {
-    console.log("decrement Called!");
+    //console.log("decrement Called!");
     let id = req.params.id;
-    console.log(id );
+    //console.log(id );
     let quantity = req.params.quantity;
-    console.log(quantity);
+   //console.log(quantity);
     Cart.updateOne({_id:id},{$set: {quantity:quantity}}).then(sup=>{
-        console.log("successful");
+        //console.log("successful");
         //res.status(200).json({'cart':'successful'});
     }).catch(err=>{
-        console.log("fail");
+        //console.log("fail");
         //res.status(400).send('fail');
     });
 });
@@ -54,31 +66,31 @@ router.route('/incQuantity/:id/:quantity').get(function (req, res) {
     let id = req.params.id;
     let quantity=req.params.quantity;
     Cart.updateOne({_id:id},{$set: {quantity:quantity}}).then(sup=>{
-        console.log("successful");
+        //console.log("successful");
     }).catch(err=>{
-        console.log("fail");
+        //console.log("fail");
 
     });
 });
 
 router.route('/deleteItem/:id').get(function (req, res) {
     let id=req.params.id;
-    console.log("Delete Called!");
+    //console.log("Delete Called!");
     Cart.deleteOne({_id:id}).then(sup=>{
-        console.log("successful");
+      //  console.log("successful");
         res.status(200).json({'cart':'successful'});
     }).catch(err=>{
-        console.log("fail");
+        //console.log("fail");
         res.status(400).send('fail');
     });
 });
 router.route('/clearCart/:id').get(function (req, res) {
     let id=req.params.id;
     Cart.deleteMany({userId:id}).then(sup=>{
-        console.log("Clear Cart successful");
+        //console.log("Clear Cart successful");
         //res.status(200).json({'cart':'successful'});
     }).catch(err=>{
-        console.log("Clear Cart fail");
+        //console.log("Clear Cart fail");
         //res.status(400).send('fail');
     });
 });
@@ -101,10 +113,10 @@ router.route('/addOrder').post(function (req,res) {
     let order=new Order  (req.body);
 
     order.save().then(sup=>{
-        console.log("image successful");
-        res.status(200).json({'itemColor':'successful'});
+       // console.log("image successful");
+        res.status(200).json({'order':'successful'});
     }).catch(err=>{
-        console.log("itemColor fail");
+        //console.log("itemColor fail");
         res.status(400).send('fail');
     });
 });
@@ -127,16 +139,47 @@ router.route('/addPhoto/:id').get(function (req, res) {
 
     itemcolor.findOne({_id:id}).then(item => {
 
-        console.log(item.image)
+        //console.log(item.image)
         Cart.update({itemId:id},{$set: {image:item.image}}).then(sup=>{
-            console.log("image successful");
+          //  console.log("image successful");
             res.status(200).json({'itemColor':'successful'});
         }).catch(err=>{
-            console.log("itemColor fail");
+            //console.log("itemColor fail");
             res.status(400).send('fail');
         });
     });
 
 });
+router.route('/getOrders').get(function (req, res) {
 
+    Order.find( ).exec().then(item => {
+        //console.log(item)
+        res.status(200).json(item)
+    })
+        .catch(err => {
+          //  console.log("Fail")
+            res.status(500).json(err);
+        });
+});
+router.route('/viewOrders/:id').get(function (req, res) {
+    let id =req.params.id;
+    Order.find({ orderId: id }).exec().then(item => {
+        //console.log(item)
+        res.status(200).json(item)
+    })
+        .catch(err => {
+          //  console.log("Fail")
+            res.status(500).json(err);
+        });
+
+});
+router.route('/deleteOrders/:id').get(function (req, res) {
+    let id=req.params.id;
+    Order.deleteMany({orderId:id}).then(sup=>{
+        console.log("success")
+        res.status(200).json({'order':'successful'});
+    }).catch(err=>{
+        res.status(400).send('fail');
+    });
+});
 module.exports = router;

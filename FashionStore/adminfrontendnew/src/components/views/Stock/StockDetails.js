@@ -6,7 +6,6 @@ import {
     MDBBtn,
     MDBCard,
     MDBCardBody,
-    MDBCardText,
     MDBCardTitle,
     MDBCol,
     MDBInput,
@@ -22,7 +21,6 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 import uuid from "react-uuid";
 import StockPriceTableBody from "./StockPriceTableBody";
 import constants from "../../../constants/constants";
-import BrandCategoryTableBody from "../Item/BrandCategoryTableBody";
 import StocksTableBody from "./StocksTableBody";
 
 
@@ -30,7 +28,6 @@ export default class StockDetails extends Component{
 
     constructor(props) {
         super(props);
-
 
         this.state = {
             startDate: Date,
@@ -76,13 +73,8 @@ export default class StockDetails extends Component{
         this.onChangeGetCompanyName = this.onChangeGetCompanyName.bind(this);
         this.onSubmitStock = this.onSubmitStock.bind(this);
 
+        this.getAllSuppliers();
     }
-
-
-
-
-
-
     onChangeStartDate(e){
         this.setState({
             startDate: e.target.value,
@@ -101,6 +93,9 @@ export default class StockDetails extends Component{
     getAllSuppliers() {
         axios.get(constants.backend_url + 'api/supplier/getAllSuppliers').then(response => {
             this.setState({suppliers: response.data});
+            console.log("Suppler")
+            console.log(response.data)
+            console.log("Supplier")
         }).catch(function (error) {
             console.log(error);
         })

@@ -15,14 +15,27 @@ router.route('/add').post(function (req,res) {
 });
 
 router.route('/getAllusers').get(function (req,res) {
+    // console.log("getDetails")
     UserDetail.find().exec().then(item => {
-
+        // console.log(item)
         res.status(200).json(item)
-    })
-        .catch(err => {
+    }).catch(err => {
             res.status(500).json(err);
         });
  });
+
+
+router.route('/getDetailuser/:id').get(function (req,res) {
+    console.log("getDetailsof the user----------------------------------------------");
+    let id = req.params.id;
+
+    UserDetail.find({ _id : id }).exec().then(item => {
+        console.log(item)
+        res.status(200).json(item)
+    }).catch(err => {
+        res.status(500).json(err);
+    });
+});
 
 
 module.exports = router;

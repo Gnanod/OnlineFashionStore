@@ -36,18 +36,36 @@ export default class AdminManage extends Component {
             AdminPassword: '',
             AdminPasswordValidation: false,
             AdminCPass: '',
-            AdminCPassValidation: false
+            AdminCPassValidation: false,
+            adminList:[]
         }
 
         this.sweetalertfunction = this.sweetalertfunction.bind(this);
         this.submitAdmin = this.submitAdmin.bind(this);
-
+        this.getDetails = this.getDetails.bind(this);
         this.onChangeName = this.onChangeName.bind(this);
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePosition = this.onChangePosition.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onChangeConfirmPass = this.onChangeConfirmPass.bind(this);
     }
+
+
+    componentDidMount() {
+        this.getDetails();
+    }
+
+    getDetails(){
+        console.log("get Admin Details");
+        axios.get(constants.backend_url + 'api/adminDetail/getAlldetail').then(response => {
+            console.log(response.data);
+            this.setState({adminList:response.data})
+            this.countgender();
+        }).catch(function (error) {
+            console.log(error);
+        })
+    }
+
 
     onChangeName(e)
     {
@@ -265,10 +283,16 @@ export default class AdminManage extends Component {
                                             </tr>
                                         </MDBTableHead>
                                         <MDBTableBody>
+
+                                            {
+                                                this.state.adminList.map(item => {
+                                                    return(
+
+
                                             <tr>
-                                                <td>Samitha</td>
-                                                <td>Vidhanaarachchi</td>
-                                                <td>samithavidhanaarachchi@gmail.com</td>
+                                                <td>{item.Name}</td>
+                                                <td>{item.Email}</td>
+                                                <td>{item.position}</td>
 
                                                 <td>
                                                     <MDBBtn tag="a" size="sm" color="success" >
@@ -281,93 +305,97 @@ export default class AdminManage extends Component {
                                                 </td>
                                             </tr>
 
-                                            <tr>
-                                                <td>Divyani</td>
-                                                <td>Rajapakshe</td>
-                                                <td>Divyani@gmail.com</td>
+                                                    )
+                                                })}
 
-                                                <td>
-                                                    <MDBBtn tag="a" size="sm" color="success"  >
-                                                        <MDBIcon size="lg" icon="pen" />
-                                                    </MDBBtn>&nbsp;&nbsp;&nbsp;
 
-                                                    <MDBBtn tag="a" size="sm" color="danger"  onClick={this.sweetalertfunction}>
-                                                        <MDBIcon size="lg" icon="times-circle" />
-                                                    </MDBBtn>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Tinali</td>
-                                                <td>Masha</td>
-                                                <td>Tinali@gmail.com</td>
+                                            {/*<tr>*/}
+                                            {/*    <td>Divyani</td>*/}
+                                            {/*    <td>Rajapakshe</td>*/}
+                                            {/*    <td>Divyani@gmail.com</td>*/}
 
-                                                <td>
-                                                    <MDBBtn tag="a" size="sm" color="danger" onClick={this.sweetalertfunction}>
-                                                        <MDBIcon size="lg" icon="times-circle" />
-                                                    </MDBBtn>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Gnanod</td>
-                                                <td>Akalanka</td>
-                                                <td>1995Gnanod@gmail.com</td>
+                                            {/*    <td>*/}
+                                            {/*        <MDBBtn tag="a" size="sm" color="success"  >*/}
+                                            {/*            <MDBIcon size="lg" icon="pen" />*/}
+                                            {/*        </MDBBtn>&nbsp;&nbsp;&nbsp;*/}
 
-                                                <td>
-                                                    <MDBBtn tag="a" size="sm" color="danger" onClick={this.sweetalertfunction}>
-                                                        <MDBIcon size="lg" icon="times-circle" />
-                                                    </MDBBtn>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Samitha</td>
-                                                <td>Vidhanaarachchi</td>
-                                                <td>samithavidhanaarachchi@gmail.com</td>
-                                                <td>
-                                                    <MDBBtn tag="a" size="sm" color="danger" onClick={this.sweetalertfunction}>
-                                                        <MDBIcon size="lg" icon="times-circle" />
-                                                    </MDBBtn>
-                                                </td>
-                                            </tr>
+                                            {/*        <MDBBtn tag="a" size="sm" color="danger"  onClick={this.sweetalertfunction}>*/}
+                                            {/*            <MDBIcon size="lg" icon="times-circle" />*/}
+                                            {/*        </MDBBtn>*/}
+                                            {/*    </td>*/}
+                                            {/*</tr>*/}
+                                            {/*<tr>*/}
+                                            {/*    <td>Tinali</td>*/}
+                                            {/*    <td>Masha</td>*/}
+                                            {/*    <td>Tinali@gmail.com</td>*/}
+
+                                            {/*    <td>*/}
+                                            {/*        <MDBBtn tag="a" size="sm" color="danger" onClick={this.sweetalertfunction}>*/}
+                                            {/*            <MDBIcon size="lg" icon="times-circle" />*/}
+                                            {/*        </MDBBtn>*/}
+                                            {/*    </td>*/}
+                                            {/*</tr>*/}
+                                            {/*<tr>*/}
+                                            {/*    <td>Gnanod</td>*/}
+                                            {/*    <td>Akalanka</td>*/}
+                                            {/*    <td>1995Gnanod@gmail.com</td>*/}
+
+                                            {/*    <td>*/}
+                                            {/*        <MDBBtn tag="a" size="sm" color="danger" onClick={this.sweetalertfunction}>*/}
+                                            {/*            <MDBIcon size="lg" icon="times-circle" />*/}
+                                            {/*        </MDBBtn>*/}
+                                            {/*    </td>*/}
+                                            {/*</tr>*/}
+                                            {/*<tr>*/}
+                                            {/*    <td>Samitha</td>*/}
+                                            {/*    <td>Vidhanaarachchi</td>*/}
+                                            {/*    <td>samithavidhanaarachchi@gmail.com</td>*/}
+                                            {/*    <td>*/}
+                                            {/*        <MDBBtn tag="a" size="sm" color="danger" onClick={this.sweetalertfunction}>*/}
+                                            {/*            <MDBIcon size="lg" icon="times-circle" />*/}
+                                            {/*        </MDBBtn>*/}
+                                            {/*    </td>*/}
+                                            {/*</tr>*/}
                                         </MDBTableBody>
                                     </MDBTable>
-                                    <MDBPagination circle className="justify-content-center">
-                                        <MDBPageItem disabled>
-                                            <MDBPageNav className="page-link" aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                                <span className="sr-only">Previous</span>
-                                            </MDBPageNav>
-                                        </MDBPageItem>
-                                        <MDBPageItem active >
-                                            <MDBPageNav className="page-link secondary-color" >
-                                                1 <span className="sr-only " >(current)</span>
-                                            </MDBPageNav>
-                                        </MDBPageItem>
-                                        <MDBPageItem>
-                                            <MDBPageNav className="page-link">
-                                                2
-                                            </MDBPageNav>
-                                        </MDBPageItem>
-                                        <MDBPageItem>
-                                            <MDBPageNav className="page-link">
-                                                3
-                                            </MDBPageNav>
-                                        </MDBPageItem>
-                                        <MDBPageItem>
-                                            <MDBPageNav className="page-link">
-                                                4
-                                            </MDBPageNav>
-                                        </MDBPageItem>
-                                        <MDBPageItem>
-                                            <MDBPageNav className="page-link">
-                                                5
-                                            </MDBPageNav>
-                                        </MDBPageItem>
-                                        <MDBPageItem>
-                                            <MDBPageNav className="page-link">
-                                                &raquo;
-                                            </MDBPageNav>
-                                        </MDBPageItem>
-                                    </MDBPagination>
+                                    {/*<MDBPagination circle className="justify-content-center">*/}
+                                    {/*    <MDBPageItem disabled>*/}
+                                    {/*        <MDBPageNav className="page-link" aria-label="Previous">*/}
+                                    {/*            <span aria-hidden="true">&laquo;</span>*/}
+                                    {/*            <span className="sr-only">Previous</span>*/}
+                                    {/*        </MDBPageNav>*/}
+                                    {/*    </MDBPageItem>*/}
+                                    {/*    <MDBPageItem active >*/}
+                                    {/*        <MDBPageNav className="page-link secondary-color" >*/}
+                                    {/*            1 <span className="sr-only " >(current)</span>*/}
+                                    {/*        </MDBPageNav>*/}
+                                    {/*    </MDBPageItem>*/}
+                                    {/*    <MDBPageItem>*/}
+                                    {/*        <MDBPageNav className="page-link">*/}
+                                    {/*            2*/}
+                                    {/*        </MDBPageNav>*/}
+                                    {/*    </MDBPageItem>*/}
+                                    {/*    <MDBPageItem>*/}
+                                    {/*        <MDBPageNav className="page-link">*/}
+                                    {/*            3*/}
+                                    {/*        </MDBPageNav>*/}
+                                    {/*    </MDBPageItem>*/}
+                                    {/*    <MDBPageItem>*/}
+                                    {/*        <MDBPageNav className="page-link">*/}
+                                    {/*            4*/}
+                                    {/*        </MDBPageNav>*/}
+                                    {/*    </MDBPageItem>*/}
+                                    {/*    <MDBPageItem>*/}
+                                    {/*        <MDBPageNav className="page-link">*/}
+                                    {/*            5*/}
+                                    {/*        </MDBPageNav>*/}
+                                    {/*    </MDBPageItem>*/}
+                                    {/*    <MDBPageItem>*/}
+                                    {/*        <MDBPageNav className="page-link">*/}
+                                    {/*            &raquo;*/}
+                                    {/*        </MDBPageNav>*/}
+                                    {/*    </MDBPageItem>*/}
+                                    {/*</MDBPagination>*/}
                                 </form>
                             </MDBCardBody>
                         </MDBCard>

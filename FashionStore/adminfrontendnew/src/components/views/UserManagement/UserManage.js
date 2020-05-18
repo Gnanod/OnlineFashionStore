@@ -16,13 +16,25 @@ import {
 import './UserManage.css';
 import 'sweetalert2/src/sweetalert2.scss';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
+import constants from "../../../constants/constants";
+import axios from "axios";
 
 export default class UserDetails extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            cartitem:'',
+            detailList:[]
+        }
+
         this.sweetalertfunction = this.sweetalertfunction.bind(this);
+        this.getDetails = this.getDetails.bind(this);
     }
+    componentDidMount() {
+        this.getDetails();
+    }
+
     sweetalertfunction(){
         console.log("button clicks");
         const swalWithBootstrapButtons = Swal.mixin({
@@ -60,6 +72,21 @@ export default class UserDetails extends Component {
             }
         })
     }
+
+
+
+    getDetails(){
+        console.log("get user details");
+        axios.get(constants.backend_url + 'api/userDetail/getAllusers').then(response => {
+            // console.log("getdetails")
+            // console.log(response.data);
+          this.setState({detailList:response.data})
+        }).catch(function (error) {
+            console.log(error);
+        })
+    }
+
+
 
 
 
@@ -119,86 +146,39 @@ export default class UserDetails extends Component {
                                                                 <th>First Name</th>
                                                                 <th>Last Name</th>
                                                                 <th>Email Address</th>
+                                                                <th>Contact Number</th>
                                                                 <th>Date of Birth</th>
                                                                 <th>Gender</th>
                                                                 <th>Action</th>
                                                             </tr>
                                                         </MDBTableHead>
+
+                                                        {
+                                                            this.state.detailList.map(item => {
+
+                                                        return(
                                                         <MDBTableBody>
                                                             <tr>
-                                                                <td>Samitha</td>
-                                                                <td>Vidhanaarachchi</td>
-                                                                <td>samithavidhanaarachchi@gmail.com</td>
-                                                                <td>28.02.1996</td>
-                                                                <td>Male</td>
+                                                                <td>{item.firstName}</td>
+                                                                <td>{item.lastName}</td>
+                                                                <td>{item.email}</td>
+                                                                <td>{item.phoneNumber}</td>
+                                                                <td>{item.dob}</td>
+                                                                <td>{item.gender}</td>
                                                                 <td>
                                                                     <MDBBtn tag="a" size="sm" color="danger"  onClick={this.sweetalertfunction}>
                                                                         <MDBIcon size="lg" icon="times-circle" />
                                                                     </MDBBtn>
                                                                 </td>
                                                             </tr>
-                                                            <tr>
-                                                                <td>Gnanod</td>
-                                                                <td>Akalanka</td>
-                                                                <td>1995Gnanod@gmail.com</td>
-                                                                <td>12.05.1995</td>
-                                                                <td>Male</td>
-                                                                <td>
-                                                                    <MDBBtn tag="a" size="sm" color="danger" onClick={this.sweetalertfunction}>
-                                                                        <MDBIcon size="lg" icon="times-circle" />
-                                                                    </MDBBtn>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Divyani</td>
-                                                                <td>Rajapakshe</td>
-                                                                <td>Divyani@gmail.com</td>
-                                                                <td>12.05.1998</td>
-                                                                <td>Female</td>
-                                                                <td>
-                                                                    <MDBBtn  tag="a" size="sm" color="danger" onClick={this.sweetalertfunction}>
-                                                                        <MDBIcon size="lg" icon="times-circle" />
-                                                                    </MDBBtn>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Tinali</td>
-                                                                <td>Masha</td>
-                                                                <td>Tinali@gmail.com</td>
-                                                                <td>12.05.1997</td>
-                                                                <td>Female</td>
-                                                                <td>
-                                                                    <MDBBtn tag="a" size="sm" color="danger" onClick={this.sweetalertfunction}>
-                                                                        <MDBIcon size="lg" icon="times-circle" />
-                                                                    </MDBBtn>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Gnanod</td>
-                                                                <td>Akalanka</td>
-                                                                <td>1995Gnanod@gmail.com</td>
-                                                                <td>12.05.1995</td>
-                                                                <td>Male</td>
-                                                                <td>
-                                                                    <MDBBtn tag="a" size="sm" color="danger" onClick={this.sweetalertfunction}>
-                                                                        <MDBIcon size="lg" icon="times-circle" />
-                                                                    </MDBBtn>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Samitha</td>
-                                                                <td>Vidhanaarachchi</td>
-                                                                <td>samithavidhanaarachchi@gmail.com</td>
-                                                                <td>28.02.1996</td>
-                                                                <td>Male</td>
-                                                                <td>
-                                                                    <MDBBtn tag="a" size="sm" color="danger" onClick={this.sweetalertfunction}>
-                                                                        <MDBIcon size="lg" icon="times-circle" />
-                                                                    </MDBBtn>
-                                                                </td>
-                                                            </tr>
                                                         </MDBTableBody>
+                                                            )
+                                                        })}
+
                                                     </MDBTable>
+
+
+
                                                     <MDBPagination circle className="justify-content-center">
                                                         <MDBPageItem disabled>
                                                             <MDBPageNav className="page-link" aria-label="Previous">
@@ -238,6 +218,9 @@ export default class UserDetails extends Component {
                                                         </MDBPageItem>
                                                     </MDBPagination>
                                                 </form>
+
+
+
                                             </MDBCardBody>
                                         </MDBCard>
                                     </MDBCol>
