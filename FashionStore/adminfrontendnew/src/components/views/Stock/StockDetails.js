@@ -48,6 +48,7 @@ export default class StockDetails extends Component{
             totalPrice: 0,
             totalPriceValidation: false,
             stockPriceArray: [],
+            stockPriceIDArray: [],
             stocksArray:[],
             noItem: true,
             suppliers: [],
@@ -181,21 +182,39 @@ export default class StockDetails extends Component{
 
         console.log("ABcccccc");
         console.log(this.state.buyingPrice);
-        if (this.state.buyingPrice !== 0){
-            if(this.state.sellingPrice !== 0){
-                if(this.state.quantity !== 0){
-                    if(this.state.discount !== 0){
+
+                    if(this.state.stockPriceArray.length !== 0){
                         // if(this.state.totalPrice !== 0){
-                            const stockPrices = {
-                                buyingPrice: this.state.buyingPrice,
-                                sellingPrice: this.state.sellingPrice,
-                                quantity: this.state.quantity,
-                                discount: this.state.discount,
-                                totalPrice: this.state.quantity * this.state.buyingPrice
+                        console.log(this.state.stockPriceArray.length);
+                        this.state.stockPriceArray.map(stockP => {
+                            const stockPriceObj = {
+                                buyingPrice: stockP.buyingPrice,
+                                sellingPrice: stockP.sellingPrice,
+                                quantity: stockP.quantity,
+                                discount: stockP.discount,
+                                totalPrice: stockP.quantity * stockP.buyingPrice
+
                             }
-                            axios.post(constants.backend_url + 'api/stockprice/add', stockPrices)
+                            console.log("stockPrice" + stockP.buyingPrice);
+                            console.log("stockPrice" + stockP.sellingPrice);
+                            console.log("stockPrice" + stockP.quantity);
+                            console.log("stockPrice" + stockP.discount);
+                            console.log("stockPrice" + stockP.quantity * stockP.buyingPrice);
+                            this.state.stockPriceIDArray.push(stockPriceObj);
+                            // console.log("stockArray" + this.state.stockPriceIDArray.push(stockPriceObj));
+                            // console.log("stockArray22" + this.state.stockPriceIDArray);
+                        });
+
+                        //     const stockPrices = {
+                        //         buyingPrice: this.state.buyingPrice,
+                        //         sellingPrice: this.state.sellingPrice,
+                        //         quantity: this.state.quantity,
+                        //         discount: this.state.discount,
+                        //         totalPrice: this.state.quantity * this.state.buyingPrice
+                        //     }
+                            axios.post(constants.backend_url + 'api/stockprice/add', this.state.stockPriceIDArray)
                                 .then(res => {
-                                        console.log(res)
+                                        console.log("response"+res)
                                         if (res.data.stockPrice === 'successful') {
                                             Swal.fire(
                                                 '',
@@ -203,11 +222,9 @@ export default class StockDetails extends Component{
                                                 'success'
                                             );
                                             this.setState({
-                                                buyingPrice: 0,
-                                                sellingPrice: 0,
-                                                quantity: 0,
-                                                discount: 0,
-                                                totalPrice: 0
+                                                stockPriceIDArray: ' ',
+                                                stockPriceArray :'',
+                                                noItem:true
                                             })
                                             // this.getAllStockPrice();
 
@@ -225,26 +242,13 @@ export default class StockDetails extends Component{
                         //         totalPriceValidation: true
                         //     })
                         // }
-                    }else{
-                        this.setState({
-                            discountValidation: true
-                        })
+                    }else {
+                        Swal.fire(
+                            '',
+                            'Table is Empty Please Add Stock Prices To Table',
+                            'error'
+                        )
                     }
-                }else{
-                    this.setState({
-                        quantityValidation: true
-                    })
-                }
-            }else{
-                this.setState({
-                    sellingPriceValidation: true
-                })
-            }
-        }else{
-            this.setState({
-                buyingPriceValidation: true
-            })
-        }
     }
 
     onSubmitStock(e){
@@ -324,18 +328,20 @@ export default class StockDetails extends Component{
                         // if (this.state.totalPrice != 0) {
                             const newStockPrice = {
                                 buyingPrice: this.state.buyingPrice,
-                                sellingPrice: this.sellingPrice,
+                                sellingPrice: this.state.sellingPrice,
                                 quantity: this.state.quantity,
-                                discount: this.discount,
+                                discount: this.state.discount,
                                 totalPrice: this.state.quantity * this.state.buyingPrice,
                                 stockPriceId: uuid()
                             }
+                            console.log(this.state.discount);
                             const array = [newStockPrice, ...this.state.stockPriceArray];
                             this.setState({
                                 stockPriceArray: array,
                                 noItem: false,
                                 stockPriceId: uuid()
                             })
+                        console.log(this.state.stockPriceArray);
                             // this.getAllBrands();
                             // this.getAllCategories();
                         // }else {
@@ -447,6 +453,17 @@ export default class StockDetails extends Component{
             })
 
         }
+    }
+
+
+    updateStocks(id,quantity,price){
+        axios.get(constants.backend_url + 'api/stockprice/updateQuantityPrice/'+id+'/'+quantity+'/'+price).then(res => {
+            if(res.data.stockPrice === 'success'){
+                console.log("Updated Successfully")
+            }else{
+                console.log("updated fail")
+            }
+        });
     }
 
     render(){
@@ -564,6 +581,7 @@ export default class StockDetails extends Component{
                                     <MDBCardTitle>Stock Prices</MDBCardTitle>
                                     <form onSubmit={this.AddStockPricesToTable}>
                                         <MDBInput label="Buying Price" size="sm"
+                                                  pattern="[0-9]*"
                                                   value={this.state.buyingPrice}
                                                   onChange={this.onChangeBuyingPrice}
 
@@ -612,7 +630,7 @@ export default class StockDetails extends Component{
                                             {/*</MDBAlert> : ''*/}
                                         {/*}*/}
 
-                                        <MDBBtn type="submit">Save</MDBBtn>
+                                        <MDBBtn type="submit">ADD</MDBBtn>
                                     </form>
 
                                 </MDBCardBody>

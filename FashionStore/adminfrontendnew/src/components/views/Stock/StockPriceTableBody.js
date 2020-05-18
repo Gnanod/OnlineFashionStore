@@ -7,6 +7,12 @@ export default class StockPriceTableBody extends Component {
 
     render() {
         const {stockPriceList, noItem,deleteStockPrice} = this.props;
+        // console.log(stockPriceList.stockPriceId);
+        // console.log(stockPriceList.buyingPrice);
+        // console.log(stockPriceList.quantity);
+        // console.log(stockPriceList.quantity);
+        // console.log(stockPriceList.discount);
+        // console.log(stockPriceList.totalPrice);
         return (
             <MDBTableBody>
                 {
