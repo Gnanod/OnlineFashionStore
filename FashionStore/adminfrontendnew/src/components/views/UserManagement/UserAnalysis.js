@@ -11,7 +11,7 @@ import {
     MDBCard,
     MDBCardBody,
     MDBCardTitle,
-    MDBInput, MDBBtn, MDBTableHead, MDBTableBody, MDBTable, MDBDropdown, MDBCardText
+    MDBInput, MDBBtn, MDBTableHead, MDBTableBody, MDBTable, MDBDropdown, MDBCardText, MDBAlert
 } from 'mdbreact';
 import { Bar } from "react-chartjs-2";
 import 'sweetalert2/src/sweetalert2.scss';
@@ -86,14 +86,66 @@ export default class UserAnalysis extends Component {
         console.log("gender count");
     }
 
-    sweetalertfunction(){
+    // sweetalertfunction(){
+    //     console.log("button clicks");
+    //     Swal.fire(
+    //         '',
+    //         'Feedback Deleted',
+    //         'success'
+    //     );
+    // }
+
+
+    sweetalertfunction(id){
         console.log("button clicks");
-        Swal.fire(
-            '',
-            'Feedback Deleted',
-            'success'
-        );
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
+                axios.get(constants.backend_url + 'api/feedback/deleteFeedback/'+ id).then(response => {
+                    if (response.data.feedbackDelete === 'success') {
+                        swalWithBootstrapButtons.fire(
+                            '',
+                            'Delete Failed !.',
+                            'error'
+                        )
+                    }else {
+                        Swal.fire(
+                            '',
+                            'Feedback Deleted !',
+                            'success'
+                        )
+                    }
+                })
+
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                    'Cancelled',
+                    'Feedback not deleted !',
+                    'error'
+                )
+            }
+        })
     }
+
+
 
 
     getUserDetails(){
@@ -146,6 +198,8 @@ export default class UserAnalysis extends Component {
 
 
     render() {
+        const{feedbackList} = this.state;
+        const NumberofFeedbacks =  feedbackList.length;
         return (
             <div id='parallaxintro'>
                 {/*<MDBView>*/}
@@ -181,8 +235,17 @@ export default class UserAnalysis extends Component {
                                 <MDBCard >
                                     <MDBCardBody className="feedbackdiv2 feedbackcard">
                                         <MDBTable scrollY  maxHeight="420px">
+                                            <div style={{"float" : "center" , "color" : "black", fontWeight: "bold"}}> Unread Feedbacks : {NumberofFeedbacks} </div>
 
                                             {
+                                                this.state.feedbackList.length === 0 ?
+                                                    <tr >
+                                                        <td colSpan="12" style={{textAlign : "center", fontWeight: "bold"}}>
+                                                            <MDBAlert color="danger" >
+                                                                No Feedbacks Available
+                                                            </MDBAlert>
+                                                        </td>
+                                                    </tr> :
                                                 this.state.feedbackList.map(item => {
                                                     return(
 
@@ -193,7 +256,7 @@ export default class UserAnalysis extends Component {
                                                     <h5 className='pink-text '><MDBIcon icon='envelope'/> New Feedback</h5>
                                                     <MDBCardTitle className='font-weight-bold'>Customer : {item.firstName + " " + item.lastName } </MDBCardTitle>
                                                     <MDBCardText className="feedbacktext">{item.feedback}</MDBCardText>
-                                                    <MDBBtn color='unique' onClick={this.sweetalertfunction}>Delete</MDBBtn>
+                                                    <MDBBtn color='unique' onClick={() => this.sweetalertfunction(item._id)}>Delete</MDBBtn>
                                                 </MDBCardBody>
 
                                             </MDBCard>
@@ -284,6 +347,7 @@ export default class UserAnalysis extends Component {
                                         </MDBTable>
                                     </MDBCardBody>
                                 </MDBCard>
+
                             </MDBCol>
                         </MDBRow>
                     </div>

@@ -140,7 +140,7 @@ class Cart extends Component {
                 oderTime: new Date().toLocaleString()
             }
             axios.post(constants.backend_url + 'api/cart/addOrder', order)
-                .then(res => {
+                    .then(res => {
                         console.log(res.data.order)
 
                         if (res.data.order === 'successful') {

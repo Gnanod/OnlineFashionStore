@@ -10,7 +10,7 @@ import {
     MDBCard,
     MDBCardBody,
     MDBCardTitle,
-    MDBInput, MDBBtn, MDBTableHead, MDBTableBody, MDBTable, MDBAlert, MDBListGroup, MDBListGroupItem
+    MDBInput, MDBBtn, MDBTableHead, MDBTableBody, MDBTable, MDBAlert, MDBListGroup, MDBListGroupItem, MDBBtnGroup
 } from 'mdbreact';
 import {BrowserRouter as Router, NavLink} from 'react-router-dom';
 import axios from "axios";
@@ -18,6 +18,7 @@ import '../UserManagement/UserManage.css';
 import 'sweetalert2/src/sweetalert2.scss';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import constants from "../../../constants/constants";
+import {InputGroup} from "react-bootstrap";
 
 
 
@@ -28,6 +29,8 @@ class OrderTable extends Component {
             selectedId:'',
             resultArray : [],
             item:[],
+            currentPage: 1,
+            userPerPage: 5,
             orderList: []
 
 
@@ -36,6 +39,12 @@ class OrderTable extends Component {
         this.SortData = this.SortData.bind(this);
         this.viewItem = this.viewItem.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
+
+        this.changePage = this.changePage.bind(this);
+        this.firstPage = this.firstPage.bind(this);
+        this.prevPage = this.prevPage.bind(this);
+        this.nextPage = this.nextPage.bind(this);
+        this.lastPage = this.lastPage.bind(this);
 
     }
     componentDidMount() {
@@ -105,7 +114,58 @@ class OrderTable extends Component {
             console.log(error);
         })
     }
+
+
+    changePage(event){
+        this.setState({
+            [event.target.name] : parseInt(event.target.value)
+        });
+    }
+
+    firstPage(){
+        if(this.state.currentPage > 1){
+            this.setState({
+                currentPage: 1
+            })
+        }
+    }
+
+    prevPage(){
+        if(this.state.currentPage > 1){
+            this.setState({
+                currentPage: this.state.currentPage - 1
+            })
+        }
+
+    }
+
+    nextPage(){
+
+        if(this.state.currentPage < Math.ceil(this.state.resultArray.length / this.state.userPerPage)){
+            this.setState({
+                currentPage: this.state.currentPage + 1
+            })
+        }
+
+    }
+
+    lastPage(){
+
+        if(this.state.currentPage < Math.ceil(this.state.resultArray.length / this.state.userPerPage)){
+            this.setState({
+                currentPage: Math.ceil(this.state.resultArray.length / this.state.userPerPage)
+            })
+        }
+
+    }
+
     render() {
+        const{resultArray, currentPage, userPerPage} = this.state;
+        const lastIndex = currentPage * userPerPage;
+        const firstIndex = lastIndex - userPerPage;
+        const currentUsers = resultArray.slice(firstIndex, lastIndex );
+        const totalPages = Math.ceil(resultArray.length / userPerPage) ;
+
         return (
             <div>
                 <MDBCard className="mb-5">
@@ -146,7 +206,16 @@ class OrderTable extends Component {
                                             </tr>
                                         </MDBTableHead>
                                         <MDBTableBody>
-                                            {this.state.resultArray.map(item => {
+                                            { currentUsers === 0 ?
+                                                <tr >
+                                                    <td colSpan="12" style={{textAlign : "center", fontWeight: "bold"}}>
+                                                        <MDBAlert color="danger" >
+                                                            No Orders Available !
+                                                        </MDBAlert>
+                                                    </td>
+                                                </tr> :
+
+                                                currentUsers.map(item => {
 
                                                 return (
                                                     <tr>
@@ -174,44 +243,63 @@ class OrderTable extends Component {
 
                                         </MDBTableBody>
                                     </MDBTable>
-                                    <MDBPagination circle className="justify-content-center">
-                                        <MDBPageItem disabled>
-                                            <MDBPageNav className="page-link" aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                                <span className="sr-only">Previous</span>
-                                            </MDBPageNav>
-                                        </MDBPageItem>
-                                        <MDBPageItem active >
-                                            <MDBPageNav className="page-link primary-color" >
-                                                1 <span className="sr-only " >(current)</span>
-                                            </MDBPageNav>
-                                        </MDBPageItem>
-                                        <MDBPageItem>
-                                            <MDBPageNav className="page-link">
-                                                2
-                                            </MDBPageNav>
-                                        </MDBPageItem>
-                                        <MDBPageItem>
-                                            <MDBPageNav className="page-link">
-                                                3
-                                            </MDBPageNav>
-                                        </MDBPageItem>
-                                        <MDBPageItem>
-                                            <MDBPageNav className="page-link">
-                                                4
-                                            </MDBPageNav>
-                                        </MDBPageItem>
-                                        <MDBPageItem>
-                                            <MDBPageNav className="page-link">
-                                                5
-                                            </MDBPageNav>
-                                        </MDBPageItem>
-                                        <MDBPageItem>
-                                            <MDBPageNav className="page-link">
-                                                &raquo;
-                                            </MDBPageNav>
-                                        </MDBPageItem>
-                                    </MDBPagination>
+                                    {/*<MDBPagination circle className="justify-content-center">*/}
+                                    {/*    <MDBPageItem disabled>*/}
+                                    {/*        <MDBPageNav className="page-link" aria-label="Previous">*/}
+                                    {/*            <span aria-hidden="true">&laquo;</span>*/}
+                                    {/*            <span className="sr-only">Previous</span>*/}
+                                    {/*        </MDBPageNav>*/}
+                                    {/*    </MDBPageItem>*/}
+                                    {/*    <MDBPageItem active >*/}
+                                    {/*        <MDBPageNav className="page-link primary-color" >*/}
+                                    {/*            1 <span className="sr-only " >(current)</span>*/}
+                                    {/*        </MDBPageNav>*/}
+                                    {/*    </MDBPageItem>*/}
+                                    {/*    <MDBPageItem>*/}
+                                    {/*        <MDBPageNav className="page-link">*/}
+                                    {/*            2*/}
+                                    {/*        </MDBPageNav>*/}
+                                    {/*    </MDBPageItem>*/}
+                                    {/*    <MDBPageItem>*/}
+                                    {/*        <MDBPageNav className="page-link">*/}
+                                    {/*            3*/}
+                                    {/*        </MDBPageNav>*/}
+                                    {/*    </MDBPageItem>*/}
+                                    {/*    <MDBPageItem>*/}
+                                    {/*        <MDBPageNav className="page-link">*/}
+                                    {/*            4*/}
+                                    {/*        </MDBPageNav>*/}
+                                    {/*    </MDBPageItem>*/}
+                                    {/*    <MDBPageItem>*/}
+                                    {/*        <MDBPageNav className="page-link">*/}
+                                    {/*            5*/}
+                                    {/*        </MDBPageNav>*/}
+                                    {/*    </MDBPageItem>*/}
+                                    {/*    <MDBPageItem>*/}
+                                    {/*        <MDBPageNav className="page-link">*/}
+                                    {/*            &raquo;*/}
+                                    {/*        </MDBPageNav>*/}
+                                    {/*    </MDBPageItem>*/}
+                                    {/*</MDBPagination>*/}
+
+                                    <div style={{"float" : "left" , "color" : "#007bff"}}> Showing Page {currentPage} of {totalPages} </div>
+                                    <div style={{"float" : "right" }}>
+                                        <InputGroup>
+                                            <InputGroup.Prepend></InputGroup.Prepend>
+                                            <MDBBtnGroup>
+                                                <MDBBtn color="primary" size="sm" disabled={currentPage === 1 ? true : false}  onClick={this.firstPage}>First</MDBBtn>
+                                                <MDBBtn color="primary" size="sm" disabled={currentPage === 1 ? true : false} onClick={this.prevPage} >Prev</MDBBtn>
+                                            </MDBBtnGroup>
+                                            {/*<FormControl className="pageNumCss" ></FormControl>*/}
+                                            <input type="text" className="pageNumCss" name="currentPage" value={currentPage} onChange={this.changePage} disabled/>
+                                            <InputGroup.Append>
+                                                <MDBBtnGroup>
+                                                    <MDBBtn color="primary" size="sm" disabled={currentPage === totalPages ? true : false} onClick={this.nextPage}>Next</MDBBtn>
+                                                    <MDBBtn color="primary" size="sm" disabled={currentPage === totalPages ? true : false} onClick={this.lastPage}>Last</MDBBtn>
+                                                </MDBBtnGroup>
+                                            </InputGroup.Append>
+                                        </InputGroup>
+                                    </div>
                                 </form>
                             </MDBCardBody>
                         </MDBCard>

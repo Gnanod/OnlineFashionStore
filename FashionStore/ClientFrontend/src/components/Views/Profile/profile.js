@@ -30,7 +30,7 @@ export default class profile extends Component {
             feedback: '',
             CustfName: '',
             CustLName:'samitha',
-            CustomerId: '5ec11310db8e0e381027ca88',
+            CustomerId: '5ec2fc8f3eeb7d0c44a9cdc3',
             detailList:[]
         };
         this.sweetalertfunction = this.sweetalertfunction.bind(this);
