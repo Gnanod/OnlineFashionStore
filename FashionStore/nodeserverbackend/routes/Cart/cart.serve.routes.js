@@ -9,14 +9,11 @@ let Order = require('../../models/Order.model');
 router.route('/add').post(function (req,res) {
     let cart = new Cart  (req.body);
 
-    console.log("hi");
-    console.log(cart.itemId);
     cart.save()
         .then(sup=>{
 
             itemcolor.findOne({_id:cart.itemId}).then(item => {
 
-                console.log(item.image)
                 Cart.updateMany({itemId:cart.itemId},{$set: {image:item.image}}).then(sup=>{
                     console.log("image successful");
                     res.status(200).json({'cart':'successful'});

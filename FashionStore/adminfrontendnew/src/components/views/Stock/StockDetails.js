@@ -72,8 +72,7 @@ export default class StockDetails extends Component{
         this.getAllSuppliers = this.getAllSuppliers.bind(this);
         this.getAllItemColourId = this.getAllItemColourId.bind(this);
         this.onChangeGetCompanyName = this.onChangeGetCompanyName.bind(this);
-        this.onSubmitStock = this.onSubmitStock.bind(this);
-
+        this.updateStocks = this.updateStocks.bind(this);
         this.getAllSuppliers();
         this.getAllItemColourId();
     }
@@ -174,84 +173,52 @@ export default class StockDetails extends Component{
 
     }
 
+    /////////////Onsubmit Prices
+
     onSubmitPrices(e)
     {
         e.preventDefault();
-
-        console.log("ABcccccc");
-        console.log(this.state.buyingPrice);
-
         if(this.state.stocks.length !== 0){
                     if(this.state.stockPriceArray.length !== 0){
-                        // if(this.state.totalPrice !== 0){
-                        console.log(this.state.stockPriceArray.length);
-                        this.state.stockPriceArray.map(stockP => {
-                            const stockPriceObj = {
-                                itemColorId: stockP.selectedItemColourIdObject,
-                                buyingPrice: stockP.buyingPrice,
-                                sellingPrice: stockP.sellingPrice,
-                                quantity: stockP.quantity,
-                                discount: stockP.discount,
-                                totalPrice: stockP.totalPrice
-
-                            }
-                            console.log("ItemColourId" + stockP.selectedItemColourIdObject);
-                            console.log("stockPrice" + stockP.buyingPrice);
-                            console.log("stockPrice" + stockP.sellingPrice);
-                            console.log("stockPrice" + stockP.quantity);
-                            console.log("stockPrice" + stockP.discount);
-                            console.log("TotalPrice" + stockP.totalPrice);
-                            this.state.stockPriceIDArray.push(stockPriceObj);
-                            // console.log("stockArray" + this.state.stockPriceIDArray.push(stockPriceObj));
-                            // console.log("stockArray22" + this.state.stockPriceIDArray);
-                        });
-
-                        //     const stockPrices = {
-                        //         buyingPrice: this.state.buyingPrice,
-                        //         sellingPrice: this.state.sellingPrice,
-                        //         quantity: this.state.quantity,
-                        //         discount: this.state.discount,
-                        //         totalPrice: this.state.quantity * this.state.buyingPrice
-                        //     }
-                            axios.post(constants.backend_url + 'api/stockprice/add', this.state.stockPriceIDArray)
-                                .then(res => {
-                                        console.log("response"+res)
-                                        if (res.data.stockPrice === 'successful') {
-                                            Swal.fire(
-                                                '',
-                                                'Stock Prices Added Successfully.',
-                                                'success'
-                                            );
-                                            this.setState({
-                                                stockPriceIDArray: ' ',
-                                                stockPriceArray :'',
-                                                noItem:true
-                                            })
-                                            // this.getAllStockPrice();
-
-                                        } else {
-                                            Swal.fire(
-                                                '',
-                                                'Stock Prices Added Fail',
-                                                'error'
-                                            )
-                                        }
-                                    }
-                                );
-                        axios.post(constants.backend_url + 'api/stockdetails/add', this.state.stocks)
+                        const newStock ={
+                            stock : this.state.stocks,
+                            stockPriceArray : this.state.stockPriceArray
+                        }
+                        axios.post(constants.backend_url + 'api/stockdetails/add',newStock.stock)
                             .then(res => {
-                                    console.log("response"+res)
-                                    if (res.data.stockPrice === 'successful') {
-                                        Swal.fire(
-                                            '',
-                                            'Stock Details Added Successfully.',
-                                            'success'
-                                        );
-                                        this.setState({
-                                            stocks: ' ',
-                                            noItem:true
+                                    if (res.data.stocks !== null) {
+                                        newStock.stockPriceArray.map(stocksPrice=>{
+                                            const  stockPrice ={
+                                                stockDetails : res.data.stocks._id,
+                                                itemColorId : stocksPrice.itemColorId._id,
+                                                buyingPrice : stocksPrice.buyingPrice,
+                                                sellingPrice : stocksPrice.sellingPrice,
+                                                quantity : stocksPrice.quantity,
+                                                discount : stocksPrice.discount,
+                                                totalPrice : stocksPrice.totalPrice
+                                            }
+                                            this.updateStocks(stocksPrice.itemColorId._id,stocksPrice.quantity);
+                                            axios.post(constants.backend_url + 'api/stockprice/add',stockPrice)
+                                                .then(res => {
+                                                        console.log("response")
+                                                        if (res.data.stockPrice === 'successful') {
+                                                            Swal.fire(
+                                                                '',
+                                                                'Stocks Details Added ',
+                                                                'success'
+                                                            )
+                                                        } else {
+                                                            Swal.fire(
+                                                                '',
+                                                                'Stock Details Added Fail',
+                                                                'error'
+                                                            )
+                                                        }
+                                                    }
+                                                );
                                         })
-                                        // this.getAllStockPrice();
+
+
 
                                     } else {
                                         Swal.fire(
@@ -279,72 +246,6 @@ export default class StockDetails extends Component{
         }
     }
 
-    onSubmitStock(e){
-
-        e.preventDefault();
-
-        if (this.state.supplier !== ''){
-            console.log("xxxxxxxxxxxxxxxxx");
-            if(this.state.itemColorId !== ''){
-                if(this.state.startDate !== ''){
-                    if(this.state.endDate !== ''){
-                            const stock = {
-                                supplier: this.state.supplier,
-                                itemColorId: this.state.itemColorId,
-                                startDate: this.state.startDate,
-                                endDate: this.state.endDate
-
-                            }
-
-                            axios.post(constants.backend_url + 'api/stockdetails/add', stock)
-                                .then(res => {
-                                        console.log(res)
-                                        if (res.data.stockPrice === 'successful') {
-                                            Swal.fire(
-                                                '',
-                                                'Stock Details Added Successfully.',
-                                                'success'
-                                            );
-                                            this.setState({
-                                                buyingPrice: 0,
-                                                sellingPrice: 0,
-                                                quantity: 0,
-                                                discount: 0,
-                                                totalPrice: 0
-                                            })
-                                            // this.getAllStockPrice();
-
-                                        } else {
-                                            Swal.fire(
-                                                '',
-                                                'Stock Details Added Fail',
-                                                'error'
-                                            )
-                                        }
-                                    }
-                                );
-                    }else{
-                        this.setState({
-                           endDateValidation: true
-                        })
-                    }
-                }else{
-                    this.setState({
-                        startDateValidation: true
-                    })
-                }
-            }else{
-                this.setState({
-                    selectedItemColourIdObjectValidation: true
-                })
-            }
-        }else{
-            this.setState({
-                selectedSupplierObjectValidation: true
-            })
-        }
-
-    }
 
     AddStockPricesToTable(e)
     {
@@ -370,7 +271,7 @@ export default class StockDetails extends Component{
                                             stockPriceId: uuid()
                                         }
                                         const newStocks = {
-                                            supplier: this.state.selectedSupplierObject,
+                                            supplier: this.state.selectedSupplierObject._id,
                                             startDate: this.state.startDate,
                                             endDate: this.state.endDate
                                         }
@@ -513,15 +414,17 @@ export default class StockDetails extends Component{
     //     }
     // }
 
-
-    updateStocks(id,quantity,price){
-        axios.get(constants.backend_url + 'api/stockprice/updateQuantityPrice/'+id+'/'+quantity+'/'+price).then(res => {
-            if(res.data.stockPrice === 'success'){
-                console.log("Updated Successfully")
-            }else{
-                console.log("updated fail")
-            }
-        });
+    updateStocks(id,quantity){
+        console.log("Stock Update Frontend");
+        axios.get(constants.backend_url + 'api/stockprice/updateQuantityPrice/'+id+'/'+quantity)
+            .then(res => {
+                console.log("Stock Update Frontend222222222222");
+                if(res.data.stockPrice === 'success'){
+                    console.log("Updated Successfully")
+                }else{
+                    console.log("Updated fail")
+                }
+            });
     }
 
     render(){

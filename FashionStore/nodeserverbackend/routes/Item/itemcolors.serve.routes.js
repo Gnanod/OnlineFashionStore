@@ -72,11 +72,8 @@ router.route('/getItemColorDetail/:id').get(function (req, res) {
 
 router.route('/getItemSizes/:itemColorId').get(function (req, res) {
     let id = '#'+req.params.itemColorId;
-    console.log('LLLLLLLLL')
-    console.log(id);
-    console.log('LLLLLLLL')
+
     itemcolor.find({ itemColor: id }).populate("itemCode").exec().then(item => {
-        console.log(item);
         res.status(200).json(item)
     })
         .catch(err => {
