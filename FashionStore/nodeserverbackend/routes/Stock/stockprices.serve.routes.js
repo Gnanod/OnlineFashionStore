@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
 let StockPrice = require('../../models/StockPrices.model');
+let itemcolor = require('../../models/ItemColor.model');
 
 //
 // router.route('/add').post(function (req,res) {
@@ -44,17 +45,18 @@ router.route('/add').post(function (req,res) {
 //     });
 // });
 
-router.route('/updateQuantityPrice/:id/:quantity/:price').get(function (req, res) {
+router.route('/updateQuantityPrice/:id/:quantity').get(function (req,res) {
+    console.log("Inside Update method");
     let id = req.params.id;
     let quantity = req.params.quantity;
-    let price = req.params.price;
-    itemcolor.updateMany({_id:id},{$set: {quantity:quantity,price:price}}).then(sup=>{
+    // let price = req.params.price;
+
+    itemcolor.updateOne({_id:id},{$set: {quantity:quantity}}).then(sup=>{
         res.status(200).json({'itemColor':'successful'});
     }).catch(err=>{
         res.status(400).send('fail');
     });
 });
-
 
 
 module.exports = router;
