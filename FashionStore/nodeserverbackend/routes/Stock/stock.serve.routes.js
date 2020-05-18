@@ -6,22 +6,15 @@ let StockDetails = require('../../models/StockDetails.model');
 router.route('/add').post(function (req, res) {
 
     const stockDetails = req.body;
-    stockDetails.map(sd => {
-        let stock = {
-            stockDetails: sd.stocks._id,
-            supplier: sd.supplier._id,
-            itemColorId: sd.itemColorId._id,
-             startDate: sd.startDate,
-             endDate:sd.endDate
-        }
-        let stockObj = new StockDetails(stock);
-        stockObj.save()
-            .then(bc => {
-                res.status(200).json({'stocks': 'successful'});
-            }).catch(err => {
-            res.status(400).send('fail');
-        });
-    })
+
+    let stockObj = new StockDetails(stockDetails);
+    stockObj.save()
+        .then(bc => {
+            res.status(200).json({'stocks': stockObj});
+        }).catch(err => {
+        res.status(400).send('fail');
+    });
+    // })
 
 });
 
@@ -44,4 +37,4 @@ router.route('/add').post(function (req, res) {
 //         })
 // });
 
- module.exports = router;
+module.exports = router;

@@ -6,35 +6,25 @@ let itemcolor = require('../../models/ItemColor.model');
 
 router.route('/add').post(function (req,res) {
     let wishlist = new Wishlist  (req.body);
-    console.log("wishlist here");
-    console.log(wishlist);
-
     wishlist.save()
         .then(sup=>{
             console.log("successful");
             itemcolor.findOne({_id:wishlist.itemId}).then(item => {
 
-                console.log(item.image)
                 Wishlist.updateMany({itemId:wishlist.itemId},{$set: {image:item.image}}).then(sup=>{
-                    console.log("image successful");
                     res.status(200).json({'itemColor':'successful'});
                 }).catch(err=>{
-                    console.log("itemColor fail");
                     res.status(400).send('fail');
                 });
             });
         }).catch(err=>{
-        console.log("wishlist fail");
         res.status(400).send('fail');
     });
 });
 router.route('/getDetails/:id').get(function (req, res) {
-    console.log("Wishlist called!")
  let id=req.params.id;
 
     Wishlist.find({ userId: id }).exec().then(item => {
-        console.log(item)
-        console.log("inside get")
         res.status(200).json(item)
     })
         .catch(err => {

@@ -41,10 +41,10 @@ router.route('/add').post(function (req, res) {
 
 router.route('/itemCategory/:id').get(function (req, res) {
         const id = req.params.id;
-        console.log("category" + id)
+
         Item .find({ categoryCode: id}).populate('brandCode').populate('categoryCode')
             .then(item => {
-                console.log(item)
+
                 res.json(item);
             }).catch(err => {
             res.status(400).send('faild');

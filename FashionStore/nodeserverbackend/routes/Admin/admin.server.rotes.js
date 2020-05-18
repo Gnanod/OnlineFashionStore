@@ -15,9 +15,9 @@ router.route('/add').post(function (req,res) {
 });
 
 router.route('/getAlldetail').get(function (req,res) {
-    console.log("getDetails Admin")
+
     AdminDetail.find().exec().then(item => {
-        console.log(item)
+
         res.status(200).json(item)
     }).catch(err => {
         res.status(500).json(err);

@@ -11,7 +11,8 @@ const mongoose = require('mongoose');
 
 app.use(cors());
 app.use(bodyParser.json());
-
+app.use(bodyParser.json({limit: "100mb"}));
+app.use(bodyParser.urlencoded({limit: "100mb", extended: true, parameterLimit:500000}));
 
 mongoose.connect("mongodb+srv://admin:admin@cluster0-v1gj6.mongodb.net/fashionStore?retryWrites=true&w=majority", {useNewUrlParser: true});
 const connection = mongoose.connection;
@@ -25,6 +26,7 @@ connection.once('open', function () {
 app.listen(PORT, function () {
     console.log("Server is running on PORT: " + PORT);
 });
+
 
 
 ///////making router instance from express
