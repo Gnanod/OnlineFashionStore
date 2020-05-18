@@ -7,6 +7,12 @@ export default class StockPriceTableBody extends Component {
 
     render() {
         const {stockPriceList, noItem,deleteStockPrice} = this.props;
+        // console.log(stockPriceList.stockPriceId);
+        // console.log(stockPriceList.buyingPrice);
+        // console.log(stockPriceList.quantity);
+        // console.log(stockPriceList.quantity);
+        // console.log(stockPriceList.discount);
+        // console.log("dddddddddd"+stockPriceList.itemColorId);
         return (
             <MDBTableBody>
                 {
@@ -20,8 +26,10 @@ export default class StockPriceTableBody extends Component {
                         </tr>
                         :
                         stockPriceList.map(stockP => {
+                            console.log("ddddddd"+ stockP.itemColorId.itemColorsId);
                             return (
                                 <tr key={stockP.stockPriceId}>
+                                    <td>{stockP.itemColorId.itemColorsId}</td>
                                     <td>{stockP.buyingPrice}</td>
                                     <td>{stockP.sellingPrice}</td>
                                     <td>{stockP.quantity}</td>

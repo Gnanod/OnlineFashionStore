@@ -47,7 +47,7 @@ router.route('/deleteItem/:id').get(function (req, res) {
     console.log("Delete Called!");
     Wishlist.deleteOne({_id:id}).then(sup=>{
         console.log("successful");
-        res.status(200).json({'cart':'successful'});
+        res.status(200).json({'wishlist':'successful'});
     }).catch(err=>{
         console.log("fail");
         res.status(400).send('fail');

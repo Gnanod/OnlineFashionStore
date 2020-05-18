@@ -159,46 +159,58 @@ export class ItemDetail extends Component {
 
     }
     addToCart(){
-        console.log(this.state.selected);
+
         let cartItem=this.state.selected;
+        console.log(this.state.selected);
         console.log(cartItem);
-        this.decrementQuantity(cartItem.itemSizes._id,cartItem.itemSizes.quantity);
-        const cartt = {
-            userId:'C001',
-            cartName:this.state.itemName,
-            cartPrice:cartItem.itemSizes.price,
-            quantity:1,
-            itemTotal:cartItem.itemSizes.price,
-            itemId:cartItem.itemSizes._id
-        }
+        if(cartItem===''){
+            Swal.fire(
+                '',
+                'Enter a valid Size!!!.',
+                'error'
+            );
 
-        axios.post(constants.backend_url + 'api/cart/add', cartt)
-            .then(res => {
-                    console.log(res.data.cart)
+        }else{
+            const cartt = {
+                userId:'C001',
+                cartName:this.state.itemName,
+                cartPrice:cartItem.itemSizes.price,
+                quantity:1,
+                itemTotal:cartItem.itemSizes.price,
+                itemId:cartItem.itemSizes._id
+            }
+            this.decrementQuantity(cartItem.itemSizes._id,cartItem.itemSizes.quantity);
+            axios.post(constants.backend_url + 'api/cart/add', cartt)
+                .then(res => {
+                        console.log(res.data.cart)
 
-                    if (res.data.cart === 'successful') {
-                        Swal.fire(
-                            '',
-                            'Cart Details Added Successfully.',
-                            'success'
-                        );
+                        if (res.data.cart === 'successful') {
+                            Swal.fire(
+                                '',
+                                'Cart Details Added Successfully.',
+                                'success'
+                            );
 
-                    } else {
+                        } else {
 
                             Swal.fire(
                                 '',
-                            'Cart Added Fail',
-                            'error'
+                                'Cart Added Fail',
+                                'error'
                             )
 
 
+                        }
                     }
-                }
-            );
+                );
+            console.log(this.state.itemName);
+            console.log(cartt);
+
+        }
 
 
-        console.log(this.state.itemName);
-        console.log(cartt);
+
+
 
     }
 
@@ -254,35 +266,42 @@ export class ItemDetail extends Component {
     addToWhishList(){
         console.log(this.state.selected);
         let cartItem=this.state.selected;
-
-        const wishlist = {
+        if(cartItem==='') {
+            Swal.fire(
+                '',
+                'Enter a valid Size!!!.',
+                'error'
+            );
+        }else{ const wishlist = {
             userId:'C001',
             cartName:this.state.itemName,
             cartPrice:cartItem.itemSizes.price,
             //quantity:1,
             itemId:cartItem.itemSizes._id
         }
-        console.log(wishlist);
-        axios.post(constants.backend_url + 'api/wishlist/add', wishlist )
-            .then(res => {
-                    console.log("HI")
-                    if (res.data.wish === 'success') {
-                        Swal.fire(
-                            '',
-                            'Wishlist Added Fail',
-                            'error'
-                        );
+            console.log(wishlist);
+            axios.post(constants.backend_url + 'api/wishlist/add', wishlist )
+                .then(res => {
+                        console.log("HI")
+                        if (res.data.wish === 'success') {
+                            Swal.fire(
+                                '',
+                                'Wishlist Added Fail',
+                                'error'
+                            );
 
-                    } else {
-                        Swal.fire(
-                            '',
+                        } else {
+                            Swal.fire(
+                                '',
 
-                            'Wishlist Details Added Successfully.',
-                            'success'
-                        )
+                                'Wishlist Details Added Successfully.',
+                                'success'
+                            )
+                        }
                     }
-                }
-            );
+                );
+        }
+
 
     }
 
@@ -390,12 +409,15 @@ export class ItemDetail extends Component {
 
                                                             <div className="row">
                                                                 <div className="col-sm-6">
-                                                                    <button className="btnSize1"
+
+                                                                    <button type="button"
+                                                                            className="btn btn-primary"
                                                                             onClick={() => this.addToCart()}>Add to Cart
                                                                     </button>
                                                                 </div>
                                                                 <div className="col-sm-6">
-                                                                    <button className="btnSize1"
+                                                                    <button type="button"
+                                                                            className="btn btn-primary"
                                                                             onClick={() => this.addToWhishList()}>Add to WishList
                                                                     </button>
                                                                 </div>

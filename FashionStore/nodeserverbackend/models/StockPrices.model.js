@@ -2,6 +2,16 @@ const mongoose = require('mongoose');
 const Schema= mongoose.Schema;
 
 let stockPrice = new Schema({
+    stockDetails :[{
+        type :mongoose.Schema.Types.ObjectId,
+        ref : "Stock",
+        required : true
+    }],
+    itemColorId :[{
+        type :mongoose.Schema.Types.ObjectId,
+        ref : "itemcolors",
+        required : true
+    }],
     buyingPrice :{
         type :Number,
         required: true
