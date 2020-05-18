@@ -36,5 +36,21 @@ router.route('/getDetailuser/:id').get(function (req,res) {
 });
 
 
+router.get("/validateUser/:email/:password",function (req,res) {
+    let email = req.params.email;
+    let password = req.params.password;
+    UserDetail.findOne({ email: email, password: password },)
+        .exec()
+        .then(userValid =>{
+            if( userValid ){
+                res.status(200).json({"Message": "successful"});
+            }else{
+                console.log("Login failed");
+            }
+        }).catch(err=>{
+            res.status(500).json(err);
+        })
+});
+
 module.exports = router;
 

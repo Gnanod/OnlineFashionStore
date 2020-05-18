@@ -28,7 +28,8 @@ export default class profile extends Component {
         super(props);
         this.state = {
             feedback: '',
-            CustName: 'samiii',
+            CustfName: '',
+            CustLName:'samitha',
             CustomerId: '5ec11310db8e0e381027ca88',
             detailList:[]
         };
@@ -90,15 +91,26 @@ export default class profile extends Component {
         event.preventDefault();
 
         if(this.state.feedback != ''){
+
                                         console.log("Validation complete");
+                                        console.log(this.state.feedback);
+                                        console.log(this.state.CustfName);
+                                        console.log(this.state.CustLName);
+
 
                                         const newfeedback = {
                                             feedback: this.state.feedback,
-                                            Name: this.state.CustName
+                                            firstName: this.state.CustfName,
+                                            lastName: this.state.CustLName
                                         }
+
+            console.log("@@@@@@@@@@@");
+            console.log(newfeedback);
                                         axios.post(constants.backend_url + 'api/feedback/add', newfeedback)
                                             .then(res => {
-                                                    console.log(res)
+                                                    console.log(res.data)
+
+
                                                     if (res.data.feedback === 'successful') {
                                                         Swal.fire(
                                                             '',
@@ -106,7 +118,9 @@ export default class profile extends Component {
                                                             'success'
                                                         );
                                                         this.setState({
-                                                            feedback:""
+                                                            feedback:'',
+                                                            CustfName: ''
+
                                                         })
                                                     } else {
                                                         Swal.fire(
@@ -116,8 +130,9 @@ export default class profile extends Component {
                                                         )
                                                     }
                                                 }
-                                            );
-
+                                            ).catch(function (error) {
+                                            console.log(error);
+                                        })
 
         }else{console.log("Feedback empty");
             Swal.fire(
@@ -132,7 +147,21 @@ export default class profile extends Component {
     getDetailuser(){
         console.log("get user details");
         axios.get(constants.backend_url + 'api/userDetail/getDetailuser/' + this.state.CustomerId).then(response => {
-            this.setState({detailList:response.data})
+
+            let custFirst = '';
+            let custLast = '';
+            response.data.map(user=>{
+                custFirst = user.firstName;
+               custLast = user.lastName;
+            })
+
+            this.setState({
+                detailList:response.data,
+                CustfName : custFirst,
+                CustLName : custLast
+            })
+
+
         }).catch(function (error) {
             console.log(error);
         })
@@ -220,10 +249,7 @@ export default class profile extends Component {
 
                                 {
                                     this.state.detailList.map(item => {
-
                                         return(
-
-
 
                                             <div>
                                 <MDBCard reverse >
@@ -265,6 +291,7 @@ export default class profile extends Component {
                                                         <p className="grey-text">
                                                            {item.firstName}
                                                         </p>
+
                                                     </MDBCol>
                                                 </MDBRow>
                                                 <MDBRow className="mb-3">
@@ -298,6 +325,14 @@ export default class profile extends Component {
                                                         <p className="grey-text">
                                                             {item.dob}
                                                         </p>
+
+                                                        {/*<p className="hide">*/}
+                                                        {/*    {*/}
+                                                        {/*        this.state.CustfName = item.firstName*/}
+                                                        {/*    }*/}
+                                                        {/*</p>*/}
+
+
                                                     </MDBCol>
                                                 </MDBRow>
                                             </MDBCol>
@@ -305,6 +340,8 @@ export default class profile extends Component {
                                     </section>
                                 </MDBContainer>
                             </div>
+
+
 
                                 )
                                 })}

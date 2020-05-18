@@ -48,3 +48,13 @@
 /*.leftmargin{*/
 /*    margin-left: 0px !important;*/
 /*}*/
+
+
+.pageNumCss{
+    width:45px !important;
+    color: #17A2B8 !important;
+    text-align: center !important;
+    font-weight: bold !important;
+   border: white;
+    background-color: white;
+}

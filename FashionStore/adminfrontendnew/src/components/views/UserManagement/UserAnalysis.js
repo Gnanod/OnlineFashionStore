@@ -191,7 +191,7 @@ export default class UserAnalysis extends Component {
                                             <MDBCard>
                                                 <MDBCardBody>
                                                     <h5 className='pink-text '><MDBIcon icon='envelope'/> New Feedback</h5>
-                                                    <MDBCardTitle className='font-weight-bold'>Customer : {item.Name}</MDBCardTitle>
+                                                    <MDBCardTitle className='font-weight-bold'>Customer : {item.firstName + " " + item.lastName } </MDBCardTitle>
                                                     <MDBCardText className="feedbacktext">{item.feedback}</MDBCardText>
                                                     <MDBBtn color='unique' onClick={this.sweetalertfunction}>Delete</MDBBtn>
                                                 </MDBCardBody>
