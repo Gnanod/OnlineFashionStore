@@ -5,19 +5,19 @@ import {
     MDBRow,
     MDBCol,
     MDBView,
-    MDBContainer,MDBPagination, MDBPageItem, MDBPageNav,
-    MDBNavbar,
-    MDBIcon,MDBDataTable,MDBFormInline,
+    MDBContainer,
+    MDBBtnGroup,
+    MDBIcon,  MDBFormInline,
     MDBCard,
     MDBCardBody,
-    MDBCardTitle,
-    MDBInput, MDBBtn, MDBTableHead, MDBTableBody, MDBTable
+    MDBBtn, MDBTableHead, MDBTableBody, MDBTable, MDBAlert,MDBPagination,MDBPageItem,MDBPageNav,
 } from 'mdbreact';
 import './UserManage.css';
 import 'sweetalert2/src/sweetalert2.scss';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import constants from "../../../constants/constants";
 import axios from "axios";
+import {InputGroup} from 'react-bootstrap';
 
 export default class UserDetails extends Component {
 
@@ -25,11 +25,20 @@ export default class UserDetails extends Component {
         super(props);
         this.state = {
             cartitem:'',
-            detailList:[]
+            detailList:[],
+            currentPage: 1,
+            userPerPage: 5,
+            empty: false
         }
 
         this.sweetalertfunction = this.sweetalertfunction.bind(this);
         this.getDetails = this.getDetails.bind(this);
+        this.changePage = this.changePage.bind(this);
+        this.firstPage = this.firstPage.bind(this);
+        this.prevPage = this.prevPage.bind(this);
+        this.nextPage = this.nextPage.bind(this);
+        this.lastPage = this.lastPage.bind(this);
+
     }
     componentDidMount() {
         this.getDetails();
@@ -76,22 +85,80 @@ export default class UserDetails extends Component {
 
 
     getDetails(){
+
+
         console.log("get user details");
         axios.get(constants.backend_url + 'api/userDetail/getAllusers').then(response => {
             // console.log("getdetails")
             // console.log(response.data);
           this.setState({detailList:response.data})
+
+            if(this.state.datalist.length === 0){
+                this.setState({empty: true})
+            }
         }).catch(function (error) {
             console.log(error);
         })
+    }
+
+    changePage(event){
+        this.setState({
+            [event.target.name] : parseInt(event.target.value)
+        });
+    }
+
+    firstPage(){
+        if(this.state.currentPage > 1){
+            this.setState({
+                currentPage: 1
+            })
+        }
+    }
+
+    prevPage(){
+        if(this.state.currentPage > 1){
+            this.setState({
+                currentPage: this.state.currentPage - 1
+            })
+        }
+
+    }
+
+    nextPage(){
+
+        if(this.state.currentPage < Math.ceil(this.state.detailList.length / this.state.userPerPage)){
+            this.setState({
+                currentPage: this.state.currentPage + 1
+            })
+        }
+
+    }
+
+    lastPage(){
+
+        if(this.state.currentPage < Math.ceil(this.state.detailList.length / this.state.userPerPage)){
+            this.setState({
+                currentPage: Math.ceil(this.state.detailList.length / this.state.userPerPage)
+            })
+        }
+
     }
 
 
 
 
 
+
     render() {
+        const{detailList, currentPage, userPerPage} = this.state;
+        const lastIndex = currentPage * userPerPage;
+        const firstIndex = lastIndex - userPerPage;
+        const currentUsers = detailList.slice(firstIndex, lastIndex );
+        const totalPages = Math.ceil(detailList.length / userPerPage) ;
+
+
         return (
+
             <div id='parallaxintro'>
 
                 <MDBCard className="mb-5">
@@ -143,8 +210,7 @@ export default class UserDetails extends Component {
                                                     <MDBTable responsive>
                                                         <MDBTableHead color="primary-color" textWhite>
                                                             <tr>
-                                                                <th>First Name</th>
-                                                                <th>Last Name</th>
+                                                                <th>Name</th>
                                                                 <th>Email Address</th>
                                                                 <th>Contact Number</th>
                                                                 <th>Date of Birth</th>
@@ -154,13 +220,20 @@ export default class UserDetails extends Component {
                                                         </MDBTableHead>
 
                                                         {
-                                                            this.state.detailList.map(item => {
+                                                            this.state.empty ?
+                                                                <tr >
+                                                                    <td colSpan="2">
+                                                                        <MDBAlert color="danger" >
+                                                                            No Users Registered
+                                                                        </MDBAlert>
+                                                                    </td>
+                                                                </tr>:
+                                                                currentUsers.map(item => {
 
                                                         return(
                                                         <MDBTableBody>
                                                             <tr>
-                                                                <td>{item.firstName}</td>
-                                                                <td>{item.lastName}</td>
+                                                                <td>{item.firstName + "  " + item.lastName}</td>
                                                                 <td>{item.email}</td>
                                                                 <td>{item.phoneNumber}</td>
                                                                 <td>{item.dob}</td>
@@ -175,48 +248,69 @@ export default class UserDetails extends Component {
                                                             )
                                                         })}
 
+
                                                     </MDBTable>
 
 
+                                                    {/*<MDBPagination circle className="justify-content-center">*/}
+                                                    {/*    <MDBPageItem disabled={currentPage === 1 ? true : false} >*/}
+                                                    {/*        <MDBPageNav className="page-link " onclick={this.PrevPage}>*/}
+                                                    {/*            Prev*/}
+                                                    {/*        </MDBPageNav>*/}
+                                                    {/*    </MDBPageItem>*/}
+                                                    {/*    <MDBPageItem active >*/}
 
-                                                    <MDBPagination circle className="justify-content-center">
-                                                        <MDBPageItem disabled>
-                                                            <MDBPageNav className="page-link" aria-label="Previous">
-                                                                <span aria-hidden="true">&laquo;</span>
-                                                                <span className="sr-only">Previous</span>
-                                                            </MDBPageNav>
-                                                        </MDBPageItem>
-                                                        <MDBPageItem active >
-                                                            <MDBPageNav className="page-link default-color" >
-                                                                1 <span className="sr-only " >(current)</span>
-                                                            </MDBPageNav>
-                                                        </MDBPageItem>
-                                                        <MDBPageItem>
-                                                            <MDBPageNav className="page-link">
-                                                                2
-                                                            </MDBPageNav>
-                                                        </MDBPageItem>
-                                                        <MDBPageItem>
-                                                            <MDBPageNav className="page-link">
-                                                                3
-                                                            </MDBPageNav>
-                                                        </MDBPageItem>
-                                                        <MDBPageItem>
-                                                            <MDBPageNav className="page-link">
-                                                                4
-                                                            </MDBPageNav>
-                                                        </MDBPageItem>
-                                                        <MDBPageItem>
-                                                            <MDBPageNav className="page-link">
-                                                                5
-                                                            </MDBPageNav>
-                                                        </MDBPageItem>
-                                                        <MDBPageItem>
-                                                            <MDBPageNav className="page-link">
-                                                                &raquo;
-                                                            </MDBPageNav>
-                                                        </MDBPageItem>
-                                                    </MDBPagination>
+
+
+                                                    {/*            <MDBPageNav >*/}
+                                                    {/*             */}
+                                                    {/*            </MDBPageNav>*/}
+
+
+                                                    {/*    </MDBPageItem>*/}
+                                                    {/*    <MDBPageItem disabled={currentPage === totalPages ? true : false}>*/}
+                                                    {/*        <MDBPageNav className="page-link "  onclick={this.NextPage}>*/}
+                                                    {/*            Next*/}
+                                                    {/*        </MDBPageNav>*/}
+                                                    {/*    </MDBPageItem>*/}
+                                                    {/*</MDBPagination>*/}
+                                                    <div style={{"float" : "left" , "color" : "#007bff"}}> Showing Page {currentPage} of {totalPages} </div>
+                                                    <div style={{"float" : "right" }}>
+                                                        <InputGroup>
+                                                            <InputGroup.Prepend></InputGroup.Prepend>
+                                                            <MDBBtnGroup>
+                                                                <MDBBtn color="primary" size="sm" disabled={currentPage === 1 ? true : false}  onClick={this.firstPage}>First</MDBBtn>
+                                                                <MDBBtn color="primary" size="sm" disabled={currentPage === 1 ? true : false} onClick={this.prevPage} >Prev</MDBBtn>
+                                                                </MDBBtnGroup>
+                                                            {/*<FormControl className="pageNumCss" ></FormControl>*/}
+                                                            <input type="text" className="pageNumCss" name="currentPage" value={currentPage} onChange={this.changePage} disabled/>
+                                                            <InputGroup.Append>
+                                                                <MDBBtnGroup>
+                                                                    <MDBBtn color="primary" size="sm" disabled={currentPage === totalPages ? true : false} onClick={this.nextPage}>Next</MDBBtn>
+                                                                    <MDBBtn color="primary" size="sm" disabled={currentPage === totalPages ? true : false} onClick={this.lastPage}>Last</MDBBtn>
+                                                                    </MDBBtnGroup>
+                                                            </InputGroup.Append>
+                                                        </InputGroup>
+                                                    </div>
+
+
+                                                    {/*<MDBContainer >*/}
+                                                    {/*        <MDBRow className='d-flex justify-content-center align-items-center'  >*/}
+                                                    {/*            <MDBCol md="4">*/}
+                                                    {/*                <MDBInputGroup  style={{pageNumCss}}  prepend={<>*/}
+                                                    {/*                    <MDBBtn size="sm" color="primary" className="m-0 px-3 py-1 z-depth-1">First</MDBBtn>*/}
+                                                    {/*                    <MDBBtn size="sm" color="primary" className="m-0 px-3 py-1 z-depth-1">Prev</MDBBtn>*/}
+                                                    {/*                </>*/}
+                                                    {/*                } append={<>*/}
+                                                    {/*                    <MDBBtn size="sm" color="primary" className="m-0 px-3 py-1 z-depth-1">Next</MDBBtn>*/}
+                                                    {/*                    <MDBBtn  size="sm" color="primary" className="m-0 px-3 py-1 z-depth-1">Last</MDBBtn>*/}
+                                                    {/*                </>*/}
+                                                    {/*                }*/}
+                                                    {/*                />*/}
+                                                    {/*            </MDBCol>*/}
+                                                    {/*        </MDBRow>*/}
+                                                    {/*</MDBContainer>*/}
+
                                                 </form>
 
 

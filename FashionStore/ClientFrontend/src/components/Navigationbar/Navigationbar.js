@@ -45,7 +45,11 @@ export default class Navigationbar extends Component {
             confirmpass: '',
             dob:'',
             MaleCount:0,
-            FemaleCount:0
+            FemaleCount:0,
+            loginEmail:'',
+            loginPass: '',
+            loginEmailV: false,
+            loginPassV: false
 
             // options: [
             //     {
@@ -72,6 +76,7 @@ export default class Navigationbar extends Component {
         };
         this.onClick = this.onClick.bind(this);
         this.submitUser = this.submitUser.bind(this);
+        this.validateUser = this.validateUser.bind(this);
 
         this.onChangeFname = this.onChangeFname.bind(this);
         this.onChangeLname = this.onChangeLname.bind(this);
@@ -81,6 +86,9 @@ export default class Navigationbar extends Component {
         this.onChangeDOB = this.onChangeDOB.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onChangeConfirmPassword = this.onChangeConfirmPassword.bind(this);
+        this.onChangeEmailV = this.onChangeEmailV.bind(this);
+        this.onChangePassV = this.onChangePassV.bind(this);
+
     }
 
     onClick() {
@@ -116,6 +124,21 @@ export default class Navigationbar extends Component {
 
         });
     }
+
+    onChangeEmailV(event){
+        this.setState({
+            loginEmail:event.target.value,
+            [event.target.name]: event.target.value
+        })
+    }
+
+    onChangePassV(event){
+        this.setState({
+            loginPass:event.target.value,
+            [event.target.name]: event.target.value
+        })
+    }
+
 
     onChangeFname(event){
         this.setState({
@@ -263,10 +286,62 @@ export default class Navigationbar extends Component {
             );
         }
     };
-    //
-    // changeHandler = event => {
-    //     this.setState({ [event.target.name]: event.target.value });
-    // };
+
+
+    validateUser(event){
+        event.preventDefault();
+
+        if(this.state.loginEmail != '' ){
+            this.setState({
+                loginEmailV: false
+            })
+            if(this.state.loginPass != '' ){
+                this.setState({
+                    loginPassV: false
+                })
+
+                axios.get(constants.backend_url + 'api/userDetail/validateUser/' + this.state.loginEmail + '/' + this.state.loginPass)
+                .then(res => {
+                            console.log(res)
+                            if (res.data.Message === 'successful') {
+                                Swal.fire(
+                                    '',
+                                    'Login Successful !.',
+                                    'success'
+                                );
+                                this.setState({
+                                    loginEmail: '',
+                                    loginPass:'',
+                                    loginEmailV: false,
+                                    loginPassV:false
+                                })
+                            } else {
+                                Swal.fire(
+                                    '',
+                                    'Login unsuccessful  !',
+                                    'error'
+                                )
+                            }
+                        }
+                    );
+
+
+            }else{
+                console.log('email field empty');
+                this.setState({
+                    loginPassV: true
+                })
+            }
+        }else{
+            console.log('email field empty');
+            this.setState({
+                loginEmailV: true
+            })
+
+
+        }
+    };
+
 
 
     render() {
@@ -339,6 +414,7 @@ export default class Navigationbar extends Component {
                         <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
                             <MDBModalHeader toggle={this.toggle} ></MDBModalHeader>
                             <MDBModalBody>
+                                <form className="needs-validation" onSubmit={this.validateUser} >
                                 <MDBCard>
                                     <MDBCardBody className="mx-4">
                                         <div className="text-center">
@@ -346,10 +422,22 @@ export default class Navigationbar extends Component {
                                                 <strong className="loginh3 ">LOGIN</strong>
                                             </h2>
                                         </div>
-                                        <MDBInput label="Your email" group type="email" validate error="wrong" success="right"/>
-                                        <MDBInput label="Your password" group type="password" validate containerClass="mb-0"/>
+                                        <MDBInput label="Your email" group type="email" validate error="wrong" success="right" value={this.state.loginEmail} onChange={this.onChangeEmailV}/>
+                                        {
+                                            this.state.loginEmailV  ?
+                                                <MDBAlert color="danger">
+                                                Please enter a value for email !
+                                                </MDBAlert> : ''
+                                        }
+                                        <MDBInput label="Your password" group type="password" validate containerClass="mb-0" value={this.state.loginPass} onChange={this.onChangePassV}/>
+                                        {
+                                            this.state.loginPassV  ?
+                                                <MDBAlert color="danger">
+                                                    Please enter a value for email !
+                                                </MDBAlert> : ''
+                                        }
                                         <div className="text-center mb-3">
-                                            <MDBBtn type="button" gradient="blue" rounded className="btn-block z-depth-1a">
+                                            <MDBBtn type="submit" gradient="blue" rounded className="btn-block z-depth-1a">
                                                 LOGIN
                                             </MDBBtn>
                                         </div>
@@ -361,6 +449,7 @@ export default class Navigationbar extends Component {
                                         <MDBBtn outline color="info"  size="sm" onClick={this.toggle2}>Sign In</MDBBtn>
                                     </p>
                                 </MDBModalFooter>
+                                </form>
                             </MDBModalBody>
                         </MDBModal>
                     </MDBContainer>
@@ -371,9 +460,9 @@ export default class Navigationbar extends Component {
                             <MDBModalHeader toggle={this.toggle3} ></MDBModalHeader>
                             <MDBModalBody>
                                 <MDBCard>
-                                    <MDBCardBody className="mx-4">
+                                    <MDBCardBody className="mx-2">
                                         <div className="text-center">
-                                            <h2 className="loginh3 mb-5">
+                                            <h2 className="loginh3 mb-1">
                                                 <strong className="loginh3 ">REGISTER</strong>
                                             </h2>
                                         </div>
@@ -445,12 +534,12 @@ export default class Navigationbar extends Component {
                                                 {/*    color="primary"*/}
                                                 {/*    label="Example label"*/}
                                                 {/*/>*/}
-                                                <select id="cars"  onChange={this.changeHandler}>
-                                                    <option value="volvo">Volvo</option>
-                                                    <option value="saab">Saab</option>
-                                                    <option value="opel">Opel</option>
-                                                    <option value="audi">Audi</option>
-                                                </select>
+                                                {/*<select id="cars"  onChange={this.changeHandler}>*/}
+                                                {/*    <option value="volvo">Volvo</option>*/}
+                                                {/*    <option value="saab">Saab</option>*/}
+                                                {/*    <option value="opel">Opel</option>*/}
+                                                {/*    <option value="audi">Audi</option>*/}
+                                                {/*</select>*/}
                                                 <div className="invalid-feedback">Please provide your gender.</div>
                                                 {/*</MDBCol>*/}
                                             </MDBRow>
