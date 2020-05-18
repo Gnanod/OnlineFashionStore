@@ -7,11 +7,7 @@ let stock = new Schema({
         ref : "Supplier",
         required : true
     }],
-    itemColorId :[{
-        type :mongoose.Schema.Types.ObjectId,
-        ref : "itemcolors",
-        required : true
-    }],
+
     startDate :{
         type: Date,
         required: true

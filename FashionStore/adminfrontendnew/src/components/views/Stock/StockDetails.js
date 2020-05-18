@@ -50,6 +50,7 @@ export default class StockDetails extends Component{
             noItem: true,
             suppliers: [],
             ItemColourId: [],
+            stocks: '',
             selectedSupplierObject: ' ',
             selectedSupplierObjectValidation: false,
             selectedItemColourIdObject: '',
@@ -65,7 +66,7 @@ export default class StockDetails extends Component{
         this.onChangeTotalPrice = this.onChangeTotalPrice.bind(this);
         this.onSubmitPrices = this.onSubmitPrices.bind(this);
         this.AddStockPricesToTable = this.AddStockPricesToTable.bind(this);
-        this.AddStocksToTable = this.AddStocksToTable.bind(this);
+        // this.AddStocksToTable = this.AddStocksToTable.bind(this);
         this.deleteStockPrice = this.deleteStockPrice.bind(this);
         // this.stockPriceArray = this.stockPriceArray.bind(this);
         this.getAllSuppliers = this.getAllSuppliers.bind(this);
@@ -74,6 +75,7 @@ export default class StockDetails extends Component{
         this.onSubmitStock = this.onSubmitStock.bind(this);
 
         this.getAllSuppliers();
+        this.getAllItemColourId();
     }
     onChangeStartDate(e){
         this.setState({
@@ -121,12 +123,13 @@ export default class StockDetails extends Component{
 
     }
     onChangeGetItemColourID(value){
-        // console.log(value)
+        console.log(value)
         this.state.selectedItemColourIdObject = value;
         this.setState({
             selectedItemColourIdObject: this.state.selectedItemColourIdObject,
             selectedItemColourIdObjectValidation: false
         });
+        console.log("SelectedItemColorID-" + this.state.selectedItemColourIdObject);
     }
 
     onChangeBuyingPrice(e)
@@ -178,23 +181,26 @@ export default class StockDetails extends Component{
         console.log("ABcccccc");
         console.log(this.state.buyingPrice);
 
+        if(this.state.stocks.length !== 0){
                     if(this.state.stockPriceArray.length !== 0){
                         // if(this.state.totalPrice !== 0){
                         console.log(this.state.stockPriceArray.length);
                         this.state.stockPriceArray.map(stockP => {
                             const stockPriceObj = {
+                                itemColorId: stockP.selectedItemColourIdObject,
                                 buyingPrice: stockP.buyingPrice,
                                 sellingPrice: stockP.sellingPrice,
                                 quantity: stockP.quantity,
                                 discount: stockP.discount,
-                                totalPrice: stockP.quantity * stockP.buyingPrice
+                                totalPrice: stockP.totalPrice
 
                             }
+                            console.log("ItemColourId" + stockP.selectedItemColourIdObject);
                             console.log("stockPrice" + stockP.buyingPrice);
                             console.log("stockPrice" + stockP.sellingPrice);
                             console.log("stockPrice" + stockP.quantity);
                             console.log("stockPrice" + stockP.discount);
-                            console.log("stockPrice" + stockP.quantity * stockP.buyingPrice);
+                            console.log("TotalPrice" + stockP.totalPrice);
                             this.state.stockPriceIDArray.push(stockPriceObj);
                             // console.log("stockArray" + this.state.stockPriceIDArray.push(stockPriceObj));
                             // console.log("stockArray22" + this.state.stockPriceIDArray);
@@ -213,7 +219,7 @@ export default class StockDetails extends Component{
                                         if (res.data.stockPrice === 'successful') {
                                             Swal.fire(
                                                 '',
-                                                'Stock Details Added Successfully.',
+                                                'Stock Prices Added Successfully.',
                                                 'success'
                                             );
                                             this.setState({
@@ -226,17 +232,37 @@ export default class StockDetails extends Component{
                                         } else {
                                             Swal.fire(
                                                 '',
-                                                'Stock Details Added Fail',
+                                                'Stock Prices Added Fail',
                                                 'error'
                                             )
                                         }
                                     }
                                 );
-                        // }else{
-                        //     this.setState({
-                        //         totalPriceValidation: true
-                        //     })
-                        // }
+                        axios.post(constants.backend_url + 'api/stockdetails/add', this.state.stocks)
+                            .then(res => {
+                                    console.log("response"+res)
+                                    if (res.data.stockPrice === 'successful') {
+                                        Swal.fire(
+                                            '',
+                                            'Stock Details Added Successfully.',
+                                            'success'
+                                        );
+                                        this.setState({
+                                            stocks: ' ',
+                                            noItem:true
+                                        })
+                                        // this.getAllStockPrice();
+
+                                    } else {
+                                        Swal.fire(
+                                            '',
+                                            'Stock Details Added Fail',
+                                            'error'
+                                        )
+                                    }
+                                }
+                            );
+
                     }else {
                         Swal.fire(
                             '',
@@ -244,6 +270,13 @@ export default class StockDetails extends Component{
                             'error'
                         )
                     }
+        }else {
+            Swal.fire(
+                '',
+                'Add Stock Details',
+                'error'
+            )
+        }
     }
 
     onSubmitStock(e){
@@ -262,6 +295,7 @@ export default class StockDetails extends Component{
                                 endDate: this.state.endDate
 
                             }
+
                             axios.post(constants.backend_url + 'api/stockdetails/add', stock)
                                 .then(res => {
                                         console.log(res)
@@ -314,60 +348,89 @@ export default class StockDetails extends Component{
 
     AddStockPricesToTable(e)
     {
+        console.log("inside");
         e.preventDefault();
+        if(this.state.selectedSupplierObject !== '') {
+            if (this.state.startDate !== '') {
+                if(this.state.endDate !== '') {
+                    if (this.state.selectedItemColourIdObject !== '') {
+                        console.log("checkedItemcolourID");
+                        if (this.state.buyingPrice != 0) {
+                            if (this.state.sellingPrice != 0) {
+                                if (this.state.quantity != 0) {
+                                    if (this.state.discount != 0) {
+                                        // if (this.state.totalPrice != 0) {
+                                        const newStockPrice = {
+                                            itemColorId: this.state.selectedItemColourIdObject,
+                                            buyingPrice: this.state.buyingPrice,
+                                            sellingPrice: this.state.sellingPrice,
+                                            quantity: this.state.quantity,
+                                            discount: this.state.discount,
+                                            totalPrice: this.state.quantity * this.state.buyingPrice,
+                                            stockPriceId: uuid()
+                                        }
+                                        const newStocks = {
+                                            supplier: this.state.selectedSupplierObject,
+                                            startDate: this.state.startDate,
+                                            endDate: this.state.endDate
+                                        }
+                                        // console.log(this.state.discount);
+                                        // console.log("itemcolourid" + this.state.selectedItemColourIdObject);
+                                        const array = [newStockPrice, ...this.state.stockPriceArray];
+                                        this.setState({
+                                            stockPriceArray: array,
+                                            stocks: newStocks,
+                                            noItem: false,
+                                            stockPriceId: uuid()
+                                        })
+                                        // console.log("Stock Price Array:" + this.state.stockPriceArray);
+                                        this.getAllItemColourId();
+                                        this.getAllSuppliers();
 
-        if(this.state.buyingPrice != 0) {
-            if (this.state.sellingPrice != 0) {
-                if (this.state.quantity != 0) {
-                    if (this.state.discount != 0) {
-                        // if (this.state.totalPrice != 0) {
-                            const newStockPrice = {
-                                buyingPrice: this.state.buyingPrice,
-                                sellingPrice: this.state.sellingPrice,
-                                quantity: this.state.quantity,
-                                discount: this.state.discount,
-                                totalPrice: this.state.quantity * this.state.buyingPrice,
-                                stockPriceId: uuid()
+                                    } else {
+                                        this.setState({
+                                            discountValidation: true
+                                        })
+
+                                    }
+                                } else {
+                                    this.setState({
+                                        quantityValidation: true
+                                    })
+
+                                }
+                            } else {
+                                this.setState({
+                                    sellingPriceValidation: true
+                                })
+
                             }
-                            console.log(this.state.discount);
-                            const array = [newStockPrice, ...this.state.stockPriceArray];
+                        } else {
                             this.setState({
-                                stockPriceArray: array,
-                                noItem: false,
-                                stockPriceId: uuid()
+                                buyingPriceValidation: true
                             })
-                        console.log(this.state.stockPriceArray);
-                            // this.getAllBrands();
-                            // this.getAllCategories();
-                        // }else {
-                        //     this.setState({
-                        //         totalPriceValidation: true
-                        //     })
-                        //
-                        // }
-                    }else {
-                        this.setState({
-                            discountValidation: true
-                        })
 
+                        }
+                    } else {
+                        this.setState({
+                            selectedItemColourIdObjectValidation: true
+                        })
                     }
                 }else {
                     this.setState({
-                        quantityValidation: true
+                        endDateValidation: true
                     })
-
                 }
-            }else {
+            } else {
                 this.setState({
-                    sellingPriceValidation: true
+                    startDateValidation: true
                 })
-
             }
         }else {
             this.setState({
-                buyingPriceValidation: true
-            })
+                selectedSupplierObjectValidation: true
 
+            })
         }
     }
 
@@ -385,70 +448,70 @@ export default class StockDetails extends Component{
         }
     }
 
-    deleteStocks(id){
-        const nonDeletedItems = this.state.stocksArray.filter(stocks => stocks.stocksId !== id);
-        this.setState({
-            stocksArray: nonDeletedItems,
-            stocksId: id
-            }
-        )
-        if (nonDeletedItems.length === 0) {
-            this.setState({
-                noItem: true
-            })
-        }
-    }
+    // deleteStocks(id){
+    //     const nonDeletedItems = this.state.stocksArray.filter(stocks => stocks.stocksId !== id);
+    //     this.setState({
+    //         stocksArray: nonDeletedItems,
+    //         stocksId: id
+    //         }
+    //     )
+    //     if (nonDeletedItems.length === 0) {
+    //         this.setState({
+    //             noItem: true
+    //         })
+    //     }
+    // }
 
-    AddStocksToTable(e)
-    {
-        e.preventDefault();
-
-        if(this.state.selectedSupplierObject != '') {
-            if (this.state.selectedItemColourIdObject != '') {
-                if (this.state.startDate != '') {
-                    if (this.state.endDate != '') {
-                        const newStocks = {
-                            selectedSupplierObject: this.state.selectedSupplierObject,
-                            selectedItemColourIdObject: this.selectedItemColourIdObject,
-                            startDate: this.state.startDate,
-                            endDate: this.endDate,
-                            stocksId: uuid()
-                        }
-                        const array = [newStocks, ...this.state.stocksArray];
-                        this.setState({
-                            stocksArray: array,
-                            noItem: false,
-                            stocksId: uuid()
-                        })
-
-                        this.getAllSuppliers();
-                        this.getAllItemColourId();
-
-                    }else {
-                        this.setState({
-                            endDateValidation: true
-                        })
-
-                    }
-                }else {
-                    this.setState({
-                        startDateValidation: true
-                    })
-
-                }
-            }else {
-                this.setState({
-                    selectedItemColourIdObjectValidation: true
-                })
-
-            }
-        }else {
-            this.setState({
-                selectedSupplierObjectValidation: true
-            })
-
-        }
-    }
+    // AddStocksToTable(e)
+    // {
+    //     e.preventDefault();
+    //
+    //     if(this.state.selectedSupplierObject != '') {
+    //         if (this.state.selectedItemColourIdObject != '') {
+    //             if (this.state.startDate != '') {
+    //                 if (this.state.endDate != '') {
+    //                     const newStocks = {
+    //                         selectedSupplierObject: this.state.selectedSupplierObject,
+    //                         selectedItemColourIdObject: this.selectedItemColourIdObject,
+    //                         startDate: this.state.startDate,
+    //                         endDate: this.endDate,
+    //                         stocksId: uuid()
+    //                     }
+    //                     const array = [newStocks, ...this.state.stocksArray];
+    //                     this.setState({
+    //                         stocksArray: array,
+    //                         noItem: false,
+    //                         stocksId: uuid()
+    //                     })
+    //
+    //                     this.getAllSuppliers();
+    //                     this.getAllItemColourId();
+    //
+    //                 }else {
+    //                     this.setState({
+    //                         endDateValidation: true
+    //                     })
+    //
+    //                 }
+    //             }else {
+    //                 this.setState({
+    //                     startDateValidation: true
+    //                 })
+    //
+    //             }
+    //         }else {
+    //             this.setState({
+    //                 selectedItemColourIdObjectValidation: true
+    //             })
+    //
+    //         }
+    //     }else {
+    //         this.setState({
+    //             selectedSupplierObjectValidation: true
+    //         })
+    //
+    //     }
+    // }
 
 
     updateStocks(id,quantity,price){
@@ -471,13 +534,15 @@ export default class StockDetails extends Component{
 
                     <br/>
                     <br/>
-                    <MDBRow>
-                        <MDBCol size="6">
+
+
                             <div className="card">
-                                <MDBCard>
+                                <MDBCard className="card">
                                     <MDBCardBody>
-                                        <MDBCardTitle>Stock Details</MDBCardTitle>
-                                        <form onSubmit={this.AddStocksToTable}>
+                                        <form onSubmit={this.AddStockPricesToTable}>
+                                            <MDBRow>
+                                                <MDBCol size="6">
+                                            <MDBCardTitle>Stock Details</MDBCardTitle>
                                             <Autocomplete
                                                 id="combo-box-demo"
                                                 options={this.state.suppliers}
@@ -491,23 +556,6 @@ export default class StockDetails extends Component{
                                                 this.state.selectedSupplierObjectValidation ? <MDBAlert color="danger">
                                                     Supplier Field Is Empty
                                                 </MDBAlert> : ''
-                                            }
-
-
-                                            <Autocomplete
-                                                id="combo-box-demo"
-                                                options={this.state.ItemColourId}
-                                                getOptionLabel={(option) => option.itemColorsId}
-                                                style={{width: 300}}
-                                                onChange={(event, value) => this.onChangeGetItemColourID(value)}
-                                                renderInput={(params) => <TextField {...params} label="Item ColourID"/>}
-                                                size="sm"
-                                            />
-
-                                            {
-                                            this.state.selectedItemColourIdObjectValidation ? <MDBAlert color="danger">
-                                            Item Colour ID Field Is Empty
-                                            </MDBAlert> : ''
                                             }
 
 
@@ -537,7 +585,79 @@ export default class StockDetails extends Component{
                                             End Date Field Is Empty
                                             </MDBAlert> : ''
                                             }
-                                            <MDBBtn type="submit">Save</MDBBtn>
+                                                </MDBCol>
+                                            <MDBCol size="6">
+                                                    <MDBCardTitle>Stock Prices</MDBCardTitle>
+                                                        <Autocomplete
+                                                            id="combo-box-demo"
+                                                            options={this.state.ItemColourId}
+                                                            getOptionLabel={(option) => option.itemColorsId}
+                                                            style={{width: 300}}
+                                                            onChange={(event, value) => this.onChangeGetItemColourID(value)}
+                                                            renderInput={(params) => <TextField {...params} label="Item ColourID"/>}
+                                                            size="sm"
+                                                        />
+
+                                                        {
+                                                            this.state.selectedItemColourIdObjectValidation ? <MDBAlert color="danger">
+                                                                Item Colour ID Field Is Empty
+                                                            </MDBAlert> : ''
+                                                        }
+
+
+                                                        <MDBInput label="Buying Price" size="sm"
+                                                                  pattern="[0-9]*"
+                                                                  value={this.state.buyingPrice}
+                                                                  onChange={this.onChangeBuyingPrice}
+
+                                                        />
+                                                        {
+                                                            this.state.buyingPriceValidation ? <MDBAlert color="danger">
+                                                                Buying Price Field Is Empty
+                                                            </MDBAlert> : ''
+                                                        }
+
+                                                        <MDBInput label="Selling Price" size="sm"
+                                                                  value={this.state.sellingPrice}
+                                                                  onChange={this.onChangeSellingPrice}
+
+                                                        />
+                                                        {
+                                                            this.state.sellingPriceValidation ? <MDBAlert color="danger">
+                                                                Selling Price Field Is Empty
+                                                            </MDBAlert> : ''
+                                                        }
+                                                        <MDBInput label="Quantity" size="sm"
+                                                                  value={this.state.quantity}
+                                                                  onChange={this.onChangeQuantity}
+                                                        />
+                                                        {
+                                                            this.state.quantityValidation ? <MDBAlert color="danger">
+                                                                Quantity Field Is Empty
+                                                            </MDBAlert> : ''
+                                                        }
+                                                        <MDBInput label="Discount" size="sm"
+                                                                  value={this.state.discount}
+                                                                  onChange={this.onChangeDiscount}
+                                                        />
+                                                        {
+                                                            this.state.discountValidation ? <MDBAlert color="danger">
+                                                                Discount Field Is Empty
+                                                            </MDBAlert> : ''
+                                                        }
+                                                        {/*<MDBInput label="Total Price" size="sm"*/}
+                                                        {/*value={this.state.totalPrice}*/}
+                                                        {/*onChange={this.onChangeTotalPrice}*/}
+                                                        {/*/>*/}
+                                                        {/*{*/}
+                                                        {/*this.state.totalPriceValidation ? <MDBAlert color="danger">*/}
+                                                        {/*Total Price Field Is Empty*/}
+                                                        {/*</MDBAlert> : ''*/}
+                                                        {/*}*/}
+
+                                                        <MDBBtn type="submit">ADD</MDBBtn>
+                                            </MDBCol>
+                                            </MDBRow>
                                         </form>
 
                                     </MDBCardBody>
@@ -549,92 +669,7 @@ export default class StockDetails extends Component{
                             <MDBTable>
                                 <MDBTableHead color="primary-color" textWhite>
                                     <tr>
-                                        <th>Supplier</th>
                                         <th>Item Colour ID</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
-
-
-                                    </tr>
-                                </MDBTableHead>
-                                <StocksTableBody
-                                stocksList={this.state.stocksArray}
-                                noItem={this.state.noItem}
-                                // deleteBrandCategory={this.deleteBrandCategory}
-
-                                />
-                            </MDBTable>
-                            <form onSubmit={this.onSubmitStock}>
-                                <MDBBtn type="submit">Save</MDBBtn>
-                            </form>
-                        </MDBCol>
-
-
-                        <MDBCol size="6">
-                            <MDBCard>
-                                <MDBCardBody>
-                                    <MDBCardTitle>Stock Prices</MDBCardTitle>
-                                    <form onSubmit={this.AddStockPricesToTable}>
-                                        <MDBInput label="Buying Price" size="sm"
-                                                  pattern="[0-9]*"
-                                                  value={this.state.buyingPrice}
-                                                  onChange={this.onChangeBuyingPrice}
-
-                                        />
-                                        {
-                                            this.state.buyingPriceValidation ? <MDBAlert color="danger">
-                                                Buying Price Field Is Empty
-                                            </MDBAlert> : ''
-                                        }
-
-                                        <MDBInput label="Selling Price" size="sm"
-                                                  value={this.state.sellingPrice}
-                                                  onChange={this.onChangeSellingPrice}
-
-                                        />
-                                        {
-                                            this.state.sellingPriceValidation ? <MDBAlert color="danger">
-                                                Selling Price Field Is Empty
-                                            </MDBAlert> : ''
-                                        }
-                                        <MDBInput label="Quantity" size="sm"
-                                                  value={this.state.quantity}
-                                                  onChange={this.onChangeQuantity}
-                                        />
-                                        {
-                                            this.state.quantityValidation ? <MDBAlert color="danger">
-                                                Quantity Field Is Empty
-                                            </MDBAlert> : ''
-                                        }
-                                        <MDBInput label="Discount" size="sm"
-                                                  value={this.state.discount}
-                                                  onChange={this.onChangeDiscount}
-                                        />
-                                        {
-                                            this.state.discountValidation ? <MDBAlert color="danger">
-                                                Discount Field Is Empty
-                                            </MDBAlert> : ''
-                                        }
-                                        {/*<MDBInput label="Total Price" size="sm"*/}
-                                                  {/*value={this.state.totalPrice}*/}
-                                                  {/*onChange={this.onChangeTotalPrice}*/}
-                                        {/*/>*/}
-                                        {/*{*/}
-                                            {/*this.state.totalPriceValidation ? <MDBAlert color="danger">*/}
-                                                {/*Total Price Field Is Empty*/}
-                                            {/*</MDBAlert> : ''*/}
-                                        {/*}*/}
-
-                                        <MDBBtn type="submit">ADD</MDBBtn>
-                                    </form>
-
-                                </MDBCardBody>
-                            </MDBCard>
-                            <br/>
-                            <br/>
-                            <MDBTable>
-                                <MDBTableHead color="primary-color" textWhite>
-                                    <tr>
                                         <th>Buying Price</th>
                                         <th>Selling Price</th>
                                         <th>Quantity</th>
@@ -654,11 +689,6 @@ export default class StockDetails extends Component{
                                 <MDBBtn type="submit">Save</MDBBtn>
                             </form>
 
-                        </MDBCol>
-
-
-
-                    </MDBRow>
                 </div>
             </div>
 

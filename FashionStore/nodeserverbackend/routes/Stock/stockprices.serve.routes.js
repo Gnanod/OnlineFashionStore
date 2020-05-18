@@ -20,13 +20,15 @@ router.route('/add').post(function (req,res) {
     console.log(stockPrice);
     stockPrice.map(sp => {
         let stockP = {
+            itemColorId: sp.itemColorId,
             buyingPrice: sp.buyingPrice,
             sellingPrice: sp.sellingPrice,
             quantity: sp.quantity,
             discount: sp.discount,
             totalPrice: sp.quantity * sp.buyingPrice
         }
-        console.log("backend11:"+sp.buyingPrice);
+        console.log("----------------==");
+        console.log("ItemColourID:"+sp.itemColorId.itemColorId);
         console.log("backend11:"+sp.sellingPrice);
         console.log("backend11:"+sp.quantity);
         console.log(sp.discount);

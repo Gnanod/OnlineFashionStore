@@ -8,6 +8,7 @@ router.route('/add').post(function (req, res) {
     const stockDetails = req.body;
     stockDetails.map(sd => {
         let stock = {
+            stockDetails: sd.stocks._id,
             supplier: sd.supplier._id,
             itemColorId: sd.itemColorId._id,
              startDate: sd.startDate,
