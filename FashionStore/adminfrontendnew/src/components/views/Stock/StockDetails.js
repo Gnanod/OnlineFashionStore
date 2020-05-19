@@ -51,6 +51,7 @@ export default class StockDetails extends Component{
             suppliers: [],
             ItemColourId: [],
             stocks: '',
+            fullTotalPrice: 0,
             selectedSupplierObject: ' ',
             selectedSupplierObjectValidation: false,
             selectedItemColourIdObject: '',
@@ -188,6 +189,7 @@ export default class StockDetails extends Component{
                             .then(res => {
                                     if (res.data.stocks !== null) {
                                         newStock.stockPriceArray.map(stocksPrice=>{
+                                            // let updatedQunatity = stocksPrice.itemColorId.quantity +stocksPrice.quantity;
                                             const  stockPrice ={
                                                 stockDetails : res.data.stocks._id,
                                                 itemColorId : stocksPrice.itemColorId._id,
@@ -197,7 +199,8 @@ export default class StockDetails extends Component{
                                                 discount : stocksPrice.discount,
                                                 totalPrice : stocksPrice.totalPrice
                                             }
-                                            this.updateStocks(stocksPrice.itemColorId._id,stocksPrice.quantity);
+                                            console.log("updatedQunatityyyy11:" + stocksPrice.itemColorId.quantity +stocksPrice.quantity);
+                                            this.updateStocks(stocksPrice.itemColorId._id,stocksPrice.quantity,stocksPrice.sellingPrice);
                                             axios.post(constants.backend_url + 'api/stockprice/add',stockPrice)
                                                 .then(res => {
                                                         console.log("response")
@@ -270,14 +273,22 @@ export default class StockDetails extends Component{
                                             totalPrice: this.state.quantity * this.state.buyingPrice,
                                             stockPriceId: uuid()
                                         }
-                                        const newStocks = {
-                                            supplier: this.state.selectedSupplierObject._id,
-                                            startDate: this.state.startDate,
-                                            endDate: this.state.endDate
-                                        }
+
                                         // console.log(this.state.discount);
                                         // console.log("itemcolourid" + this.state.selectedItemColourIdObject);
                                         const array = [newStockPrice, ...this.state.stockPriceArray];
+
+                                        array.map(stockT => {
+                                            this.state.fullTotalPrice = this.state.fullTotalPrice + stockT.totalPrice;
+                                            console.log("FUllTotalll:" + this.state.fullTotalPrice);
+                                        })
+
+                                        const newStocks = {
+                                            supplier: this.state.selectedSupplierObject._id,
+                                            startDate: this.state.startDate,
+                                            endDate: this.state.endDate,
+                                            fullTotalPrice: this.state.fullTotalPrice
+                                        }
                                         this.setState({
                                             stockPriceArray: array,
                                             stocks: newStocks,
@@ -414,12 +425,16 @@ export default class StockDetails extends Component{
     //     }
     // }
 
-    updateStocks(id,quantity){
+    updateStocks(id,quantity,price){
         console.log("Stock Update Frontend");
-        axios.get(constants.backend_url + 'api/stockprice/updateQuantityPrice/'+id+'/'+quantity)
+        console.log("ID: "+ id);
+        console.log("quantity: "+quantity);
+        console.log("SellingPrice:"+price);
+
+        axios.get(constants.backend_url + 'api/stockprice/updateQuantityPrice/'+id+'/'+quantity+'/'+price)
             .then(res => {
                 console.log("Stock Update Frontend222222222222");
-                if(res.data.stockPrice === 'success'){
+                if(res.data.stockPrice === 'successful'){
                     console.log("Updated Successfully")
                 }else{
                     console.log("Updated fail")

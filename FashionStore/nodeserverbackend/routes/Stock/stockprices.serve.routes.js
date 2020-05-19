@@ -44,18 +44,44 @@ router.route('/add').post(function (req,res) {
 //         }
 //     });
 // });
+//
+// router.route('/updateQuantityPrice/:id/:quantity/:sellingPrice').get(function (req,res) {
+//     console.log("Inside Update method");
+//     let id = req.params.id;
+//     let quantity1 = req.params.quantity;
+//     let price = req.params.sellingPrice;
+// console.log("quantotyyyyyyyy:"+quantity1);
+//     itemcolor.update({_id:id},{$set: {quantity:quantity1,price:price}}).then(sup=>{
+//         res.status(200).json({'itemColor':'successful'});
+//     }).catch(err=>{
+//         res.status(400).send('fail');
+//     });
+// });
 
-router.route('/updateQuantityPrice/:id/:quantity').get(function (req,res) {
+
+router.route('/updateQuantityPrice/:id/:quantity/:sellingPrice').get(function (req,res) {
     console.log("Inside Update method");
     let id = req.params.id;
-    let quantity = req.params.quantity;
-    // let price = req.params.price;
+    let quantity1 = req.params.quantity;
+    let price = req.params.sellingPrice;
 
-    itemcolor.updateOne({_id:id},{$set: {quantity:quantity}}).then(sup=>{
-        res.status(200).json({'itemColor':'successful'});
-    }).catch(err=>{
-        res.status(400).send('fail');
+
+    itemcolor.findOne({_id:id}).then(item => {
+        let currentQuantity = item.quantity + quantity1 ;
+        // let updatedQuantity = currentQuantity + quantity;
+        console.log("currentQuantity:"+ currentQuantity);
+        // console.log("UpdatedQuentity:"+ updatedQuantity);
+
+
+        itemcolor.updateMany({_id:id},{$set: {quantity:currentQuantity,price:price}}).then(sup=>{
+            //  console.log("image successful");
+            res.status(200).json({'itemColor':'successful'});
+        }).catch(err=>{
+            //console.log("itemColor fail");
+            res.status(400).send('fail');
+        });
     });
+
 });
 
 
