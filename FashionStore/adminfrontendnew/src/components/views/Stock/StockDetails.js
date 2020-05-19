@@ -584,6 +584,8 @@ export default class StockDetails extends Component{
 
                             <br/>
                             <br/>
+                    <MDBCard className="card">
+                        <MDBCardBody>
                             <MDBTable>
                                 <MDBTableHead color="primary-color" textWhite>
                                     <tr>
@@ -606,6 +608,8 @@ export default class StockDetails extends Component{
                             <form onSubmit={this.onSubmitPrices}>
                                 <MDBBtn type="submit">Save</MDBBtn>
                             </form>
+                        </MDBCardBody>
+                    </MDBCard>
 
                 </div>
             </div>
