@@ -535,8 +535,8 @@ export default class AdminManage extends Component {
                                                 <td>{item.position}</td>
 
                                                 <td>
-                                                    <MDBBtn tag="a" size="sm" color="success" >
-                                                        <MDBIcon size="lg" icon="pen" onClick={()=>this.editAdmin(item.orderId, item.Name, item.Email, item.position, item.password )} />
+                                                    <MDBBtn tag="a" size="sm" color="success" onClick={()=>this.editAdmin(item._id, item.Name, item.Email, item.position, item.password )} >
+                                                        <MDBIcon size="lg" icon="pen" />
                                                     </MDBBtn>&nbsp;&nbsp;&nbsp;
 
                                                     <MDBBtn tag="a" size="sm" color="danger"  onClick={() => this.sweetalertfunction(item._id)}>
@@ -784,7 +784,7 @@ export default class AdminManage extends Component {
                                                 <input
                                                     type="password"
                                                     className="form-control"
-                                                    placeholder="ConfirmPassword"
+                                                    placeholder="Confirm Password"
                                                     aria-label="ConfirmPassword"
                                                     aria-describedby="basic-addon"
                                                     value={this.state.selectedConfirm}
@@ -922,7 +922,7 @@ export default class AdminManage extends Component {
                                                 <input
                                                     type="password"
                                                     className="form-control"
-                                                    placeholder="ConfirmPassword"
+                                                    placeholder="Confirm Password"
                                                     aria-label="ConfirmPassword"
                                                     aria-describedby="basic-addon"
                                                     value={this.state.AdminCPass}

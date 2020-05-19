@@ -26,6 +26,7 @@ import styled from "styled-components";
 import profile from "../Views/Profile/profile";
 import axios from "axios";
 import constants from "../Constants/constants";
+import profileEdit from "../Views/Profile/profileEdit";
 
 export default class Navigationbar extends Component {
 
@@ -408,6 +409,7 @@ export default class Navigationbar extends Component {
                         <Route exact path="/Cart" component={Cart}/>
                         <Route exact path="/Wishlist" component={Wishlist}/>
                         <Route exact path="/profile" component={profile}/>
+                        <Route exact path="/profileEdit" component={profileEdit}/>
                     </Switch>
 
                     <MDBContainer>
