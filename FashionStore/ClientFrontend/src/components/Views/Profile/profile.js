@@ -122,6 +122,8 @@ export default class profile extends Component {
                                                             CustfName: ''
 
                                                         })
+
+                                                        this.getDetailuser();
                                                     } else {
                                                         Swal.fire(
                                                             '',

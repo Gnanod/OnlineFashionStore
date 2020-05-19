@@ -78,6 +78,7 @@ export default class UserDetails extends Component {
                             'Customer Deleted !',
                             'success'
                         )
+                        this.getDetails();
                     }
                 })
 

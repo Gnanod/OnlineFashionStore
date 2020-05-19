@@ -129,6 +129,8 @@ export default class UserAnalysis extends Component {
                             'Feedback Deleted !',
                             'success'
                         )
+
+                        this.getDetails();
                     }
                 })
 
