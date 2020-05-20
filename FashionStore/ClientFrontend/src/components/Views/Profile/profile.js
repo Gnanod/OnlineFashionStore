@@ -17,7 +17,6 @@ import {
 import './profile.css';
 import 'sweetalert2/src/sweetalert2.scss';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-import {colors} from "@material-ui/core";
 import axios from "axios";
 import constants from "../../Constants/constants";
 
