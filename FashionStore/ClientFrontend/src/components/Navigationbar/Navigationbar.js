@@ -29,6 +29,7 @@ import constants from "../Constants/constants";
 import Login from "../Views/Login/Login";
 import NewLogin from "../Views/Login/NewLogin";
 import Logout from "../Views/LogOut/Logout";
+import profileEdit from "../Views/Profile/profileEdit";
 
 export default class Navigationbar extends Component {
 
@@ -126,6 +127,7 @@ export default class Navigationbar extends Component {
                         <Route exact path="/profile" component={profile}/>
                         <Route exact path="/logout" component={Logout}/>
 
+                        <Route exact path="/profileEdit" component={profileEdit}/>
                     </Switch>
                 </main>
             </div>

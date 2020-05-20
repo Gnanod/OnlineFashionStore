@@ -18,7 +18,9 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 import 'sweetalert2/src/sweetalert2.scss'
 import constants from "../../../constants/constants";
-
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import StockPriceTableBody from "./StockPriceTableBody";
+import {NavLink} from "react-router-dom";
 
 export default class SupplierDetails extends Component{
 
@@ -55,7 +57,6 @@ export default class SupplierDetails extends Component{
             countryValidation: false,
             state: '',
             stateValidation: false,
-            supplier: []
 
         }
 
@@ -78,8 +79,6 @@ export default class SupplierDetails extends Component{
         this.onChangeCountry = this.onChangeCountry.bind(this);
         this.onChangeState = this.onChangeState.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.getAllSupplier = this.getAllSupplier.bind(this);
-
 
 
     }
@@ -205,14 +204,6 @@ export default class SupplierDetails extends Component{
             });
         }
 
-    getAllSupplier(){
-        axios.get(constants.backend_url + '/api/supplier/getAllSuppliers').then(response => {
-            this.setState({supplier: response.data});
-        }).catch(function (error) {
-            console.log(error);
-        })
-        console.log(this.state.supplier);
-    }
 
         onSubmit(e)
         {
@@ -361,11 +352,33 @@ export default class SupplierDetails extends Component{
 
 
     render(){
+
+        const suppliersArr = this.state.suppliers;
+        // const {deleteSuppliers} = this.props;
+        const deleteSuppliers=this.deleteStockPrice;
+
         return(
     <div className="bg">
 
-    <div><h1 className="font-weight-bold text-center">Supplier Details</h1></div>
-            <div className=" container-fluid BrandCategoryMain" >
+    {/*<div><h1 className="font-weight-bold text-center">Supplier Details</h1></div>*/}
+            {/*<div className=" container-fluid BrandCategoryMain" >*/}
+        <MDBCard className="mb-5">
+            <MDBCardBody id="breadcrumb" className="d-flex align-items-center justify-content-between">
+
+                <NavLink exact={true} to="/suppliermanage" activeClassName="activeClass">
+                    <button type="button" className="btn btn-primary">Supplier Details</button>
+                </NavLink>
+                <NavLink exact={true} to="/suppliermanage/supplieranalysis" >
+                    <button type="button" className="btn btn-success "> Supplier Manage</button>
+                </NavLink>
+
+                {/*<MDBFormInline className="md-form m-0">*/}
+                {/*    <input className="form-control form-control-sm" type="search" placeholder="Type your query" aria-label="Search"/>*/}
+                {/*    <MDBBtn size="sm" color="primary" className="my-0" type="submit"><MDBIcon icon="search" /></MDBBtn>*/}
+                {/*</MDBFormInline>*/}
+                <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+            </MDBCardBody>
+        </MDBCard>
 
                 <br/>
                 <br/>
@@ -563,55 +576,9 @@ export default class SupplierDetails extends Component{
                             </MDBCardBody>
                         </MDBCard>
 
-                <br/>
-                    <br/>
-
-                <MDBTable>
-                    <MDBTableHead color="primary-color" textWhite>
-                        <tr>
-                            <th>Company Name</th>
-                            <th>Website</th>
-                            <th>Description</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Company Number</th>
-                            <th>Mobile Number</th>
-                            <th>Email</th>
-                            <th>Fax</th>
-                            <th>Address1</th>
-                            <th>Address2</th>
-                            <th>City</th>
-                            <th>County</th>
-                            <th>State</th>
-
-                        </tr>
-                        {/*:*/}
-                        {/*option = {this.state.supplier}*/}
-                        {/*option.map(supp => {*/}
-                        {/*<tr key={supp.companyName}>*/}
-                        {/*<td>{supp.companyWebsite}</td>*/}
-                        {/*<td>{supp.description}</td>*/}
-                        {/*<td>{supp.firstName}</td>*/}
-                        {/*<td>{supp.last}</td>*/}
-                        {/*<td>{supp.companyNumber}</td>*/}
-                        {/*<td>*/}
-                        {/*<HighlightOffIcon onClick={()=>deleteStockPrice(stockP.stockPriceId)} className="deleteIconColor" fontSize="large" />*/}
-                        {/*</td>*/}
-                        {/*</tr>*/}
-
-                    {/*})*/}
-                    </MDBTableHead>
-                    {/*<BrandCategoryTableBody*/}
-                    {/*    brandCategoryListList={this.state.brandCategoryArray}*/}
-                    {/*    noItem={this.state.noItem}*/}
-                    {/*    deleteBrandCategory={this.deleteBrandCategory}*/}
-
-                    {/*/>*/}
-                </MDBTable>
-
 
             </div>
-</div>
+
 
         );
     }
