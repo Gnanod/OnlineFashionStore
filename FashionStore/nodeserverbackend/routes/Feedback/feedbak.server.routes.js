@@ -25,5 +25,19 @@ router.route('/getAlldetail').get(function (req,res) {
         res.status(500).json(err);
     });
 });
+
+
+
+router.route('/deleteFeedback/:id').get(function (req, res) {
+    let id=req.params.id;
+    console.log("Delete feedback Called!");
+    Feedback.deleteOne({_id:id}).then(sup=>{
+        console.log("successful");
+        res.status(200).json({'feedbackDelete':'successful'});
+    }).catch(err=>{
+        console.log("fail");
+        res.status(400).send('fail');
+    });
+});
 module.exports = router;
 

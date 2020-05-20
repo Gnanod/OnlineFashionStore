@@ -15,7 +15,9 @@ router.route('/add').post(function (req,res) {
 });
 
 router.route('/getAllusers').get(function (req,res) {
+    console.log("getDetails --- usermanage")
     UserDetail.find().exec().then(item => {
+        console.log(item)
         res.status(200).json(item)
     }).catch(err => {
             res.status(500).json(err);
@@ -50,6 +52,18 @@ router.get("/validateUser/:email/:password",function (req,res) {
         }).catch(err=>{
             res.status(500).json(err);
         })
+});
+
+router.route('/deleteUser/:id').get(function (req, res) {
+    let id=req.params.id;
+    console.log("Delete Called!");
+    UserDetail.deleteOne({_id:id}).then(sup=>{
+         console.log("successful");
+        res.status(200).json({'userDelete':'successful'});
+    }).catch(err=>{
+        console.log("fail");
+        res.status(400).send('fail');
+    });
 });
 
 module.exports = router;

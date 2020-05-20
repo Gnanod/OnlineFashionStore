@@ -24,5 +24,17 @@ router.route('/getAlldetail').get(function (req,res) {
     });
 });
 
+router.route('/deleteAdmin/:id').get(function (req, res) {
+    let id=req.params.id;
+    console.log("Delete Admin Called!");
+    AdminDetail.deleteOne({_id:id}).then(sup=>{
+        console.log("successful");
+        res.status(200).json({'adminDelete':'successful'});
+    }).catch(err=>{
+        console.log("fail");
+        res.status(400).send('fail');
+    });
+});
+
 module.exports = router;
 

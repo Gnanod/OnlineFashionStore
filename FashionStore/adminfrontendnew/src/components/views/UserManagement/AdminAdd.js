@@ -11,7 +11,7 @@ import {
     MDBCard,
     MDBCardBody,
     MDBCardTitle,
-    MDBInput, MDBBtn, MDBTableHead, MDBTableBody, MDBTable, MDBAlert
+    MDBInput, MDBBtn, MDBTableHead, MDBTableBody, MDBTable, MDBAlert, MDBBtnGroup
 } from 'mdbreact';
 import './UserManage.css';
 import './AdminAdd.css';
@@ -19,6 +19,7 @@ import 'sweetalert2/src/sweetalert2.scss';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import constants from "../../../constants/constants";
 import axios from "axios";
+import {InputGroup} from "react-bootstrap";
 
 
 export default class AdminManage extends Component {
@@ -37,7 +38,17 @@ export default class AdminManage extends Component {
             AdminPasswordValidation: false,
             AdminCPass: '',
             AdminCPassValidation: false,
-            adminList:[]
+            currentPage: 1,
+            userPerPage: 5,
+            adminList:[],
+            selectedId : '',
+            selectedName : '',
+            selectedEmail : '',
+            selectedPosition : '',
+            selectedPassword : '',
+            selectedConfirm : '',
+            edited: false
+
         }
 
         this.sweetalertfunction = this.sweetalertfunction.bind(this);
@@ -48,6 +59,19 @@ export default class AdminManage extends Component {
         this.onChangePosition = this.onChangePosition.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onChangeConfirmPass = this.onChangeConfirmPass.bind(this);
+        this.editAdmin = this.editAdmin.bind(this);
+        this.editAdmin2 = this.editAdmin2.bind(this);
+
+        this.firstPage = this.firstPage.bind(this);
+        this.prevPage = this.prevPage.bind(this);
+        this.nextPage = this.nextPage.bind(this);
+        this.lastPage = this.lastPage.bind(this);
+
+        this.onChangeName2 = this.onChangeName2.bind(this);
+        this.onChangeEmail2 = this.onChangeEmail2.bind(this);
+        this.onChangePosition2 = this.onChangePosition2.bind(this);
+        this.onChangePassword2 = this.onChangePassword2.bind(this);
+        this.onChangeConfirmPass2 = this.onChangeConfirmPass2.bind(this);
     }
 
 
@@ -112,7 +136,170 @@ export default class AdminManage extends Component {
     }
 
 
-        sweetalertfunction(){
+
+    onChangeName2(e)
+    {
+        this.setState({
+            selectedName: e.target.value,
+            AdminNameValidation: false
+        });
+    }
+
+    onChangeEmail2(e)
+    {
+        this.setState({
+            selectedEmail: e.target.value,
+            AdminEmailValidation: false
+        });
+
+    }
+
+    onChangePosition2(e)
+    {
+        this.setState({
+            selectedPosition: e.target.value,
+            AdminPositionValidation: false
+        });
+
+    }
+
+    onChangePassword2(e)
+    {
+        this.setState({
+            selectedPassword: e.target.value,
+            AdminPasswordValidation: false
+        });
+
+    }
+
+    onChangeConfirmPass2(e)
+    {
+        this.setState({
+            selectedConfirm: e.target.value,
+            AdminCPassValidation: false
+        });
+
+    }
+
+
+    firstPage(){
+        if(this.state.currentPage > 1){
+            this.setState({
+                currentPage: 1
+            })
+        }
+    }
+
+    prevPage(){
+        if(this.state.currentPage > 1){
+            this.setState({
+                currentPage: this.state.currentPage - 1
+            })
+        }
+
+    }
+
+    nextPage(){
+
+        if(this.state.currentPage < Math.ceil(this.state.adminList.length / this.state.userPerPage)){
+            this.setState({
+                currentPage: this.state.currentPage + 1
+            })
+        }
+
+    }
+
+    lastPage(){
+
+        if(this.state.currentPage < Math.ceil(this.state.adminList.length / this.state.userPerPage)){
+            this.setState({
+                currentPage: Math.ceil(this.state.adminList.length / this.state.userPerPage)
+            })
+        }
+
+    }
+
+    editAdmin(id, name, email, position, password){
+        console.log(id)
+        this.setState({
+            selectedId:id,
+            selectedName : name,
+            selectedEmail : email,
+            selectedPosition : position,
+            selectedPassword : password,
+            selectedConfirm : password,
+            edited : true
+
+        })
+
+    };
+
+    editAdmindel(id, name, email, position, password){
+        console.log(id)
+        this.setState({
+            selectedId:id,
+            selectedName : name,
+            selectedEmail : email,
+            selectedPosition : position,
+            selectedPassword : password,
+            selectedConfirm : password,
+            edited : false
+
+        })
+
+    };
+
+    editAdmin2(){
+        this.setState({edited : false})
+        Swal.fire(
+            '',
+            'Edit functionality !.',
+            'warning'
+        );
+        this.getDetails();
+    }
+
+
+    //
+    //     sweetalertfunction(){
+    //     console.log("button clicks");
+    //     const swalWithBootstrapButtons = Swal.mixin({
+    //         customClass: {
+    //             confirmButton: 'btn btn-success',
+    //             cancelButton: 'btn btn-danger'
+    //         },
+    //         buttonsStyling: false
+    //     })
+    //
+    //     swalWithBootstrapButtons.fire({
+    //         title: 'Are you sure?',
+    //         text: "You won't be able to revert this!",
+    //         icon: 'warning',
+    //         showCancelButton: true,
+    //         confirmButtonText: 'Yes, delete it!',
+    //         cancelButtonText: 'No, cancel!',
+    //         reverseButtons: true
+    //     }).then((result) => {
+    //         if (result.value) {
+    //             swalWithBootstrapButtons.fire(
+    //                 'Deleted!',
+    //                 'Customer deleted.',
+    //                 'success'
+    //             )
+    //         } else if (
+    //             /* Read more about handling dismissals below */
+    //             result.dismiss === Swal.DismissReason.cancel
+    //         ) {
+    //             swalWithBootstrapButtons.fire(
+    //                 'Cancelled',
+    //                 'Customer details not deleted',
+    //                 'error'
+    //             )
+    //         }
+    //     })
+    // }
+
+    sweetalertfunction(id){
         console.log("button clicks");
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -132,11 +319,48 @@ export default class AdminManage extends Component {
             reverseButtons: true
         }).then((result) => {
             if (result.value) {
-                swalWithBootstrapButtons.fire(
-                    'Deleted!',
-                    'Customer deleted.',
-                    'success'
-                )
+                axios.get(constants.backend_url + 'api/adminDetail/deleteAdmin/'+ id).then(response => {
+                    if (response.data.adminDelete === 'success') {
+                        swalWithBootstrapButtons.fire(
+                            '',
+                            'Delete Failed !.',
+                            'error'
+                        )
+
+
+                    }else {
+                        Swal.fire(
+                            '',
+                            'Customer Deleted !',
+                            'success'
+                        )
+                        this.setState({
+                            AdminName:'',
+                            AdminNameValidation: false,
+                            AdminEmail: '',
+                            AdminEmailValidation: false,
+                            AdminPosition: '',
+                            AdminPositionValidation: false,
+                            AdminPassword: '',
+                            AdminPasswordValidation: false,
+                            AdminCPass: '',
+                            AdminCPassValidation: false,
+                            currentPage: 1,
+                            userPerPage: 5,
+                            adminList:[],
+                            selectedId : '',
+                            selectedName : '',
+                            selectedEmail : '',
+                            selectedPosition : '',
+                            selectedPassword : '',
+                            selectedConfirm : '',
+                            edited: false
+                        })
+                        this.editAdmindel(this.state.selectedId, this.state.selectedName, this.state.selectedEmail, this.state.selectedPosition, this.state.selectedPassword );
+                        this.getDetails();
+                    }
+                })
+
             } else if (
                 /* Read more about handling dismissals below */
                 result.dismiss === Swal.DismissReason.cancel
@@ -149,6 +373,7 @@ export default class AdminManage extends Component {
             }
         })
     }
+
 
 
 
@@ -192,6 +417,8 @@ export default class AdminManage extends Component {
                                                     AdminCPass: '',
                                                     AdminCPassValidation: false
                                                 })
+                                                this.getDetails();
+
                                             } else {
                                                 Swal.fire(
                                                     '',
@@ -237,6 +464,11 @@ export default class AdminManage extends Component {
 
 
     render() {
+        const{adminList, currentPage, userPerPage} = this.state;
+        const lastIndex = currentPage * userPerPage;
+        const firstIndex = lastIndex - userPerPage;
+        const currentUsers = adminList.slice(firstIndex, lastIndex );
+        const totalPages = Math.ceil(adminList.length / userPerPage) ;
         return (
             <div id='parallaxintro'>
 
@@ -285,7 +517,15 @@ export default class AdminManage extends Component {
                                         <MDBTableBody>
 
                                             {
-                                                this.state.adminList.map(item => {
+                                                currentUsers.length === 0 ?
+                                                    <tr >
+                                                        <td colSpan="12" style={{textAlign : "center", fontWeight: "bold"}}>
+                                                            <MDBAlert color="danger" >
+                                                                No Admins Registered
+                                                            </MDBAlert>
+                                                        </td>
+                                                    </tr> :
+                                                    currentUsers.map(item => {
                                                     return(
 
 
@@ -295,11 +535,11 @@ export default class AdminManage extends Component {
                                                 <td>{item.position}</td>
 
                                                 <td>
-                                                    <MDBBtn tag="a" size="sm" color="success" >
+                                                    <MDBBtn tag="a" size="sm" color="success" onClick={()=>this.editAdmin(item._id, item.Name, item.Email, item.position, item.password )} >
                                                         <MDBIcon size="lg" icon="pen" />
                                                     </MDBBtn>&nbsp;&nbsp;&nbsp;
 
-                                                    <MDBBtn tag="a" size="sm" color="danger"  onClick={this.sweetalertfunction}>
+                                                    <MDBBtn tag="a" size="sm" color="danger"  onClick={() => this.sweetalertfunction(item._id)}>
                                                         <MDBIcon size="lg" icon="times-circle" />
                                                     </MDBBtn>
                                                 </td>
@@ -396,6 +636,26 @@ export default class AdminManage extends Component {
                                     {/*        </MDBPageNav>*/}
                                     {/*    </MDBPageItem>*/}
                                     {/*</MDBPagination>*/}
+
+                                    <div style={{"float" : "left" , "color" : "#6f42c1"}}> Showing Page {currentPage} of {totalPages} </div>
+                                    <div style={{"float" : "right" }}>
+                                        <InputGroup>
+                                            <InputGroup.Prepend></InputGroup.Prepend>
+                                            <MDBBtnGroup>
+                                                <MDBBtn color="secondary" size="sm" disabled={currentPage === 1 ? true : false}  onClick={this.firstPage}>First</MDBBtn>
+                                                <MDBBtn color="secondary" size="sm" disabled={currentPage === 1 ? true : false} onClick={this.prevPage} >Prev</MDBBtn>
+                                            </MDBBtnGroup>
+                                            {/*<FormControl className="pageNumCss" ></FormControl>*/}
+                                            <input type="text" className="pageNumCss" name="currentPage" value={currentPage} onChange={this.changePage} disabled/>
+                                            <InputGroup.Append>
+                                                <MDBBtnGroup>
+                                                    <MDBBtn color="secondary" size="sm" disabled={currentPage === totalPages ? true : false} onClick={this.nextPage}>Next</MDBBtn>
+                                                    <MDBBtn color="secondary" size="sm" disabled={currentPage === totalPages ? true : false} onClick={this.lastPage}>Last</MDBBtn>
+                                                </MDBBtnGroup>
+                                            </InputGroup.Append>
+                                        </InputGroup>
+                                    </div>
+
                                 </form>
                             </MDBCardBody>
                         </MDBCard>
@@ -404,137 +664,288 @@ export default class AdminManage extends Component {
                     <MDBCol md="4">
                         <MDBCard>
                             <MDBCardBody>
-                                <form onSubmit={this.submitAdmin}>
-                                    <p className="h4 text-center py-1">Admin Manage</p>
-                                    <label htmlFor="defaultFormCardNameEx1" className="grey-text font-weight-light">Name</label>
-                                    <div className="input-group">
-                                        <div className="input-group-prepend">
+
+                                {
+                                    this.state.edited ?
+
+                                        <form onSubmit={this.editAdmin2}>
+                                            <p className="h4 text-center py-1">Admin Manage</p>
+                                            <label htmlFor="defaultFormCardNameEx1"
+                                                   className="grey-text font-weight-light">Name</label>
+                                            <div className="input-group">
+                                                <div className="input-group-prepend">
                                             <span className="input-group-text" id="basic-addon">
                                               <i className="fa fa-user prefix"></i>
                                             </span>
-                                        </div>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Name"
-                                            aria-label="Name"
-                                            aria-describedby="basic-addon"
-                                            value={this.state.AdminName}
-                                            onChange={this.onChangeName}
-                                        />
-                                        {
-                                            this.state.AdminNameValidation ? <MDBAlert color="danger">
-                                                Name Field Empty
-                                            </MDBAlert> : ''
-                                        }
-                                    </div>
+                                                </div>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Name"
+                                                    aria-label="Name"
+                                                    aria-describedby="basic-addon"
+                                                    value={this.state.selectedName}
+                                                    onChange={this.onChangeName2}
+                                                />
+                                                {
+                                                    this.state.AdminNameValidation ? <MDBAlert color="danger">
+                                                        Name Field Empty
+                                                    </MDBAlert> : ''
+                                                }
+                                            </div>
 
 
-                                    <label htmlFor="defaultFormCardEmailEx2" className="grey-text font-weight-light">Email Address</label>
+                                            <label htmlFor="defaultFormCardEmailEx2"
+                                                   className="grey-text font-weight-light">Email Address</label>
 
-                                    <div className="input-group">
-                                        <div className="input-group-prepend">
+                                            <div className="input-group">
+                                                <div className="input-group-prepend">
                                             <span className="input-group-text" id="basic-addon">
-                                             <MDBIcon far icon="envelope" />
+                                             <MDBIcon far icon="envelope"/>
                                             </span>
-                                        </div>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Email Address"
-                                            aria-label="Email Address"
-                                            aria-describedby="basic-addon"
-                                            value={this.state.AdminEmail}
-                                            onChange={this.onChangeEmail}
-                                        />
-                                        {
-                                            this.state.AdminEmailValidation? <MDBAlert color="danger">
-                                                Email Field Empty
-                                            </MDBAlert> : ''
-                                        }
-                                    </div>
+                                                </div>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Email Address"
+                                                    aria-label="Email Address"
+                                                    aria-describedby="basic-addon"
+                                                    value={this.state.selectedEmail}
+                                                    onChange={this.onChangeEmail2}
+                                                />
+                                                {
+                                                    this.state.AdminEmailValidation ? <MDBAlert color="danger">
+                                                        Email Field Empty
+                                                    </MDBAlert> : ''
+                                                }
+                                            </div>
 
 
-                                    <label htmlFor="defaultFormCardEmailEx3" className="grey-text font-weight-light">Position</label>
+                                            <label htmlFor="defaultFormCardEmailEx3"
+                                                   className="grey-text font-weight-light">Position</label>
 
-                                    <div className="input-group">
-                                        <div className="input-group-prepend">
+                                            <div className="input-group">
+                                                <div className="input-group-prepend">
                                             <span className="input-group-text" id="basic-addon">
-                                             <MDBIcon icon="graduation-cap" />
+                                             <MDBIcon icon="graduation-cap"/>
                                             </span>
-                                        </div>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Position"
-                                            aria-label="Position"
-                                            aria-describedby="basic-addon"
-                                            value={this.state.AdminPosition}
-                                            onChange={this.onChangePosition}
-                                        />
-                                        {
-                                            this.state.AdminPositionValidation ? <MDBAlert color="danger">
-                                                Position Field Empty
-                                            </MDBAlert> : ''
-                                        }
-                                    </div>
+                                                </div>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Position"
+                                                    aria-label="Position"
+                                                    aria-describedby="basic-addon"
+                                                    value={this.state.selectedPosition}
+                                                    onChange={this.onChangePosition2}
+                                                />
+                                                {
+                                                    this.state.AdminPositionValidation ? <MDBAlert color="danger">
+                                                        Position Field Empty
+                                                    </MDBAlert> : ''
+                                                }
+                                            </div>
 
 
-                                    <label htmlFor="defaultFormCardEmailEx4" className="grey-text font-weight-light">Password</label>
+                                            <label htmlFor="defaultFormCardEmailEx4"
+                                                   className="grey-text font-weight-light">Password</label>
 
-                                    <div className="input-group">
-                                        <div className="input-group-prepend">
+                                            <div className="input-group">
+                                                <div className="input-group-prepend">
                                             <span className="input-group-text" id="basic-addon">
-                                             <MDBIcon icon="lock" />
+                                             <MDBIcon icon="lock"/>
                                             </span>
-                                        </div>
-                                        <input
-                                            type="password"
-                                            className="form-control"
-                                            placeholder="Password"
-                                            aria-label="password"
-                                            aria-describedby="basic-addon"
-                                            value={this.state.AdminPassword}
-                                            onChange={this.onChangePassword}
-                                        />
-                                        {
-                                            this.state.AdminPasswordValidation ? <MDBAlert color="danger">
-                                                Position Field Empty
-                                            </MDBAlert> : ''
-                                        }
-                                    </div>
+                                                </div>
+                                                <input
+                                                    type="password"
+                                                    className="form-control"
+                                                    placeholder="Password"
+                                                    aria-label="password"
+                                                    aria-describedby="basic-addon"
+                                                    value={this.state.selectedPassword}
+                                                    onChange={this.onChangePassword2}
+                                                />
+                                                {
+                                                    this.state.AdminPasswordValidation ? <MDBAlert color="danger">
+                                                        Position Field Empty
+                                                    </MDBAlert> : ''
+                                                }
+                                            </div>
 
-                                    <label htmlFor="defaultFormCardEmailEx5" className="grey-text font-weight-light">Confirm password</label>
+                                            <label htmlFor="defaultFormCardEmailEx5"
+                                                   className="grey-text font-weight-light">Confirm password</label>
 
-                                    <div className="input-group">
-                                        <div className="input-group-prepend">
+                                            <div className="input-group">
+                                                <div className="input-group-prepend">
                                             <span className="input-group-text" id="basic-addon">
-                                              <MDBIcon icon="shield-alt" />
+                                              <MDBIcon icon="shield-alt"/>
                                             </span>
-                                        </div>
-                                        <input
-                                            type="password"
-                                            className="form-control"
-                                            placeholder="ConfirmPassword"
-                                            aria-label="ConfirmPassword"
-                                            aria-describedby="basic-addon"
-                                            value={this.state.AdminCPass}
-                                            onChange={this.onChangeConfirmPass}
-                                        />
-                                        {
-                                            this.state.AdminCPass != this.state.AdminPassword ? <MDBAlert color="danger">
-                                                password and confirm password does not match
-                                            </MDBAlert> : ''
-                                        }
-                                    </div>
+                                                </div>
+                                                <input
+                                                    type="password"
+                                                    className="form-control"
+                                                    placeholder="Confirm Password"
+                                                    aria-label="ConfirmPassword"
+                                                    aria-describedby="basic-addon"
+                                                    value={this.state.selectedConfirm}
+                                                    onChange={this.onChangeConfirmPass2}
+                                                />
+                                                {
+                                                    this.state.selectedPassword != this.state.selectedConfirm ?
+                                                        <MDBAlert color="danger">
+                                                            password and confirm password does not match
+                                                        </MDBAlert> : ''
+                                                }
+                                            </div>
 
-                                    <div className="text-center py-4 mt-0">
-                                        <MDBBtn className="btn btn-outline-purple" type="submit">
-                                            <b>Add Admin</b>
-                                            <MDBIcon icon="plus"className="ml-2" />
-                                        </MDBBtn>
-                                    </div>
-                                </form>
+                                            <div className="text-center py-4 mt-0">
+                                                <MDBBtn outline color="success" type="submit">
+                                                    <b>Update Admin</b>
+                                                    <MDBIcon icon="pen" className="ml-2"/>
+                                                </MDBBtn>
+                                            </div>
+                                        </form> :
+
+                                        <form onSubmit={this.submitAdmin}>
+                                            <p className="h4 text-center py-1">Admin Manage</p>
+                                            <label htmlFor="defaultFormCardNameEx1"
+                                                   className="grey-text font-weight-light">Name</label>
+                                            <div className="input-group">
+                                                <div className="input-group-prepend">
+                                            <span className="input-group-text" id="basic-addon">
+                                              <i className="fa fa-user prefix"></i>
+                                            </span>
+                                                </div>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Name"
+                                                    aria-label="Name"
+                                                    aria-describedby="basic-addon"
+                                                    value={this.state.AdminName}
+                                                    onChange={this.onChangeName}
+                                                />
+                                                {
+                                                    this.state.AdminNameValidation ? <MDBAlert color="danger">
+                                                        Name Field Empty
+                                                    </MDBAlert> : ''
+                                                }
+                                            </div>
+
+
+                                            <label htmlFor="defaultFormCardEmailEx2"
+                                                   className="grey-text font-weight-light">Email Address</label>
+
+                                            <div className="input-group">
+                                                <div className="input-group-prepend">
+                                            <span className="input-group-text" id="basic-addon">
+                                             <MDBIcon far icon="envelope"/>
+                                            </span>
+                                                </div>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Email Address"
+                                                    aria-label="Email Address"
+                                                    aria-describedby="basic-addon"
+                                                    value={this.state.AdminEmail}
+                                                    onChange={this.onChangeEmail}
+                                                />
+                                                {
+                                                    this.state.AdminEmailValidation ? <MDBAlert color="danger">
+                                                        Email Field Empty
+                                                    </MDBAlert> : ''
+                                                }
+                                            </div>
+
+
+                                            <label htmlFor="defaultFormCardEmailEx3"
+                                                   className="grey-text font-weight-light">Position</label>
+
+                                            <div className="input-group">
+                                                <div className="input-group-prepend">
+                                            <span className="input-group-text" id="basic-addon">
+                                             <MDBIcon icon="graduation-cap"/>
+                                            </span>
+                                                </div>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Position"
+                                                    aria-label="Position"
+                                                    aria-describedby="basic-addon"
+                                                    value={this.state.AdminPosition}
+                                                    onChange={this.onChangePosition}
+                                                />
+                                                {
+                                                    this.state.AdminPositionValidation ? <MDBAlert color="danger">
+                                                        Position Field Empty
+                                                    </MDBAlert> : ''
+                                                }
+                                            </div>
+
+
+                                            <label htmlFor="defaultFormCardEmailEx4"
+                                                   className="grey-text font-weight-light">Password</label>
+
+                                            <div className="input-group">
+                                                <div className="input-group-prepend">
+                                            <span className="input-group-text" id="basic-addon">
+                                             <MDBIcon icon="lock"/>
+                                            </span>
+                                                </div>
+                                                <input
+                                                    type="password"
+                                                    className="form-control"
+                                                    placeholder="Password"
+                                                    aria-label="password"
+                                                    aria-describedby="basic-addon"
+                                                    value={this.state.AdminPassword}
+                                                    onChange={this.onChangePassword}
+                                                />
+                                                {
+                                                    this.state.AdminPasswordValidation ? <MDBAlert color="danger">
+                                                        Position Field Empty
+                                                    </MDBAlert> : ''
+                                                }
+                                            </div>
+
+                                            <label htmlFor="defaultFormCardEmailEx5"
+                                                   className="grey-text font-weight-light">Confirm password</label>
+
+                                            <div className="input-group">
+                                                <div className="input-group-prepend">
+                                            <span className="input-group-text" id="basic-addon">
+                                              <MDBIcon icon="shield-alt"/>
+                                            </span>
+                                                </div>
+                                                <input
+                                                    type="password"
+                                                    className="form-control"
+                                                    placeholder="Confirm Password"
+                                                    aria-label="ConfirmPassword"
+                                                    aria-describedby="basic-addon"
+                                                    value={this.state.AdminCPass}
+                                                    onChange={this.onChangeConfirmPass}
+                                                />
+                                                {
+                                                    this.state.AdminCPass != this.state.AdminPassword ?
+                                                        <MDBAlert color="danger">
+                                                            password and confirm password does not match
+                                                        </MDBAlert> : ''
+                                                }
+                                            </div>
+
+                                            <div className="text-center py-4 mt-0">
+                                                <MDBBtn className="btn btn-outline-purple" type="submit">
+                                                    <b>Add Admin</b>
+                                                    <MDBIcon icon="plus" className="ml-2"/>
+                                                </MDBBtn>
+                                            </div>
+                                        </form>
+                                }
+
+
                             </MDBCardBody>
                         </MDBCard>
                     </MDBCol>

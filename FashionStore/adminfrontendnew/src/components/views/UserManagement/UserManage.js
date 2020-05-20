@@ -39,12 +39,13 @@ export default class UserDetails extends Component {
         this.nextPage = this.nextPage.bind(this);
         this.lastPage = this.lastPage.bind(this);
 
+
     }
     componentDidMount() {
         this.getDetails();
     }
 
-    sweetalertfunction(){
+    sweetalertfunction(id){
         console.log("button clicks");
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -64,11 +65,23 @@ export default class UserDetails extends Component {
             reverseButtons: true
         }).then((result) => {
             if (result.value) {
-                swalWithBootstrapButtons.fire(
-                    'Deleted!',
-                    'Customer deleted.',
-                    'success'
-                )
+                axios.get(constants.backend_url + 'api/userDetail/deleteUser/'+ id).then(response => {
+                    if (response.data.userDelete === 'success') {
+                        swalWithBootstrapButtons.fire(
+                            '',
+                            'Delete Failed !.',
+                            'error'
+                        )
+                    }else {
+                        Swal.fire(
+                            '',
+                            'Customer Deleted !',
+                            'success'
+                        )
+                        this.getDetails();
+                    }
+                })
+
             } else if (
                 /* Read more about handling dismissals below */
                 result.dismiss === Swal.DismissReason.cancel
@@ -84,6 +97,7 @@ export default class UserDetails extends Component {
 
 
 
+
     getDetails(){
 
 
@@ -93,9 +107,11 @@ export default class UserDetails extends Component {
             // console.log(response.data);
           this.setState({detailList:response.data})
 
-            if(this.state.datalist.length === 0){
-                this.setState({empty: true})
-            }
+            // if(this.state.datalist.length === 0){
+            //     this.setState({empty: true})
+            // }else{
+            //     this.setState({empty: false})
+            // }
         }).catch(function (error) {
             console.log(error);
         })
@@ -220,14 +236,14 @@ export default class UserDetails extends Component {
                                                         </MDBTableHead>
 
                                                         {
-                                                            this.state.empty ?
+                                                            currentUsers.length === 0 ?
                                                                 <tr >
-                                                                    <td colSpan="2">
+                                                                    <td colSpan="12" style={{textAlign : "center", fontWeight: "bold"}}>
                                                                         <MDBAlert color="danger" >
                                                                             No Users Registered
                                                                         </MDBAlert>
                                                                     </td>
-                                                                </tr>:
+                                                                </tr> :
                                                                 currentUsers.map(item => {
 
                                                         return(
@@ -239,7 +255,7 @@ export default class UserDetails extends Component {
                                                                 <td>{item.dob}</td>
                                                                 <td>{item.gender}</td>
                                                                 <td>
-                                                                    <MDBBtn tag="a" size="sm" color="danger"  onClick={this.sweetalertfunction}>
+                                                                    <MDBBtn tag="a" size="sm" color="danger" onClick={() => this.sweetalertfunction(item._id)} >
                                                                         <MDBIcon size="lg" icon="times-circle" />
                                                                     </MDBBtn>
                                                                 </td>
