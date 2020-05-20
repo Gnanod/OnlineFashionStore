@@ -66,5 +66,21 @@ router.route('/deleteUser/:id').get(function (req, res) {
     });
 });
 
+
+router.route('/seachUser/:cust_name').get(function (req,res) {
+    console.log("search entered");
+    let name = req.params.cust_name;
+    UserDetail.find({firstName : name}).exec().then(item => {
+        if( item ){
+            res.status(200).json(item);
+        }else{
+            res.status(404).json({"message": "not found"});
+        }
+    })
+        .catch(err=>{
+            res.status(500).json(err);
+        })
+});
+
 module.exports = router;
 
