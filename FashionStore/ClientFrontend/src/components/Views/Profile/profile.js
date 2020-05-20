@@ -30,7 +30,7 @@ export default class profile extends Component {
             feedback: '',
             CustfName: '',
             CustLName:'',
-            CustomerId: '5ec521c8dc124218244c0853',
+            CustomerId: localStorage.getItem("CustomerId"),
             detailList:[]
         };
         this.sweetalertfunction = this.sweetalertfunction.bind(this);
@@ -42,6 +42,9 @@ export default class profile extends Component {
 
     componentDidMount() {
         this.getDetailuser();
+        if(localStorage.getItem("CustomerLogged")!=="CustomerLogged"){
+            this.props.history.push('/Login');
+        }
     }
     sweetalertfunction(){
         console.log("button clicks");
