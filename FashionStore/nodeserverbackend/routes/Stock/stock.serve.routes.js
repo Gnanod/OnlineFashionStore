@@ -4,10 +4,11 @@ const router = express.Router();
 let StockDetails = require('../../models/StockDetails.model');
 
 router.route('/add').post(function (req, res) {
-
+    console.log("Inside stock details backenddddddd");
     const stockDetails = req.body;
-
+    console.log("xxxxxxxxx:" + stockDetails.fullTotalPrice);
     let stockObj = new StockDetails(stockDetails);
+    console.log(stockObj);
     stockObj.save()
         .then(bc => {
             res.status(200).json({'stocks': stockObj});
