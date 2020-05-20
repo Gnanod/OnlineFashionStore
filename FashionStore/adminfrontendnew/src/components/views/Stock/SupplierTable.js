@@ -34,7 +34,7 @@ export default class SupplierTable extends Component{
 
         }
 
-
+        this.sweetalertfunction = this.sweetalertfunction.bind(this);
         this.getAllSuppliers = this.getAllSuppliers.bind(this);
         this.deleteSuppliers = this.deleteSuppliers.bind(this);
         this.getAllSuppliers();
@@ -75,7 +75,7 @@ export default class SupplierTable extends Component{
             if (result.value) {
                 swalWithBootstrapButtons.fire(
                     'Deleted!',
-                    'Customer deleted.',
+                    'Supplier deleted.',
                     'success'
                 )
             } else if (
@@ -137,7 +137,7 @@ export default class SupplierTable extends Component{
 
             <MDBCard className="card">
                 <MDBCardBody>
-                    <MDBTable>
+                    <MDBTable responsive>
                         <MDBTableHead color="primary-color" textWhite>
                             <tr>
                                 <th>Company Name</th>

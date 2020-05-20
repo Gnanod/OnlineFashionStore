@@ -64,13 +64,22 @@ router.route('/updateQuantityPrice/:id/:quantity/:sellingPrice').get(function (r
     let id = req.params.id;
     let quantity1 = req.params.quantity;
     let price = req.params.sellingPrice;
+    let currentQuantity = 0;
 
+    console.log("id222:"+ req.params.id);
+    console.log("quantity222:"+ req.params.quantity);
+    console.log("price222:"+ req.params.sellingPrice);
+
+
+    console.log("id111:"+ id);
+    console.log("quantity111:"+ quantity1);
+    console.log("price111:"+ price);
 
     itemcolor.findOne({_id:id}).then(item => {
-        let currentQuantity = item.quantity + quantity1 ;
+        currentQuantity=(parseInt(item.quantity)+parseInt(quantity1)) ;
         // let updatedQuantity = currentQuantity + quantity;
-        console.log("currentQuantity:"+ currentQuantity);
-        // console.log("UpdatedQuentity:"+ updatedQuantity);
+        console.log("currentQuantityyy:"+ currentQuantity);
+        console.log("ItemQuanttt:"+ item.quantity);
 
 
         itemcolor.updateMany({_id:id},{$set: {quantity:currentQuantity,price:price}}).then(sup=>{

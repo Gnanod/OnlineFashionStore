@@ -16,7 +16,7 @@ let stock = new Schema({
         type: Date,
         required: true
     },
-    FullTotalPrice :{
+    fullTotalPrice :{
         type: Number,
         required: true
     }
