@@ -6,7 +6,7 @@ import {
     MDBCard,
     MDBCardBody,
     MDBCardImage,
-    MDBCardTitle,
+    MDBCardTitle, MDBNavbarNav, MDBNavItem,
     MDBNavLink
 } from "mdbreact";
 import './Item.css'
@@ -143,7 +143,6 @@ export class ItemDetail extends Component {
             itemColorCode: itemColor.itemColor
         })
         this.getSizesAccordingToTheColor(itemColor.itemColor, itemColor.itemColorObject.itemCode[0].itemCode);
-
     }
 
     ///////////////////////////// Add This Object To Cart ///////////////////////
@@ -408,27 +407,39 @@ export class ItemDetail extends Component {
                                                             </div>
 
                                                             <div className="row">
-                                                                <div className="col-sm-6">
+                                                                <div className="col-sm-4">
 
                                                                     <button type="button"
                                                                             className="btn btn-primary"
                                                                             onClick={() => this.addToCart()}>Add to Cart
                                                                     </button>
                                                                 </div>
-                                                                <div className="col-sm-6">
+                                                                <div className="col-sm-4">
                                                                     <button type="button"
                                                                             className="btn btn-primary"
                                                                             onClick={() => this.addToWhishList()}>Add to WishList
                                                                     </button>
                                                                 </div>
+                                                                {
+                                                                    localStorage.getItem("CustomerLogged") === "CustomerLogged" ?
+                                                                        <div className="col-sm-4">
+                                                                            <Rating
+                                                                                selected={this.state.item_Id}
+                                                                            />
+                                                                        </div>
+                                                                        :
+                                                                        ''
+                                                                }
+
+
                                                             </div>
-                                                            <div className="row">
-                                                                <div className="col-sm-12">
-                                                                    <Rating
-                                                                        selected={this.state.item_Id}
-                                                                    />
-                                                                </div>
-                                                            </div>
+                                                            {/*<div className="row">*/}
+                                                                {/*<div className="col-sm-12">*/}
+                                                                    {/*<Rating*/}
+                                                                        {/*selected={this.state.item_Id}*/}
+                                                                    {/*/>*/}
+                                                                {/*</div>*/}
+                                                            {/*</div>*/}
                                                         </div>
                                                     </div>
 
@@ -443,13 +454,17 @@ export class ItemDetail extends Component {
                                                     </div>
 
                                                     {
+
                                                         this.state.ratingItems.map(item=>{
+                                                            console.log("item")
+                                                            console.log(item);
+                                                            console.log("item")
                                                             return(
                                                                 <div className="row">
                                                                     <div className="col-sm-12">
                                                                         <MDBBreadcrumb >
                                                                             <MDBBreadcrumbItem active >
-                                                                                <span className="labelAlign">{item.userId}</span>
+                                                                                <span className="labelAlign">{item.userId[0].firstName +" "+item.userId[0].lastName}</span>
                                                                                 <br/>
                                                                                 <span>{item.comment}</span>
                                                                             </MDBBreadcrumbItem>

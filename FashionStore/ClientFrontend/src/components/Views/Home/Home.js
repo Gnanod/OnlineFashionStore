@@ -34,6 +34,7 @@ export default class Home extends Component {
     componentDidMount() {
         this.getAllCategories();
          this.getAllNewItems();
+
     }
 
 

@@ -40,7 +40,9 @@ class Cart extends Component {
 
     componentDidMount() {
         this.getDetails();
-
+        if(localStorage.getItem("CustomerLogged")!=="CustomerLogged"){
+            this.props.history.push('/Login');
+        }
 
     }
     printSelected(){

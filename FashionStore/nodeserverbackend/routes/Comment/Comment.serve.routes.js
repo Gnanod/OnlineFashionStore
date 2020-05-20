@@ -16,11 +16,13 @@ router.route('/add').post(function (req,res) {
 router.get("/getComment/:id",function (req,res) {
     const id = req.params.id;
 
-    Comment.find({ itemCode: id})
+    Comment.find({ itemCode: id}).populate('userId')
         .exec()
         .then(comment =>{
             if( comment ){
-
+                console.log("comment")
+                console.log(comment)
+                console.log("comment")
                 res.status(200).json(comment);
             }else{
                 res.status(404).json({"message": "not found"});

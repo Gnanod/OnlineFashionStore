@@ -11,7 +11,7 @@ import UserDetails from "./views/UserManagement/UserManage";
 import UserAnalysis from "./views/UserManagement/UserAnalysis";
 import SupplierDetails from "./views/Stock/SupplierDetails";
 import StockDetails from "./views/Stock/StockDetails";
-import Login from "./views/Login/Login";
+
 import Logout from "./views/LogOut/Logout";
 import AdminManage from "./views/UserManagement/AdminAdd";
 import OrderTable from "./views/Order/OrderTable";

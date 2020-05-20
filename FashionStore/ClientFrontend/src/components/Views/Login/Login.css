@@ -1,0 +1,29 @@
+.HoverClass :hover{
+    background-color: black;
+}
+.ml-auto{
+    float: right;
+}
+
+.loginh3{
+    color: #A569BD;
+    font-weight: bold;
+
+}
+.modlheader{
+    text-align: center;
+}
+
+#apppage .view {
+    background-image: url('./BackWall.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    min-height: 100vh;
+    left: -20px !important;
+
+}
+
+#apppage h6 {
+    line-height: 1.7;
+}

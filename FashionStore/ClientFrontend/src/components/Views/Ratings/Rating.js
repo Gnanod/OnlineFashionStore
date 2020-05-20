@@ -22,6 +22,7 @@ export class Rating extends Component {
 
 
     componentDidMount(){
+
         const {selected} = this.props;
         if(selected !== ''){
             this.setState({
@@ -56,7 +57,7 @@ export class Rating extends Component {
         const rating = {
             rates: this.state.rating,
             comment: this.state.comment,
-            userId :'KKKKKKKK',
+            userId : localStorage.getItem("CustomerId"),
             itemCode : this.state.selectedItem
         }
         axios.post(constants.backend_url + 'api/comment/add', rating)

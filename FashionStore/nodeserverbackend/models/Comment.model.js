@@ -10,15 +10,15 @@ let comment = new Schema({
         type :String,
         required: true
     },
-    userId :{
-        type :String,
-        required: true
-    },
-    // userId :[{
-    //     type :mongoose.Schema.Types.ObjectId,
-    //     ref : "commentUser",
-    //    // required : true
-    // }],
+    // userId :{
+    //     type :String,
+    //     required: true
+    // },
+    userId :[{
+        type :mongoose.Schema.Types.ObjectId,
+        ref : "UserDetail",
+        required : true
+    }],
     itemCode :[{
         type :mongoose.Schema.Types.ObjectId,
         ref : "Item",
