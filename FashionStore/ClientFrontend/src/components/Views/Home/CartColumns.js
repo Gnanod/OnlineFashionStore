@@ -38,7 +38,7 @@ class CartColumns extends Component {
 
 
                 </div>
-                <br/>
+
             </div>
         );
     }
