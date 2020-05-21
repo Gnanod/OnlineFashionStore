@@ -16,7 +16,7 @@ class Cart extends Component {
         this.state = {
             cartitem:'',
             cartList:[],
-            userId:'C001',
+            userId:localStorage.getItem("CustomerId"),
             cartName:'',
             cartPrice:'',
             quantity:'',
@@ -39,10 +39,16 @@ class Cart extends Component {
     }
 
     componentDidMount() {
-        this.getDetails();
+
         if(localStorage.getItem("CustomerLogged")!=="CustomerLogged"){
             this.props.history.push('/Login');
+        }else{
+
+            this.setState({
+                userId:localStorage.getItem("CustomerId")
+            })
         }
+        this.getDetails();
 
     }
     printSelected(){
@@ -50,7 +56,7 @@ class Cart extends Component {
         console.log(this.state.cartList);
     }
     getDetails() {
-        console.log("Cart!")
+        console.log(this.state.userId)
         axios.get(constants.backend_url + 'api/cart/getDetails/'+ this.state.userId).then(response => {
             console.log(response.data)
             this.setState({cartList: response.data});

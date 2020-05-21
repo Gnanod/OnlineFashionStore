@@ -11,7 +11,7 @@ class Wishlist extends Component {
         this.state = {
             item: '',
             wishList: [],
-            userId: 'C001',
+            userId: localStorage.getItem("CustomerId"),
             Name: '',
             Price: '',
             loaderStatus: true
@@ -46,7 +46,7 @@ class Wishlist extends Component {
        // this.decrementQuantity(cartItem.itemSizes._id,cartItem.itemSizes.quantity);
         console.log("HI wish cart")
         const cartt = {
-            userId:'C001',
+            userId:localStorage.getItem("CustomerId"),
             cartName:item.cartName,
             cartPrice:item.cartPrice,
             quantity:1,

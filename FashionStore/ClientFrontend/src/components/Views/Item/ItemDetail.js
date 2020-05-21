@@ -171,7 +171,7 @@ export class ItemDetail extends Component {
 
         }else{
             const cartt = {
-                userId:'C001',
+                userId:localStorage.getItem("CustomerId"),
                 cartName:this.state.itemName,
                 cartPrice:cartItem.itemSizes.price,
                 quantity:1,
@@ -272,7 +272,7 @@ export class ItemDetail extends Component {
                 'error'
             );
         }else{ const wishlist = {
-            userId:'C001',
+            userId:localStorage.getItem("CustomerId"),
             cartName:this.state.itemName,
             cartPrice:cartItem.itemSizes.price,
             //quantity:1,
