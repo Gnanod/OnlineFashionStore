@@ -22,6 +22,7 @@ import uuid from "react-uuid";
 import StockPriceTableBody from "./StockPriceTableBody";
 import constants from "../../../constants/constants";
 import StocksTableBody from "./StocksTableBody";
+import {NavLink} from "react-router-dom";
 
 
 export default class StockDetails extends Component{
@@ -30,9 +31,9 @@ export default class StockDetails extends Component{
         super(props);
 
         this.state = {
-            startDate: Date,
+            startDate: '',
             startDateValidation: false,
-            endDate: Date,
+            endDate: '',
             endDateValidation: false,
             buyingPrice: 0,
             buyingPriceValidation: false,
@@ -52,7 +53,7 @@ export default class StockDetails extends Component{
             ItemColourId: [],
             stocks: '',
             fullTotalPrice: 0,
-            selectedSupplierObject: ' ',
+            selectedSupplierObject: '',
             selectedSupplierObjectValidation: false,
             selectedItemColourIdObject: '',
             selectedItemColourIdObjectValidation: false
@@ -250,7 +251,7 @@ export default class StockDetails extends Component{
         }else {
             Swal.fire(
                 '',
-                'Add Stock Details',
+                'Please add stock Details',
                 'error'
             )
         }
@@ -262,9 +263,12 @@ export default class StockDetails extends Component{
         console.log("inside");
         console.log("totttttttt:"+ this.state.fullTotalPrice);
         e.preventDefault();
-        if(this.state.selectedSupplierObject !== '') {
-            if (this.state.startDate !== '') {
-                if(this.state.endDate !== '') {
+        if(this.state.selectedSupplierObject !== ''){
+            console.log("selectedSupplierObject");
+            if(this.state.startDate !== ''){
+                console.log("startDate");
+                if(this.state.endDate !== ''){
+                    console.log("endDate");
                     if (this.state.selectedItemColourIdObject !== '') {
                         console.log("checkedItemcolourID");
                         if (this.state.buyingPrice != 0) {
@@ -392,6 +396,25 @@ export default class StockDetails extends Component{
         return(
             <div className="bg">
                 <div className=" container-fluid BrandCategoryMain" >
+
+                    <MDBCard className="mb-5">
+                        <MDBCardBody id="breadcrumb" className="d-flex align-items-center justify-content-between">
+
+                            <NavLink exact={true} to="/stockmanage" activeClassName="activeClass">
+                                <button type="button" className="btn btn-primary">Stock Details</button>
+                            </NavLink>
+                            <NavLink exact={true} to="/stockmanage/stockanalysis" >
+                                <button type="button" className="btn btn-success ">Items</button>
+                            </NavLink>
+
+                            {/*<MDBFormInline className="md-form m-0">*/}
+                            {/*    <input className="form-control form-control-sm" type="search" placeholder="Type your query" aria-label="Search"/>*/}
+                            {/*    <MDBBtn size="sm" color="primary" className="my-0" type="submit"><MDBIcon icon="search" /></MDBBtn>*/}
+                            {/*</MDBFormInline>*/}
+                            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                        </MDBCardBody>
+                    </MDBCard>
+
                             <div className="card">
                                 <MDBCard className="card">
                                     <MDBCardBody>

@@ -3,9 +3,19 @@
     background-color: transparent;
     text-transform: capitalize;
     font-size: 0.9rem !important;
-    color: #00b0ff;
-    border-radius: 0 !important;
+    color: #0f0f0f;
+    border-radius: 1px !important;
     border: 0.1rem #00b0ff !important;
     width: 20px;
     height: 40px;
+}
+.block-example {
+    width: 94rem;
+    height: 0.1rem;
+    margin: 0.5rem;
+    background-color: #eee;
+    display: inline-block;
+}
+.right1 {
+    width: 50px;
 }
