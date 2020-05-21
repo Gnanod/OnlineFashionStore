@@ -33,7 +33,7 @@ class Cart extends Component {
             itemTot:'',
             fullTot:0,
             orderId:'',
-            status:false,
+            status:true,
             loaderStatus :true
 
         }
@@ -74,6 +74,13 @@ class Cart extends Component {
         axios.get(constants.backend_url + 'api/cart/getDetails/'+ this.state.userId).then(response => {
             console.log(response.data)
             this.setState({cartList: response.data});
+            if(this.state.cartList!=''){
+                console.log("true")
+                this.setState({
+                    status:false
+                })
+            }
+
 
         }).catch(function (error) {
             console.log(error);
@@ -106,8 +113,8 @@ class Cart extends Component {
         axios.get(constants.backend_url + 'api/cart/incQuantity/'+ id+'/'+(quantity+1)).then(response => {
 
         })
-        window.location.reload(false);
-
+        //window.location.reload(false);
+        this.getDetails();
 
     }
 
@@ -132,14 +139,18 @@ class Cart extends Component {
                 )
             }
         })
-        window.location.reload(false);
+        //window.location.reload(false);
+        this.getDetails();
     }
     clearCart(userId){
         console.log("clear");
         axios.get(constants.backend_url + 'api/cart/clearCart/'+ userId).then(response => {
-
+            this.setState({
+                status:true
+            })
         });
-        window.location.reload(false);
+       // window.location.reload(false);
+        this.getDetails();
     }
     getSubTotal(userId){
         console.log("subbb");
@@ -227,9 +238,7 @@ class Cart extends Component {
             <br/><br/><br/><br/><br/>
                 <MDBTypography tag='h1' variant="h1">Shopping Cart</MDBTypography>
 
-        <br/><br/>
-                <CartColumns></CartColumns>
-                <br/>
+
         <div>
 
         {this.state.cartList.map(item => {
@@ -237,6 +246,10 @@ class Cart extends Component {
                     return data + String.fromCharCode(byte);
                 }, ''));
             return(
+                <div>
+                    <br/>
+                    <CartColumns></CartColumns>
+                    <br/>
                 <div className="row my-1  text-center justify-content">
                     <div className="col-10 mx-auto col-lg-2">
                         <MDBCard style={{height: "11.5rem",width:"11.5rem"}}>
@@ -294,6 +307,7 @@ class Cart extends Component {
 
 
                 </div>
+                </div>
 
             )
 
@@ -306,27 +320,42 @@ class Cart extends Component {
     <br/>
     <div>
 
+        {this.state.status ?
 
-        <div style={{ fontSize: "25px" }}>
+            <div className="alert alert-success" role="alert">
+                Product Cart is Empty!!
+                <br/>
+            </div>
 
-
-            <span><strong>Full Total     :</strong></span>
-            <span><strong>{this.state.fullTot}</strong></span>
-
-
-        </div>
-        <br/>
-
-        <Paypal
-            toPay={this.state.fullTot}
-            onSuccess={()=>this.transactionSuccess()}
-            transactionError={()=>this.transactionError()}
-            transactioncancel={()=>this.transactionCancel()}/>
+                        :
+            <div>
+                <div style={{ fontSize: "25px" }}>
 
 
+                    <span><strong>Full Total     :</strong></span>
+                    <span><strong>{this.state.fullTot}</strong></span>
 
-            <br/>
-        <MDBBtn gradient="blue" rounded onClick={()=>this.clearCart(this.state.userId)}>Clear Cart</MDBBtn>
+
+                </div>
+                <br/>
+
+                <Paypal
+                    toPay={this.state.fullTot}
+                    onSuccess={()=>this.transactionSuccess()}
+                    transactionError={()=>this.transactionError()}
+                    transactioncancel={()=>this.transactionCancel()}/>
+
+
+
+                <br/>
+                <MDBBtn gradient="blue" rounded onClick={()=>this.clearCart(this.state.userId)}>Clear Cart</MDBBtn>
+            </div>
+
+
+        }
+
+
+
 
 
     </div>
