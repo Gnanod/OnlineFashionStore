@@ -43,7 +43,8 @@ export class ItemDetail extends Component {
             selected: '',
             item_Id: '',
             averageRates: 0,
-            ratingItems: ''
+            ratingItems: '',
+            ratingItemsValidation :true
 
         }
 
@@ -70,9 +71,14 @@ export class ItemDetail extends Component {
 
     getAverageRate() {
         axios.get(constants.backend_url + 'api/comment/getComment/' + this.state.item_Id).then(response => {
-            this.setState({
-                ratingItems: response.data
-            })
+
+            if(response.data !=='not found'){
+                this.setState({
+                    ratingItems: response.data,
+                    ratingItemsValidation :false
+                })
+            }
+
         }).catch(function (error) {
             console.log(error);
         })
@@ -456,7 +462,7 @@ export class ItemDetail extends Component {
                                                     </div>
 
                                                     {
-                                                        this.state.items.length !== 0 ?
+                                                        !this.state.ratingItemsValidation  ?
                                                             this.state.ratingItems.map(item => {
                                                                 return (
                                                                     <div className="row">
