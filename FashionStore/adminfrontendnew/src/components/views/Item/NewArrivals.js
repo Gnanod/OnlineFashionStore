@@ -54,10 +54,13 @@ export class NewArrivals extends Component {
     getAllItemCodes() {
         axios.get(constants.backend_url + 'api/item/getAllItems').then(response => {
             this.setState({itemCodes: response.data});
+            console.log("OOOOOOOOOOOOOOO")
+            console.log(response.data)
+            console.log("OOOOOOOOOOOOOOO")
+
         }).catch(function (error) {
             console.log(error);
         })
-
     }
 
 
@@ -239,9 +242,14 @@ export class NewArrivals extends Component {
                         <NavLink exact={true} to="/item" activeClassName="activeClass">
                             <button type="button" className="btn btn-success">New Item</button>
                         </NavLink>
-                        <NavLink exact={true} to="/item/brandcategory" >
-                            <button type="button" className="btn btn-success"> Brand & Category</button>
-                        </NavLink>
+                        {
+                            localStorage.getItem("Position") ==="StoreManager" ?
+                                <NavLink exact={true} to="/item/brandcategory" >
+                                    <button type="button" className="btn btn-success"> Brand & Category</button>
+                                </NavLink>
+                                :
+                                ''
+                        }
                         <div></div>
                         <div></div>
                         <div></div>

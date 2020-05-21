@@ -20,6 +20,8 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import constants from "../../../constants/constants";
 import axios from "axios";
 import {InputGroup} from "react-bootstrap";
+import TextField from "@material-ui/core/TextField/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete/Autocomplete";
 
 
 export default class AdminManage extends Component {
@@ -47,7 +49,8 @@ export default class AdminManage extends Component {
             selectedPosition : '',
             selectedPassword : '',
             selectedConfirm : '',
-            edited: false
+            edited: false,
+            position :[{'position' :'Admin'},{'position' :'StoreManager'}]
 
         }
 
@@ -86,7 +89,7 @@ export default class AdminManage extends Component {
         axios.get(constants.backend_url + 'api/adminDetail/getAlldetail').then(response => {
             console.log(response.data);
             this.setState({adminList:response.data})
-            this.countgender();
+            // this.countgender();
         }).catch(function (error) {
             console.log(error);
         })
@@ -110,13 +113,14 @@ export default class AdminManage extends Component {
 
     }
 
-    onChangePosition(e)
+    onChangePosition(value)
     {
-        this.setState({
-            AdminPosition: e.target.value,
-            AdminPositionValidation: false
-        });
-
+       if(value!==null){
+           this.setState({
+               AdminPosition: value.position,
+               AdminPositionValidation: false
+           });
+       }
     }
 
     onChangePassword(e)
@@ -156,12 +160,14 @@ export default class AdminManage extends Component {
 
     }
 
-    onChangePosition2(e)
+    onChangePosition2(value)
     {
-        this.setState({
-            selectedPosition: e.target.value,
-            AdminPositionValidation: false
-        });
+        if(value!==null){
+            this.setState({
+                selectedPosition: value.position,
+                AdminPositionValidation: false
+            });
+        }
 
     }
 
@@ -346,7 +352,7 @@ export default class AdminManage extends Component {
         if(this.state.AdminPassword == this.state.AdminCPass){
             if(this.state.AdminName != ''){
                 if(this.state.AdminEmail != ''){
-                    if(this.state.AdminPosition != ''){
+                    if(this.state.AdminPositionValidation === false){
                         if(this.state.AdminPassword != ''){
                             if(this.state.AdminCPass != '' ){
                                             console.log("Validation complete");
@@ -357,6 +363,9 @@ export default class AdminManage extends Component {
                                     password: this.state.AdminPassword
 
                                 }
+                                console.log("newAdminDetail")
+                                console.log(newadminDetail)
+                                console.log("newAdminDetail")
                                 axios.post(constants.backend_url + 'api/adminDetail/add', newadminDetail)
                                     .then(res => {
                                             console.log(res)
@@ -604,15 +613,16 @@ export default class AdminManage extends Component {
                                              <MDBIcon icon="graduation-cap"/>
                                             </span>
                                                 </div>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    placeholder="Position"
-                                                    aria-label="Position"
-                                                    aria-describedby="basic-addon"
-                                                    value={this.state.selectedPosition}
-                                                    onChange={this.onChangePosition2}
+
+                                                <Autocomplete
+                                                    id="combo-box-demo"
+                                                    options={this.state.position}
+                                                    getOptionLabel={(option) => option.position}
+                                                    style={{width: 370}}
+                                                    onChange={(event, value) => this.onChangePosition2(value)}
+                                                    renderInput={(params) => <TextField {...params} label="Position" variant="outlined"/>}
                                                 />
+
                                                 {
                                                     this.state.AdminPositionValidation ? <MDBAlert color="danger">
                                                         Position Field Empty
@@ -678,7 +688,8 @@ export default class AdminManage extends Component {
                                                     <MDBIcon icon="pen" className="ml-2"/>
                                                 </MDBBtn>
                                             </div>
-                                        </form> :
+                                        </form>
+                                        :
 
                                         <form onSubmit={this.submitAdmin}>
                                             <p className="h4 text-center py-1">Admin Manage</p>
@@ -742,15 +753,15 @@ export default class AdminManage extends Component {
                                              <MDBIcon icon="graduation-cap"/>
                                             </span>
                                                 </div>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    placeholder="Position"
-                                                    aria-label="Position"
-                                                    aria-describedby="basic-addon"
-                                                    value={this.state.AdminPosition}
-                                                    onChange={this.onChangePosition}
+                                                <Autocomplete
+                                                    id="combo-box-demo"
+                                                    options={this.state.position}
+                                                    getOptionLabel={(option) => option.position}
+                                                    style={{width: 370}}
+                                                    onChange={(event, value) => this.onChangePosition(value)}
+                                                    renderInput={(params) => <TextField {...params} label="Position" variant="outlined"/>}
                                                 />
+
                                                 {
                                                     this.state.AdminPositionValidation ? <MDBAlert color="danger">
                                                         Position Field Empty
