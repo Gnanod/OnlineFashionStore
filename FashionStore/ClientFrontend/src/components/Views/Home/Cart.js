@@ -9,7 +9,16 @@ import './CartStyle.css';
 import 'sweetalert2/src/sweetalert2.scss';
 import Paypal from "./Paypal";
 
-import {MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardText, MDBCardTitle, MDBNavLink} from "mdbreact";
+import {
+    MDBBtn,
+    MDBCard,
+    MDBCardBody,
+    MDBCardImage,
+    MDBCardText,
+    MDBCardTitle,
+    MDBNavLink, MDBTableHead, MDBTooltip,
+    MDBTypography
+} from "mdbreact";
 
 class Cart extends Component {
     constructor(props) {
@@ -24,6 +33,7 @@ class Cart extends Component {
             itemTot:'',
             fullTot:0,
             orderId:'',
+            status:false,
             loaderStatus :true
 
         }
@@ -64,6 +74,11 @@ class Cart extends Component {
         axios.get(constants.backend_url + 'api/cart/getDetails/'+ this.state.userId).then(response => {
             console.log(response.data)
             this.setState({cartList: response.data});
+            if(cartList!=''){
+                this.setState({
+                    status:true
+                })
+            }
         }).catch(function (error) {
             console.log(error);
         })
@@ -190,6 +205,8 @@ class Cart extends Component {
 
     }
     transactionSuccess(data){
+        console.log("success")
+
         this.confirmPurchase();
     }
     transactionError(){
@@ -211,10 +228,12 @@ class Cart extends Component {
     render() {
         return (
             <div>
-            <br/><br/><br/><br/>
-            <h1>Product Cart</h1>
+            <br/><br/><br/><br/><br/>
+                <MDBTypography tag='h1' variant="h1">Shopping Cart</MDBTypography>
+
         <br/><br/>
-        <CartColumns></CartColumns>
+                <CartColumns></CartColumns>
+                <br/>
         <div>
 
         {this.state.cartList.map(item => {
@@ -222,10 +241,10 @@ class Cart extends Component {
                     return data + String.fromCharCode(byte);
                 }, ''));
             return(
-                <div className="row my-1 text-capitalize text-center">
-                    <div className="col-10 mx-auto col-lg-2" >
-                        <MDBCard style={{height: "13rem"}}>
-                        <MDBCardImage className="img-fluid"
+                <div className="row my-1  text-center justify-content">
+                    <div className="col-10 mx-auto col-lg-2">
+                        <MDBCard style={{height: "11.5rem",width:"11.5rem"}}>
+                        <MDBCardImage className="img-fluid z-depth-0"
                                       src={`data:image/jpeg;base64,${base64String}`}
                                       waves/>
                         </MDBCard>
@@ -233,40 +252,49 @@ class Cart extends Component {
                     </div>
 
                     <div className="col-10 mx-auto col-lg-2">
-                        <span>{item.cartName}</span>
+                        <span style={{ font: "10px" }}><strong>{item.cartName}</strong></span>
+
                     </div>
 
                     <div className="col-10 mx-auto col-lg-2">
-                        <span>Rs. {item.cartPrice}</span>
+                        <span><strong>$ {item.cartPrice}</strong></span>
                     </div>
 
                     <div className="col-10 mx-auto col-lg-2 my-2 my-lg-0">
                         <div className="d-flex justify-content-center">
                             <div>
-                                <button className="btn1 mx-1" onClick={() => this.increment(item._id, item.quantity)}>+
+                                <button className="btn1 mx-1 btn-outline-light" onClick={() => this.increment(item._id, item.quantity)}>+
                                 </button>
                             </div>
-                            <span className="btn11">{item.quantity}</span>
+                            <span className="btn11"><strong>{item.quantity}</strong></span>
                             <div className="d-flex justify-content-center">
                                 <div>
-                                    <button className="btn1 mx-1"
-                                            onClick={() => this.decrement(item._id, item.quantity)}>-
+                                    <button className="btn1 mx-1  btn-outline-light"
+                                            onClick={() => this.decrement(item._id, item.quantity)}><strong>-</strong>
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="col-10 mx-auto col-lg-2">
-                        <span>Rs. {item.cartPrice * (item.quantity)}</span>
+                        <span><strong>$ {item.cartPrice * (item.quantity)}</strong></span>
                     </div>
                     <div className="col-10 mx-auto col-lg-2">
-                        <div className="cart-icon">
-                            <i className="fa fa-trash" aria-hidden="true" onClick={() => this.remove1(item._id)}></i>
-                        </div>
+
+                        <MDBTooltip placement="top">
+                            <MDBBtn color="primary" size="sm" onClick={() => this.remove1(item._id)}>
+                                X
+                            </MDBBtn>
+                            <div>Remove item</div>
+                        </MDBTooltip>
 
                     </div>
 
+                    <div>
 
+                        <span className="block-example border-bottom border-light"></span>
+
+                    </div>
 
 
                 </div>
@@ -280,18 +308,34 @@ class Cart extends Component {
 
 
     <br/>
-        <button  className="btn btn-blue" onClick={()=>this.clearCart(this.state.userId)}>Clear Cart</button>
-        <div>
-        <span>Full Total     :</span>
-        <span>{this.state.fullTot}</span>
-        </div>
+    <div>
 
-            <Paypal
-             toPay={this.state.fullTot}
+
+        <div style={{ fontSize: "25px" }}>
+
+
+            <span><strong>Full Total     :</strong></span>
+            <span><strong>{this.state.fullTot}</strong></span>
+
+
+        </div>
+        <br/>
+
+        <Paypal
+            toPay={this.state.fullTot}
             onSuccess={()=>this.transactionSuccess()}
             transactionError={()=>this.transactionError()}
             transactioncancel={()=>this.transactionCancel()}/>
-        </div>
+
+
+
+            <br/>
+        <MDBBtn gradient="blue" rounded onClick={()=>this.clearCart(this.state.userId)}>Clear Cart</MDBBtn>
+
+
+    </div>
+    </div>
+
 
 
         </div>
