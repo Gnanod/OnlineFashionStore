@@ -70,10 +70,13 @@ router.get("/validateUser/:email/:password",function (req,res) {
     UserDetail.findOne({ email: email, password: password },)
         .exec()
         .then(userValid =>{
+            console.log("User Valid");
+            console.log(userValid);
+            console.log("User Valid");
             if( userValid ){
-                res.status(200).json({"Message": "successful"});
+                res.status(200).json({"Message": userValid});
             }else{
-                console.log("Login failed");
+                res.status(200).json({"Message": "unsuccessful"});
             }
         }).catch(err=>{
             res.status(500).json(err);

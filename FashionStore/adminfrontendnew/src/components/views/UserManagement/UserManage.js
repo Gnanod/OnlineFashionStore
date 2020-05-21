@@ -7,10 +7,10 @@ import {
     MDBView,
     MDBContainer,
     MDBBtnGroup,
-    MDBIcon,  MDBFormInline,
+    MDBIcon, MDBFormInline,
     MDBCard,
     MDBCardBody,
-    MDBBtn, MDBTableHead, MDBTableBody, MDBTable, MDBAlert,MDBPagination,MDBPageItem,MDBPageNav,
+    MDBBtn, MDBTableHead, MDBTableBody, MDBTable, MDBAlert, MDBPagination, MDBPageItem, MDBPageNav,
 } from 'mdbreact';
 import './UserManage.css';
 import 'sweetalert2/src/sweetalert2.scss';
@@ -24,15 +24,15 @@ export default class UserDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            cartitem:'',
-            detailList:[],
+            cartitem: '',
+            detailList: [],
             currentPage: 1,
             userPerPage: 5,
             empty: false,
             searched: false,
             CustomerName: '',
             foundSearch: false,
-            searchList:[]
+            searchList: []
 
 
         }
@@ -48,11 +48,17 @@ export default class UserDetails extends Component {
 
 
     }
+
     componentDidMount() {
         this.getDetails();
+
+        if (localStorage.getItem("Position") !== "Admin") {
+            this.props.history.push('/');
+        }
+
     }
 
-    sweetalertfunction(id){
+    sweetalertfunction(id) {
         console.log("button clicks");
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -72,14 +78,14 @@ export default class UserDetails extends Component {
             reverseButtons: true
         }).then((result) => {
             if (result.value) {
-                axios.get(constants.backend_url + 'api/userDetail/deleteUser/'+ id).then(response => {
+                axios.get(constants.backend_url + 'api/userDetail/deleteUser/' + id).then(response => {
                     if (response.data.userDelete === 'success') {
                         swalWithBootstrapButtons.fire(
                             '',
                             'Delete Failed !.',
                             'error'
                         )
-                    }else {
+                    } else {
                         Swal.fire(
                             '',
                             'Customer Deleted !',
@@ -103,33 +109,31 @@ export default class UserDetails extends Component {
     }
 
 
-
-
-    getDetails(){
+    getDetails() {
         console.log("get user details");
         axios.get(constants.backend_url + 'api/userDetail/getAllusers').then(response => {
-            this.setState({detailList:response.data})
+            this.setState({detailList: response.data})
         }).catch(function (error) {
             console.log(error);
         })
     }
 
-    changePage(event){
+    changePage(event) {
         this.setState({
-            CustomerName:event.target.value,
+            CustomerName: event.target.value,
         });
     }
 
-    firstPage(){
-        if(this.state.currentPage > 1){
+    firstPage() {
+        if (this.state.currentPage > 1) {
             this.setState({
                 currentPage: 1
             })
         }
     }
 
-    prevPage(){
-        if(this.state.currentPage > 1){
+    prevPage() {
+        if (this.state.currentPage > 1) {
             this.setState({
                 currentPage: this.state.currentPage - 1
             })
@@ -137,9 +141,9 @@ export default class UserDetails extends Component {
 
     }
 
-    nextPage(){
+    nextPage() {
 
-        if(this.state.currentPage < Math.ceil(this.state.detailList.length / this.state.userPerPage)){
+        if (this.state.currentPage < Math.ceil(this.state.detailList.length / this.state.userPerPage)) {
             this.setState({
                 currentPage: this.state.currentPage + 1
             })
@@ -147,9 +151,9 @@ export default class UserDetails extends Component {
 
     }
 
-    lastPage(){
+    lastPage() {
 
-        if(this.state.currentPage < Math.ceil(this.state.detailList.length / this.state.userPerPage)){
+        if (this.state.currentPage < Math.ceil(this.state.detailList.length / this.state.userPerPage)) {
             this.setState({
                 currentPage: Math.ceil(this.state.detailList.length / this.state.userPerPage)
             })
@@ -157,14 +161,13 @@ export default class UserDetails extends Component {
 
     }
 
-    onChangeName(e)
-    {
+    onChangeName(e) {
         this.setState({
             CustomerName: e.target.value,
         });
 
         console.log("search user");
-        if(e.target.value !== '') {
+        if (e.target.value !== '') {
 
             axios.get(constants.backend_url + 'api/userDetail/seachUser/' + e.target.value).then(response => {
                 if (response.data.message === 'not found') {
@@ -187,7 +190,7 @@ export default class UserDetails extends Component {
             }).catch(function (error) {
                 console.log(error);
             })
-        }else{
+        } else {
             this.setState({
                 searched: false,
 
@@ -196,16 +199,14 @@ export default class UserDetails extends Component {
         }
 
 
-
     }
 
     render() {
-        const{detailList, currentPage, userPerPage, CustomerName} = this.state;
+        const {detailList, currentPage, userPerPage, CustomerName} = this.state;
         const lastIndex = currentPage * userPerPage;
         const firstIndex = lastIndex - userPerPage;
-        const currentUsers = detailList.slice(firstIndex, lastIndex );
-        const totalPages = Math.ceil(detailList.length / userPerPage) ;
-
+        const currentUsers = detailList.slice(firstIndex, lastIndex);
+        const totalPages = Math.ceil(detailList.length / userPerPage);
 
 
         return (
@@ -218,28 +219,50 @@ export default class UserDetails extends Component {
                         <NavLink exact={true} to="/usermanage" activeClassName="activeClass">
                             <button type="button" className="btn btn-primary">User Details</button>
                         </NavLink>
-                        <NavLink exact={true} to="/usermanage/useranalysis" >
+                        <NavLink exact={true} to="/usermanage/useranalysis">
                             <button type="button" className="btn btn-success "> User Analysis</button>
                         </NavLink>
-                        <NavLink exact={true} to="/usermanage/adminmanage" >
+                        <NavLink exact={true} to="/usermanage/adminmanage">
                             <button type="button" className="btn btn-success "> Admin Manage</button>
                         </NavLink>
 
-                        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
                     </MDBCardBody>
                 </MDBCard>
 
 
-
                 <MDBView>
-                    <MDBMask className='rgba-white-light' />
-                    <MDBContainer className='d-flex justify-content-center align-items-center' style={{ height: '100%', width: '100%', paddingTop: '0rem' }}>
+                    <MDBMask className='rgba-white-light'/>
+                    <MDBContainer className='d-flex justify-content-center align-items-center'
+                                  style={{height: '100%', width: '100%', paddingTop: '0rem'}}>
                         <MDBRow>
                             {/*<div style={{"float": "left"}}>*/}
                             {/*    <MDBBtn size="sm" color="success" className="my-0" type="submit" ><MDBIcon icon="redo-alt"  /> &nbsp; Reset </MDBBtn>*/}
                             {/*</div>*/}
                             <MDBCol md="6" className="searchC">
-                                <MDBFormInline className="md-form m-0" >
+                                <MDBFormInline className="md-form m-0">
                                     <input
                                         className="form-control form-control-sm"
                                         type="text"
@@ -249,63 +272,64 @@ export default class UserDetails extends Component {
                                         onChange={this.onChangeName}
                                         // onChange={()=>this.searchUser(this.state.CustomerName)}
                                     />
-                                    <MDBBtn size="sm" color="primary" className="my-0" type="submit" disabled><MDBIcon icon="search" /></MDBBtn>
+                                    <MDBBtn size="sm" color="primary" className="my-0" type="submit" disabled><MDBIcon
+                                        icon="search"/></MDBBtn>
                                 </MDBFormInline>
                             </MDBCol>
 
                             {
                                 this.state.searched ?
                                     // this.state.foundSearch ?
-                                        <div className=" container-fluid AddItemHeight">
-                                            <MDBRow>
-                                                <MDBCol size="12">
-                                                    <MDBCard>
-                                                        <MDBCardBody>
-                                                            <form>
-                                                                <MDBTable responsive>
-                                                                    <MDBTableHead color="primary-color" textWhite>
-                                                                        <tr>
-                                                                            <th>Name</th>
-                                                                            <th>Email Address</th>
-                                                                            <th>Contact Number</th>
-                                                                            <th>Date of Birth</th>
-                                                                            <th>Gender</th>
-                                                                            <th>Action</th>
-                                                                        </tr>
-                                                                    </MDBTableHead>
+                                    <div className=" container-fluid AddItemHeight">
+                                        <MDBRow>
+                                            <MDBCol size="12">
+                                                <MDBCard>
+                                                    <MDBCardBody>
+                                                        <form>
+                                                            <MDBTable responsive>
+                                                                <MDBTableHead color="primary-color" textWhite>
+                                                                    <tr>
+                                                                        <th>Name</th>
+                                                                        <th>Email Address</th>
+                                                                        <th>Contact Number</th>
+                                                                        <th>Date of Birth</th>
+                                                                        <th>Gender</th>
+                                                                        <th>Action</th>
+                                                                    </tr>
+                                                                </MDBTableHead>
 
-                                                                    {
+                                                                {
 
-                                                                        this.state.searchList.map(item => {
+                                                                    this.state.searchList.map(item => {
 
-                                                                            return (
-                                                                                <MDBTableBody>
-                                                                                    <tr>
-                                                                                        <td>{item.firstName + "  " + item.lastName}</td>
-                                                                                        <td>{item.email}</td>
-                                                                                        <td>{item.phoneNumber}</td>
-                                                                                        <td>{item.dob}</td>
-                                                                                        <td>{item.gender}</td>
-                                                                                        <td>
-                                                                                            <MDBBtn tag="a" size="sm"
-                                                                                                    color="danger"
-                                                                                                    onClick={() => this.sweetalertfunction(item._id)}>
-                                                                                                <MDBIcon size="lg"
-                                                                                                         icon="times-circle"/>
-                                                                                            </MDBBtn>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </MDBTableBody>
-                                                                            )
-                                                                        })}
+                                                                        return (
+                                                                            <MDBTableBody>
+                                                                                <tr>
+                                                                                    <td>{item.firstName + "  " + item.lastName}</td>
+                                                                                    <td>{item.email}</td>
+                                                                                    <td>{item.phoneNumber}</td>
+                                                                                    <td>{item.dob}</td>
+                                                                                    <td>{item.gender}</td>
+                                                                                    <td>
+                                                                                        <MDBBtn tag="a" size="sm"
+                                                                                                color="danger"
+                                                                                                onClick={() => this.sweetalertfunction(item._id)}>
+                                                                                            <MDBIcon size="lg"
+                                                                                                     icon="times-circle"/>
+                                                                                        </MDBBtn>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </MDBTableBody>
+                                                                        )
+                                                                    })}
 
-                                                                </MDBTable>
-                                                            </form>
-                                                        </MDBCardBody>
-                                                    </MDBCard>
-                                                </MDBCol>
-                                            </MDBRow>
-                                        </div>
+                                                            </MDBTable>
+                                                        </form>
+                                                    </MDBCardBody>
+                                                </MDBCard>
+                                            </MDBCol>
+                                        </MDBRow>
+                                    </div>
                                     //     // --------------------------------------------
                                     //
                                     //     :

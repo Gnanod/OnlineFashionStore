@@ -7,6 +7,7 @@ import Loader from "react-loader-spinner";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import './CartStyle.css';
 import 'sweetalert2/src/sweetalert2.scss';
+import Paypal from "./Paypal";
 
 import {MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardText, MDBCardTitle, MDBNavLink} from "mdbreact";
 
@@ -16,7 +17,7 @@ class Cart extends Component {
         this.state = {
             cartitem:'',
             cartList:[],
-            userId:'C001',
+            userId:localStorage.getItem("CustomerId"),
             cartName:'',
             cartPrice:'',
             quantity:'',
@@ -35,12 +36,23 @@ class Cart extends Component {
         this.getSubTotal=this.getSubTotal.bind(this);
         this.confirmPurchase=this.confirmPurchase.bind(this);
         this.getLastId=this.getLastId.bind(this);
+        this.transactionSuccess=this.transactionSuccess.bind(this);
+        this.transactionError=this.transactionError.bind(this);
+        this.transactionCancel=this.transactionCancel.bind(this);
 
     }
 
     componentDidMount() {
-        this.getDetails();
 
+        if(localStorage.getItem("CustomerLogged")!=="CustomerLogged"){
+            this.props.history.push('/Login');
+        }else{
+
+            this.setState({
+                userId:localStorage.getItem("CustomerId")
+            })
+        }
+        this.getDetails();
 
     }
     printSelected(){
@@ -48,7 +60,7 @@ class Cart extends Component {
         console.log(this.state.cartList);
     }
     getDetails() {
-        console.log("Cart!")
+        console.log(this.state.userId)
         axios.get(constants.backend_url + 'api/cart/getDetails/'+ this.state.userId).then(response => {
             console.log(response.data)
             this.setState({cartList: response.data});
@@ -177,6 +189,24 @@ class Cart extends Component {
         return a;
 
     }
+    transactionSuccess(data){
+        this.confirmPurchase();
+    }
+    transactionError(){
+        Swal.fire(
+            '',
+            'Transaction Error!',
+            'error'
+        );
+    }
+    transactionCancel(){
+        Swal.fire(
+            '',
+            'Transaction Cancelled!',
+            'error'
+        );
+
+    }
 
     render() {
         return (
@@ -255,7 +285,12 @@ class Cart extends Component {
         <span>Full Total     :</span>
         <span>{this.state.fullTot}</span>
         </div>
-            <button  className="btn btn-blue" onClick={()=>this.confirmPurchase()}>Confirm Purchase</button>
+
+            <Paypal
+             toPay={this.state.fullTot}
+            onSuccess={()=>this.transactionSuccess()}
+            transactionError={()=>this.transactionError()}
+            transactioncancel={()=>this.transactionCancel()}/>
         </div>
 
 
