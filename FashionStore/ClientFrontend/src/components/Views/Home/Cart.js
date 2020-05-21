@@ -74,11 +74,7 @@ class Cart extends Component {
         axios.get(constants.backend_url + 'api/cart/getDetails/'+ this.state.userId).then(response => {
             console.log(response.data)
             this.setState({cartList: response.data});
-            if(cartList!=''){
-                this.setState({
-                    status:true
-                })
-            }
+
         }).catch(function (error) {
             console.log(error);
         })
