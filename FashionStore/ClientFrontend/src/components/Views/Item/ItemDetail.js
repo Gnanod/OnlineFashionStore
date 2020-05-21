@@ -21,7 +21,6 @@ import {Rating} from "../Ratings/Rating";
 import StarRatings from "react-star-ratings";
 
 
-
 export class ItemDetail extends Component {
 
 
@@ -37,14 +36,14 @@ export class ItemDetail extends Component {
             itemColorCode: '',
             Url: ' ',
             itemSizesAll: [],
-            items:'',
+            items: '',
             itemPrice: '',
             loaderStatus: true,
-            price :'',
-            selected:'',
-            item_Id:'',
-            averageRates :0,
-            ratingItems :''
+            price: '',
+            selected: '',
+            item_Id: '',
+            averageRates: 0,
+            ratingItems: ''
 
         }
 
@@ -53,12 +52,12 @@ export class ItemDetail extends Component {
         this.getPhotoAccordingToColor = this.getPhotoAccordingToColor.bind(this);
         this.getSizesAccordingToTheColor = this.getSizesAccordingToTheColor.bind(this);
         this.onChangeItemSize = this.onChangeItemSize.bind(this);
-        this.addToCart=this.addToCart.bind(this);
+        this.addToCart = this.addToCart.bind(this);
         this.getNewItemColorDetails();
         this.getPhotoAccordingToColor();
         //  this.getSizesAccordingToTheColor();
-        this.decrementQuantity=this.decrementQuantity.bind(this);
-        this.addToWhishList=this.addToWhishList.bind(this);
+        this.decrementQuantity = this.decrementQuantity.bind(this);
+        this.addToWhishList = this.addToWhishList.bind(this);
         this.getAverageRate = this.getAverageRate.bind(this);
     }
 
@@ -69,10 +68,10 @@ export class ItemDetail extends Component {
         });
     }
 
-    getAverageRate(){
-        axios.get(constants.backend_url + 'api/comment/getComment/'+this.state.item_Id).then(response => {
+    getAverageRate() {
+        axios.get(constants.backend_url + 'api/comment/getComment/' + this.state.item_Id).then(response => {
             this.setState({
-                ratingItems :response.data
+                ratingItems: response.data
             })
         }).catch(function (error) {
             console.log(error);
@@ -87,10 +86,10 @@ export class ItemDetail extends Component {
             this.setState({
                 Url: base64String,
                 itemName: response.data.itemCode[0].itemName,
-                item_Id :response.data.itemCode[0]._id,
+                item_Id: response.data.itemCode[0]._id,
                 itemColorCode: response.data.itemColor
             })
-            this.state.itemSizesAll.length=0;
+            this.state.itemSizesAll.length = 0;
             this.getSizesAccordingToTheColor(response.data.itemColor, response.data.itemCode[0].itemCode);
             this.getAverageRate();
         }).catch(function (error) {
@@ -100,29 +99,29 @@ export class ItemDetail extends Component {
 
     getSizesAccordingToTheColor(color, itemCode) {
         this.setState({
-            itemSizesAll:[]
+            itemSizesAll: []
         })
         axios.get(constants.backend_url + 'api/itemcolor/getAllItemColors').then(response => {
-            let averageRate=0;
+            let averageRate = 0;
             this.state.ratingItems.map(item => {
-                averageRate+=item.rates;
+                averageRate += item.rates;
                 // console.log(item.rates);
             });
-            averageRate = averageRate/5.0;
+            averageRate = averageRate / 5.0;
             response.data.map(item => {
                 if (item.itemCode[0].itemCode === itemCode && item.itemColor === color) {
                     // if (this.state.itemSizesAll.length === 0) {
-                        const newSizes = {
-                            itemSizes: item
-                        }
-                        const array = [newSizes, ...this.state.itemSizesAll]
+                    const newSizes = {
+                        itemSizes: item
+                    }
+                    const array = [newSizes, ...this.state.itemSizesAll]
 
-                        this.setState({
-                            itemSizesAll: array,
-                            autocompleteStatus: true,
-                            averageRate:averageRate,
-                            loaderStatus: false
-                        })
+                    this.setState({
+                        itemSizesAll: array,
+                        autocompleteStatus: true,
+                        averageRate: averageRate,
+                        loaderStatus: false
+                    })
                     // }
 
                 }
@@ -147,38 +146,39 @@ export class ItemDetail extends Component {
 
     ///////////////////////////// Add This Object To Cart ///////////////////////
     onChangeItemSize(value) {
-        if(value !==null){
+        if (value !== null) {
             let price = value.itemSizes.price;
             this.setState({
                 price: price,
-                selected:value
+                selected: value
             })
 
         }
 
     }
-    addToCart(){
 
-        let cartItem=this.state.selected;
+    addToCart() {
+
+        let cartItem = this.state.selected;
         console.log(this.state.selected);
         console.log(cartItem);
-        if(cartItem===''){
+        if (cartItem === '') {
             Swal.fire(
                 '',
                 'Enter a valid Size!!!.',
                 'error'
             );
 
-        }else{
+        } else {
             const cartt = {
-                userId:'C001',
-                cartName:this.state.itemName,
-                cartPrice:cartItem.itemSizes.price,
-                quantity:1,
-                itemTotal:cartItem.itemSizes.price,
-                itemId:cartItem.itemSizes._id
+                userId: 'C001',
+                cartName: this.state.itemName,
+                cartPrice: cartItem.itemSizes.price,
+                quantity: 1,
+                itemTotal: cartItem.itemSizes.price,
+                itemId: cartItem.itemSizes._id
             }
-            this.decrementQuantity(cartItem.itemSizes._id,cartItem.itemSizes.quantity);
+            this.decrementQuantity(cartItem.itemSizes._id, cartItem.itemSizes.quantity);
             axios.post(constants.backend_url + 'api/cart/add', cartt)
                 .then(res => {
                         console.log(res.data.cart)
@@ -208,9 +208,6 @@ export class ItemDetail extends Component {
         }
 
 
-
-
-
     }
 
     getNewItemColorDetails() {
@@ -222,14 +219,14 @@ export class ItemDetail extends Component {
                         itemColorObjId: item._id,
                         itemColorObject: item
                     }
-                    let itemStatus =false;
-                    this.state.itemColorObj.map(color=>{
-                        if(color.itemColor === newItemColorObj.itemColor){
-                            itemStatus=true;
+                    let itemStatus = false;
+                    this.state.itemColorObj.map(color => {
+                        if (color.itemColor === newItemColorObj.itemColor) {
+                            itemStatus = true;
                         }
                     });
 
-                    if(!itemStatus){
+                    if (!itemStatus) {
                         const array = [newItemColorObj, ...this.state.itemColorObj];
                         this.setState({
                             itemName: item.itemCode[0].itemName,
@@ -247,9 +244,10 @@ export class ItemDetail extends Component {
             console.log(error);
         })
     }
-    decrementQuantity(id,quantity){
+
+    decrementQuantity(id, quantity) {
         console.log(id);
-        axios.get(constants.backend_url + 'api/cart/updateQuantity/'+id+'/'+(quantity-1))
+        axios.get(constants.backend_url + 'api/cart/updateQuantity/' + id + '/' + (quantity - 1))
             .then(res => {
 
                     if (res.data.cart === 'success') {
@@ -262,24 +260,26 @@ export class ItemDetail extends Component {
             );
 
     }
-    addToWhishList(){
+
+    addToWhishList() {
         console.log(this.state.selected);
-        let cartItem=this.state.selected;
-        if(cartItem==='') {
+        let cartItem = this.state.selected;
+        if (cartItem === '') {
             Swal.fire(
                 '',
                 'Enter a valid Size!!!.',
                 'error'
             );
-        }else{ const wishlist = {
-            userId:'C001',
-            cartName:this.state.itemName,
-            cartPrice:cartItem.itemSizes.price,
-            //quantity:1,
-            itemId:cartItem.itemSizes._id
-        }
+        } else {
+            const wishlist = {
+                userId: 'C001',
+                cartName: this.state.itemName,
+                cartPrice: cartItem.itemSizes.price,
+                //quantity:1,
+                itemId: cartItem.itemSizes._id
+            }
             console.log(wishlist);
-            axios.post(constants.backend_url + 'api/wishlist/add', wishlist )
+            axios.post(constants.backend_url + 'api/wishlist/add', wishlist)
                 .then(res => {
                         console.log("HI")
                         if (res.data.wish === 'success') {
@@ -355,14 +355,14 @@ export class ItemDetail extends Component {
                                                             <MDBCardTitle
                                                                 className="itemNameText">{this.state.itemName}</MDBCardTitle>
                                                             {/*<div className="col-sm-6">*/}
-                                                             <div className="row">
-                                                                 <StarRatings
-                                                                     rating={this.state.averageRate}
-                                                                     starRatedColor="blue"
-                                                                     numberOfStars={5}
-                                                                     name='rating'
-                                                                 />
-                                                             </div>
+                                                            <div className="row">
+                                                                <StarRatings
+                                                                    rating={this.state.averageRate}
+                                                                    starRatedColor="blue"
+                                                                    numberOfStars={5}
+                                                                    name='rating'
+                                                                />
+                                                            </div>
                                                             <div className="row">
                                                                 {
                                                                     this.state.status ?
@@ -417,7 +417,8 @@ export class ItemDetail extends Component {
                                                                 <div className="col-sm-4">
                                                                     <button type="button"
                                                                             className="btn btn-primary"
-                                                                            onClick={() => this.addToWhishList()}>Add to WishList
+                                                                            onClick={() => this.addToWhishList()}>Add to
+                                                                        WishList
                                                                     </button>
                                                                 </div>
                                                                 {
@@ -434,11 +435,11 @@ export class ItemDetail extends Component {
 
                                                             </div>
                                                             {/*<div className="row">*/}
-                                                                {/*<div className="col-sm-12">*/}
-                                                                    {/*<Rating*/}
-                                                                        {/*selected={this.state.item_Id}*/}
-                                                                    {/*/>*/}
-                                                                {/*</div>*/}
+                                                            {/*<div className="col-sm-12">*/}
+                                                            {/*<Rating*/}
+                                                            {/*selected={this.state.item_Id}*/}
+                                                            {/*/>*/}
+                                                            {/*</div>*/}
                                                             {/*</div>*/}
                                                         </div>
                                                     </div>
@@ -448,31 +449,32 @@ export class ItemDetail extends Component {
                                                     <div className="row">
                                                         <div className="col-sm-12">
                                                             <MDBBreadcrumb light color="blue lighten-1">
-                                                                <MDBBreadcrumbItem iconRegular icon="star">Customer Reviews</MDBBreadcrumbItem>
+                                                                <MDBBreadcrumbItem iconRegular icon="star">Customer
+                                                                    Reviews</MDBBreadcrumbItem>
                                                             </MDBBreadcrumb>
                                                         </div>
                                                     </div>
 
                                                     {
-
-                                                        this.state.ratingItems.map(item=>{
-                                                            console.log("item")
-                                                            console.log(item);
-                                                            console.log("item")
-                                                            return(
-                                                                <div className="row">
-                                                                    <div className="col-sm-12">
-                                                                        <MDBBreadcrumb >
-                                                                            <MDBBreadcrumbItem active >
-                                                                                <span className="labelAlign">{item.userId[0].firstName +" "+item.userId[0].lastName}</span>
-                                                                                <br/>
-                                                                                <span>{item.comment}</span>
-                                                                            </MDBBreadcrumbItem>
-                                                                        </MDBBreadcrumb>
+                                                        this.state.items.length !== 0 ?
+                                                            this.state.ratingItems.map(item => {
+                                                                return (
+                                                                    <div className="row">
+                                                                        <div className="col-sm-12">
+                                                                            <MDBBreadcrumb>
+                                                                                <MDBBreadcrumbItem active>
+                                                                                    <span
+                                                                                        className="labelAlign">{item.userId[0].firstName + " " + item.userId[0].lastName}</span>
+                                                                                    <br/>
+                                                                                    <span>{item.comment}</span>
+                                                                                </MDBBreadcrumbItem>
+                                                                            </MDBBreadcrumb>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            )
-                                                        })
+                                                                )
+                                                            })
+                                                            :
+                                                            ''
                                                     }
 
                                                 </div>

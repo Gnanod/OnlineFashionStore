@@ -46,6 +46,9 @@ export class NewArrivals extends Component {
     componentDidMount() {
         this.getAllItemCodes();
         this.getAllNewArrailItems();
+        if(localStorage.getItem("userLogged")!=="userLogged"){
+            this.props.history.push('/');
+        }
     }
 
     getAllItemCodes() {

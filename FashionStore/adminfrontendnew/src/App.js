@@ -10,7 +10,7 @@ import LoginRoutes from "./components/LoginRoutes";
 class App extends Component {
 
   render() {
-      if(localStorage.getItem("userLogged")==="userLog") {
+      if(localStorage.getItem("userLogged")==="userLogged") {
           return (
               <Router>
                   <div className="flexible-content">

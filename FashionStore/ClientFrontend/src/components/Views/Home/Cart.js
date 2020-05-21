@@ -43,7 +43,6 @@ class Cart extends Component {
         if(localStorage.getItem("CustomerLogged")!=="CustomerLogged"){
             this.props.history.push('/Login');
         }
-
     }
     printSelected(){
         console.log(this.state.cartitem);

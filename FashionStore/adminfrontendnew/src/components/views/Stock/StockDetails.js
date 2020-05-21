@@ -77,6 +77,12 @@ export default class StockDetails extends Component{
         this.getAllSuppliers();
         this.getAllItemColourId();
     }
+
+    componentDidMount(){
+        if(localStorage.getItem("userLogged")!=="userLogged"){
+            this.props.history.push('/');
+        }
+    }
     onChangeStartDate(e){
         this.setState({
             startDate: e.target.value,

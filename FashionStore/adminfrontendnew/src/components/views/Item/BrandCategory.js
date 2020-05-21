@@ -75,6 +75,9 @@ export default class BrandCategory extends Component {
     componentDidMount() {
         this.getAllBrands();
         this.getAllCategories();
+        if(localStorage.getItem("userLogged")!=="userLogged"){
+            this.props.history.push('/');
+        }
     }
 
     onChangeCategoryCode(e) {

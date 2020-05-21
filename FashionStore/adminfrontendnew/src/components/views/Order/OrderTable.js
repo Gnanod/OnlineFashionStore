@@ -49,6 +49,9 @@ class OrderTable extends Component {
     }
     componentDidMount() {
         this.getDetails();
+        if (localStorage.getItem("userLogged") !== "userLogged") {
+            this.props.history.push('/');
+        }
     }
     getDetails() {
 
