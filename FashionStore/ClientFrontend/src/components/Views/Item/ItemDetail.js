@@ -411,6 +411,8 @@ export class ItemDetail extends Component {
                                                             </div>
 
                                                             <div className="row">
+                                                                {
+                                                                    localStorage.getItem("CustomerLogged") === "CustomerLogged" ?
                                                                 <div className="col-sm-4">
 
                                                                     <button type="button"
@@ -418,6 +420,11 @@ export class ItemDetail extends Component {
                                                                             onClick={() => this.addToCart()}>Add to Cart
                                                                     </button>
                                                                 </div>
+                                                                        :
+                                                                        ''
+                                                                }
+                                                                {
+                                                                    localStorage.getItem("CustomerLogged") === "CustomerLogged" ?
                                                                 <div className="col-sm-4">
                                                                     <button type="button"
                                                                             className="btn btn-primary"
@@ -425,6 +432,9 @@ export class ItemDetail extends Component {
                                                                         WishList
                                                                     </button>
                                                                 </div>
+                                                                        :
+                                                                        ''
+                                                                }
                                                                 {
                                                                     localStorage.getItem("CustomerLogged") === "CustomerLogged" ?
                                                                         <div className="col-sm-4">

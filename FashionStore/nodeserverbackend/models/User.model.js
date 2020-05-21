@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema= mongoose.Schema;
 
-let userDetail = new Schema({
+let userdetails = new Schema({
     firstName :{
         type :String,
         required: true
@@ -37,8 +37,12 @@ let userDetail = new Schema({
     female: {
         type :Number,
         required: true
+    },
+    image :{
+        type :Buffer,
+        contentType: String
     }
 });
 
-module.exports = mongoose.model('UserDetail',userDetail);
+module.exports = mongoose.model('userdetails',userdetails);
 
