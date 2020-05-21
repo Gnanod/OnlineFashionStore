@@ -456,13 +456,13 @@ export default class AdminManage extends Component {
                     <MDBCol size="8">
                         <MDBCard>
                             <MDBCardBody>
-                                <MDBCol md="4" className="searchC">
-                                    <MDBFormInline className="md-form m-0">
-                                        <input className="form-control form-control-sm" type="search" placeholder="Search..." aria-label="Search"/>
-                                        <MDBBtn size="sm" color="secondary" className="my-0" type="submit"><MDBIcon icon="search" /></MDBBtn>
-                                    </MDBFormInline>
-                                </MDBCol>
-                                <br></br>
+                                {/*<MDBCol md="4" className="searchC">*/}
+                                {/*    <MDBFormInline className="md-form m-0">*/}
+                                {/*        <input className="form-control form-control-sm" type="search" placeholder="Search..." aria-label="Search"/>*/}
+                                {/*        <MDBBtn size="sm" color="secondary" className="my-0" type="submit"><MDBIcon icon="search" /></MDBBtn>*/}
+                                {/*    </MDBFormInline>*/}
+                                {/*</MDBCol>*/}
+                                {/*<br></br>*/}
 
                                 <form>
                                     <MDBTable responsive>

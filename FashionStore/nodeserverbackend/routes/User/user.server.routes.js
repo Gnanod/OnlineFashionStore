@@ -3,15 +3,41 @@ const mongoose = require('mongoose');
 const router = express.Router();
 let UserDetail = require('../../models/User.model')
 
+//
+// router.route('/add').post(function (req,res) {
+//     let userDetail = new UserDetail(req.body);
+//     userDetail.save()
+//         .then(sup=>{
+//             res.status(200).json({'userDetail':'successful'});
+//         }).catch(err=>{
+//         res.status(400).send('fail');
+//     });
+// });
+
 
 router.route('/add').post(function (req,res) {
     let userDetail = new UserDetail(req.body);
-    userDetail.save()
-        .then(sup=>{
-            res.status(200).json({'userDetail':'successful'});
+    console.log("------------------------------------");
+    console.log(req.body);
+    console.log("------------------------------------");
+    UserDetail.findOne({ email: req.body.email , password: req.body.password },)
+        .exec()
+        .then(userValid =>{
+            if( userValid ){
+                res.status(200).json({'userDetail': "userAvailable"});
+            }else{
+                userDetail.save()
+                    .then(sup=>{
+                        res.status(200).json({'userDetail':'successful'});
+                    }).catch(err=>{
+                    res.status(400).send('fail');
+                });
+            }
         }).catch(err=>{
-        res.status(400).send('fail');
-    });
+        res.status(500).json(err);
+    })
+
+
 });
 
 router.route('/getAllusers').get(function (req,res) {

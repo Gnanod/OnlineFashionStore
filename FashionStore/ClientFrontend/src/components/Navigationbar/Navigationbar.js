@@ -253,10 +253,16 @@ export default class Navigationbar extends Component {
                                                                     dob: '',
                                                                     confirmpass: ''
                                                                 })
-                                                            } else {
+                                                            } else if(res.data.userDetail === 'userAvailable') {
                                                                 Swal.fire(
                                                                     '',
-                                                                    'User Details not added !',
+                                                                    'Email already in use !',
+                                                                    'error'
+                                                                )
+                                                            }else{
+                                                                Swal.fire(
+                                                                    '',
+                                                                    'User not Added !',
                                                                     'error'
                                                                 )
                                                             }
