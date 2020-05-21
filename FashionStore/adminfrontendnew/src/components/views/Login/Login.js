@@ -24,9 +24,7 @@ export default  class Login extends Component {
     }
 
     login(){
-        localStorage.setItem("userLogged","userLog");
-        this.props.history.push('/');
-        window.location.reload();
+
     }
 
     validateUser(event){
@@ -44,19 +42,23 @@ export default  class Login extends Component {
                 axios.get(constants.backend_url + 'api/adminDetail/validateUser/' + this.state.loginEmail + '/' + this.state.loginPass)
                     .then(res => {
                             console.log(res)
-                            if (res.data.Message === 'successful') {
-                                Swal.fire(
-                                    '',
-                                    'Login Successful !.',
-                                    'success'
-                                );
+                            if (res.data.Message !=='fail' ) {
+
                                 this.setState({
                                     loginEmail: '',
                                     loginPass:'',
                                     loginEmailV: false,
                                     loginPassV:false
                                 })
-                                this.login();
+                                localStorage.setItem("userLogged","userLogged");
+                                if(res.data.Message.position ==='Admin'){
+                                    localStorage.setItem("Position","Admin");
+                                    console.log("Admin")
+                                }else{
+                                    localStorage.setItem("Position","StoreManager");
+                                }
+                                this.props.history.push('/');
+                                window.location.reload();
                             } else {
                                 Swal.fire(
                                     '',

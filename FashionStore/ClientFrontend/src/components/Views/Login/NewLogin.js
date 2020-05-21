@@ -1,5 +1,16 @@
 import React,{Component} from "react";
-import {MDBMask, MDBRow, MDBCol, MDBBtn, MDBView, MDBContainer, MDBAnimation, MDBAlert} from 'mdbreact';
+import {
+    MDBMask,
+    MDBRow,
+    MDBCol,
+    MDBBtn,
+    MDBView,
+    MDBContainer,
+    MDBAnimation,
+    MDBAlert,
+    MDBModal,
+    MDBModalHeader, MDBModalBody, MDBModalFooter
+} from 'mdbreact';
 import './Login.css';
 import { MDBCard, MDBCardBody, MDBInput} from 'mdbreact';
 import axios from "axios";
@@ -266,14 +277,8 @@ export default  class NewLogin extends Component {
                             if (res.data.Message !== 'unsuccessful') {
                                 localStorage.setItem("CustomerLogged","CustomerLogged");
                                 localStorage.setItem("CustomerId",res.data.Message._id);
-                                // this.context.router.push('/');
                                 this.props.history.push('/');
-                                // browserHistory
-                                // const history = useHistory()
-                                // this.history.pushState(null, '/');
-                                // history.push('/');
                                 window.location.reload();
-
                                 this.setState({
                                     loginEmail: '',
                                     loginPass:'',
@@ -351,6 +356,12 @@ export default  class NewLogin extends Component {
                                                         LOGIN
                                                     </MDBBtn>
                                                 </div>
+                                                <MDBModalFooter className="mx-5 pt-3 mb-1">
+                                                    <p className="font-small grey-text d-flex justify-content-end">
+                                                        Not a member?
+                                                        <MDBBtn outline color="info"  size="sm" onClick={this.toggle2}>Sign In</MDBBtn>
+                                                    </p>
+                                                </MDBModalFooter>
                                             </MDBCardBody>
                                         </form>
 
@@ -366,6 +377,108 @@ export default  class NewLogin extends Component {
                         </MDBRow>
                     </MDBContainer>
                 </MDBView>
+
+                <MDBContainer>
+                    <MDBModal isOpen={this.state.modal2} toggle={this.toggle3}>
+                        <MDBModalHeader toggle={this.toggle3} ></MDBModalHeader>
+                        <MDBModalBody>
+                            <MDBCard>
+                                <MDBCardBody className="mx-2">
+                                    <div className="text-center">
+                                        <h2 className="loginh3 mb-1">
+                                            <strong className="loginh3 ">REGISTER</strong>
+                                        </h2>
+                                    </div>
+                                    {/*<MDBInput label="Your email" group type="email" validate error="wrong" success="right"/>*/}
+                                    {/*<MDBInput label="Your password" group type="password" validate containerClass="mb-0"/>*/}
+
+                                    <form className="needs-validation" onSubmit={this.submitUser} noValidate>
+                                        <MDBRow>
+                                            {/*<MDBCol  md="12" className="mb-3">*/}
+                                            <label htmlFor="firstnameid" className="grey-text">First name</label>
+                                            <input value={this.state.fname} name="fname" onChange={this.onChangeFname} type="text" id="firstnameid" className="form-control" placeholder="First name" required/>
+                                            <div className="invalid-feedback">Please provide the first name.</div>
+
+                                            {/*</MDBCol>*/}
+                                            {/*<MDBCol  md="12" className="mb-3">*/}
+                                            <label htmlFor="lastnameid" className="grey-text">Last name</label>
+                                            <input value={this.state.lname} name="lname" onChange={this.onChangeLname} type="text" id="lastnameid" className="form-control" placeholder="Last name" required/>
+                                            <div className="invalid-feedback">Please provide the last name.</div>
+
+                                            {/*</MDBCol>*/}
+                                            {/*<MDBCol md="4" className="mb-3">*/}
+                                            <label htmlFor="emailid" className="grey-text">Email</label>
+                                            <input value={this.state.email} onChange={this.onChangeEmail}  type="email" id="emailid" className="form-control" name="email" placeholder="Your Email address"/>
+                                            <div className="invalid-feedback">Please provide an email.</div>
+
+                                            {/*</MDBCol>*/}
+                                        </MDBRow>
+                                        <MDBRow>
+                                            {/*<MDBCol md="6" className="mb-0">*/}
+                                            <label htmlFor="phoneid" className="grey-text">Contact number</label>
+                                            <input onChange={this.onChangePhone} type="text" value={this.state.phone} id="phoneid" className="form-control" name="phone" placeholder="Contact number" required/>
+                                            <div className="invalid-feedback">Please provide the contact number</div>
+
+                                            {/*</MDBCol>*/}
+
+                                            {/*<MDBCol md="6" className="mb-0">*/}
+                                            <label htmlFor="phoneid" className="grey-text">Date of Birth</label>
+                                            <input onChange={this.onChangeDOB} type="date" value={this.state.dob} id="dobid" className="form-control" name="dob"  required/>
+                                            <div className="invalid-feedback">Please provide the Date of Birth</div>
+                                            {/*</MDBCol>*/}
+
+                                            {/*<MDBCol md="6" className="mb-0">*/}
+                                            <label htmlFor="passwordid" className="grey-text">Password</label>
+                                            <input onChange={this.onChangePassword} type="password" value={this.state.password} id="passwordid" className="form-control" name="password" placeholder="Password" required/>
+                                            <div className="invalid-feedback">Please provide the password</div>
+
+                                            {/*</MDBCol>*/}
+
+
+                                            {/*<MDBCol md="6" className="mb-0">*/}
+                                            <label htmlFor="conpasswordid" className="grey-text">Confirm Password</label>
+                                            <input onChange={this.onChangeConfirmPassword} type="password" value={this.state.confirmpass} id="conpasswordid" className="form-control" name="confirmpass" placeholder="Confirm Password" required/>
+                                            <div className="invalid-feedback">Please provide the confirm password</div>
+                                            {
+                                                this.state.password != this.state.confirmpass ? <MDBAlert color="danger">
+                                                    password and confirm password does not match
+                                                </MDBAlert> : ''
+                                            }
+
+
+                                            {/*</MDBCol>*/}
+
+                                            {/*<MDBCol md="6" className="mb-0">*/}
+                                            <label htmlFor="genderid" className="grey-text">Gender</label>
+                                            <input value={this.state.gender} onChange={this.onChangeGender} type="text" id="genderid" className="form-control" name="gender" placeholder="Gender" required/>
+                                            {/*<MDBSelect*/}
+                                            {/*    options={this.state.options}*/}
+                                            {/*    selected="Choose your option"*/}
+                                            {/*    color="primary"*/}
+                                            {/*    label="Example label"*/}
+                                            {/*/>*/}
+                                            {/*<select id="cars"  onChange={this.changeHandler}>*/}
+                                            {/*    <option value="volvo">Volvo</option>*/}
+                                            {/*    <option value="saab">Saab</option>*/}
+                                            {/*    <option value="opel">Opel</option>*/}
+                                            {/*    <option value="audi">Audi</option>*/}
+                                            {/*</select>*/}
+                                            <div className="invalid-feedback">Please provide your gender.</div>
+                                            {/*</MDBCol>*/}
+                                        </MDBRow>
+                                        <br></br>
+                                        <MDBBtn  gradient="blue" rounded className="btn-block z-depth-1a" type="submit">
+                                            REGISTER
+                                        </MDBBtn>
+                                    </form>
+                                </MDBCardBody>
+                            </MDBCard>
+                        </MDBModalBody>
+                    </MDBModal>
+                </MDBContainer>
+
+
+
             </div>
         );
     }

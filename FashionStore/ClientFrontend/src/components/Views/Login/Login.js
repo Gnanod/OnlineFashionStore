@@ -269,10 +269,7 @@ export default class Login extends Component{
                                 localStorage.setItem("CustomerObject","CustomerLogged");
                                 // this.context.router.push('/');
                                 this.props.history.push('/profile');
-                                // browserHistory
-                                // const history = useHistory()
-                                // this.history.pushState(null, '/');
-                                 // history.push('/');
+
                                 window.location.reload();
 
                                 this.setState({

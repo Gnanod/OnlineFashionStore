@@ -20,9 +20,7 @@ router.get("/getComment/:id",function (req,res) {
         .exec()
         .then(comment =>{
             if( comment ){
-                console.log("comment")
-                console.log(comment)
-                console.log("comment")
+
                 res.status(200).json(comment);
             }else{
                 res.status(404).json({"message": "not found"});

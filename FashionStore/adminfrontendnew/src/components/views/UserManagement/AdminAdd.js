@@ -74,9 +74,11 @@ export default class AdminManage extends Component {
         this.onChangeConfirmPass2 = this.onChangeConfirmPass2.bind(this);
     }
 
-
     componentDidMount() {
         this.getDetails();
+        if(localStorage.getItem("Position") !=="Admin"){
+            this.props.history.push('/');
+        }
     }
 
     getDetails(){

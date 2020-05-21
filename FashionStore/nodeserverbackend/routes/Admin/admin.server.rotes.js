@@ -43,7 +43,7 @@ router.get("/validateUser/:email/:password",function (req,res) {
         .exec()
         .then(userValid =>{
             if( userValid ){
-                res.status(200).json({"Message": "successful"});
+                res.status(200).json({"Message": userValid});
             }else{
                 console.log("Login failed");
             }

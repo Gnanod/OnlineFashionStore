@@ -61,6 +61,9 @@ export default class profileEdit extends Component {
 
     componentDidMount() {
         this.getDetailuser();
+        if(localStorage.getItem("CustomerLogged")!=="CustomerLogged"){
+            this.props.history.push('/Login');
+        }
     }
 
 

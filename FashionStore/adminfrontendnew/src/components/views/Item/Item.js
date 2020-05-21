@@ -4,7 +4,7 @@ import {
     MDBBtn,
     MDBCard,
     MDBCardBody, MDBCardTitle, MDBCol,
-    MDBIcon,
+    MDBIcon, MDBListGroup,
     MDBListGroupItem, MDBRow
 } from "mdbreact";
 import {NavLink} from "react-router-dom";
@@ -61,6 +61,9 @@ export class Item extends Component{
     componentDidMount() {
         this.getAllBrands();
         this.getAllCategories();
+        if(localStorage.getItem("userLogged")!=="userLogged"){
+            this.props.history.push('/');
+        }
     }
 
     onChangeItemDescription(e) {
@@ -240,9 +243,15 @@ export class Item extends Component{
                         <NavLink exact={true} to="/item" activeClassName="activeClass">
                             <button type="button" className="btn btn-primary">New Item</button>
                         </NavLink>
-                        <NavLink exact={true} to="/item/brandcategory" >
-                            <button type="button" className="btn btn-success"> Brand & Category</button>
-                        </NavLink>
+                        {
+                                localStorage.getItem("Position") ==="StoreManager" ?
+                                    <NavLink exact={true} to="/item/brandcategory" >
+                                        <button type="button" className="btn btn-success"> Brand & Category</button>
+                                    </NavLink>
+                                    :
+                                    ''
+                        }
+
                         <NavLink exact={true} to="/item/itemcolor" >
                             <button type="button" className="btn btn-success"> ItemColor</button>
                         </NavLink>
