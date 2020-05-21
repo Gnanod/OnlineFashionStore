@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-let UserDetail = require('../../models/User.model')
+let userDetails = require('../../models/User.model')
 
 //
 // router.route('/add').post(function (req,res) {
@@ -16,17 +16,17 @@ let UserDetail = require('../../models/User.model')
 
 
 router.route('/add').post(function (req,res) {
-    let userDetail = new UserDetail(req.body);
+    let userDetail = new userDetails(req.body);
     console.log("------------------------------------");
     console.log(req.body);
     console.log("------------------------------------");
-    UserDetail.findOne({ email: req.body.email , password: req.body.password },)
+    userDetails.findOne({ email: req.body.email , password: req.body.password },)
         .exec()
         .then(userValid =>{
             if( userValid ){
                 res.status(200).json({'userDetail': "userAvailable"});
             }else{
-                userDetail.save()
+                userDetails.save()
                     .then(sup=>{
                         res.status(200).json({'userDetail':'successful'});
                     }).catch(err=>{
@@ -42,7 +42,7 @@ router.route('/add').post(function (req,res) {
 
 router.route('/getAllusers').get(function (req,res) {
     console.log("getDetails --- usermanage")
-    UserDetail.find().exec().then(item => {
+    userDetails.find().exec().then(item => {
         console.log(item)
         res.status(200).json(item)
     }).catch(err => {
@@ -55,7 +55,7 @@ router.route('/getDetailuser/:id').get(function (req,res) {
     console.log("getDetailsof the user----------------------------------------------");
     let id = req.params.id;
 
-    UserDetail.find({ _id : id }).exec().then(item => {
+    userDetails.find({ _id : id }).exec().then(item => {
         console.log(item)
         res.status(200).json(item)
     }).catch(err => {
@@ -67,7 +67,7 @@ router.route('/getDetailuser/:id').get(function (req,res) {
 router.get("/validateUser/:email/:password",function (req,res) {
     let email = req.params.email;
     let password = req.params.password;
-    UserDetail.findOne({ email: email, password: password },)
+    userDetails.findOne({ email: email, password: password },)
         .exec()
         .then(userValid =>{
             console.log("User Valid");
@@ -86,7 +86,7 @@ router.get("/validateUser/:email/:password",function (req,res) {
 router.route('/deleteUser/:id').get(function (req, res) {
     let id=req.params.id;
     console.log("Delete Called!");
-    UserDetail.deleteOne({_id:id}).then(sup=>{
+    userDetails.deleteOne({_id:id}).then(sup=>{
          console.log("successful");
         res.status(200).json({'userDelete':'successful'});
     }).catch(err=>{
@@ -99,7 +99,7 @@ router.route('/deleteUser/:id').get(function (req, res) {
 router.route('/seachUser/:cust_name').get(function (req,res) {
     console.log("search entered");
     let name = req.params.cust_name;
-    UserDetail.find({firstName : name}).exec().then(item => {
+    userDetails.find({firstName : name}).exec().then(item => {
         if( item ){
             res.status(200).json(item);
         }else{

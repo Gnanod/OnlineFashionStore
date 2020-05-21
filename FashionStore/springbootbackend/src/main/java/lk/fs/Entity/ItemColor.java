@@ -14,7 +14,6 @@ public class ItemColor {
     private String itemSize;
     private String itemColor;
     private String itemColorsId;
-//    private String image;
     private byte[] image;
     private double quantity;
     private double price;
@@ -75,14 +74,6 @@ public class ItemColor {
         this.image = image;
     }
 
-
-//    public String getImage() {
-//        return image;
-//    }
-//
-//    public void setImage(String image) {
-//        this.image = image;
-//    }
 }
 
 
