@@ -44,10 +44,13 @@ router.get("/validateUser/:email/:password",function (req,res) {
     UserDetail.findOne({ email: email, password: password },)
         .exec()
         .then(userValid =>{
+            console.log("User Valid");
+            console.log(userValid);
+            console.log("User Valid");
             if( userValid ){
-                res.status(200).json({"Message": "successful"});
+                res.status(200).json({"Message": userValid});
             }else{
-                console.log("Login failed");
+                res.status(200).json({"Message": "unsuccessful"});
             }
         }).catch(err=>{
             res.status(500).json(err);
@@ -64,6 +67,22 @@ router.route('/deleteUser/:id').get(function (req, res) {
         console.log("fail");
         res.status(400).send('fail');
     });
+});
+
+
+router.route('/seachUser/:cust_name').get(function (req,res) {
+    console.log("search entered");
+    let name = req.params.cust_name;
+    UserDetail.find({firstName : name}).exec().then(item => {
+        if( item ){
+            res.status(200).json(item);
+        }else{
+            res.status(404).json({"message": "not found"});
+        }
+    })
+        .catch(err=>{
+            res.status(500).json(err);
+        })
 });
 
 module.exports = router;

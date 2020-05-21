@@ -82,6 +82,11 @@ export default class SupplierDetails extends Component{
 
 
     }
+    componentDidMount(){
+        if(localStorage.getItem("userLogged")!=="userLogged"){
+            this.props.history.push('/');
+        }
+    }
         //Supplier ---------------------------------------
 
 

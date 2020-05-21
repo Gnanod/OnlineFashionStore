@@ -1,25 +1,28 @@
-import React, { Component } from 'react';
+import React,{Component} from "react";
 import {
-    MDBContainer,
+    MDBMask,
+    MDBRow,
+    MDBCol,
     MDBBtn,
+    MDBView,
+    MDBContainer,
+    MDBAnimation,
+    MDBAlert,
     MDBModal,
-    MDBModalBody,
-    MDBModalHeader,
-    MDBModalFooter,
-    MDBCard,
-    MDBCardBody, MDBInput, MDBAlert, MDBRow
+    MDBModalHeader, MDBModalBody, MDBModalFooter
 } from 'mdbreact';
+import './Login.css';
+import { MDBCard, MDBCardBody, MDBInput} from 'mdbreact';
 import axios from "axios";
 import constants from "../../Constants/constants";
-import styled from "styled-components";
 import 'sweetalert2/src/sweetalert2.scss';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-import './Login.css'
 
-
-export default class Login extends Component{
-    constructor(props) {
+export default  class NewLogin extends Component {
+    constructor(props){
         super(props);
+        // this.login = this.login.bind(this);
+
         this.state = {
             collapse: false,
             isWideEnough: false,
@@ -40,6 +43,7 @@ export default class Login extends Component{
             loginEmailV: false,
             loginPassV: false
         };
+
         this.onClick = this.onClick.bind(this);
         this.submitUser = this.submitUser.bind(this);
         this.validateUser = this.validateUser.bind(this);
@@ -55,6 +59,12 @@ export default class Login extends Component{
         this.onChangePassV = this.onChangePassV.bind(this);
 
     }
+
+    // login(){
+    //     localStorage.setItem("userLogged","userLog");
+    //     this.props.history.push('/');
+    //     window.location.reload();
+    // }
 
     onClick() {
         this.setState({
@@ -266,12 +276,9 @@ export default class Login extends Component{
                     .then(res => {
                             if (res.data.Message !== 'unsuccessful') {
                                 localStorage.setItem("CustomerLogged","CustomerLogged");
-                                localStorage.setItem("CustomerObject","CustomerLogged");
-                                // this.context.router.push('/');
-                                this.props.history.push('/profile');
-
+                                localStorage.setItem("CustomerId",res.data.Message._id);
+                                this.props.history.push('/');
                                 window.location.reload();
-
                                 this.setState({
                                     loginEmail: '',
                                     loginPass:'',
@@ -306,60 +313,70 @@ export default class Login extends Component{
         }
     };
 
+
     render() {
         return (
-            <div>
-                {this.props.children}
-                <MDBContainer>
+            <div id='apppage'>
+                <MDBView>
+                    <MDBMask className='white-text gradient' />
+                    <MDBContainer
+                        style={{ height: '100%', width: '100%', paddingTop: '10rem' }}
+                        className='d-flex justify-content-center white-text align-items-center'
+                    >
+                        <MDBRow>
+                            <MDBCol md='12' className='text-center text-md-left mt-xl-5 mb-5'>
+                                <MDBAnimation type='fadeInLeft' delay='.3s'>
+                                    <MDBCard className="loginContainer" >
+                                        <form className="needs-validation" onSubmit={this.validateUser} >
+                                            <MDBCardBody className="mx-4">
+                                                <div className="text-center">
+                                                    <h3 className="dark-grey-text mb-5">
+                                                        <strong>Admin Login</strong>
+                                                    </h3>
+                                                </div>
+                                                <MDBInput label="Your email" group type="email" validate error="wrong" success="right" value={this.state.loginEmail} onChange={this.onChangeEmailV}/>
+                                                {
+                                                    this.state.loginEmailV  ?
+                                                        <MDBAlert color="danger">
+                                                            Please enter a value for email !
+                                                        </MDBAlert> : ''
+                                                }
 
-                    {/*<MDBBtn color="primary" onClick={this.toggle}>Login</MDBBtn>*/}
-                    <MDBBtn color="dark" onClick={this.toggle}> <i className="fas fa-user"></i>&nbsp;&nbsp;&nbsp;Login</MDBBtn>
-                    <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
-                        <MDBModalHeader toggle={this.toggle} ></MDBModalHeader>
-                        <MDBModalBody>
-                            <form className="needs-validation" onSubmit={this.validateUser} >
-                                <MDBCard>
-                                    <MDBCardBody className="mx-4">
-                                        <div className="text-center">
-                                            <h2 className="loginh3 mb-5">
-                                                <strong className="loginh3 ">LOGIN</strong>
-                                            </h2>
-                                        </div>
-                                        {/*<input value={this.state.loginEmail} onChange={this.onChangeEmailV}/>*/}
-                                        <MDBInput label="Your email" group type="email" validate error="wrong" success="right" value={this.state.loginEmail} onChange={this.onChangeEmailV}/>
-                                        {
-                                            this.state.loginEmailV  ?
-                                                <MDBAlert color="danger">
-                                                    Please enter a value for email !
-                                                </MDBAlert> : ''
-                                        }
-                                        <br/>
-                                        {/*<input value={this.state.loginPass} onChange={this.onChangePassV}/>*/}
-                                        <MDBInput label="Your password" group type="password" validate containerClass="mb-0" value={this.state.loginPass} onChange={this.onChangePassV}/>
-                                        {
-                                            this.state.loginPassV  ?
-                                                <MDBAlert color="danger">
-                                                    Please enter a value for email !
-                                                </MDBAlert> : ''
-                                        }
-                                        <br/>
-                                        <div className="text-center mb-3">
-                                            <MDBBtn type="submit" gradient="blue" rounded className="btn-block z-depth-1a">
-                                                LOGIN
-                                            </MDBBtn>
-                                        </div>
-                                    </MDBCardBody>
-                                </MDBCard>
-                                <MDBModalFooter className="mx-5 pt-3 mb-1">
-                                    <p className="font-small grey-text d-flex justify-content-end">
-                                        Not a member?
-                                        <MDBBtn outline color="info"  size="sm" onClick={this.toggle2}>Sign In</MDBBtn>
-                                    </p>
-                                </MDBModalFooter>
-                            </form>
-                        </MDBModalBody>
-                    </MDBModal>
-                </MDBContainer>
+                                                {/*<input value={this.state.loginPass} onChange={this.onChangePassV}/>*/}
+                                                <MDBInput label="Your password" group type="password" validate containerClass="mb-0" value={this.state.loginPass} onChange={this.onChangePassV}/>
+                                                {
+                                                    this.state.loginPassV  ?
+                                                        <MDBAlert color="danger">
+                                                            Please enter a value for email !
+                                                        </MDBAlert> : ''
+                                                }
+
+                                                <div className="text-center mb-3">
+                                                    <MDBBtn type="submit" color='pink' className="btn-block z-depth-1a buttonSign " onClick={this.login}>
+                                                        LOGIN
+                                                    </MDBBtn>
+                                                </div>
+                                                <MDBModalFooter className="mx-5 pt-3 mb-1">
+                                                    <p className="font-small grey-text d-flex justify-content-end">
+                                                        Not a member?
+                                                        <MDBBtn outline color="info"  size="sm" onClick={this.toggle2}>Sign In</MDBBtn>
+                                                    </p>
+                                                </MDBModalFooter>
+                                            </MDBCardBody>
+                                        </form>
+
+                                    </MDBCard>
+                                </MDBAnimation>
+                            </MDBCol>
+
+                            <MDBCol md='6' xl='6' className='mt-xl-5'>
+                                <MDBAnimation type='fadeInRight' delay='.3s'>
+                                    <img src='/image/Bag.png' alt='' className='img-fluid'/>
+                                </MDBAnimation>
+                            </MDBCol>
+                        </MDBRow>
+                    </MDBContainer>
+                </MDBView>
 
                 <MDBContainer>
                     <MDBModal isOpen={this.state.modal2} toggle={this.toggle3}>
@@ -459,27 +476,10 @@ export default class Login extends Component{
                         </MDBModalBody>
                     </MDBModal>
                 </MDBContainer>
+
+
+
             </div>
         );
     }
 }
-
-const ButtonContainer = styled.button`
- text-transform:capitalize;
- font-size:1rem;
- background:transparent; 
- color:#fff;
- border-radius:0.4rem;
- border:0rem;
- cursor:pointer;
- transition:all 0.5s ease-in-out;
- &:hover{
-    background-color: black;
- }
-  &:focus{
-    outline:none;
- }
- 
-`;
-
-

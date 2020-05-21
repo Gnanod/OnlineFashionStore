@@ -17,7 +17,6 @@ import {
 import './profile.css';
 import 'sweetalert2/src/sweetalert2.scss';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-import {colors} from "@material-ui/core";
 import axios from "axios";
 import constants from "../../Constants/constants";
 
@@ -30,7 +29,7 @@ export default class profile extends Component {
             feedback: '',
             CustfName: '',
             CustLName:'',
-            CustomerId: '5ec435ed074a421dc8129829',
+            CustomerId: localStorage.getItem("CustomerId"),
             detailList:[]
         };
         this.sweetalertfunction = this.sweetalertfunction.bind(this);
@@ -42,6 +41,9 @@ export default class profile extends Component {
 
     componentDidMount() {
         this.getDetailuser();
+        if(localStorage.getItem("CustomerLogged")!=="CustomerLogged"){
+            this.props.history.push('/Login');
+        }
     }
     sweetalertfunction(){
         console.log("button clicks");

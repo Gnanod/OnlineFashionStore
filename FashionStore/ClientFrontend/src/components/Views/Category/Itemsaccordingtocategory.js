@@ -10,12 +10,10 @@ export class Itemsaccordingtocategory extends Component {
         this.state = {
             id: '',
             newItems:[]
-
         }
         this.getItemDetailsAccordingtoCategory = this.getItemDetailsAccordingtoCategory.bind(this);
     }
     componentDidMount() {
-
         console.log(this.props.match.params.id)
         this.setState({
             id:this.props.match.params.id

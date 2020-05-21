@@ -41,6 +41,12 @@ export default class SupplierTable extends Component{
 
     }
 
+    componentDidMount(){
+        if(localStorage.getItem("userLogged")!=="userLogged"){
+            this.props.history.push('/');
+        }
+    }
+
     getAllSuppliers() {
         axios.get(constants.backend_url + 'api/supplier/getAllSuppliers').then(response => {
             this.setState({suppliers: response.data});

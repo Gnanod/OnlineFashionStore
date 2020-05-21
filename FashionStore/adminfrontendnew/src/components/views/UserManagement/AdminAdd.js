@@ -74,9 +74,11 @@ export default class AdminManage extends Component {
         this.onChangeConfirmPass2 = this.onChangeConfirmPass2.bind(this);
     }
 
-
     componentDidMount() {
         this.getDetails();
+        if(localStorage.getItem("Position") !=="Admin"){
+            this.props.history.push('/');
+        }
     }
 
     getDetails(){
@@ -258,46 +260,6 @@ export default class AdminManage extends Component {
         );
         this.getDetails();
     }
-
-
-    //
-    //     sweetalertfunction(){
-    //     console.log("button clicks");
-    //     const swalWithBootstrapButtons = Swal.mixin({
-    //         customClass: {
-    //             confirmButton: 'btn btn-success',
-    //             cancelButton: 'btn btn-danger'
-    //         },
-    //         buttonsStyling: false
-    //     })
-    //
-    //     swalWithBootstrapButtons.fire({
-    //         title: 'Are you sure?',
-    //         text: "You won't be able to revert this!",
-    //         icon: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonText: 'Yes, delete it!',
-    //         cancelButtonText: 'No, cancel!',
-    //         reverseButtons: true
-    //     }).then((result) => {
-    //         if (result.value) {
-    //             swalWithBootstrapButtons.fire(
-    //                 'Deleted!',
-    //                 'Customer deleted.',
-    //                 'success'
-    //             )
-    //         } else if (
-    //             /* Read more about handling dismissals below */
-    //             result.dismiss === Swal.DismissReason.cancel
-    //         ) {
-    //             swalWithBootstrapButtons.fire(
-    //                 'Cancelled',
-    //                 'Customer details not deleted',
-    //                 'error'
-    //             )
-    //         }
-    //     })
-    // }
 
     sweetalertfunction(id){
         console.log("button clicks");
@@ -547,96 +509,8 @@ export default class AdminManage extends Component {
 
                                                     )
                                                 })}
-
-
-                                            {/*<tr>*/}
-                                            {/*    <td>Divyani</td>*/}
-                                            {/*    <td>Rajapakshe</td>*/}
-                                            {/*    <td>Divyani@gmail.com</td>*/}
-
-                                            {/*    <td>*/}
-                                            {/*        <MDBBtn tag="a" size="sm" color="success"  >*/}
-                                            {/*            <MDBIcon size="lg" icon="pen" />*/}
-                                            {/*        </MDBBtn>&nbsp;&nbsp;&nbsp;*/}
-
-                                            {/*        <MDBBtn tag="a" size="sm" color="danger"  onClick={this.sweetalertfunction}>*/}
-                                            {/*            <MDBIcon size="lg" icon="times-circle" />*/}
-                                            {/*        </MDBBtn>*/}
-                                            {/*    </td>*/}
-                                            {/*</tr>*/}
-                                            {/*<tr>*/}
-                                            {/*    <td>Tinali</td>*/}
-                                            {/*    <td>Masha</td>*/}
-                                            {/*    <td>Tinali@gmail.com</td>*/}
-
-                                            {/*    <td>*/}
-                                            {/*        <MDBBtn tag="a" size="sm" color="danger" onClick={this.sweetalertfunction}>*/}
-                                            {/*            <MDBIcon size="lg" icon="times-circle" />*/}
-                                            {/*        </MDBBtn>*/}
-                                            {/*    </td>*/}
-                                            {/*</tr>*/}
-                                            {/*<tr>*/}
-                                            {/*    <td>Gnanod</td>*/}
-                                            {/*    <td>Akalanka</td>*/}
-                                            {/*    <td>1995Gnanod@gmail.com</td>*/}
-
-                                            {/*    <td>*/}
-                                            {/*        <MDBBtn tag="a" size="sm" color="danger" onClick={this.sweetalertfunction}>*/}
-                                            {/*            <MDBIcon size="lg" icon="times-circle" />*/}
-                                            {/*        </MDBBtn>*/}
-                                            {/*    </td>*/}
-                                            {/*</tr>*/}
-                                            {/*<tr>*/}
-                                            {/*    <td>Samitha</td>*/}
-                                            {/*    <td>Vidhanaarachchi</td>*/}
-                                            {/*    <td>samithavidhanaarachchi@gmail.com</td>*/}
-                                            {/*    <td>*/}
-                                            {/*        <MDBBtn tag="a" size="sm" color="danger" onClick={this.sweetalertfunction}>*/}
-                                            {/*            <MDBIcon size="lg" icon="times-circle" />*/}
-                                            {/*        </MDBBtn>*/}
-                                            {/*    </td>*/}
-                                            {/*</tr>*/}
                                         </MDBTableBody>
                                     </MDBTable>
-                                    {/*<MDBPagination circle className="justify-content-center">*/}
-                                    {/*    <MDBPageItem disabled>*/}
-                                    {/*        <MDBPageNav className="page-link" aria-label="Previous">*/}
-                                    {/*            <span aria-hidden="true">&laquo;</span>*/}
-                                    {/*            <span className="sr-only">Previous</span>*/}
-                                    {/*        </MDBPageNav>*/}
-                                    {/*    </MDBPageItem>*/}
-                                    {/*    <MDBPageItem active >*/}
-                                    {/*        <MDBPageNav className="page-link secondary-color" >*/}
-                                    {/*            1 <span className="sr-only " >(current)</span>*/}
-                                    {/*        </MDBPageNav>*/}
-                                    {/*    </MDBPageItem>*/}
-                                    {/*    <MDBPageItem>*/}
-                                    {/*        <MDBPageNav className="page-link">*/}
-                                    {/*            2*/}
-                                    {/*        </MDBPageNav>*/}
-                                    {/*    </MDBPageItem>*/}
-                                    {/*    <MDBPageItem>*/}
-                                    {/*        <MDBPageNav className="page-link">*/}
-                                    {/*            3*/}
-                                    {/*        </MDBPageNav>*/}
-                                    {/*    </MDBPageItem>*/}
-                                    {/*    <MDBPageItem>*/}
-                                    {/*        <MDBPageNav className="page-link">*/}
-                                    {/*            4*/}
-                                    {/*        </MDBPageNav>*/}
-                                    {/*    </MDBPageItem>*/}
-                                    {/*    <MDBPageItem>*/}
-                                    {/*        <MDBPageNav className="page-link">*/}
-                                    {/*            5*/}
-                                    {/*        </MDBPageNav>*/}
-                                    {/*    </MDBPageItem>*/}
-                                    {/*    <MDBPageItem>*/}
-                                    {/*        <MDBPageNav className="page-link">*/}
-                                    {/*            &raquo;*/}
-                                    {/*        </MDBPageNav>*/}
-                                    {/*    </MDBPageItem>*/}
-                                    {/*</MDBPagination>*/}
-
                                     <div style={{"float" : "left" , "color" : "#6f42c1"}}> Showing Page {currentPage} of {totalPages} </div>
                                     <div style={{"float" : "right" }}>
                                         <InputGroup>
@@ -645,7 +519,7 @@ export default class AdminManage extends Component {
                                                 <MDBBtn color="secondary" size="sm" disabled={currentPage === 1 ? true : false}  onClick={this.firstPage}>First</MDBBtn>
                                                 <MDBBtn color="secondary" size="sm" disabled={currentPage === 1 ? true : false} onClick={this.prevPage} >Prev</MDBBtn>
                                             </MDBBtnGroup>
-                                            {/*<FormControl className="pageNumCss" ></FormControl>*/}
+
                                             <input type="text" className="pageNumCss" name="currentPage" value={currentPage} onChange={this.changePage} disabled/>
                                             <InputGroup.Append>
                                                 <MDBBtnGroup>

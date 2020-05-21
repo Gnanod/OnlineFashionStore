@@ -64,6 +64,9 @@ export default class ItemColor extends Component {
     componentDidMount() {
         this.getAllItemCodes();
         this.getAllItemSizes();
+        if(localStorage.getItem("userLogged")!=="userLogged"){
+            this.props.history.push('/');
+        }
     }
 
 
