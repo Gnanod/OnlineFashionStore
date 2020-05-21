@@ -193,7 +193,6 @@ export default class NewLogin extends Component {
                                     if (this.state.confirmpass != '') {
                                         if (this.state.dob != '') {
                                             if (this.state.image !== ' ') {
-
                                                 console.log("Validation complete");
                                                 if(this.state.gender == 'Male' || this.state.gender == 'Female' ){
                                                     if(this.state.gender == 'Male'){
@@ -229,7 +228,7 @@ export default class NewLogin extends Component {
                                                         .then(res => {
                                                                 console.log(res)
                                                                 console.log(newuserDetail);
-                                                                if (res.data.userDetail === 'successful') {
+                                                                if (res.status === 200) {
                                                                     Swal.fire(
                                                                         '',
                                                                         'User Details added successfully !.',
