@@ -31,7 +31,7 @@ export default class profileEdit extends Component {
             feedback: '',
             CustfName: '',
             CustLName:'',
-            CustomerId: '5ec585ec94977c23601cb0f7',
+            CustomerId:  localStorage.getItem("CustomerId"),
             detailList:[],
             selectedId : '',
             selectedFName : '',

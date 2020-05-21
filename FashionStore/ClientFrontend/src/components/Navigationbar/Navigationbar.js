@@ -52,7 +52,7 @@ export default class Navigationbar extends Component {
 
                             <MDBNavItem>
                                 <MDBNavLink to="/" className="ml-auto">
-                                    <MDBBtn color="dark"> &nbsp;&nbsp;&nbsp;Home</MDBBtn>
+                                    <MDBBtn color="#000"> &nbsp;&nbsp;&nbsp;Home</MDBBtn>
                                 </MDBNavLink>
                             </MDBNavItem>
                             {
@@ -60,7 +60,7 @@ export default class Navigationbar extends Component {
 
                                     <MDBNavItem>
                                         <MDBNavLink to="/profile" className="ml-auto">
-                                            <MDBBtn color="dark"> <i className="fas fa-user"></i>&nbsp;&nbsp;&nbsp;Profile</MDBBtn>
+                                            <MDBBtn color="#000"> <i className="fas fa-user"></i>&nbsp;&nbsp;&nbsp;Profile</MDBBtn>
                                         </MDBNavLink>
                                     </MDBNavItem>
                                     :
@@ -70,7 +70,7 @@ export default class Navigationbar extends Component {
                                 localStorage.getItem("CustomerLogged") === "CustomerLogged" ?
                                     <MDBNavItem>
                                         <MDBNavLink to="/cart" className="ml-auto">
-                                            <MDBBtn color="dark"> <i className="fas fa-cart-plus"></i>&nbsp;&nbsp;&nbsp;Cart</MDBBtn>
+                                            <MDBBtn color="#000"> <i className="fas fa-cart-plus"></i>&nbsp;&nbsp;&nbsp;Cart</MDBBtn>
                                         </MDBNavLink>
                                     </MDBNavItem>
                                     :
@@ -83,7 +83,7 @@ export default class Navigationbar extends Component {
                                 localStorage.getItem("CustomerLogged") === "CustomerLogged" ?
                                     <MDBNavItem>
                                         <MDBNavLink to="/Wishlist" className="ml-auto">
-                                            <MDBBtn color="dark"> <i className="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;WishList</MDBBtn>
+                                            <MDBBtn color="#000"> <i className="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;WishList</MDBBtn>
                                         </MDBNavLink>
                                     </MDBNavItem>
                                     :
@@ -95,13 +95,13 @@ export default class Navigationbar extends Component {
 
                                     <MDBNavItem>
                                         <MDBNavLink to="/logout" className="ml-auto">
-                                            <MDBBtn color="dark"> <i className="fas fa-user"></i>&nbsp;&nbsp;&nbsp;LogOut</MDBBtn>
+                                            <MDBBtn color="#000"> <i className="fas fa-user"></i>&nbsp;&nbsp;&nbsp;LogOut</MDBBtn>
                                         </MDBNavLink>
                                     </MDBNavItem>
                                     :
                                     <MDBNavItem>
                                         <MDBNavLink to="/Login" className="ml-auto">
-                                            <MDBBtn color="dark"> <i className="fas fa-user"></i>&nbsp;&nbsp;&nbsp;Login</MDBBtn>
+                                            <MDBBtn color="#000"> <i className="fas fa-user"></i>&nbsp;&nbsp;&nbsp;Login</MDBBtn>
                                         </MDBNavLink>
                                     </MDBNavItem>
                             }
