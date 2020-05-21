@@ -241,15 +241,15 @@ class Cart extends Component {
 
         <div>
 
+                <br/>
+                <CartColumns></CartColumns>
+                <br/>
         {this.state.cartList.map(item => {
                 const base64String = btoa(new Uint8Array(item.image.data).reduce(function (data, byte) {
                     return data + String.fromCharCode(byte);
                 }, ''));
             return(
-                <div>
-                    <br/>
-                    <CartColumns></CartColumns>
-                    <br/>
+
                 <div className="row my-1  text-center justify-content">
                     <div className="col-10 mx-auto col-lg-2">
                         <MDBCard style={{height: "11.5rem",width:"11.5rem"}}>
@@ -307,7 +307,7 @@ class Cart extends Component {
 
 
                 </div>
-                </div>
+
 
             )
 
