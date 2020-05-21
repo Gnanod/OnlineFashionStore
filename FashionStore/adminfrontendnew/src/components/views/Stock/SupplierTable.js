@@ -53,7 +53,7 @@ export default class SupplierTable extends Component{
         console.log(this.state.suppliers);
     }
 
-    sweetalertfunction(){
+    sweetalertfunction(id){
         console.log("button clicks");
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -72,12 +72,27 @@ export default class SupplierTable extends Component{
             cancelButtonText: 'No, cancel!',
             reverseButtons: true
         }).then((result) => {
+            console.log("suppppp");
             if (result.value) {
-                swalWithBootstrapButtons.fire(
-                    'Deleted!',
-                    'Supplier deleted.',
-                    'success'
-                )
+                console.log("outside of deleteSupplier");
+                axios.get(constants.backend_url + 'api/supplier/deleteSuppliers/'+ id).then(response => {
+                    console.log("Inside of deleteSupplier");
+                    if (response.data.supplierDelete === 'success') {
+                        swalWithBootstrapButtons.fire(
+                            '',
+                            'Delete Failed !.',
+                            'error'
+                        )
+                    }else {
+                        Swal.fire(
+                            '',
+                            'Customer Deleted !',
+                            'success'
+                        )
+                        this.getAllSuppliers();
+                    }
+                })
+
             } else if (
                 /* Read more about handling dismissals below */
                 result.dismiss === Swal.DismissReason.cancel
@@ -159,14 +174,14 @@ export default class SupplierTable extends Component{
 
                         </MDBTableHead>
                         {
-                            this.state.empty ?
+                            suppliersArr.length === 0 ?
                                 <tr >
-                                    <td colSpan="2">
+                                    <td colSpan="12" style={{textAlign : "center", fontWeight: "bold"}}>
                                         <MDBAlert color="danger" >
-                                            No Users Registered
+                                            No Suppliers Registered
                                         </MDBAlert>
                                     </td>
-                                </tr>:
+                                </tr> :
                                 suppliersArr.map(sup => {
 
                                     return(
@@ -187,7 +202,7 @@ export default class SupplierTable extends Component{
                                                 <td>{sup.country}</td>
                                                 <td>{sup.state}</td>
                                                 <td>
-                                                    <MDBBtn tag="a" size="sm" color="danger"  onClick={this.sweetalertfunction}>
+                                                    <MDBBtn tag="a" size="sm" color="danger" onClick={() => this.sweetalertfunction(sup._id)} >
                                                         <MDBIcon size="lg" icon="times-circle" />
                                                     </MDBBtn>
                                                 </td>
