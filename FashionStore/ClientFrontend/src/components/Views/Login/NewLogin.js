@@ -192,7 +192,7 @@ export default class NewLogin extends Component {
                                 if (this.state.password != '') {
                                     if (this.state.confirmpass != '') {
                                         if (this.state.dob != '') {
-                                            if (this.state.image !== ' ') {
+                                            if (this.state.imageName !== ' ') {
                                                 console.log("Validation complete");
                                                 if(this.state.gender == 'Male' || this.state.gender == 'Female' ){
                                                     if(this.state.gender == 'Male'){
@@ -200,6 +200,9 @@ export default class NewLogin extends Component {
                                                     }else{
                                                         this.state.FemaleCount = this.state.FemaleCount + 1;
                                                     }
+
+
+
                                                     const newuserDetail = {
                                                         firstName: this.state.fname,
                                                         lastName: this.state.lname,
@@ -211,29 +214,57 @@ export default class NewLogin extends Component {
                                                         male:this.state.MaleCount,
                                                         female:this.state.FemaleCount
                                                     }
-                                                    let formData = new FormData();
-                                                    formData.append('file',  this.state.image);
-                                                    formData.append('firstName',  this.state.fname);
-                                                    formData.append('lastName', this.state.lname);
-                                                    formData.append('phoneNumber', this.state.phone);
-                                                    formData.append('gender', this.state.gender);
-                                                    formData.append('email', this.state.email);
-                                                    formData.append('password',this.state.password);
-                                                    formData.append('dob',this.state.dob);
-                                                    formData.append('male',this.state.MaleCount);
-                                                    formData.append('female',this.state.FemaleCount);
 
-
-                                                    axios.post(constants.spring_backend_url + 'UserDetailController/addUser', formData)
+                                                    axios.post(constants.backend_url + 'api/userDetail/add', newuserDetail)
                                                         .then(res => {
                                                                 console.log(res)
                                                                 console.log(newuserDetail);
-                                                                if (res.status === 200) {
-                                                                    Swal.fire(
-                                                                        '',
-                                                                        'User Details added successfully !.',
-                                                                        'success'
-                                                                    );
+                                                                if (res.data.userDetail === 'successful') {
+                                                                    console.log("########################## success");
+                                                                    let formData = new FormData();
+                                                                    formData.append('file',  this.state.image);
+                                                                    formData.append('firstName',  this.state.fname);
+                                                                    formData.append('lastName', this.state.lname);
+                                                                    formData.append('phoneNumber', this.state.phone);
+                                                                    formData.append('gender', this.state.gender);
+                                                                    formData.append('email', this.state.email);
+                                                                    formData.append('password',this.state.password);
+                                                                    formData.append('dob',this.state.dob);
+                                                                    formData.append('male',this.state.MaleCount);
+                                                                    formData.append('female',this.state.FemaleCount);
+
+                                                                    axios.post(constants.spring_backend_url + 'UserDetailController/addUser', formData)
+                                                                        .then(res => {
+                                                                                if (res.status === 200) {
+                                                                                    Swal.fire(
+                                                                                        '',
+                                                                                        'User Details added successfully !.',
+                                                                                        'success'
+                                                                                    );
+                                                                                    this.setState({
+                                                                                        fname: '',
+                                                                                        lname: '',
+                                                                                        email: '',
+                                                                                        gender: '',
+                                                                                        password: '',
+                                                                                        phone: '',
+                                                                                        dob: '',
+                                                                                        confirmpass: '',
+                                                                                        imageName: ' ',
+                                                                                        imageURLValidation: false,
+                                                                                        imageValidation: false,
+                                                                                        imageURL: ' ',
+                                                                                        image: ''
+                                                                                    })
+                                                                                } else {
+                                                                                    Swal.fire(
+                                                                                        '',
+                                                                                        'User Details not added !',
+                                                                                        'error'
+                                                                                    )
+                                                                                }
+                                                                            }
+                                                                        );
                                                                     this.setState({
                                                                         fname: '',
                                                                         lname: '',
@@ -244,15 +275,75 @@ export default class NewLogin extends Component {
                                                                         dob: '',
                                                                         confirmpass: ''
                                                                     })
-                                                                } else {
+                                                                } else if(res.data.userDetail === 'userAvailable') {
                                                                     Swal.fire(
                                                                         '',
-                                                                        'User Details not added !',
+                                                                        'Email already in use !',
                                                                         'error'
                                                                     )
+                                                                }else{
+                                                                    Swal.fire(
+                                                                        '',
+                                                                        'User not Added !',
+                                                                        'error'
+                                                                    )
+                                                                    this.setState({
+                                                                        fname: '',
+                                                                        lname: '',
+                                                                        email: '',
+                                                                        gender: '',
+                                                                        password: '',
+                                                                        phone: '',
+                                                                        dob: '',
+                                                                        confirmpass: ''
+                                                                    })
                                                                 }
                                                             }
                                                         );
+
+
+                                                    // let formData = new FormData();
+                                                    // formData.append('file',  this.state.image);
+                                                    // formData.append('firstName',  this.state.fname);
+                                                    // formData.append('lastName', this.state.lname);
+                                                    // formData.append('phoneNumber', this.state.phone);
+                                                    // formData.append('gender', this.state.gender);
+                                                    // formData.append('email', this.state.email);
+                                                    // formData.append('password',this.state.password);
+                                                    // formData.append('dob',this.state.dob);
+                                                    // formData.append('male',this.state.MaleCount);
+                                                    // formData.append('female',this.state.FemaleCount);
+
+
+                                                    // axios.post(constants.spring_backend_url + 'UserDetailController/addUser', formData)
+                                                    //     .then(res => {
+                                                    //             console.log(res)
+                                                    //             console.log(newuserDetail);
+                                                    //             if (res.status === 200) {
+                                                    //                 Swal.fire(
+                                                    //                     '',
+                                                    //                     'User Details added successfully !.',
+                                                    //                     'success'
+                                                    //                 );
+                                                    //                 this.setState({
+                                                    //                     fname: '',
+                                                    //                     lname: '',
+                                                    //                     email: '',
+                                                    //                     gender: '',
+                                                    //                     password: '',
+                                                    //                     phone: '',
+                                                    //                     dob: '',
+                                                    //                     confirmpass: ''
+                                                    //                 })
+                                                    //             } else {
+                                                    //                 Swal.fire(
+                                                    //                     '',
+                                                    //                     'User Details not added !',
+                                                    //                     'error'
+                                                    //                 )
+                                                    //             }
+                                                    //         }
+                                                    //     );
 
                                             } else {
                                                     Swal.fire(
@@ -264,6 +355,12 @@ export default class NewLogin extends Component {
 
 
                                         } else {
+
+                                                Swal.fire(
+                                                    '',
+                                                    'Add an image !',
+                                                    'error'
+                                                )
 
                                                 this.setState({
                                                     imageValidation: true
@@ -295,32 +392,10 @@ export default class NewLogin extends Component {
         } else {
             console.log("fname == ''");
         }
-    }
-
-    else {
-    console
-.
-
-    log(
-
-    "pass != confirm pass"
-)
-    ;
-    Swal
-.
-
-    fire(
-
-    ''
-,
-    'password and confirm password are not the same !'
-,
-    'error'
-)
-    ;
-}
-}
-;
+    } else {console.log("pass != confirm pass");
+    Swal.fire('',
+    'password and confirm password are not the same !',
+    'error');}};
 
 
 validateUser(event)
@@ -473,11 +548,11 @@ render()
                             </MDBAnimation>
                         </MDBCol>
 
-                        <MDBCol md='6' xl='6' className='mt-xl-5'>
-                            <MDBAnimation type='fadeInRight' delay='.3s'>
-                                <img src='/image/Bag.png' alt='' className='img-fluid'/>
-                            </MDBAnimation>
-                        </MDBCol>
+                        {/*<MDBCol md='6' xl='6' className='mt-xl-5'>*/}
+                        {/*    <MDBAnimation type='fadeInRight' delay='.3s'>*/}
+                        {/*        <img src='/image/Bag.png' alt='' className='img-fluid'/>*/}
+                        {/*    </MDBAnimation>*/}
+                        {/*</MDBCol>*/}
                     </MDBRow>
                 </MDBContainer>
             </MDBView>
@@ -528,7 +603,7 @@ render()
                                         <label htmlFor="phoneid" className="grey-text">Contact number</label>
                                         <input onChange={this.onChangePhone} type="text" value={this.state.phone}
                                                id="phoneid" className="form-control" name="phone"
-                                               placeholder="Contact number" required/>
+                                               placeholder="Contact number"  required/>
                                         <div className="invalid-feedback">Please provide the contact number</div>
 
                                         {/*</MDBCol>*/}
@@ -573,29 +648,40 @@ render()
                                                required/>
 
                                         <div className="invalid-feedback">Please provide your gender.</div>
+
+
                                         {
                                             this.state.imageURLValidation ?
 
 
-                                                <MDBCardImage className="imageSize"
-                                                              src={this.state.imageUrl}
-                                                              waves/>
+                                                <MDBCol style={{width: "200px"}}>
+                                                    <MDBCard>
+                                                        <MDBCardImage className="imageSize"
+                                                                      src={this.state.imageUrl}
+                                                                      waves/>
+                                                        <button className="btnClass"
+                                                                onClick={this.removePhoto}>Remove</button>
+                                                    </MDBCard>
+                                                </MDBCol>
 
 
-                                                : ''
+                                                :
+                                                ''
                                         }
-                                        {
-                                            this.state.imageURLValidation ?
-                                                <button className="btnClass"
-                                                        onClick={this.removePhoto}>Remove</button> : ''
-                                        }
+                                        {/*{*/}
+                                        {/*    this.state.imageURLValidation ?*/}
+                                        {/*        <button className="btnClass"*/}
+                                        {/*                onClick={this.removePhoto}>Remove</button> : ''*/}
+                                        {/*}*/}
+                                        {/*    */}
 
 
                                     </MDBRow>
                                     <br/>
 
-                                    <MDBRow>
-                                        <MDBCol size="9">
+                                    <MDBRow className="imageC">
+                                        <label htmlFor="imageid" className="grey-text  ">Image</label>
+                                        <MDBCol size="12" >
 
                                             <div className="input-group">
                                                 <div className="input-group-prepend">

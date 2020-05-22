@@ -20,18 +20,14 @@ router.route('/add').post(function (req,res) {
     console.log("------------------------------------");
     console.log(req.body);
     console.log("------------------------------------");
-    userDetails.findOne({ email: req.body.email , password: req.body.password },)
+    userDetails.findOne({ email: req.body.email  },)
         .exec()
         .then(userValid =>{
             if( userValid ){
                 res.status(200).json({'userDetail': "userAvailable"});
             }else{
-                userDetails.save()
-                    .then(sup=>{
-                        res.status(200).json({'userDetail':'successful'});
-                    }).catch(err=>{
-                    res.status(400).send('fail');
-                });
+                console.log("**************success");
+                res.status(200).json({'userDetail':'successful'});
             }
         }).catch(err=>{
         res.status(500).json(err);

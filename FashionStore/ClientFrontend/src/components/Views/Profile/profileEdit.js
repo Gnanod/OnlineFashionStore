@@ -158,7 +158,10 @@ export default class profileEdit extends Component {
                             'Customer Deleted !',
                             'success'
                         )
-                        this.getDetailuser();
+                        localStorage.removeItem('CustomerLogged');
+                        localStorage.removeItem('CustomerId');
+                        this.props.history.push('/');
+                        window.location.reload();
                     }
                 })
 
