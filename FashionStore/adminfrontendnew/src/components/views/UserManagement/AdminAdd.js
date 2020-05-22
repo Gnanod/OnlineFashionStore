@@ -454,14 +454,11 @@ export default class AdminManage extends Component {
                 <MDBCard className="mb-5">
                     <MDBCardBody id="breadcrumb" className="d-flex align-items-center justify-content-between">
 
-                        <NavLink exact={true} to="/usermanage" activeClassName="activeClass">
-                            <button type="button" className="btn btn-primary">User Details</button>
-                        </NavLink>
-                        <NavLink exact={true} to="/usermanage/useranalysis" >
-                            <button type="button" className="btn btn-success "> User Analysis</button>
-                        </NavLink>
                         <NavLink exact={true} to="/usermanage/adminmanage" >
-                            <button type="button" className="btn btn-success "> Admin Manage</button>
+                            <button type="button" className="btn btn-primary"> Admin Manage</button>
+                        </NavLink>
+                        <NavLink exact={true} to="/usermanage" activeClassName="activeClass">
+                            <button type="button" className="btn btn-success ">User Details</button>
                         </NavLink>
 
                         <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
