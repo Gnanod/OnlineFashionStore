@@ -30,6 +30,7 @@ import Login from "../Views/Login/Login";
 import NewLogin from "../Views/Login/NewLogin";
 import Logout from "../Views/LogOut/Logout";
 import profileEdit from "../Views/Profile/profileEdit";
+import AboutUs from "../Views/Profile/AboutUs";
 
 export default class Navigationbar extends Component {
 
@@ -55,6 +56,12 @@ export default class Navigationbar extends Component {
                                     <MDBBtn color="#000"> &nbsp;&nbsp;&nbsp;Home</MDBBtn>
                                 </MDBNavLink>
                             </MDBNavItem>
+                                    <MDBNavItem>
+                                        <MDBNavLink to="/aboutUs" className="ml-auto">
+                                            <MDBBtn color="#000"> &nbsp;&nbsp;&nbsp;About Us</MDBBtn>
+                                        </MDBNavLink>
+                                    </MDBNavItem>
+
                             {
                                 localStorage.getItem("CustomerLogged") === "CustomerLogged" ?
 
@@ -76,6 +83,7 @@ export default class Navigationbar extends Component {
                                     :
                                     ''
                             }
+
                         </MDBNavbarNav>
                         <MDBNavbarNav right>
 
@@ -126,7 +134,7 @@ export default class Navigationbar extends Component {
                         <Route exact path="/Wishlist" component={Wishlist}/>
                         <Route exact path="/profile" component={profile}/>
                         <Route exact path="/logout" component={Logout}/>
-
+                        <Route exact path="/aboutUs" component={AboutUs}/>
                         <Route exact path="/profileEdit" component={profileEdit}/>
                     </Switch>
                 </main>

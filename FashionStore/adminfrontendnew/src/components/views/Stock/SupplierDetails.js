@@ -370,17 +370,13 @@ export default class SupplierDetails extends Component{
         <MDBCard className="mb-5">
             <MDBCardBody id="breadcrumb" className="d-flex align-items-center justify-content-between">
 
-                <NavLink exact={true} to="/suppliermanage" activeClassName="activeClass">
+                <NavLink exact={true} to="/supplier/suppliermanage" activeClassName="activeClass">
                     <button type="button" className="btn btn-primary">Supplier Details</button>
                 </NavLink>
-                <NavLink exact={true} to="/suppliermanage/supplieranalysis" >
+                <NavLink exact={true} to="/supplier/supplieranalysis" >
                     <button type="button" className="btn btn-success "> Supplier Manage</button>
                 </NavLink>
 
-                {/*<MDBFormInline className="md-form m-0">*/}
-                {/*    <input className="form-control form-control-sm" type="search" placeholder="Type your query" aria-label="Search"/>*/}
-                {/*    <MDBBtn size="sm" color="primary" className="my-0" type="submit"><MDBIcon icon="search" /></MDBBtn>*/}
-                {/*</MDBFormInline>*/}
                 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
             </MDBCardBody>
         </MDBCard>
