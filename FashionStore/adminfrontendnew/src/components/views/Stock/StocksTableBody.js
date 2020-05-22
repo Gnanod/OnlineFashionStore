@@ -7,10 +7,10 @@ import {
     MDBView,
     MDBContainer,
     MDBBtnGroup,
-    MDBIcon,  MDBFormInline,
+    MDBIcon, MDBFormInline,
     MDBCard,
     MDBCardBody,
-    MDBBtn, MDBTableHead, MDBTableBody, MDBTable, MDBAlert,MDBPagination,MDBPageItem,MDBPageNav,
+    MDBBtn, MDBTableHead, MDBTableBody, MDBTable, MDBAlert, MDBPagination, MDBPageItem, MDBPageNav,
 } from 'mdbreact';
 // import './UserManage.css';
 import 'sweetalert2/src/sweetalert2.scss';
@@ -22,7 +22,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import StockPriceTableBody from "./StockPriceTableBody";
 
 
-export default class ItemTable extends Component{
+export default class ItemTable extends Component {
 
     constructor(props) {
         super(props);
@@ -40,8 +40,8 @@ export default class ItemTable extends Component{
 
     }
 
-    componentDidMount(){
-        if(localStorage.getItem("userLogged")!=="userLogged"){
+    componentDidMount() {
+        if (localStorage.getItem("userLogged") !== "userLogged") {
             this.props.history.push('/');
         }
     }
@@ -73,7 +73,7 @@ export default class ItemTable extends Component{
 
     render() {
         // const {itemsCL} = this.props;
-        const  itemsArr = this.state.ItemColourId;
+        const itemsArr = this.state.ItemColourId;
         // let itemsArr = this.state.itemsCL || {};
         // const itemsArr = this.state.itemsCL;
         // console.log("aaaaa:"+itemsArr);
@@ -86,18 +86,35 @@ export default class ItemTable extends Component{
                 <MDBCard className="mb-5">
                     <MDBCardBody id="breadcrumb" className="d-flex align-items-center justify-content-between">
 
-                        <NavLink exact={true} to="/stockmanage" activeClassName="activeClass">
-                            <button type="button" className="btn btn-primary">Stock Details</button>
+                        <NavLink exact={true} to="/stock/stockanalysis">
+                            <button type="button" className="btn btn-primary">Items</button>
                         </NavLink>
-                        <NavLink exact={true} to="/stockmanage/stockanalysis" >
-                            <button type="button" className="btn btn-success ">Items</button>
+                        <NavLink exact={true} to="/stock/stockmanage" activeClassName="activeClass">
+                            <button type="button" className="btn btn-success ">Stock Details</button>
                         </NavLink>
-
-                        {/*<MDBFormInline className="md-form m-0">*/}
-                        {/*    <input className="form-control form-control-sm" type="search" placeholder="Type your query" aria-label="Search"/>*/}
-                        {/*    <MDBBtn size="sm" color="primary" className="my-0" type="submit"><MDBIcon icon="search" /></MDBBtn>*/}
-                        {/*</MDBFormInline>*/}
-                        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
                     </MDBCardBody>
                 </MDBCard>
 
@@ -120,28 +137,32 @@ export default class ItemTable extends Component{
                             </MDBTableHead>
                             {
                                 itemsArr.length === 0 ?
-                                    <tr >
-                                        <td colSpan="12" style={{textAlign : "center", fontWeight: "bold"}}>
-                                            <MDBAlert color="danger" >
+                                    <tr>
+                                        <td colSpan="12" style={{textAlign: "center", fontWeight: "bold"}}>
+                                            <MDBAlert color="danger">
                                                 No Items
                                             </MDBAlert>
                                         </td>
                                     </tr> :
                                     itemsArr.map(itm => {
-                                        console.log("ItemCode:"+itm.itemCode.itemCode);
-                                        console.log("ItemCode11:"+itm.itemCode.itemName);
-                                        return(
+                                        console.log("Item");
+                                        console.log(itm)
+                                        console.log("Item");
+                                        return (
                                             <MDBTableBody>
-                                                 <tr>
-                                                     <td>{itm.itemCode.itemCode}</td>
-                                                     <td>{itm.itemCode.itemName}</td>
-                                                     <td>{itm.itemSize}</td>
-                                                     <td>{itm.itemColor}</td>
-                                                     <td>{itm.quantity}</td>
+                                                <tr>
+                                                    <td>{itm.itemCode[0].itemCode}</td>
+                                                    <td>{itm.itemCode[0].itemName}</td>
+                                                    <td>{itm.itemSize}</td>
+                                                    <td>
+                                                        <label
+                                                            style={{backgroundColor: itm.itemColor,width :100,height :50}}/>
+                                                    </td>
+                                                    <td>{itm.quantity}</td>
                                                     <td>{itm.price}</td>
 
-                                                 </tr>
-                                             </MDBTableBody>
+                                                </tr>
+                                            </MDBTableBody>
                                         )
                                     })}
                         </MDBTable>

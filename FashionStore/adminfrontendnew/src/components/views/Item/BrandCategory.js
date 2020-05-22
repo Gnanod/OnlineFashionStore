@@ -15,14 +15,12 @@ import {
 import axios from "axios";
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
-
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import BrandCategoryTableBody from "./BrandCategoryTableBody";
 import uuid from 'react-uuid';
 import {NavLink} from "react-router-dom";
 import constants from "../../../constants/constants";
-
 export default class BrandCategory extends Component {
 
     constructor(props) {
@@ -127,7 +125,7 @@ export default class BrandCategory extends Component {
                 }
                 axios.post(constants.backend_url + 'api/category/add', newCategory)
                     .then(res => {
-                            console.log(res)
+
                             if (res.data.category === 'success') {
                                 Swal.fire(
                                     '',
@@ -166,7 +164,7 @@ export default class BrandCategory extends Component {
         e.preventDefault();
         if (this.state.brandName !== ' ') {
             if (this.state.brandCode !== ' ') {
-                if (this.state.brandDiscountValidation !== ' ') {
+                // if (this.state.brandDiscountValidation !== ' ') {
                     const newBrand = {
                         brandCode: this.state.brandCode,
                         brandName: this.state.brandName,
@@ -174,7 +172,7 @@ export default class BrandCategory extends Component {
                     }
                     axios.post(constants.backend_url + 'api/brand/add', newBrand)
                         .then(res => {
-                                console.log(res)
+
                                 if (res.data.brand === 'success') {
                                     Swal.fire(
                                         '',
@@ -197,11 +195,11 @@ export default class BrandCategory extends Component {
                                 }
                             }
                         );
-                } else {
-                    this.setState({
-                        brandDiscountValidation: true
-                    })
-                }
+                // } else {
+                //     this.setState({
+                //         brandDiscountValidation: true
+                //     })
+                // }
             } else {
                 this.setState({
                     brandCodeValidation: true
@@ -227,7 +225,7 @@ export default class BrandCategory extends Component {
             });
             axios.post(constants.backend_url + 'api/brandcategory/add', this.state.brandCategoryIdArray)
                 .then(res => {
-                        console.log(res);
+
                         if (res.data.brandCategory === 'success') {
                             Swal.fire(
                                 '',
@@ -299,11 +297,11 @@ export default class BrandCategory extends Component {
         }).catch(function (error) {
             console.log(error);
         })
-        console.log(this.state.brands);
+
     }
 
     onChangeGetBrandName(value) {
-        console.log(value)
+
         this.state.selectedBrandObject = value;
         this.setState({
             selectedBrandObject: this.state.selectedBrandObject,
@@ -413,18 +411,7 @@ export default class BrandCategory extends Component {
                                         </MDBAlert> : ''
                                     }
 
-                                    <MDBInput label="Selling Discount" size="sm"
-                                              pattern="[0-9]*"
-                                              value={this.state.discount}
-                                              onChange={this.onChangeDiscount}
 
-
-                                    />
-                                    {
-                                        this.state.brandDiscountValidation ? <MDBAlert color="danger">
-                                            Discount Field Is Empty
-                                        </MDBAlert> : ''
-                                    }
                                     <MDBBtn type="submit">Save</MDBBtn>
                                 </form>
                             </MDBCardBody>

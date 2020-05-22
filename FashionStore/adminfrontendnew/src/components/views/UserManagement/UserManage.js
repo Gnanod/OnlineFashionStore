@@ -219,9 +219,6 @@ export default class UserDetails extends Component {
                         <NavLink exact={true} to="/usermanage" activeClassName="activeClass">
                             <button type="button" className="btn btn-primary">User Details</button>
                         </NavLink>
-                        <NavLink exact={true} to="/usermanage/useranalysis">
-                            <button type="button" className="btn btn-success "> User Analysis</button>
-                        </NavLink>
                         <NavLink exact={true} to="/usermanage/adminmanage">
                             <button type="button" className="btn btn-success "> Admin Manage</button>
                         </NavLink>
