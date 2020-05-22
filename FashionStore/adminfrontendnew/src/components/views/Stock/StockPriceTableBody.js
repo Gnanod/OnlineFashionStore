@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-// import './Style/Item.css'
+import './StyleSP/Stock.css'
 import {MDBAlert, MDBTableBody} from "mdbreact";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
@@ -7,26 +7,20 @@ export default class StockPriceTableBody extends Component {
 
     render() {
         const {stockPriceList, noItem,deleteStockPrice} = this.props;
-        // console.log(stockPriceList.stockPriceId);
-        // console.log(stockPriceList.buyingPrice);
-        // console.log(stockPriceList.quantity);
-        // console.log(stockPriceList.quantity);
-        // console.log(stockPriceList.discount);
-        // console.log("dddddddddd"+stockPriceList.itemColorId);
+
         return (
             <MDBTableBody>
                 {
                     noItem ?
                         <tr >
-                            <td colSpan="2">
-                                <MDBAlert color="danger" >
+                            <td colSpan="6">
+                                <MDBAlert color="danger" className="TextCenter">
                                     No Stock Prices In List
                                 </MDBAlert>
                             </td>
                         </tr>
                         :
                         stockPriceList.map(stockP => {
-                            console.log("ddddddd"+ stockP.itemColorId.itemColorsId);
                             return (
                                 <tr key={stockP.stockPriceId}>
                                     <td>{stockP.itemColorId.itemColorsId}</td>
