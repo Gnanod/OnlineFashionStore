@@ -19,8 +19,9 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
-    min-height: 100vh;
-    left: -20px !important;
+    top:30px;
+    /*min-height: 100vh;*/
+    /*left: -20px !important;*/
 
 }
 

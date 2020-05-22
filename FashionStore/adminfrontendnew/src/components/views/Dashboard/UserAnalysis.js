@@ -16,9 +16,10 @@ import {
 import { Bar } from "react-chartjs-2";
 import 'sweetalert2/src/sweetalert2.scss';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-import './UserManage.css'
+import '../UserManagement/UserManage.css'
 import axios from "axios";
 import constants from "../../../constants/constants";
+import {AdminAnalysis} from "./AdminAnalysis";
 
 
 
@@ -86,14 +87,6 @@ export default class UserAnalysis extends Component {
         console.log("gender count");
     }
 
-    // sweetalertfunction(){
-    //     console.log("button clicks");
-    //     Swal.fire(
-    //         '',
-    //         'Feedback Deleted',
-    //         'success'
-    //     );
-    // }
 
 
     sweetalertfunction(id){
@@ -203,26 +196,9 @@ export default class UserAnalysis extends Component {
         const{feedbackList} = this.state;
         const NumberofFeedbacks =  feedbackList.length;
         return (
-            <div id='parallaxintro'>
-                {/*<MDBView>*/}
-                {/*    <MDBMask className='rgba-white-light' />*/}
+            <div >
 
-
-                    <MDBCard className="mb-5">
-                        <MDBCardBody id="breadcrumb" className="d-flex align-items-center justify-content-between">
-                            <NavLink exact={true} to="/usermanage/useranalysis" activeClassName="activeClass" >
-                                <button type="button" className="btn btn-primary"> User Analysis</button>
-                            </NavLink>
-                            <NavLink exact={true} to="/usermanage" >
-                                <button type="button" className="btn btn-success">User Details</button>
-                            </NavLink>
-                            <NavLink exact={true} to="/usermanage/adminmanage" >
-                                <button type="button" className="btn btn-success "> Admin Manage</button>
-                            </NavLink>
-                            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-                        </MDBCardBody>
-                    </MDBCard>
-
+                    <AdminAnalysis/>
                     <div className=" container-fluid itemColorMain">
                         <MDBRow>
                             <MDBCol size="5">
