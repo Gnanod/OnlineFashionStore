@@ -110,11 +110,13 @@ export class ItemDetail extends Component {
         })
         axios.get(constants.backend_url + 'api/itemcolor/getAllItemColors').then(response => {
             let averageRate = 0;
-            this.state.ratingItems.map(item => {
-                averageRate += item.rates;
-                // console.log(item.rates);
-            });
-            averageRate = averageRate / 5.0;
+            if(this.state.ratingItems.length !==0){
+                this.state.ratingItems.map(item => {
+                    averageRate += item.rates;
+                    // console.log(item.rates);
+                });
+                averageRate = averageRate / 5.0;
+            }
             response.data.map(item => {
                 if (item.itemCode[0].itemCode === itemCode && item.itemColor === color) {
                     // if (this.state.itemSizesAll.length === 0) {

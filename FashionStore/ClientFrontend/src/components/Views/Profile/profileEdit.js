@@ -31,7 +31,7 @@ export default class profileEdit extends Component {
             feedback: '',
             CustfName: '',
             CustLName:'',
-            CustomerId: '5ec585ec94977c23601cb0f7',
+            CustomerId: localStorage.getItem("CustomerId"),
             detailList:[],
             selectedId : '',
             selectedFName : '',
@@ -231,6 +231,10 @@ export default class profileEdit extends Component {
 
                                 {
                                     this.state.detailList.map(item => {
+                                        const base64String = btoa(new Uint8Array(item.image.data).reduce(function (data, byte) {
+                                            return data + String.fromCharCode(byte);
+                                        }, ''));
+
                                         return(
 
                                             <div >
@@ -255,7 +259,8 @@ export default class profileEdit extends Component {
                                                     <section className="my-5">
                                                         <MDBRow className="txtalign">
                                                             <MDBCol xl="5" md="4" className="mb-3 text-center">
-                                                                <img src="https://mdbootstrap.com/img/Photos/Avatars/img(31).jpg" className="img-fluid z-depth-1 rounded-circle" alt="" />
+                                                                <img   src={`data:image/jpeg;base64,${base64String}`}
+                                                                       className="img-fluid z-depth-1 rounded-circle" alt="" />
                                                             </MDBCol>
                                                             <MDBCol lg="7">
                                                                 <MDBRow className="mb-3">
