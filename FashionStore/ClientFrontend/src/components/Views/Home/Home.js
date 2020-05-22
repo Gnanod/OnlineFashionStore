@@ -174,12 +174,14 @@ export default class Home extends Component {
                                                                 LKR  : {items.itemArray.price}
                                                             </MDBCardText>
                                                             <div className="row">
-                                                                <div className="col-sm-6 btnSize">
+                                                                <div className="col-sm-3 "/>
+                                                                <div className="col-sm-6 ">
                                                                     <MDBNavLink to={"/item/"+items.itemArray.itemCode[0]._id+"/"+items.itemArray._id}>
-                                                                        <MDBBtn className="btnSize" >View</MDBBtn>
+                                                                        <MDBBtn  >View</MDBBtn>
                                                                     </MDBNavLink>
 
                                                                 </div>
+                                                                <div className="col-sm-3 "/>
 
                                                             </div>
 
