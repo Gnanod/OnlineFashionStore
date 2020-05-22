@@ -255,17 +255,19 @@ export default class NewLogin extends Component {
                                                         );
 
                                             } else {
-                                                this.setState({
-                                                    imageValidation: true
-                                                })
+                                                    Swal.fire(
+                                                        '',
+                                                        'Gender should be Male or Female !',
+                                                        'error'
+                                                    );
                                             }
 
 
                                         } else {
-                                            Swal.fire(
-                                                '',
-                                                'Enter correct gender !.',
-                                                'error');
+
+                                                this.setState({
+                                                    imageValidation: true
+                                                })
                                         }
 
 
