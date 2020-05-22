@@ -3,7 +3,8 @@ import axios from "axios";
 import constants from "../../Constants/constants";
 import WishListColumns from './WishListColumns';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
-import {MDBCard, MDBCardImage} from "mdbreact";
+import {MDBBtn, MDBCard, MDBCardImage, MDBTooltip, MDBTypography} from "mdbreact";
+import CartStyle from '../../Views/Home/CartStyle.css';
 
 class Wishlist extends Component {
     constructor(props) {
@@ -120,8 +121,8 @@ class Wishlist extends Component {
     render() {
         return (
             <div>
-                <br/><br/><br/><br/>
-                <h1>Product Wishlist</h1>
+                <br/><br/><br/><br/><br/>
+                <MDBTypography tag='h1' variant="h1">Product Wishlist</MDBTypography>
                 <br/><br/>
                 <WishListColumns></WishListColumns>
                 <div>
@@ -133,7 +134,7 @@ class Wishlist extends Component {
                         return(
                         <div className="row my-1 text-capitalize text-center">
                             <div className="col-10 mx-auto col-lg-2" >
-                                <MDBCard style={{height: "13rem"}}>
+                                <MDBCard style={{height: "11.5rem",width:"11.5rem"}}>
                                     <MDBCardImage className="img-fluid"
                                     src={`data:image/jpeg;base64,${base64String}`}
                                             waves/>
@@ -143,15 +144,15 @@ class Wishlist extends Component {
 
 
                         <div className="col-10 mx-auto col-lg-2">
-                                <span>{item.cartName}</span>
+                            <span><strong>{item.cartName}</strong></span>
                         </div>
 
                         <div className="col-10 mx-auto col-lg-2">
-                                <span>Rs. {item.cartPrice}</span>
+                            <span><strong>$ {item.cartPrice}</strong></span>
                         </div>
 
                         <div className="col-10 mx-auto col-lg-2">
-                        <i className="fa fa-star" aria-hidden="true"></i>
+                        <i className="fa fa-star" aria-hidden="true" color="red"></i>
                         <i className="fa fa-star" aria-hidden="true"></i>
                         <i className="fa fa-star" aria-hidden="true"></i>
                         <i className="fa fa-star" aria-hidden="true"></i>
@@ -159,15 +160,33 @@ class Wishlist extends Component {
                         </div>
                         <div className="col-10 mx-auto col-lg-2">
                         <div className="cart-icon" >
-                        <i className="fas fa-cart-plus" aria-hidden="true" onClick={() => this.addToCart(item)}></i>
+
+                            <MDBTooltip placement="top">
+                                <MDBBtn color="primary" size="sm" onClick={() => this.addToCart(item)}>
+                                    <i className="fas fa-cart-plus" aria-hidden="true"></i>
+                                </MDBBtn>
+                                <div>Add to Cart</div>
+                            </MDBTooltip>
                         </div>
                         </div>
 
                         <div className="col-10 mx-auto col-lg-2">
                         <div className="cart-icon" >
-                        <i className="fa fa-trash" aria-hidden="true" onClick={() => this.remove1(item._id)}></i>
+
+                            <MDBTooltip placement="top">
+                                <MDBBtn color="primary" size="sm" onClick={() => this.remove1(item._id)}>
+                                    X
+                                </MDBBtn>
+                                <div>Remove item</div>
+                            </MDBTooltip>
                         </div>
+
                         </div>
+                            <div>
+
+                                <span className="block-example border-bottom border-light"></span>
+
+                            </div>
 
                         </div>
 
@@ -180,7 +199,7 @@ class Wishlist extends Component {
 
 
                 <br/><br/>
-                <button  className="btn btn-blue" onClick={()=>this.clearWishlist()}>Clear WishList</button>
+                    <MDBBtn gradient="blue" rounded onClick={()=>this.clearWishlist()}>Clear WishList</MDBBtn>
                 </div>
             </div>
         );
