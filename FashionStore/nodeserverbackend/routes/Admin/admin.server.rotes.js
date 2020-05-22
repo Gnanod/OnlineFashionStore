@@ -52,5 +52,24 @@ router.get("/validateUser/:email/:password",function (req,res) {
     })
 });
 
+router.route('/updateDetail/:id/:name/:email/:position/:password').get(function (req, res) {
+    console.log("update function called")
+    let id = req.params.id;
+    let name=req.params.name;
+    let email=req.params.email;
+    let position=req.params.position;
+    let password=req.params.password;
+
+
+    AdminDetail.updateOne({_id : id},{$set: {Name:name, Email: email, position: position, password: password}}).then(sup=>{
+        console.log(" successfully edited");
+        console.log(sup);
+        res.status(200).json({'adminUpdate':'successful'});
+    }).catch(err=>{
+        console.log("update fail");
+        res.status(400).send('fail');
+    });
+});
+
 module.exports = router;
 
