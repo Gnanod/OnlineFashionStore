@@ -42,7 +42,7 @@ router.route('/add').post(function (req, res) {
 router.route('/itemCategory/:id').get(function (req, res) {
         const id = req.params.id;
 
-        Item .find({ categoryCode: id}).populate('brandCode').populate('categoryCode')
+        Item .find().populate('brandCode').populate('categoryCode')
             .then(item => {
 
                 res.json(item);

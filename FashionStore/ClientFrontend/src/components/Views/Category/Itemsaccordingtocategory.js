@@ -9,7 +9,8 @@ export class Itemsaccordingtocategory extends Component {
         super(props)
         this.state = {
             id: '',
-            newItems:[]
+            newItems:[],
+            itemColor:[]
         }
         this.getItemDetailsAccordingtoCategory = this.getItemDetailsAccordingtoCategory.bind(this);
     }
@@ -24,6 +25,15 @@ export class Itemsaccordingtocategory extends Component {
         console.log(this.state.id)
         axios.get(constants.backend_url + 'api/item/itemCategory/'+id).then(response => {
             this.setState({newItems: response.data});
+        }).catch(function (error) {
+            console.log(error);
+        })
+
+    }
+    getItemColorDetails(){
+        console.log(this.state.id)
+        axios.get(constants.backend_url + 'api/itemcolor/getAllItemColors').then(response => {
+            this.setState({itemColor: response.data});
         }).catch(function (error) {
             console.log(error);
         })
