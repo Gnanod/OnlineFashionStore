@@ -50,7 +50,7 @@ export default class AdminManage extends Component {
             selectedPassword : '',
             selectedConfirm : '',
             edited: false,
-            position :[{'position' :'Admin'},{'position' :'StoreManager'}]
+
 
         }
 
@@ -113,14 +113,13 @@ export default class AdminManage extends Component {
 
     }
 
-    onChangePosition(value)
+    onChangePosition(e)
     {
-       if(value!==null){
            this.setState({
-               AdminPosition: value.position,
+               AdminPosition:  e.target.value,
                AdminPositionValidation: false
            });
-       }
+
     }
 
     onChangePassword(e)
@@ -160,14 +159,14 @@ export default class AdminManage extends Component {
 
     }
 
-    onChangePosition2(value)
+    onChangePosition2(e)
     {
-        if(value!==null){
+
             this.setState({
-                selectedPosition: value.position,
+                selectedPosition: e.target.value,
                 AdminPositionValidation: false
             });
-        }
+
 
     }
 
@@ -299,7 +298,7 @@ export default class AdminManage extends Component {
                     }else {
                         Swal.fire(
                             '',
-                            'Customer Deleted !',
+                            'Admin Deleted !',
                             'success'
                         )
                         this.setState({
@@ -349,12 +348,13 @@ export default class AdminManage extends Component {
         event.preventDefault();
         // event.target.className += " was-validated";
 
-        if(this.state.AdminPassword == this.state.AdminCPass){
-            if(this.state.AdminName != ''){
-                if(this.state.AdminEmail != ''){
-                    if(this.state.AdminPositionValidation === false){
-                        if(this.state.AdminPassword != ''){
-                            if(this.state.AdminCPass != '' ){
+        if(this.state.AdminPassword === this.state.AdminCPass){
+            if(this.state.AdminName !== ''){
+                if(this.state.AdminEmail !== ''){
+                    if(this.state.AdminPosition !== ''){
+                        if(this.state.AdminPassword !== ''){
+                            if(this.state.AdminCPass !== '' ){
+                                if(this.state.AdminPosition == 'Admin' || this.state.AdminPosition == 'StoreManager'){
                                             console.log("Validation complete");
                                 const newadminDetail = {
                                     Name: this.state.AdminName,
@@ -399,6 +399,13 @@ export default class AdminManage extends Component {
                                             }
                                         }
                                     );
+                            }else{
+                                Swal.fire(
+                                    '',
+                                    'Position should be either Admin or StoreManager !',
+                                    'warning'
+                                );
+                            }
                             }else{console.log("cpass empty");
                                 this.setState({
                                     AdminCPassValidation: true
@@ -431,6 +438,7 @@ export default class AdminManage extends Component {
                 'error'
             );
         }
+
     };
 
 
@@ -455,10 +463,7 @@ export default class AdminManage extends Component {
                         <NavLink exact={true} to="/usermanage/adminmanage" >
                             <button type="button" className="btn btn-success "> Admin Manage</button>
                         </NavLink>
-                        {/*<MDBFormInline className="md-form m-0">*/}
-                        {/*    <input className="form-control form-control-sm" type="search" placeholder="Type your query" aria-label="Search"/>*/}
-                        {/*    <MDBBtn size="sm" color="primary" className="my-0" type="submit"><MDBIcon icon="search" /></MDBBtn>*/}
-                        {/*</MDBFormInline>*/}
+
                         <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                     </MDBCardBody>
                 </MDBCard>
@@ -588,7 +593,7 @@ export default class AdminManage extends Component {
                                             </span>
                                                 </div>
                                                 <input
-                                                    type="text"
+                                                    type="email"
                                                     className="form-control"
                                                     placeholder="Email Address"
                                                     aria-label="Email Address"
@@ -613,16 +618,15 @@ export default class AdminManage extends Component {
                                              <MDBIcon icon="graduation-cap"/>
                                             </span>
                                                 </div>
-
-                                                <Autocomplete
-                                                    id="combo-box-demo"
-                                                    options={this.state.position}
-                                                    getOptionLabel={(option) => option.position}
-                                                    style={{width: 370}}
-                                                    onChange={(event, value) => this.onChangePosition2(value)}
-                                                    renderInput={(params) => <TextField {...params} label="Position" variant="outlined"/>}
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Position"
+                                                    aria-label="position"
+                                                    aria-describedby="basic-addon"
+                                                    value={this.state.selectedPosition}
+                                                    onChange={this.onChangePosition2}
                                                 />
-
                                                 {
                                                     this.state.AdminPositionValidation ? <MDBAlert color="danger">
                                                         Position Field Empty
@@ -728,7 +732,7 @@ export default class AdminManage extends Component {
                                             </span>
                                                 </div>
                                                 <input
-                                                    type="text"
+                                                    type="email"
                                                     className="form-control"
                                                     placeholder="Email Address"
                                                     aria-label="Email Address"
@@ -753,13 +757,14 @@ export default class AdminManage extends Component {
                                              <MDBIcon icon="graduation-cap"/>
                                             </span>
                                                 </div>
-                                                <Autocomplete
-                                                    id="combo-box-demo"
-                                                    options={this.state.position}
-                                                    getOptionLabel={(option) => option.position}
-                                                    style={{width: 370}}
-                                                    onChange={(event, value) => this.onChangePosition(value)}
-                                                    renderInput={(params) => <TextField {...params} label="Position" variant="outlined"/>}
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Position"
+                                                    aria-label="position"
+                                                    aria-describedby="basic-addon"
+                                                    value={this.state.AdminPosition}
+                                                    onChange={this.onChangePosition}
                                                 />
 
                                                 {
@@ -790,7 +795,7 @@ export default class AdminManage extends Component {
                                                 />
                                                 {
                                                     this.state.AdminPasswordValidation ? <MDBAlert color="danger">
-                                                        Position Field Empty
+                                                        Password Field Empty
                                                     </MDBAlert> : ''
                                                 }
                                             </div>
