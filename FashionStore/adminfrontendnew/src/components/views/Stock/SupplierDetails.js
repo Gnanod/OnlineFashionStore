@@ -442,7 +442,7 @@ export default class SupplierDetails extends Component{
                                       <MDBCol size="6">
                                     <MDBCardTitle>Contact Infromation</MDBCardTitle>
 
-                                    <MDBInput label="First Name" size="sm"
+                                    <MDBInput label="First Name" size="sm" minLength="3"
                                               pattern="[a-zA-Z]*"
                                               value={this.state.firstName}
                                               onChange={this.onChangeFirstName}
@@ -455,7 +455,7 @@ export default class SupplierDetails extends Component{
                                         </MDBAlert> : ''
                                     }
 
-                                    <MDBInput label="Last Name" size="sm"
+                                    <MDBInput label="Last Name" size="sm" minLength="3"
                                               pattern="[a-zA-Z]*"
                                               value={this.state.lastName}
                                               onChange={this.onChangeLastName}
@@ -466,7 +466,7 @@ export default class SupplierDetails extends Component{
                                         </MDBAlert> : ''
                                     }
 
-                                    <MDBInput label="Company Number" size="sm"
+                                    <MDBInput label="Company Number" size="sm" minLength="10" maxLength = "10"
                                               pattern="[0-9]*"
                                               value={this.state.companyNumber}
                                               onChange={this.onChangeCompanyNumber}
@@ -477,7 +477,7 @@ export default class SupplierDetails extends Component{
                                         </MDBAlert> : ''
                                     }
 
-                                    <MDBInput label="Mobile Number" size="sm"
+                                    <MDBInput label="Mobile Number" size="sm" minLength="10" maxLength = "10"
                                               pattern="[0-9]*"
                                               value={this.state.mobileNumber}
                                               onChange={this.onChangeMobileNumber}
@@ -489,7 +489,7 @@ export default class SupplierDetails extends Component{
                                     }
 
                                     <MDBInput label="Email" size="sm"
-
+                                              pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
                                               value={this.state.email}
                                               onChange={this.onChangeEmail}
                                     />
@@ -499,7 +499,7 @@ export default class SupplierDetails extends Component{
                                         </MDBAlert> : ''
                                     }
 
-                                    <MDBInput label="Fax" size="sm"
+                                    <MDBInput label="Fax" size="sm" minLength="10" maxLength = "10"
                                               pattern="[0-9]*"
                                               value={this.state.fax}
                                               onChange={this.onChangeFax}

@@ -524,6 +524,7 @@ export default class StockDetails extends Component {
                                                 }
 
                                                 <MDBInput label="Selling Price" size="sm"
+                                                          pattern="[0-9]*"
                                                           value={this.state.sellingPrice}
                                                           onChange={this.onChangeSellingPrice}
 
@@ -534,6 +535,7 @@ export default class StockDetails extends Component {
                                                     </MDBAlert> : ''
                                                 }
                                                 <MDBInput label="Quantity" size="sm"
+                                                          pattern="[0-9]*"
                                                           value={this.state.quantity}
                                                           onChange={this.onChangeQuantity}
                                                 />
@@ -543,6 +545,7 @@ export default class StockDetails extends Component {
                                                     </MDBAlert> : ''
                                                 }
                                                 <MDBInput label="Discount" size="sm"
+                                                          pattern="[0-9]*"
                                                           value={this.state.discount}
                                                           onChange={this.onChangeDiscount}
                                                 />
