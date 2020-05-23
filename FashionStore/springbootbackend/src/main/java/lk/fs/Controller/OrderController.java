@@ -3,10 +3,11 @@ package lk.fs.Controller;
 import lk.fs.Service.EmailUtil;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Properties;
+
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
-import java.util.Properties;
 
 @CrossOrigin
 @RestController
@@ -14,16 +15,17 @@ import java.util.Properties;
 public class OrderController {
 
     @GetMapping(value = "/sendMail/{mail}/{orderId}/{itemTotal}")
-    public void sendEmail(@PathVariable String  mail, int total, @PathVariable String orderId, @PathVariable float itemTotal){
+    public void sendEmail(@PathVariable String mail, @PathVariable String orderId, @PathVariable float itemTotal) {
 
         System.out.println("GGGGGGGGG");
-        System.out.println("mail"+mail);
-        System.out.println("orderId"+orderId);
-        System.out.println("itemTotal"+itemTotal);
+        System.out.println("mail" + mail);
+        System.out.println("orderId" + orderId);
+        System.out.println("itemTotal" + itemTotal);
+
         try {
             final String fromEmail = "fashionstoregtsd@gmail.com"; //requires valid gmail id
-            final String password = "Fashionstore123";// correct password for gmail id
-            final String toEmail = mail; // can be any email id
+            final String password = "Fashionstore123"; // correct password for gmail id
+            final String toEmail = "1995gnanod@gmail.com"; // can be any email id
 
             System.out.println("TLSEmail Start");
             Properties props = new Properties();
@@ -40,12 +42,11 @@ public class OrderController {
                 }
             };
             Session session = Session.getInstance(props, auth);
-            System.err.println("Mail Sending");
 
-            EmailUtil.sendEmail(session, toEmail,"Order Confirmation", " Your Order is Succeeded!Order Id    :"+orderId+"Total Amount    :"+itemTotal+" ThankYou For Shopping on GSTD!!!");
+            EmailUtil.sendEmail(session, toEmail,"TLSEmail Testing Subject", "TLSEmail Testing Body");
 
-            //sendTextMessage("Smoke",user,sensorId,level);
-        }catch (Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

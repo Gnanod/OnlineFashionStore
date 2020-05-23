@@ -49,6 +49,7 @@ class Cart extends Component {
         this.transactionSuccess=this.transactionSuccess.bind(this);
         this.transactionError=this.transactionError.bind(this);
         this.transactionCancel=this.transactionCancel.bind(this);
+        this.sendMail=this.sendMail.bind(this);
 
     }
 
@@ -178,6 +179,7 @@ class Cart extends Component {
                         console.log(res.data.order)
 
                         if (res.data.order === 'successful') {
+                            this.sendMail(a);
                             Swal.fire(
                                 '',
                                 ' Your Order has Placed  Successfully.',
@@ -231,7 +233,13 @@ class Cart extends Component {
         );
 
     }
+    sendMail(orderId){
+        axios.get(constants.spring_backend_url + '/OrderController/sendMail/samithavidhanaarachchi@gmail.com/'+orderId+'/'+10).then(response => {
 
+        }).catch(function (error) {
+            console.log(error);
+        })
+    }
     render() {
         return (
             <div>
