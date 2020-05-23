@@ -64,6 +64,8 @@ export class ItemDetail extends Component {
         this.addToWhishList = this.addToWhishList.bind(this);
         this.getAverageRate = this.getAverageRate.bind(this);
         this.checkInWish = this.checkInWish.bind(this);
+        this.extractNumberFromPercentString = this.extractNumberFromPercentString.bind(this);
+
     }
 
     componentDidMount() {
@@ -219,47 +221,61 @@ export class ItemDetail extends Component {
             );
 
         }else{
-            const cartt = {
-                userId:localStorage.getItem("CustomerId"),
-                cartName:this.state.itemName,
-                cartPrice:cartItem.itemSizes.price,
-                quantity:1,
-                itemTotal:cartItem.itemSizes.price,
-                itemId:cartItem.itemSizes._id,
-                itemSize:cartItem.itemSizes.itemSize
-            }
-            this.decrementQuantity(cartItem.itemSizes._id,cartItem.itemSizes.quantity);
-            axios.post(constants.backend_url + 'api/cart/add', cartt)
-                .then(res => {
-                        console.log(res.data.cart)
 
-                        if (res.data.cart === 'successful') {
-                            Swal.fire(
-                                '',
-                                'Cart Details Added Successfully.',
-                                'success'
-                            );
-                            this.setState({
-                                inCartStatus:true
-                            })
-                        } else {
+            if(cartItem.itemSizes.quantity.valueOf() >= 1){
+                const cartt = {
+                    userId:localStorage.getItem("CustomerId"),
+                    cartName:this.state.itemName,
+                    cartPrice:cartItem.itemSizes.price,
+                    quantity:1,
+                    itemTotal:cartItem.itemSizes.price,
+                    itemId:cartItem.itemSizes._id,
+                    itemSize:cartItem.itemSizes.itemSize
+                }
+                this.decrementQuantity(cartItem.itemSizes._id,cartItem.itemSizes.quantity);
+                axios.post(constants.backend_url + 'api/cart/add', cartt)
+                    .then(res => {
+                            console.log(res.data.cart)
 
-                            Swal.fire(
-                                '',
-                                'Cart Added Fail',
-                                'error'
-                            )
+                            if (res.data.cart === 'successful') {
+                                Swal.fire(
+                                    '',
+                                    'Cart Details Added Successfully.',
+                                    'success'
+                                );
+                                this.setState({
+                                    inCartStatus:true
+                                })
+                            } else {
+
+                                Swal.fire(
+                                    '',
+                                    'Cart Added Fail',
+                                    'error'
+                                )
 
 
+                            }
                         }
-                    }
-                );
-            console.log(this.state.itemName);
-            console.log(cartt);
+                    );
+                console.log(this.state.itemName);
+                console.log(cartt);
+
+            }else {
+                Swal.fire(
+                    '',
+                    'Sorry,This Item is not Available at the stocks now!',
+                    'error'
+                )
+            }
 
         }
 
 
+    }
+     extractNumberFromPercentString(s) {
+        console.log("fff");
+        return +s.slice(0, -1);
     }
 
     getNewItemColorDetails() {
