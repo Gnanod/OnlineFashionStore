@@ -52,7 +52,7 @@ router.route('/getDetailuser/:id').get(function (req,res) {
     let id = req.params.id;
 
     userDetails.find({ _id : id }).exec().then(item => {
-        console.log(item)
+        console.log(item.email)
         res.status(200).json(item)
     }).catch(err => {
         res.status(500).json(err);
