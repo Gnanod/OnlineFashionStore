@@ -9,7 +9,7 @@ let Order = require('../../models/Order.model');
 
 router.route('/add').post(function (req,res) {
     let cart = new Cart  (req.body);
-
+        console.log("hi")
     cart.save()
         .then(sup=>{
 

@@ -185,7 +185,8 @@ export class ItemDetail extends Component {
                 cartPrice:cartItem.itemSizes.price,
                 quantity:1,
                 itemTotal:cartItem.itemSizes.price,
-                itemId:cartItem.itemSizes._id
+                itemId:cartItem.itemSizes._id,
+                itemSize:cartItem.itemSizes.itemSize
             }
             this.decrementQuantity(cartItem.itemSizes._id,cartItem.itemSizes.quantity);
             axios.post(constants.backend_url + 'api/cart/add', cartt)

@@ -30,6 +30,10 @@ let cart = new Schema({
     itemId:{
         type: String,
         required: true
+    },
+    itemSize:{
+        type: String,
+        required: true
     }
 
 });
