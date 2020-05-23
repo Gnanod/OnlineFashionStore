@@ -26,7 +26,7 @@ public class OrderController {
         try {
             final String fromEmail = "fashionstoregtsd@gmail.com"; //requires valid gmail id
             final String password = "Fashionstore123"; // correct password for gmail id
-            final String toEmail = "divyanirajapaksha@gmail.com"; // can be any email id
+            final String toEmail = "1995gnanod@gmail.com"; // can be any email id
 
             System.out.println("TLSEmail Start");
             Properties props = new Properties();
@@ -45,7 +45,7 @@ public class OrderController {
             Session session = Session.getInstance(props, auth);
 
             LocalDateTime now = LocalDateTime.now();
-            EmailUtil.sendEmail(session, toEmail,"Confirmation of Order", "You have been succesfully purchased the items. Order Id  :"+orderId+"Item Total  :"+itemTotal+"Purchase Date"+now+"Thank you for Shopping on GSTD Pvt(LTD).");
+            EmailUtil.sendEmail(session, toEmail,"Confirmation of Order", "You have been succesfully purchased the items."+"\n"+"Order Id  :"+orderId+"\n"+"Item Total  :"+itemTotal+"\n"+"Purchase Date  :"+now +"\n"+"Thank you for Shopping on GSTD Pvt(LTD).");
 
 
             return true;
