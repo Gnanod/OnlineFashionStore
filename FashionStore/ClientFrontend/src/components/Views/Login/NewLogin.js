@@ -302,48 +302,6 @@ export default class NewLogin extends Component {
                                                         );
 
 
-                                                    // let formData = new FormData();
-                                                    // formData.append('file',  this.state.image);
-                                                    // formData.append('firstName',  this.state.fname);
-                                                    // formData.append('lastName', this.state.lname);
-                                                    // formData.append('phoneNumber', this.state.phone);
-                                                    // formData.append('gender', this.state.gender);
-                                                    // formData.append('email', this.state.email);
-                                                    // formData.append('password',this.state.password);
-                                                    // formData.append('dob',this.state.dob);
-                                                    // formData.append('male',this.state.MaleCount);
-                                                    // formData.append('female',this.state.FemaleCount);
-
-
-                                                    // axios.post(constants.spring_backend_url + 'UserDetailController/addUser', formData)
-                                                    //     .then(res => {
-                                                    //             console.log(res)
-                                                    //             console.log(newuserDetail);
-                                                    //             if (res.status === 200) {
-                                                    //                 Swal.fire(
-                                                    //                     '',
-                                                    //                     'User Details added successfully !.',
-                                                    //                     'success'
-                                                    //                 );
-                                                    //                 this.setState({
-                                                    //                     fname: '',
-                                                    //                     lname: '',
-                                                    //                     email: '',
-                                                    //                     gender: '',
-                                                    //                     password: '',
-                                                    //                     phone: '',
-                                                    //                     dob: '',
-                                                    //                     confirmpass: ''
-                                                    //                 })
-                                                    //             } else {
-                                                    //                 Swal.fire(
-                                                    //                     '',
-                                                    //                     'User Details not added !',
-                                                    //                     'error'
-                                                    //                 )
-                                                    //             }
-                                                    //         }
-                                                    //     );
 
                                             } else {
                                                     Swal.fire(

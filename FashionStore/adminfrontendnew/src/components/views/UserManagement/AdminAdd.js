@@ -63,7 +63,7 @@ export default class AdminManage extends Component {
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onChangeConfirmPass = this.onChangeConfirmPass.bind(this);
         this.editAdmin = this.editAdmin.bind(this);
-        this.editAdmin2 = this.editAdmin2.bind(this);
+        this.editAdminUpdate = this.editAdminUpdate.bind(this);
 
         this.firstPage = this.firstPage.bind(this);
         this.prevPage = this.prevPage.bind(this);
@@ -256,13 +256,85 @@ export default class AdminManage extends Component {
 
     };
 
-    editAdmin2(){
-        this.setState({edited : false})
-        Swal.fire(
-            '',
-            'Edit functionality !.',
-            'warning'
-        );
+    editAdminUpdate(id, name, email, position, password){
+        if(this.state.selectedPassword === this.state.selectedConfirm){
+            if(this.state.selectedName !== ''){
+                if(this.state.selectedEmail !== ''){
+                    if(this.state.selectedPosition !== ''){
+                        if(this.state.selectedPassword !== ''){
+                            if(this.state.selectedConfirm !== '' ){
+                                if(this.state.selectedPosition == 'Admin' || this.state.selectedPosition == 'StoreManager'){
+
+                                    axios.get(constants.backend_url + 'api/adminDetail/updateDetail/'+ id+'/'+ name+'/'+ email+'/'+ position+'/'+ password).then(response => {
+                                        if (response.data.adminUpdate === 'successful') {
+                                            Swal.fire(
+                                                '',
+                                                'Admin Updated !.',
+                                                'success'
+                                            )
+
+                                            this.setState({
+                                                selectedId:'',
+                                                selectedName : '',
+                                                selectedEmail : '',
+                                                selectedPosition : '',
+                                                selectedPassword : '',
+                                                selectedConfirm : '',
+                                                edited : false})
+                                        }else {
+                                            Swal.fire(
+                                                '',
+                                                'Update Failed !',
+                                                'error'
+                                            )}
+
+
+                                    });
+
+                                }else{
+                                    Swal.fire(
+                                        '',
+                                        'Position should be either Admin or StoreManager !',
+                                        'warning'
+                                    );
+                                }
+                            }else{console.log("cpass empty");
+                                this.setState({
+                                    AdminCPassValidation: true
+                                })
+                            }
+                        }else{console.log("pass empty");
+                            this.setState({
+                                AdminPasswordValidation: true
+                            })
+                        }
+                    }else{console.log("position empty");
+                        this.setState({
+                            AdminPositionValidation: true
+                        })
+                    }
+                }else{console.log("Email empty");
+                    this.setState({
+                        AdminEmailValidation: true
+                    })
+                }
+            }else{console.log("Name empty''");
+                this.setState({
+                    AdminNameValidation: true
+                })
+            }
+        }else{console.log("pass != confirm pass");
+            Swal.fire(
+                '',
+                'password and confirm password are not the same !',
+                'error'
+            );
+        }
+
+
+
+
+
         this.getDetails();
     }
 
@@ -553,7 +625,7 @@ export default class AdminManage extends Component {
                                 {
                                     this.state.edited ?
 
-                                        <form onSubmit={this.editAdmin2}>
+                                        <form >
                                             <p className="h4 text-center py-1">Admin Manage</p>
                                             <label htmlFor="defaultFormCardNameEx1"
                                                    className="grey-text font-weight-light">Name</label>
@@ -684,7 +756,7 @@ export default class AdminManage extends Component {
                                             </div>
 
                                             <div className="text-center py-4 mt-0">
-                                                <MDBBtn outline color="success" type="submit">
+                                                <MDBBtn outline color="success" type="button" onClick={()=>this.editAdminUpdate(this.state.selectedId,this.state.selectedName,this.state.selectedEmail,this.state.selectedPosition,this.state.selectedPassword,this.state.selectedConfirm)}>
                                                     <b>Update Admin</b>
                                                     <MDBIcon icon="pen" className="ml-2"/>
                                                 </MDBBtn>

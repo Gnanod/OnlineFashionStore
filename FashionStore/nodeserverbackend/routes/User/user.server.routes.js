@@ -107,5 +107,29 @@ router.route('/seachUser/:cust_name').get(function (req,res) {
         })
 });
 
+router.route('/updateDetail/:id/:fname/:lname/:email/:phone/:dob/:gender/:password').get(function (req, res) {
+    console.log("update function called")
+    let id = req.params.id;
+    let fname=req.params.fname;
+    let lname=req.params.lname;
+    let email=req.params.email;
+    let phone=req.params.phone;
+    let dob=req.params.dob;
+    let gender=req.params.gender;
+    let password=req.params.password;
+
+
+    userDetails.updateOne({_id : id},{$set: {firstName :fname, lastName: lname, phoneNumber: phone, gender: gender, email: email, password: password, dob: dob}}).then(sup=>{
+        console.log(" successfully updated user");
+        console.log(sup);
+        res.status(200).json({'userUpdate':'successful'});
+    }).catch(err=>{
+        console.log("update fail");
+        res.status(400).send('fail');
+    });
+});
+
+
+
 module.exports = router;
 

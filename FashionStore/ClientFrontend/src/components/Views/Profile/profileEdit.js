@@ -42,6 +42,8 @@ export default class profileEdit extends Component {
             selectedGender: '',
             selectedPassword : '',
             selectedConfirm : '',
+            MaleCount: '',
+            FemaleCount:'',
             edited: true
         };
         this.sweetalertfunction = this.sweetalertfunction.bind(this);
@@ -57,6 +59,7 @@ export default class profileEdit extends Component {
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onChangeConfirmPassword = this.onChangeConfirmPassword.bind(this);
         this.sweetalertfunction = this.sweetalertfunction.bind(this);
+        this.updateUser = this.updateUser.bind(this);
     }
 
     componentDidMount() {
@@ -221,6 +224,105 @@ export default class profileEdit extends Component {
         })
 
     };
+
+    updateUser(id, fname, lname, email, phone, dob, gender, password){
+
+        if (this.state.selectedPassword === this.state.selectedConfirm) {
+            if (this.state.selectedFName !== '') {
+                if (this.state.selectedLName !== '') {
+                    if (this.state.selectedEmail !== '') {
+                        if (this.state.selectedGender !== '') {
+                            if (this.state.selectedPhone !== '') {
+                                if (this.state.selectedPassword !== '') {
+                                    if (this.state.selectedConfirm !== '') {
+                                        if (this.state.selectedDob !== '') {
+                                            if(this.state.selectedGender === 'Male' || this.state.selectedGender == 'Female' ){
+                                                if(this.state.selectedGender === 'Male'){
+                                                    this.state.MaleCount = this.state.MaleCount + 1;
+                                                }else{
+                                                    this.state.FemaleCount = this.state.FemaleCount + 1;
+                                                }
+
+
+                                                axios.get(constants.backend_url + 'api/userDetail/updateDetail/'+ id+'/'+ fname+'/'+ lname+'/'+ email+'/'+ phone +'/'+ dob +'/'+ gender +'/'+ password).then(response => {
+                                                    if (response.data.userUpdate === 'successful') {
+                                                        Swal.fire(
+                                                            '',
+                                                            'Details Updated !.',
+                                                            'success'
+                                                        )
+                                                        this.getDetailuser();
+                                                        this.setState({
+                                                            selectedId : '',
+                                                            selectedFName : '',
+                                                            selectedLName:'',
+                                                            selectedEmail : '',
+                                                            selectedPhone : '',
+                                                            selectedDob:'',
+                                                            selectedGender: '',
+                                                            selectedPassword : '',
+                                                            selectedConfirm : '',
+                                                            edited: true})
+                                                    }else {
+                                                        Swal.fire(
+                                                            '',
+                                                            'Update Failed !',
+                                                            'error'
+                                                        )}
+
+
+                                                });
+
+                                                this.setState({
+                                                    selectedId : '',
+                                                    selectedFName : '',
+                                                    selectedLName:'',
+                                                    selectedEmail : '',
+                                                    selectedPhone : '',
+                                                    selectedDob:'',
+                                                    selectedGender: '',
+                                                    selectedPassword : '',
+                                                    selectedConfirm : '',
+                                                    edited: true})
+
+                                            } else {
+                                                Swal.fire(
+                                                    '',
+                                                    'Gender should be Male or Female !',
+                                                    'error'
+                                                );
+                                            }
+
+
+                                        } else {
+                                            console.log("dob empty");
+                                        }
+                                    } else {
+                                        console.log(" confirm pass empty");
+                                    }
+                                } else {
+                                    console.log("pass empty");
+                                }
+                            } else {
+                                console.log("phone empty");
+                            }
+                        } else {
+                            console.log("gender empty");
+                        }
+                    } else {
+                        console.log("email empty");
+                    }
+                } else {
+                    console.log("lname empty");
+                }
+            } else {
+                console.log("fname == ''");
+            }
+        } else {console.log("pass != confirm pass");
+            Swal.fire('',
+                'password and confirm password are not the same !',
+                'error');}
+    }
 
     render() {
         return (
@@ -519,7 +621,7 @@ export default class profileEdit extends Component {
                                                                         </div>
 
                                                                         <div className="text-center py-4 mt-0">
-                                                                            <MDBBtn outline color="success" type="submit">
+                                                                            <MDBBtn outline color="success" type="button" onClick={()=> this.updateUser(this.state.selectedId , this.state.selectedFName, this.state.selectedLName, this.state.selectedEmail, this.state.selectedPhone, this.state.selectedDob, this.state.selectedGender, this.state.selectedPassword)}>
                                                                                 <b>Update Details</b>
                                                                                 <MDBIcon icon="pen" className="ml-2"/>
                                                                             </MDBBtn>
