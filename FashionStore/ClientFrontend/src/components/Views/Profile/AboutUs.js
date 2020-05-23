@@ -113,7 +113,7 @@ export default class AboutUs extends Component {
                                         <p className="grey-text">
                                             1.Akalanka P.K.G.C - IT18045918 <br/>
                                             2.Gunasekara R.P.T.I - IT18051780<br/>
-                                            3.Rajapaksha H.M.U.D - IT180551612<br/>
+                                            3.Rajapaksha H.M.U.D - IT18051612<br/>
                                             4.Vidhanaarachchi S.P - IT18078510<br/>
                                         </p>
                                     </MDBCol>
