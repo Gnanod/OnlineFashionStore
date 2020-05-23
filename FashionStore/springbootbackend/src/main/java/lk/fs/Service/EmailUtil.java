@@ -15,7 +15,9 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+
 public class EmailUtil {
+
     /**
      * Utility method to send simple HTML email
      * @param session
@@ -32,7 +34,7 @@ public class EmailUtil {
             msg.addHeader("format", "flowed");
             msg.addHeader("Content-Transfer-Encoding", "8bit");
 
-            msg.setFrom(new InternetAddress("no_reply@example.com", "NoReply"));
+            msg.setFrom(new InternetAddress("no_reply@example.com", "NoReply-JD"));
 
             msg.setReplyTo(InternetAddress.parse("no_reply@example.com", false));
 

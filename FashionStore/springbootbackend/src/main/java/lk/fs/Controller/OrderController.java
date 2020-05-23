@@ -3,10 +3,11 @@ package lk.fs.Controller;
 import lk.fs.Service.EmailUtil;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import java.util.Properties;
+
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
 
 @CrossOrigin
 @RestController
@@ -22,8 +23,8 @@ public class OrderController {
         System.out.println("itemTotal" + itemTotal);
 
         try {
-            final String fromEmail = "ruvini.hfb@gmail.com"; //requires valid gmail id
-            final String password = "Ruv@1234";// correct password for gmail id
+            final String fromEmail = "fashionstoregtsd@gmail.com"; //requires valid gmail id
+            final String password = "Fashionstore123"; // correct password for gmail id
             final String toEmail = "divyanirajapaksha@gmail.com"; // can be any email id
 
             System.out.println("TLSEmail Start");
@@ -32,8 +33,6 @@ public class OrderController {
             props.put("mail.smtp.port", "587"); //TLS Port
             props.put("mail.smtp.auth", "true"); //enable authentication
             props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
-            //props.put("mail.smtp.starttls.enable", "true");
-            props.put("mail.debug", "true");
 
             //create Authenticator object to pass in Session.getInstance argument
             Authenticator auth = new Authenticator() {
@@ -43,11 +42,10 @@ public class OrderController {
                 }
             };
             Session session = Session.getInstance(props, auth);
-            System.err.println("Mail Sending");
 
-            EmailUtil.sendEmail(session, toEmail, "Level Alert", " level has increased than usual.(5)Please Take Necessary Steps! ThankYou");
+            EmailUtil.sendEmail(session, toEmail,"TLSEmail Testing Subject", "TLSEmail Testing Body");
 
-            //sendTextMessage("Smoke",user,sensorId,level);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
