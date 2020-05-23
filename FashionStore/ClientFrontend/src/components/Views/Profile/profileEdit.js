@@ -296,27 +296,67 @@ export default class profileEdit extends Component {
 
                                         } else {
                                             console.log("dob empty");
+                                            Swal.fire(
+                                                '',
+                                                'Enter Date of Birth !',
+                                                'error'
+                                            )
                                         }
                                     } else {
                                         console.log(" confirm pass empty");
+                                        Swal.fire(
+                                            '',
+                                            'Confirm the Password !',
+                                            'error'
+                                        )
                                     }
                                 } else {
                                     console.log("pass empty");
+                                    Swal.fire(
+                                        '',
+                                        'Enter Password !',
+                                        'error'
+                                    )
                                 }
                             } else {
                                 console.log("phone empty");
+                                Swal.fire(
+                                    '',
+                                    'Enter Contact Number !',
+                                    'error'
+                                )
                             }
                         } else {
                             console.log("gender empty");
+                            Swal.fire(
+                                '',
+                                'Enter Gender !',
+                                'error'
+                            )
                         }
                     } else {
                         console.log("email empty");
+                        Swal.fire(
+                            '',
+                            'Enter Email !',
+                            'error'
+                        )
                     }
                 } else {
                     console.log("lname empty");
+                    Swal.fire(
+                        '',
+                        'Enter Last Name !',
+                        'error'
+                    )
                 }
             } else {
                 console.log("fname == ''");
+                Swal.fire(
+                    '',
+                    'Enter First Name !',
+                    'error'
+                )
             }
         } else {console.log("pass != confirm pass");
             Swal.fire('',
