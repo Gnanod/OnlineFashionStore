@@ -63,6 +63,7 @@ export class ItemDetail extends Component {
         this.decrementQuantity = this.decrementQuantity.bind(this);
         this.addToWhishList = this.addToWhishList.bind(this);
         this.getAverageRate = this.getAverageRate.bind(this);
+        this.checkInWish = this.checkInWish.bind(this);
     }
 
     componentDidMount() {
@@ -362,6 +363,14 @@ export class ItemDetail extends Component {
         );
 
     }
+    checkInWish(){
+        Swal.fire(
+            '',
+            'Item is already in Wishlist!',
+            'error'
+        );
+
+    }
 
     render() {
         return (
@@ -501,7 +510,7 @@ export class ItemDetail extends Component {
                                                                         <div>
                                                                             <button type="button"
                                                                                     className="btn btn-info"
-                                                                                    onClick={() => this.checkInCart()}>
+                                                                                    onClick={() => this.checkInWish()}>
                                                                                 Item In Wishlist
                                                                             </button>
                                                                         </div>
