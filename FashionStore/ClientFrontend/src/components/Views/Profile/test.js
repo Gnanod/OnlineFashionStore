@@ -1,328 +1,116 @@
 import React, {Component} from "react";
 import {BrowserRouter as Router, NavLink} from 'react-router-dom';
 import {
-    MDBMask,
     MDBRow,
-    MDBCol,
-    MDBInputGroup,
-    MDBContainer, MDBPagination, MDBPageItem, MDBPageNav,
-    MDBNavbar,
-    MDBAvatar,
-    MDBIcon, MDBDataTable, MDBFormInline,
-    MDBCard, MDBEdgeHeader,
-    MDBCardBody,
-    MDBCardTitle,
-    MDBInput, MDBBtn, MDBTableHead, MDBTableBody, MDBTable, MDBNavLink
+    MDBCol,MDBCarouselItem,MDBCarousel,MDBCarouselInner,MDBView,
+    MDBCardBody, MDBCard, MDBIcon, MDBCardTitle, MDBCardImage, MDBBtn, MDBCardText,
+
 } from 'mdbreact';
-import './profile.css';
+import './AboutUs.css';
 import 'sweetalert2/src/sweetalert2.scss';
-import Swal from 'sweetalert2/dist/sweetalert2.js'
-import axios from "axios";
-import constants from "../../Constants/constants";
+import { MDBContainer, MDBTabPane, MDBTabContent, MDBNav, MDBNavItem, MDBNavLink,  } from
+        "mdbreact"
 
 
-export default class profile extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            feedback: '',
-            CustfName: '',
-            CustLName: '',
-            CustomerId: localStorage.getItem("CustomerId"),
-            detailList: []
-        };
-        this.sweetalertfunction = this.sweetalertfunction.bind(this);
-        this.submitfeedback = this.submitfeedback.bind(this);
-        this.getDetailuser = this.getDetailuser.bind(this);
-
-        this.onChangeFeedback = this.onChangeFeedback.bind(this);
+export default class AboutUs extends Component {
+    state = {
+        activeItem: "1"
     }
 
-    componentDidMount() {
-        this.getDetailuser();
-        if (localStorage.getItem("CustomerLogged") !== "CustomerLogged") {
-            this.props.history.push('/Login');
-        }
-    }
-
-    sweetalertfunction() {
-        console.log("button clicks");
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-success',
-                cancelButton: 'btn btn-danger'
-            },
-            buttonsStyling: false
-        })
-
-        swalWithBootstrapButtons.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.value) {
-                swalWithBootstrapButtons.fire(
-                    'Deleted!',
-                    'Customer deleted.',
-                    'success'
-                )
-            } else if (
-                /* Read more about handling dismissals below */
-                result.dismiss === Swal.DismissReason.cancel
-            ) {
-                swalWithBootstrapButtons.fire(
-                    'Cancelled',
-                    'Customer details not deleted',
-                    'error'
-                )
-            }
-        })
-    }
-
-    onChangeFeedback(event) {
-        this.setState({
-            feedback: event.target.value
-        })
-    }
-
-    submitfeedback(event) {
-        event.preventDefault();
-
-        if (this.state.feedback != '') {
-
-            console.log("Validation complete");
-            console.log(this.state.feedback);
-            console.log(this.state.CustfName);
-            console.log(this.state.CustLName);
-
-
-            const newfeedback = {
-                feedback: this.state.feedback,
-                firstName: this.state.CustfName,
-                lastName: this.state.CustLName
-            }
-
-            console.log("@@@@@@@@@@@");
-            console.log(newfeedback);
-            axios.post(constants.backend_url + 'api/feedback/add', newfeedback)
-                .then(res => {
-                        console.log(res.data)
-
-
-                        if (res.data.feedback === 'successful') {
-                            Swal.fire(
-                                '',
-                                'Feedback added successfully !.',
-                                'success'
-                            );
-                            this.setState({
-                                feedback: '',
-                                CustfName: ''
-
-                            })
-
-                            this.getDetailuser();
-                        } else {
-                            Swal.fire(
-                                '',
-                                'Feedback not added !',
-                                'error'
-                            )
-                        }
-                    }
-                ).catch(function (error) {
-                console.log(error);
-            })
-
-        } else {
-            console.log("Feedback empty");
-            Swal.fire(
-                '',
-                'Please enter a feedback',
-                'error'
-            );
-        }
-    };
-
-
-    getDetailuser() {
-        console.log("get user details");
-        axios.get(constants.backend_url + 'api/userDetail/getDetailuser/' + this.state.CustomerId).then(response => {
-
-            let custFirst = '';
-            let custLast = '';
-            response.data.map(user => {
-                custFirst = user.firstName;
-                custLast = user.lastName;
-            })
-
+    toggle = tab => () => {
+        if (this.state.activeItem !== tab) {
             this.setState({
-                detailList: response.data,
-                CustfName: custFirst,
-                CustLName: custLast
-            })
-
-
-        }).catch(function (error) {
-            console.log(error);
-        })
+                activeItem: tab
+            });
+        }
     }
+
+
+
 
     render() {
         return (
             <div id='parallaxintro'>
-
                 <MDBCard className="my-5 px-5 pb-5">
                     <MDBCardBody>
-
                         <MDBRow>
-                            <MDBCol md="12">
+                            <MDBCol md="7">
 
-                                {
-                                    this.state.detailList.map(item => {
+                                <section class="my-5">
+                                    <div class="col-lg-11">
+                                        <div id="map-container-section" class="z-depth-1-half map-container-section mb-4" style={{height: "400px"}}>
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.7984671121426!2d79.97075581409538!3d6.914682820412032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae256db1a6771c5%3A0x2c63e344ab9a7536!2sSri%20Lanka%20Institute%20of%20Information%20Technology!5e0!3m2!1sen!2slk!4v1590153528945!5m2!1sen!2slk" frameborder="0"
+                                                    style= {{border:"0"}} allowfullscreen></iframe>
+                                        </div>
 
-                                        const base64String = btoa(new Uint8Array(item.image.data).reduce(function (data, byte) {
-                                            return data + String.fromCharCode(byte);
-                                        }, ''));
-
-                                        return (
-
-                                            <div>
-                                                <MDBCard reverse>
-                                                    {/*<MDBView hover cascade waves>*/}
-                                                    {/*    <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(146).jpg" alt="" className="img-fluid"/>*/}
-                                                    {/*    <MDBMask overlay="white-slight" className="waves-light" />*/}
-                                                    {/*</MDBView>*/}
-                                                    <MDBCardBody cascade className="text-center ">
-                                                        <br/>
-                                                        <h2 className="font-weight-bold h2col"> {item.firstName + " " + item.lastName}  </h2>
-
-                                                        <MDBNavLink to={"/profileEdit"}>
-                                                            <MDBBtn className="waves-light">
-                                                                <i className="fas fa-user-edit"></i>&nbsp;&nbsp;&nbsp;
-                                                                Edit Profile
-                                                            </MDBBtn>
-                                                        </MDBNavLink>
-
-                                                    </MDBCardBody>
-                                                </MDBCard>
-
-                                                <MDBContainer className="mt-5">
-                                                    <section className="my-5">
-                                                        <MDBRow className="txtalign">
-
-                                                            <MDBCol xl="5" md="4" className="mb-3 text-center">
-                                                                <img
-                                                                    src={`data:image/jpeg;base64,${base64String}`}
-                                                                    className="img-fluid z-depth-1 rounded-circle"
-                                                                    alt=""/>
-                                                            </MDBCol>
-                                                            <MDBCol lg="7">
-                                                                <MDBRow className="mb-3">
-                                                                    <MDBCol size="1">
-                                                                        <MDBIcon icon="user" size="lg"
-                                                                                 className="indigo-text"/>
-                                                                    </MDBCol>
-                                                                    <MDBCol xl="10" md="11" size="10">
-                                                                        <h5 className="font-weight-bold mb-3">Name</h5>
-                                                                        <p className="grey-text">
-                                                                            {item.firstName}
-                                                                        </p>
-
-                                                                    </MDBCol>
-                                                                </MDBRow>
-                                                                <MDBRow className="mb-3">
-                                                                    <MDBCol size="1">
-                                                                        <MDBIcon icon="envelope" size="lg"
-                                                                                 className="indigo-text"/>
-                                                                    </MDBCol>
-                                                                    <MDBCol xl="10" md="11" size="10">
-                                                                        <h5 className="font-weight-bold mb-3">Email
-                                                                            Address</h5>
-                                                                        <p className="grey-text">
-                                                                            {item.email}
-                                                                        </p>
-                                                                    </MDBCol>
-                                                                </MDBRow>
-                                                                <MDBRow className="mb-3">
-                                                                    <MDBCol size="1">
-                                                                        <MDBIcon icon="calendar-alt" size="lg"
-                                                                                 className="indigo-text"/>
-                                                                    </MDBCol>
-                                                                    <MDBCol xl="10" md="11" size="10">
-                                                                        <h5 className="font-weight-bold mb-3">Phone
-                                                                            Number</h5>
-                                                                        <p className="grey-text">
-                                                                            {item.phoneNumber}
-                                                                        </p>
-                                                                    </MDBCol>
-                                                                </MDBRow>
-                                                                <MDBRow className="mb-3">
-                                                                    <MDBCol size="1">
-                                                                        <MDBIcon icon="calendar-alt" size="lg"
-                                                                                 className="indigo-text"/>
-                                                                    </MDBCol>
-                                                                    <MDBCol xl="10" md="11" size="10">
-                                                                        <h5 className="font-weight-bold mb-3">Date of
-                                                                            Birth</h5>
-                                                                        <p className="grey-text">
-                                                                            {item.dob}
-                                                                        </p>
-
-                                                                        {/*<p className="hide">*/}
-                                                                        {/*    {*/}
-                                                                        {/*        this.state.CustfName = item.firstName*/}
-                                                                        {/*    }*/}
-                                                                        {/*</p>*/}
-
-
-                                                                    </MDBCol>
-                                                                </MDBRow>
-                                                            </MDBCol>
-                                                        </MDBRow>
-                                                    </section>
-                                                </MDBContainer>
+                                        <div class="row text-center">
+                                            <div class="col-md-4">
+                                                <MDBCol size="1">
+                                                    <MDBIcon icon="map-marker-alt" size="lg"
+                                                             className="indigo-text"/>
+                                                </MDBCol>
+                                                <p>SLIIT Malabe Campus, New Kandy Rd, Malabe 10115</p>
                                             </div>
+                                            <div class="col-md-4">
+                                                <MDBCol size="1">
+                                                    <MDBIcon icon="phone" size="lg"
+                                                             className="indigo-text"/>
+                                                </MDBCol>
+                                                <p>0772218111</p>
 
-
-                                        )
-                                    })}
-
-
-                                <MDBRow className="Feedbakadmin">
-                                    <MDBCol md="12">
-                                        <form onSubmit={this.submitfeedback}>
-                                            <br></br>
-                                            <h2 className="font-weight-bold h2col2">Feedback</h2>
-                                            <MDBInputGroup
-                                                prepend="Your feedback"
-                                                type="textarea"
-                                                value={this.state.feedback}
-                                                onChange={this.onChangeFeedback}
-                                            />
-                                            <div className="text-center mt-4">
-                                                <MDBBtn type="submit" color="danger" rounded
-                                                        className="btn-block z-depth-1a">
-                                                    <i className="fas fa-envelope"> </i> &nbsp;&nbsp;&nbsp;<b>Submit</b>
-                                                </MDBBtn>
                                             </div>
-                                            <br></br>
-                                        </form>
+                                            <div class="col-md-4">
+                                                <MDBCol size="1">
+                                                    <MDBIcon icon="envelope" size="lg"
+                                                             className="indigo-text"/>
+                                                </MDBCol>
+                                                <p>1995gnanod@gmail.com</p>
+
+                                            </div>
+                                        </div></div>
+                                </section>
+                            </MDBCol>
+
+
+                            <MDBCol md="4" style={{paddingTop: "4rem", paddingLeft: "0rem", textAlign: "left"}}>
+                                <MDBRow className="mb-3">
+                                    <MDBCol md="1" size="2">
+                                        <MDBIcon icon="book" size="2x" className="cyan-text" />
+                                    </MDBCol>
+
+                                    <MDBCol md="11" size="10">
+                                        <h5 className="font-weight-bold mb-3">Subject</h5>
+                                        <p className="grey-text">
+                                            The ultimate project concept is to handle three device users; the admin, customer, and store manager where they are allowed to execute the system's normal CRUD operations.
+                                        </p>
                                     </MDBCol>
                                 </MDBRow>
-
-
+                                <MDBRow className="mb-3">
+                                    <MDBCol md="1" size="2">
+                                        <MDBIcon icon="code" size="2x" className="red-text" />
+                                    </MDBCol>
+                                    <MDBCol md="11" size="10">
+                                        <h5 className="font-weight-bold mb-3">Technology</h5>
+                                        <p className="grey-text">
+                                            1.HTML/JavaScript front end<br/>
+                                            2.ReactJS<br/>
+                                            3.NodeJS<br/>
+                                            4.ExpressJS<br/>
+                                            5.Spring Boot Framework<br/>
+                                            6.JSON base Web Services<br/>
+                                            7.NoSQL Database (MongoDB)<br/>
+                                            8.JEST<br/>
+                                        </p>
+                                    </MDBCol>
+                                </MDBRow>
                             </MDBCol>
+
+
                         </MDBRow>
-
-
                     </MDBCardBody>
                 </MDBCard>
+
+
             </div>
         );
     }
