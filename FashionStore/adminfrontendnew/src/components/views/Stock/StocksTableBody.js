@@ -10,7 +10,7 @@ import {
     MDBIcon, MDBFormInline,
     MDBCard,
     MDBCardBody,
-    MDBBtn, MDBTableHead, MDBTableBody, MDBTable, MDBAlert, MDBPagination, MDBPageItem, MDBPageNav,
+    MDBBtn, MDBTableHead, MDBTableBody, MDBTable, MDBAlert, MDBPagination, MDBPageItem, MDBPageNav, MDBInput,
 } from 'mdbreact';
 // import './UserManage.css';
 import 'sweetalert2/src/sweetalert2.scss';
@@ -20,6 +20,9 @@ import axios from "axios";
 import {InputGroup} from 'react-bootstrap';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import StockPriceTableBody from "./StockPriceTableBody";
+import Autocomplete from "@material-ui/lab/Autocomplete/Autocomplete";
+import TextField from "@material-ui/core/TextField/TextField";
+
 
 
 export default class ItemTable extends Component {
@@ -31,19 +34,53 @@ export default class ItemTable extends Component {
         this.state = {
             itemsCL: [],
             empty: false,
-            ItemColourId: []
+            ItemColourId: [],
+            suppliers: [],
+            selectedSupplierObject: '',
+            selectedSupplierObjectValidation: '',
+            selectedEmailObject: '',
+            selectedEmailObjectValidation: '',
+            selectedId:'',
+            order: [],
+            orderItem:'',
+            quantity: 0,
+            quantityValidation: false,
+            supplier: '',
+            email: '',
+            currentQuantity: '',
+            size: '',
+            color: '',
+            itemName: '',
 
         }
 
         this.getAllItemsCL = this.getAllItemsCL.bind(this);
+        this.getAllSuppliers = this.getAllSuppliers.bind(this);
+        this.onChangeQuantity = this.onChangeQuantity.bind(this);
+        this.onChangeGetCompanyName = this.onChangeGetCompanyName.bind(this);
+        this.onChangeGetEmail = this.onChangeGetEmail.bind(this);
+        this.viewItem = this.viewItem.bind(this);
+        this.sendMail=this.sendMail.bind(this);
         this.getAllItemsCL();
-
+        this.getAllSuppliers();
     }
 
     componentDidMount() {
         if (localStorage.getItem("userLogged") !== "userLogged") {
             this.props.history.push('/');
         }
+    }
+
+    getAllSuppliers() {
+        axios.get(constants.backend_url + 'api/supplier/getAllSuppliers').then(response => {
+            this.setState({suppliers: response.data});
+            console.log("Suppler")
+            console.log(response.data)
+            console.log("Supplier")
+        }).catch(function (error) {
+            console.log(error);
+        })
+        console.log("ssss:"+this.state.suppliers);
     }
 
     // getAllItemsCL() {
@@ -57,7 +94,25 @@ export default class ItemTable extends Component {
     //     })
     //     console.log("ddddddd:"+this.state.itemsCL);
     //     console.log(this.state.itemsCL);
-    // }
+    // }/getItemColorDetail/:id'
+
+    viewItem(id){
+        console.log("iii:"+id)
+        axios.get(constants.backend_url + 'api/itemcolor/viewStocks/'+id).then(response => {
+            this.setState(
+                {
+                    order: response.data,
+                    orderItem:response.data
+                }
+                );
+
+        }).catch(function (error) {
+            console.log(error);
+        })
+        console.log("ffffffff:");
+        console.log(this.state.order);
+        console.log("cccccccccc:"+this.state.currentQuantity);
+    }
 
     getAllItemsCL() {
         axios.get(constants.backend_url + 'api/itemcolor/getAllItemColors').then(response => {
@@ -70,6 +125,61 @@ export default class ItemTable extends Component {
 
     }
 
+    onChangeGetCompanyName(value) {
+
+        console.log(value);
+        this.state.selectedSupplierObject = value;
+        this.setState({
+            selectedSupplierObject: this.state.selectedSupplierObject,
+            selectedSupplierObjectValidation: false
+        });
+        console.log("weeeee:")
+        //console.log(this.state.selectedSupplierObject);
+    }
+    onChangeGetEmail(value) {
+        // console.log(value);
+        this.state.selectedEmailObject = value;
+        this.setState({
+            selectedEmailObject: this.state.selectedEmailObject,
+            selectedEmailObjectValidation: false
+        });
+        console.log("emaillllll:"+this.state.selectedEmailObject);
+    }
+
+    onChangeQuantity(e) {
+        this.setState({
+            quantity: e.target.value,
+            quantityValidation: false
+        });
+
+    }
+
+    sendMail(supplier,email,newQuantity,itemSize,itemColor,itemName){
+        console.log(this.state.selectedSupplierObject.companyName);
+        console.log(this.state.selectedEmailObject.email);
+        console.log("email:"+this.state.email);
+        console.log("email:"+email);
+        console.log("supplier:"+supplier);
+        console.log("newQuantity:"+newQuantity);
+        console.log("itemSize:"+itemSize);
+        console.log("itemColor:"+itemColor);
+        console.log("itemName:"+itemName);
+
+        axios.get(constants.spring_backend_url + '/supplierController/sendMail/'+supplier+'/'+email+'/'+newQuantity+'/'+itemSize+'/'+itemName).then(response => {
+
+            if(response.data==true){
+                console.log("succ");
+                Swal.fire(
+                    '',
+                    'Email Sent successfully ',
+                    'success'
+                )
+                return true;
+            }
+        }).catch(function (error) {
+            console.log(error);
+        })
+    }
 
     render() {
         // const {itemsCL} = this.props;
@@ -118,7 +228,7 @@ export default class ItemTable extends Component {
                     </MDBCardBody>
                 </MDBCard>
 
-
+                <MDBRow>
                 <MDBCard className="card">
                     <MDBCardBody>
                         <MDBTable responsive>
@@ -160,6 +270,11 @@ export default class ItemTable extends Component {
                                                     </td>
                                                     <td>{itm.quantity}</td>
                                                     <td>{itm.price}</td>
+                                                    <td>
+                                                        <MDBBtn tag="a" size="sm" color="success"  onClick={()=>this.viewItem(itm._id)}>
+                                                            <MDBIcon size="lg" icon="pen" />
+                                                        </MDBBtn>&nbsp;&nbsp;&nbsp;
+                                                    </td>
 
                                                 </tr>
                                             </MDBTableBody>
@@ -168,6 +283,115 @@ export default class ItemTable extends Component {
                         </MDBTable>
                     </MDBCardBody>
                 </MDBCard>
+
+                <MDBCol md="4">
+                    <MDBCard>
+                        <MDBCardBody>
+                            {/*<form onSubmit={this.sendMail}>*/}
+                            <p className="h4 text-center py-1">Supplier Order Details</p>
+
+                            <Autocomplete
+                                id="combo-box-demo"
+                                options={this.state.suppliers}
+                                getOptionLabel={(option) => option.companyName}
+                                style={{width: 300}}
+                                onChange={(event, value) => this.onChangeGetCompanyName(value)}
+                                renderInput={(params) => <TextField {...params}
+                                                                    label="Supplier"/>}
+                                size="sm"
+                            /><br/>
+                            {
+                                this.state.selectedSupplierObjectValidation ?
+                                    <MDBAlert color="danger">
+                                        Supplier Field Is Empty
+                                    </MDBAlert> : ''
+                            }
+                            <Autocomplete
+                                id="combo-box-demo"
+                                options={this.state.suppliers}
+                                getOptionLabel={(option) => option.email}
+                                style={{width: 300}}
+                                onChange={(event, value) => this.onChangeGetEmail(value)}
+                                renderInput={(params) => <TextField {...params}
+                                                                    label="Email"/>}
+                                size="sm"
+                            /><br/>
+                            {
+                                this.state.selectedEmailObjectValidation ?
+                                    <MDBAlert color="danger">
+                                        Email Field Is Empty
+                                    </MDBAlert> : ''
+                            }
+                            <label htmlFor="defaultFormCardNameEx1" className="grey-text font-weight-light">New Quantity</label>
+                            <MDBInput size="sm"
+                                      pattern="[0-9]*"
+                                      value={this.state.quantity}
+                                      onChange={this.onChangeQuantity}
+
+                            /><br/>
+                            {
+                                this.state.quantityValidation ? <MDBAlert color="danger">
+                                    Quantity Field Is Empty
+                                </MDBAlert> : ''
+                            }
+
+                            {/*<div className="input-group">*/}
+                                {/*<div className="input-group-prepend">*/}
+                                            {/*<span className="input-group-text" id="basic-addon">*/}
+                                              {/*<i className="fa fa-table prefix"></i>*/}
+                                            {/*</span>*/}
+                                {/*</div>*/}
+                                {/*<input*/}
+                                    {/*type="text"*/}
+                                    {/*className="form-control"*/}
+                                    {/*aria-label="Name"*/}
+                                    {/*aria-describedby="basic-addon"*/}
+                                    {/*value={this.state.quantity}*/}
+
+                                {/*/></div>*/}
+
+                            <MDBTable responsive>
+                                <MDBTableHead color="grey-color" textBlack>
+                                    <tr>
+                                        <th>Item Name</th>
+                                        <th>Size</th>
+                                        <th>Colour</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                </MDBTableHead>
+                                <MDBTableBody>
+
+                                    {this.state.order.map(orders => {
+
+                                        console.log("ordersss");
+                                        console.log(orders)
+                                        console.log("orders");
+
+                                        return (
+
+
+                                            <tr>
+                                                <td>{orders.itemCode[0].itemName}</td>
+                                                <td>{orders.itemSize}</td>
+                                                <label
+                                                    style={{backgroundColor: orders.itemColor,width :50,height :50}}/>
+                                                <td>{orders.quantity}</td>
+                                            </tr>
+
+
+
+
+                                        )})}
+                                </MDBTableBody>
+                            </MDBTable><br/>
+
+                            <MDBBtn type="submit" onClick={()=>this.sendMail(this.state.selectedSupplierObject.companyName,this.state.selectedEmailObject.email,this.state.quantity,this.state.order[0].itemSize,
+                                this.state.order[0].itemColor,this.state.order[0].itemCode[0].itemName)} >Submit</MDBBtn>
+                            {/*</form>*/}
+                        </MDBCardBody>
+                    </MDBCard>
+                </MDBCol>
+                </MDBRow>
 
             </div>
         );
