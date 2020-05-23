@@ -179,12 +179,8 @@ class Cart extends Component {
                         console.log(res.data.order)
 
                         if (res.data.order === 'successful') {
-                            this.sendMail(a);
-                            Swal.fire(
-                                '',
-                                ' Your Order has Placed  Successfully.',
-                                'success'
-                            );
+
+
                             this.clearCart(this.state.userId);
 
                         } else {
@@ -197,6 +193,20 @@ class Cart extends Component {
                         }
                     }
                 );
+            if(this.sendMail(a)==true){
+                Swal.fire(
+                    '',
+                    ' Your Order has Placed  Successfully.',
+                    'success'
+                );
+            }else{
+                Swal.fire(
+                    '',
+                    'Order Purchase Fail',
+                    'error'
+
+                )
+            }
         })
 
 
@@ -235,7 +245,10 @@ class Cart extends Component {
     }
     sendMail(orderId){
         axios.get(constants.spring_backend_url + '/OrderController/sendMail/samithavidhanaarachchi@gmail.com/'+orderId+'/'+10).then(response => {
-
+            if(response.data==true){
+                console.log("succ");
+                return true;
+            }
         }).catch(function (error) {
             console.log(error);
         })
