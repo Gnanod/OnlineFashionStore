@@ -353,7 +353,7 @@ export default class BrandCategory extends Component {
                         {
                             localStorage.getItem("Position") ==="StoreManager" ?
                                 <NavLink exact={true} to="/item/brandcategory" >
-                                    <button type="button" className="btn btn-success"> Brand & Category</button>
+                                    <button type="button" className="btn btn-primary"> Brand & Category</button>
                                 </NavLink>
                                 :
                                 ''

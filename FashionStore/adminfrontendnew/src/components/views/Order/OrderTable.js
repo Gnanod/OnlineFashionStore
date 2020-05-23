@@ -50,6 +50,7 @@ class OrderTable extends Component {
     componentDidMount() {
         this.getDetails();
         if (localStorage.getItem("userLogged") !== "userLogged") {
+            console.log("Gnanod")
             this.props.history.push('/');
         }
     }
