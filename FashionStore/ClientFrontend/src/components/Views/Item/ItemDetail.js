@@ -45,6 +45,7 @@ export class ItemDetail extends Component {
             item_Id: '',
             averageRates: 0,
             ratingItems: '',
+            inCartStatus:false,
             ratingItemsValidation :true
 
         }
@@ -57,7 +58,7 @@ export class ItemDetail extends Component {
         this.addToCart = this.addToCart.bind(this);
         this.getNewItemColorDetails();
         this.getPhotoAccordingToColor();
-        //  this.getSizesAccordingToTheColor();
+        this.checkInCart = this.checkInCart.bind(this);
         this.decrementQuantity = this.decrementQuantity.bind(this);
         this.addToWhishList = this.addToWhishList.bind(this);
         this.getAverageRate = this.getAverageRate.bind(this);
@@ -163,10 +164,31 @@ export class ItemDetail extends Component {
             })
 
         }
+        let cartItem = value;
+        let id=localStorage.getItem("CustomerId");
+        let itemId=cartItem.itemSizes._id;
+        let itemSize=cartItem.itemSizes.itemSize;
+        axios.get(constants.backend_url + 'api/cart/checkInCart/'+id+'/'+itemSize+'/'+itemId).then(res => {
+            console.log("LLLLLLLLLLLLLLLLLLLL")
+            console.log(res.data)
+            console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
+            if(res.data.cart==='available'){
+                console.log("HHHHHHHHHHHHHHHHHHH");
+                this.setState({
+                    inCartStatus:true
+                })
+            }else{
+                this.setState({
+                    inCartStatus:false
+                })
+            }
+
+        });
 
     }
 
     addToCart() {
+
 
         let cartItem = this.state.selected;
         console.log(this.state.selected);
@@ -199,7 +221,7 @@ export class ItemDetail extends Component {
                                 'Cart Details Added Successfully.',
                                 'success'
                             );
-
+                            console.log(this.state.inCartStatus);
                         } else {
 
                             Swal.fire(
@@ -310,6 +332,14 @@ export class ItemDetail extends Component {
 
 
     }
+    checkInCart(){
+        Swal.fire(
+            '',
+            'Item is already in Cart!',
+            'error'
+        );
+
+    }
 
     render() {
         return (
@@ -414,18 +444,34 @@ export class ItemDetail extends Component {
                                                             </div>
 
                                                             <div className="row">
-                                                                {
-                                                                    localStorage.getItem("CustomerLogged") === "CustomerLogged" ?
-                                                                <div className="col-sm-4">
 
-                                                                    <button type="button"
-                                                                            className="btn btn-primary"
-                                                                            onClick={() => this.addToCart()}>Add to Cart
-                                                                    </button>
-                                                                </div>
-                                                                        :
-                                                                        ''
-                                                                }
+                                                                {
+                                                                    localStorage.getItem("CustomerLogged") === "CustomerLogged"  ?
+
+                                                                        <div className="col-sm-4">
+                                                                            {this.state.inCartStatus ?
+                                                                                <div>
+                                                                                    <button type="button"
+                                                                                            className="btn btn-info" onClick={() => this.checkInCart()}>
+                                                                                        Item In Cart
+                                                                                    </button>
+                                                                                </div>
+
+                                                                                :
+                                                                                <button type="button"
+                                                                                        className="btn btn-primary"
+                                                                                        onClick={() => this.addToCart()}>Add
+                                                                                    to Cart
+                                                                                </button>
+
+                                                                            }
+                                                                        </div>
+
+                                                                                :
+                                                                            <div></div>
+                                                                        }
+
+
                                                                 {
                                                                     localStorage.getItem("CustomerLogged") === "CustomerLogged" ?
                                                                 <div className="col-sm-4">
