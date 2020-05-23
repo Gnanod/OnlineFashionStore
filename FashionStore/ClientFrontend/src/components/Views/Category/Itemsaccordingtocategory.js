@@ -28,18 +28,22 @@ export class Itemsaccordingtocategory extends Component {
         this.getItemDetailsAccordingtoCategory(this.props.match.params.id);
     }
     getItemDetailsAccordingtoCategory(id){
-        axios.get(constants.backend_url + 'api/item/itemCategory/'+id).then(response => {
+        axios.get(constants.backend_url + 'api/item/itemCategory/').then(response => {
             response.data.map(item=>{
                 if(item.brandCategory[0].categoryCode[0] === id){
                     const newArray = {
                         itemArray: item,
                     }
                     const array = [newArray, ...this.state.newItemArray];
+
                     this.setState({
                         newItemArray: array,
                     })
                 }
             })
+            console.log("response");
+            console.log(response.data);
+            console.log("response")
             this.setState({newItems: response.data});
             this.getItemColorDetails();
         }).catch(function (error) {
@@ -115,7 +119,6 @@ export class Itemsaccordingtocategory extends Component {
                                     :
                                     this.state.categoryItems.map(items => {
                                         console.log(items);
-                                        // = btoa(String.fromCharCode(...new Uint8Array(items.image.data)));
                                         const base64String = btoa(new Uint8Array(items.itemArray.image.data).reduce(function (data, byte) {
                                             return data + String.fromCharCode(byte);
                                         }, ''));
