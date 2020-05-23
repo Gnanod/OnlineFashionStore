@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {BrowserRouter as Router, NavLink} from 'react-router-dom';
 import {
     MDBRow,
-    MDBCol,
+    MDBCol,MDBCarouselItem,MDBCarousel,MDBCarouselInner,MDBView,
     MDBCardBody, MDBCard, MDBIcon, MDBCardTitle, MDBCardImage, MDBBtn, MDBCardText,
 
 } from 'mdbreact';
@@ -56,7 +56,7 @@ export default class AboutUs extends Component {
                                                         <MDBIcon icon="phone" size="lg"
                                                                  className="indigo-text"/>
                                                     </MDBCol>
-                                                    <p>+ 01 234 567 89</p>
+                                                    <p>0772218111</p>
 
                                                 </div>
                                                 <div class="col-md-4">
@@ -64,7 +64,7 @@ export default class AboutUs extends Component {
                                                         <MDBIcon icon="envelope" size="lg"
                                                                  className="indigo-text"/>
                                                     </MDBCol>
-                                                    <p>info@gmail.com</p>
+                                                    <p>1995gnanod@gmail.com</p>
 
                                                 </div>
                                             </div></div>
@@ -109,6 +109,7 @@ export default class AboutUs extends Component {
                         </MDBRow>
                     </MDBCardBody>
                 </MDBCard>
+
 
             </div>
         );
