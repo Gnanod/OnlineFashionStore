@@ -10,10 +10,10 @@ let wishlist = new Schema({
         type :Number,
         required: true
     },
-    /*quantity:{
-        type: Number,
+    itemSize:{
+        type: String,
         required: true
-    },*/
+    },
     userId :{
         type :String,
         required: true

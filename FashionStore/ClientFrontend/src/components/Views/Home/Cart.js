@@ -347,7 +347,7 @@ class Cart extends Component {
         {this.state.status ?
 
             <div className="alert alert-success" role="alert">
-                Product Cart is Empty!!
+                Currently Product Cart is Empty!!
                 <br/>
             </div>
 

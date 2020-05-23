@@ -46,6 +46,7 @@ export class ItemDetail extends Component {
             averageRates: 0,
             ratingItems: '',
             inCartStatus:false,
+            inWishStatus:false,
             ratingItemsValidation :true
 
         }
@@ -184,6 +185,22 @@ export class ItemDetail extends Component {
             }
 
         });
+        axios.get(constants.backend_url + 'api/wishlist/checkInWish/'+id+'/'+itemSize+'/'+itemId).then(res => {
+            console.log("LLLLLLLLLLLLLLLLLLLL")
+            console.log(res.data)
+            console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
+            if(res.data.cart==='available'){
+                console.log("HHHHHHHHHHHHHHHHHHH");
+                this.setState({
+                    inWishStatus:true
+                })
+            }else{
+                this.setState({
+                    inWishStatus:false
+                })
+            }
+
+        });
 
     }
 
@@ -221,7 +238,9 @@ export class ItemDetail extends Component {
                                 'Cart Details Added Successfully.',
                                 'success'
                             );
-                            console.log(this.state.inCartStatus);
+                            this.setState({
+                                inCartStatus:true
+                            })
                         } else {
 
                             Swal.fire(
@@ -304,7 +323,7 @@ export class ItemDetail extends Component {
             userId:localStorage.getItem("CustomerId"),
             cartName:this.state.itemName,
             cartPrice:cartItem.itemSizes.price,
-            //quantity:1,
+            itemSize:cartItem.itemSizes.itemSize,
             itemId:cartItem.itemSizes._id
         }
             console.log(wishlist);
@@ -325,6 +344,9 @@ export class ItemDetail extends Component {
                                 'Wishlist Details Added Successfully.',
                                 'success'
                             )
+                            this.setState({
+                                inWishStatus:true
+                            })
                         }
                     }
                 );
@@ -475,11 +497,23 @@ export class ItemDetail extends Component {
                                                                 {
                                                                     localStorage.getItem("CustomerLogged") === "CustomerLogged" ?
                                                                 <div className="col-sm-4">
-                                                                    <button type="button"
-                                                                            className="btn btn-primary"
-                                                                            onClick={() => this.addToWhishList()}>Add to
-                                                                        WishList
-                                                                    </button>
+                                                                    {this.state.inWishStatus ?
+                                                                        <div>
+                                                                            <button type="button"
+                                                                                    className="btn btn-info"
+                                                                                    onClick={() => this.checkInCart()}>
+                                                                                Item In Wishlist
+                                                                            </button>
+                                                                        </div>
+                                                                        :
+
+                                                                        <button type="button"
+                                                                                className="btn btn-primary"
+                                                                                onClick={() => this.addToWhishList()}>Add
+                                                                            to
+                                                                            WishList
+                                                                        </button>
+                                                                    }
                                                                 </div>
                                                                         :
                                                                         ''
