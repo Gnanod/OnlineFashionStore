@@ -246,6 +246,7 @@ export class ItemDetail extends Component {
                                 this.setState({
                                     inCartStatus:true
                                 })
+
                             } else {
 
                                 Swal.fire(
