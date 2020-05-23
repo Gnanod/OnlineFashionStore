@@ -75,6 +75,7 @@ export default class AdminManage extends Component {
         this.onChangePosition2 = this.onChangePosition2.bind(this);
         this.onChangePassword2 = this.onChangePassword2.bind(this);
         this.onChangeConfirmPass2 = this.onChangeConfirmPass2.bind(this);
+        this.adminMail = this.adminMail.bind(this);
     }
 
     componentDidMount() {
@@ -448,6 +449,7 @@ export default class AdminManage extends Component {
                                                     'Admin added successfully !.',
                                                     'success'
                                                 );
+                                                this.adminMail(this.state.AdminName, this.state.AdminEmail, this.state.AdminPosition);
                                                 this.setState({
                                                     AdminName:'',
                                                     AdminNameValidation: false,
@@ -512,6 +514,24 @@ export default class AdminManage extends Component {
         }
 
     };
+
+
+
+    adminMail( name, email, position){
+        axios.get(constants.spring_backend_url + '/adminController/adminMail/'+ name +'/'+ email + '/' + position).then(response => {
+            if(response.data==true){
+                console.log("succ");
+                Swal.fire(
+                    '',
+                    'Auto generated Email has sent to ' + name + ' about his ' +position+ ' position !',
+                    'success'
+                );
+            }
+        }).catch(function (error) {
+            console.log(error);
+        })
+
+    }
 
 
     render() {

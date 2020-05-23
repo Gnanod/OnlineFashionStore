@@ -34,6 +34,7 @@ class Cart extends Component {
             fullTot:0,
             orderId:'',
             status:true,
+            user:[],
             loaderStatus :true
 
         }
@@ -244,14 +245,20 @@ class Cart extends Component {
 
     }
     sendMail(orderId){
-        axios.get(constants.spring_backend_url + '/OrderController/sendMail/samithavidhanaarachchi@gmail.com/'+orderId+'/'+10).then(response => {
-            if(response.data==true){
-                console.log("succ");
-                return true;
-            }
-        }).catch(function (error) {
-            console.log(error);
-        })
+        axios.get(constants.backend_url + 'api/userDetail/getDetailuser/' + this.state.userId).then(response => {
+           this.setState({user:response.data})
+
+            console.log(response.data[0].email)
+            axios.get(constants.spring_backend_url + '/OrderController/sendMail/'+response.data[0].email+'/'+orderId+'/'+this.state.fullTot).then(response => {
+                if(response.data==true){
+                    console.log("succ");
+                    return true;
+                }
+            }).catch(function (error) {
+                console.log(error);
+            })
+        });
+
     }
     render() {
         return (
@@ -283,6 +290,8 @@ class Cart extends Component {
 
                     <div className="col-10 mx-auto col-lg-2">
                         <span style={{ font: "10px" }}><strong>{item.cartName}</strong></span>
+                        <br/>
+                       <p className="text-muted">Item Size  : {item.itemSize}</p>
 
                     </div>
 
@@ -344,7 +353,7 @@ class Cart extends Component {
         {this.state.status ?
 
             <div className="alert alert-success" role="alert">
-                Product Cart is Empty!!
+                Currently Product Cart is Empty!!
                 <br/>
             </div>
 
