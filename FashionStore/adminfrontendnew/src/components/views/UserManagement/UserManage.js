@@ -45,6 +45,7 @@ export default class UserDetails extends Component {
         this.nextPage = this.nextPage.bind(this);
         this.lastPage = this.lastPage.bind(this);
         this.onChangeName = this.onChangeName.bind(this);
+        this.userMail = this.userMail.bind(this);
 
 
     }
@@ -58,7 +59,8 @@ export default class UserDetails extends Component {
 
     }
 
-    sweetalertfunction(id) {
+    sweetalertfunction(id,name,email) {
+
         console.log("button clicks");
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -91,6 +93,7 @@ export default class UserDetails extends Component {
                             'Customer Deleted !',
                             'success'
                         )
+                        this.userMail(name, email);
                         this.getDetails();
                     }
                 })
@@ -198,6 +201,26 @@ export default class UserDetails extends Component {
             this.getDetails();
         }
 
+
+    }
+
+
+    userMail( name, email){
+        console.log("user mail called");
+        console.log("user mail called" + name);
+        console.log("user mail called" + email);
+        axios.get(constants.spring_backend_url + '/userController/userMail/'+ name +'/'+ email ).then(response => {
+            if(response.data==true){
+                console.log("succ");
+                Swal.fire(
+                    '',
+                    'Auto generated Email has sent to ' + name + ' about the reason for the deletion of their account !',
+                    'success'
+                );
+            }
+        }).catch(function (error) {
+            console.log(error);
+        })
 
     }
 
@@ -310,7 +333,7 @@ export default class UserDetails extends Component {
                                                                                     <td>
                                                                                         <MDBBtn tag="a" size="sm"
                                                                                                 color="danger"
-                                                                                                onClick={() => this.sweetalertfunction(item._id)}>
+                                                                                                onClick={() => this.sweetalertfunction(item._id,item.firstName, item.email)}>
                                                                                             <MDBIcon size="lg"
                                                                                                      icon="times-circle"/>
                                                                                         </MDBBtn>
@@ -389,7 +412,7 @@ export default class UserDetails extends Component {
                                                                                         <td>
                                                                                             <MDBBtn tag="a" size="sm"
                                                                                                     color="danger"
-                                                                                                    onClick={() => this.sweetalertfunction(item._id)}>
+                                                                                                    onClick={() => this.sweetalertfunction(item._id,item.firstName, item.email)}>
                                                                                                 <MDBIcon size="lg"
                                                                                                          icon="times-circle"/>
                                                                                             </MDBBtn>
