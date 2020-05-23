@@ -3,6 +3,7 @@ package lk.fs.Controller;
 import lk.fs.Service.EmailUtil;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -15,7 +16,7 @@ import javax.mail.Session;
 public class OrderController {
 
     @GetMapping(value = "/sendMail/{mail}/{orderId}/{itemTotal}")
-    public void sendEmail(@PathVariable String mail, @PathVariable String orderId, @PathVariable float itemTotal) {
+    public boolean sendEmail(@PathVariable String mail, @PathVariable String orderId, @PathVariable float itemTotal) {
 
         System.out.println("GGGGGGGGG");
         System.out.println("mail" + mail);
@@ -43,11 +44,14 @@ public class OrderController {
             };
             Session session = Session.getInstance(props, auth);
 
-            EmailUtil.sendEmail(session, toEmail,"TLSEmail Testing Subject", "TLSEmail Testing Body");
+            LocalDateTime now = LocalDateTime.now();
+            EmailUtil.sendEmail(session, toEmail,"Confirmation of Order", "You have been succesfully purchased the items."+"\n"+"Order Id  :"+orderId+"\n"+"Item Total  :"+itemTotal+"\n"+"Purchase Date  :"+now +"\n"+"Thank you for Shopping on GSTD Pvt(LTD).");
 
 
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 }
