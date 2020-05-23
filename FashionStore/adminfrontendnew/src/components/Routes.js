@@ -34,6 +34,7 @@ class Routes extends React.Component {
                 <Route exact path='/logout' component={Logout}/>
                 <Route exact path='/usermanage/adminManage' component={AdminManage}/>
                 <Route exact path='/supplier/supplieranalysis' component={SupplierTable}/>
+                <Route exact path='/supplier/suppliermanage' component={SupplierDetails}/>
                 <Route exact path='/stock/stockmanage' component={StockDetails}/>
                 <Route exact path='/stock/stockanalysis' component={ItemTable}/>
             </Switch>
