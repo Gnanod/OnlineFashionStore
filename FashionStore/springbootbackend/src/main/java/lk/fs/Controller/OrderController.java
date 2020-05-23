@@ -26,7 +26,7 @@ public class OrderController {
         try {
             final String fromEmail = "fashionstoregtsd@gmail.com"; //requires valid gmail id
             final String password = "Fashionstore123"; // correct password for gmail id
-            final String toEmail = "1995gnanod@gmail.com"; // can be any email id
+            final String toEmail = mail; // can be any email id
 
             System.out.println("TLSEmail Start");
             Properties props = new Properties();

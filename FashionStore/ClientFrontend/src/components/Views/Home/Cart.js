@@ -244,6 +244,7 @@ class Cart extends Component {
 
     }
     sendMail(orderId){
+
         axios.get(constants.spring_backend_url + '/OrderController/sendMail/samithavidhanaarachchi@gmail.com/'+orderId+'/'+10).then(response => {
             if(response.data==true){
                 console.log("succ");
@@ -283,6 +284,8 @@ class Cart extends Component {
 
                     <div className="col-10 mx-auto col-lg-2">
                         <span style={{ font: "10px" }}><strong>{item.cartName}</strong></span>
+                        <br/>
+                       <p className="text-muted">Item Size  : {item.itemSize}</p>
 
                     </div>
 

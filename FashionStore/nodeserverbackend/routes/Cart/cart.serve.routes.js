@@ -180,5 +180,28 @@ router.route('/deleteOrders/:id').get(function (req, res) {
         res.status(400).send('fail');
     });
 });
+router.route('/checkInCart/:id/:itemSize/:itemId').get(function (req, res) {
+    let id =req.params.id;
+    let itemSize =req.params.itemSize;
+    let itemId=req.params.itemId;
+    console.log(id)
+    console.log(itemSize)
+    console.log(itemId)
 
+
+  Cart.find({ userId: id,itemId:itemId,itemSize:itemSize}).exec().then(item => {
+       console.log("Item")
+      console.log(item)
+      console.log("Item")
+        if(item.length ===0){
+            res.status(200).json({'cart':'unavailable'});
+        }else{
+            res.status(200).json({'cart':'available'});
+        }
+
+    })
+        .catch(err => {
+            console.log("fail")
+        });
+});
 module.exports = router;
