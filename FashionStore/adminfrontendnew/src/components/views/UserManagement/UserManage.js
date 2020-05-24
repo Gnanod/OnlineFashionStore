@@ -18,6 +18,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import constants from "../../../constants/constants";
 import axios from "axios";
 import {InputGroup} from 'react-bootstrap';
+import jsPDF from "jspdf";
 
 export default class UserDetails extends Component {
 
@@ -46,6 +47,7 @@ export default class UserDetails extends Component {
         this.lastPage = this.lastPage.bind(this);
         this.onChangeName = this.onChangeName.bind(this);
         this.userMail = this.userMail.bind(this);
+        this.generateRep = this.generateRep.bind(this);
 
 
     }
@@ -205,6 +207,34 @@ export default class UserDetails extends Component {
     }
 
 
+    generateRep(){
+        const unit = "pt";
+        const size = "A4";
+        const orientation = "portrait";
+
+        const marginLeft = 40;
+        const doc = new jsPDF(orientation, unit, size);
+
+        doc.setFontSize(15);
+
+        const title = "GSTD Pvt(LTD) User Report ";
+        const headers = [["Name", "Email Address","Contact Number","Date of Birth", "Gender"]];
+
+        const data = this.state.detailList.map(user=> [user.firstName, user.email,user.phoneNumber,user.dob
+        ,user.gender]);
+
+        let content = {
+            startY: 50,
+            head: headers,
+            body: data
+        };
+
+        doc.text(title, marginLeft, 40);
+        doc.autoTable(content);
+        doc.save("GSTDOrderReport.pdf")
+    }
+
+
     userMail( name, email){
         console.log("user mail called");
         console.log("user mail called" + name);
@@ -292,8 +322,9 @@ export default class UserDetails extends Component {
                                         onChange={this.onChangeName}
                                         // onChange={()=>this.searchUser(this.state.CustomerName)}
                                     />
-                                    <MDBBtn size="sm" color="primary" className="my-0" type="submit" disabled><MDBIcon
-                                        icon="search"/></MDBBtn>
+                                    <MDBBtn size="sm" color="primary" className="my-0" type="button" disabled><MDBIcon
+                                    icon="search"/></MDBBtn>
+                                    <MDBBtn size="sm" color="success" className="my-0" type="button" onClick={() => this.generateRep()} ><MDBIcon far icon="file-alt" />&nbsp;&nbsp;Generate Report</MDBBtn>
                                 </MDBFormInline>
                             </MDBCol>
 

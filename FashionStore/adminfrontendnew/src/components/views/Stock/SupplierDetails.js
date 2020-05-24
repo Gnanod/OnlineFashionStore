@@ -116,7 +116,7 @@ export default class SupplierDetails extends Component{
         }
 
 
-        //Contact Info ----------------------------------------------------------------
+        //Contact Information ----------------------------------------------------------------
 
         onChangeFirstName(e)
         {
@@ -167,7 +167,7 @@ export default class SupplierDetails extends Component{
         }
 
 
-        //Address Info ---------------------------------------
+        //Address Information ---------------------------------------
 
         onChangeAddress1(e)
         {
@@ -359,7 +359,6 @@ export default class SupplierDetails extends Component{
     render(){
 
         const suppliersArr = this.state.suppliers;
-        // const {deleteSuppliers} = this.props;
         const deleteSuppliers=this.deleteStockPrice;
 
         return(
