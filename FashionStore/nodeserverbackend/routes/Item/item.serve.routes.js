@@ -69,15 +69,18 @@ router.route('/addNewArraivalItems').post(function (req, res) {
 });
 
 
-// outer.route('/getAllNewArrivals').get(function (req, res) {
-//     NewArraivalItem.find(function (err, item) {
-//         if (!err) {
-//             res.json(item);
-//         } else {
-//             res.status(400).send('faild');
-//         }
-//     });
-// });
+router.route('/updateDiscount/:id/:discount').get(function (req, res) {
+    let id = req.params.id;
+    let discount=req.params.discount;
+    Item.updateOne({_id:id},{$set: {discount:discount}}).then(sup=>{
+        res.status(200).json({'item':'successful'});
+    }).catch(err=>{
+
+        res.status(400).send('fail');
+    });
+});
+
+
 
 
 

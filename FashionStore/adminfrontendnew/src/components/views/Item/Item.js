@@ -249,7 +249,6 @@ export class Item extends Component {
                 itemDiscountIncreaseValidation: true
             });
         }
-
     }
 
 

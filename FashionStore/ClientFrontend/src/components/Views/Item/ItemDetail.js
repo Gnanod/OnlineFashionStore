@@ -168,8 +168,7 @@ export class ItemDetail extends Component {
                 price: price,
                 selected:value,
                 discount :discount
-            })
-
+            });
         }
         let cartItem = value;
         let id=localStorage.getItem("CustomerId");

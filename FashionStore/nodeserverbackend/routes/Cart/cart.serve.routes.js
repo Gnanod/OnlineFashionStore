@@ -118,6 +118,7 @@ router.route('/addOrder').post(function (req,res) {
         res.status(400).send('fail');
     });
 });
+
 router.route('/updateQuantity/:id/:quantity').get(function (req, res) {
     console.log("In the dec")
     let id = req.params.id;
@@ -130,6 +131,7 @@ router.route('/updateQuantity/:id/:quantity').get(function (req, res) {
         res.status(400).send('fail');
     });
 });
+
 router.route('/addPhoto/:id').get(function (req, res) {
 
     let id = req.params.id;
