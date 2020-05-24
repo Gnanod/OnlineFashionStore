@@ -31,6 +31,8 @@ export default class SupplierTable extends Component{
 
         this.state = {
             suppliers: [],
+            currentPage: 1,
+            userPerPage: 5,
             empty: false
 
         }
@@ -40,6 +42,11 @@ export default class SupplierTable extends Component{
         this.deleteSuppliers = this.deleteSuppliers.bind(this);
         this.getAllSuppliers();
 
+
+        this.firstPage = this.firstPage.bind(this);
+        this.prevPage = this.prevPage.bind(this);
+        this.nextPage = this.nextPage.bind(this);
+        this.lastPage = this.lastPage.bind(this);
     }
 
     componentDidMount(){
@@ -153,11 +160,65 @@ export default class SupplierTable extends Component{
         }
     }
 
+
+
+    firstPage() {
+        if (this.state.currentPage > 1) {
+            this.setState({
+                currentPage: 1
+            })
+        }
+    }
+
+    prevPage() {
+        if (this.state.currentPage > 1) {
+            this.setState({
+                currentPage: this.state.currentPage - 1
+            })
+        }
+
+    }
+
+    nextPage() {
+
+        if (this.state.currentPage < Math.ceil(this.state.suppliers.length / this.state.userPerPage)) {
+            this.setState({
+                currentPage: this.state.currentPage + 1
+            })
+        }
+
+    }
+
+    lastPage() {
+
+        if (this.state.currentPage < Math.ceil(this.state.suppliers.length / this.state.userPerPage)) {
+            this.setState({
+                currentPage: Math.ceil(this.state.suppliers.length / this.state.userPerPage)
+            })
+        }
+
+    }
+
+    changePage(event){
+        this.setState({
+            [event.target.name] : parseInt(event.target.value)
+        });
+    }
+
+
+
     render() {
 
-        const suppliersArr = this.state.suppliers;
+        //const suppliersArr = this.state.suppliers;
         // const {deleteSuppliers} = this.props;
         const deleteSuppliers = this.deleteStockPrice;
+
+        const { suppliers, currentPage, userPerPage} = this.state;
+        const lastIndex = currentPage * userPerPage;
+        const firstIndex = lastIndex - userPerPage;
+        const currentsuppliers = suppliers.slice(firstIndex, lastIndex);
+        const totalPages = Math.ceil(suppliers.length / userPerPage);
+
 
         return (
 
@@ -206,7 +267,7 @@ export default class SupplierTable extends Component{
 
                         </MDBTableHead>
                         {
-                            suppliersArr.length === 0 ?
+                            currentsuppliers.length === 0 ?
                                 <tr >
                                     <td colSpan="12" style={{textAlign : "center", fontWeight: "bold"}}>
                                         <MDBAlert color="danger" >
@@ -214,7 +275,7 @@ export default class SupplierTable extends Component{
                                         </MDBAlert>
                                     </td>
                                 </tr> :
-                                suppliersArr.map(sup => {
+                                currentsuppliers.map(sup => {
 
                                     return(
                                         <MDBTableBody>
@@ -243,6 +304,35 @@ export default class SupplierTable extends Component{
                                     )
                                 })}
                     </MDBTable>
+
+                    <div style={{"float": "left", "color": "#007bff"}}> Showing
+                        Page {currentPage} of {totalPages} </div>
+                    <div style={{"float": "right"}}>
+                        <InputGroup>
+                            <InputGroup.Prepend></InputGroup.Prepend>
+                            <MDBBtnGroup>
+                                <MDBBtn color="primary" size="sm"
+                                        disabled={currentPage === 1 ? true : false}
+                                        onClick={this.firstPage}>First</MDBBtn>
+                                <MDBBtn color="primary" size="sm"
+                                        disabled={currentPage === 1 ? true : false}
+                                        onClick={this.prevPage}>Prev</MDBBtn>
+                            </MDBBtnGroup>
+                            <input type="text" className="pageNumCss"
+                                   name="currentPage" value={currentPage}
+                                   onChange={this.changePage} disabled/>
+                            <InputGroup.Append>
+                                <MDBBtnGroup>
+                                    <MDBBtn color="primary" size="sm"
+                                            disabled={currentPage === totalPages ? true : false}
+                                            onClick={this.nextPage}>Next</MDBBtn>
+                                    <MDBBtn color="primary" size="sm"
+                                            disabled={currentPage === totalPages ? true : false}
+                                            onClick={this.lastPage}>Last</MDBBtn>
+                                </MDBBtnGroup>
+                            </InputGroup.Append>
+                        </InputGroup>
+                    </div>
                 </MDBCardBody>
             </MDBCard>
 
