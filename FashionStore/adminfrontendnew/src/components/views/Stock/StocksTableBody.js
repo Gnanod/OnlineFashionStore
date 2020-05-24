@@ -266,7 +266,7 @@ export default class ItemTable extends Component {
                                                     <td>{itm.itemSize}</td>
                                                     <td>
                                                         <label
-                                                            style={{backgroundColor: itm.itemColor,width :100,height :50}}/>
+                                                            style={{backgroundColor: itm.itemColor,width :80,height :35}}/>
                                                     </td>
                                                     <td>{itm.quantity}</td>
                                                     <td>{itm.price}</td>
@@ -373,8 +373,8 @@ export default class ItemTable extends Component {
                                             <tr>
                                                 <td>{orders.itemCode[0].itemName}</td>
                                                 <td>{orders.itemSize}</td>
-                                                <label
-                                                    style={{backgroundColor: orders.itemColor,width :50,height :50}}/>
+                                                <br/><label
+                                                    style={{backgroundColor: orders.itemColor,width :50,height :30}}/>
                                                 <td>{orders.quantity}</td>
                                             </tr>
 
