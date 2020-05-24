@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     MDBAlert,
     MDBBtn,
@@ -16,60 +16,101 @@ import TextField from "@material-ui/core/TextField/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete/Autocomplete";
 import uuid from "react-uuid";
 import axios from "axios";
+import 'sweetalert2/src/sweetalert2.scss';
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 import constants from "../../../constants/constants";
 
-export  class Discount extends Component{
+export class Discount extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
-        this.state={
-            itemCodes :[],
-            newArraivalId :'',
-            itemCodeObject :''
+        this.state = {
+            itemCodes: [],
+            newArraivalId: '',
+            itemCodeObject: '',
+            itemDiscount: 0,
+            itemDiscountValidation: false,
+            itemDiscountIncreaseValidation: false,
+            newArraivalItems: [],
+            itemId: ''
+
         }
-        this.getAllItems = this.getAllItems.bind(this);
+        this.getAllItemCodes = this.getAllItemCodes.bind(this);
         this.onChangeGetItemCode = this.onChangeGetItemCode.bind(this);
+        this.onChangeDiscount = this.onChangeDiscount.bind(this);
+        this.saveDetails = this.saveDetails.bind(this);
+
     }
 
-    getAllItems() {
-        axios.get(constants.backend_url + 'api/itemcolor/getAllNewArraivalItems').then(response => {
-            console.log(response.data)
-            this.setState({
-                newArraivalItems: response.data,
-                newArrailvaItemStatus :false
-            });
+    componentDidMount() {
+        this.getAllItemCodes();
+    }
+
+    getAllItemCodes() {
+        axios.get(constants.backend_url + 'api/item/getAllItems').then(response => {
+            this.setState({itemCodes: response.data});
         }).catch(function (error) {
             console.log(error);
         })
+
     }
 
     onChangeGetItemCode(value) {
-        if(value !==null){
+        console.log("Value")
+        console.log(value)
+        console.log("value")
+        if (value !== null) {
             this.state.itemCodeObject = value;
-            const newArraivalItem = {
-                itemCode: value.itemCode,
-                itemName: value.itemName,
-                newArraivalId: uuid(),
-            }
+            this.state.itemDiscount = value.discount;
+            this.setState({
+                itemDiscount: value.discount,
+                itemId: value._id
+            })
 
-            // const newItemCodeObj = {
-            //     itemCode: value,
-            //
-            // }
-            // const array = [newArraivalItem, ...this.state.newArraivalItemArray];
-            // const array2 = [newItemCodeObj, ...this.state.newItemCodeArray];
-            //
-            // this.setState({
-            //     itemCodeObject: this.state.itemCodeObject,
-            //     itemCodeObjectValidation: false,
-            //     newArraivalItemArray: array,
-            //     newItemCodeArray: array2,
-            //     noItem :false,
-            //     newArraivalId: uuid(),
-            // });
         }
 
+    }
+
+    saveDetails(e) {
+        e.preventDefault();
+        axios.get(constants.backend_url + 'api/item/updateDiscount/' + this.state.itemId + '/' + this.state.itemDiscount)
+            .then(res => {
+                    console.log(res);
+                    if (res.data.item === 'successful') {
+                        Swal.fire(
+                            '',
+                            'Discount Updated Success.',
+                            'success'
+                        );
+                        this.getAllItemCodes();
+                        this.setState({
+                            itemDiscount: 0
+                        })
+                    } else {
+                        Swal.fire(
+                            '',
+                            'Updated Faild',
+                            'error'
+                        )
+                    }
+                }
+            )
+    }
+
+    onChangeDiscount(e) {
+        if (e.target.value >= 0 && e.target.value <= 100) {
+            this.setState({
+                itemDiscount: e.target.value,
+                itemDiscountValidation: false,
+                itemDiscountIncreaseValidation: false
+            });
+        } else {
+            this.setState({
+                itemDiscount: 0,
+                itemDiscountIncreaseValidation: true
+            });
+        }
     }
 
     render() {
@@ -77,7 +118,7 @@ export  class Discount extends Component{
             <div>
                 <MDBCard className="mb-5">
                     <MDBCardBody id="breadcrumb" className="d-flex align-items-center justify-content-between">
-                        <NavLink exact={true} to="/item/discount" >
+                        <NavLink exact={true} to="/item/discount">
                             <button type="button" className="btn btn-primary ">Discount</button>
 
                         </NavLink>
@@ -85,19 +126,19 @@ export  class Discount extends Component{
                             <button type="button" className="btn btn-success">New Item</button>
                         </NavLink>
                         {
-                            localStorage.getItem("Position") ==="Admin" ?
-                                <NavLink exact={true} to="/item/brandcategory" >
+                            localStorage.getItem("Position") === "Admin" ?
+                                <NavLink exact={true} to="/item/brandcategory">
                                     <button type="button" className="btn btn-success"> Brand & Category</button>
                                 </NavLink>
                                 :
                                 ''
                         }
 
-                        <NavLink exact={true} to="/item/itemcolor" >
+                        <NavLink exact={true} to="/item/itemcolor">
                             <button type="button" className="btn btn-success"> ItemColor</button>
                         </NavLink>
 
-                        <NavLink exact={true} to="/item/newarraivalitems" >
+                        <NavLink exact={true} to="/item/newarraivalitems">
                             <button type="button" className="btn btn-success"> New Arrivals</button>
 
                         </NavLink>
@@ -121,72 +162,52 @@ export  class Discount extends Component{
                         <MDBCard>
                             <MDBCardBody>
                                 <MDBCardTitle>Update Discount</MDBCardTitle>
+                                <MDBRow>
+                                    <MDBCol size="5">
+                                        <Autocomplete
+                                            id="combo-box-demo"
+                                            options={this.state.itemCodes}
+                                            getOptionLabel={(option) => option.itemCode}
+                                            style={{width: 300}}
+                                            onChange={(event, value) => this.onChangeGetItemCode(value)}
+                                            renderInput={(params) => <TextField {...params} label="Item Code"/>}
+                                        />
+                                        {
+                                            this.state.itemCodeObjectValidation ?
+                                                <MDBAlert color="danger">
+                                                    Item Code Field Is Empty
+                                                </MDBAlert> : ''
+                                        }
+                                    </MDBCol>
+                                </MDBRow>
 
-                                <MDBCol size="5">
-                                    <Autocomplete
-                                        id="combo-box-demo"
-                                        options={this.state.itemCodes}
-                                        getOptionLabel={(option) => option.itemCode}
-                                        style={{width: 300}}
-                                        onChange={(event, value) => this.onChangeGetItemCode(value)}
-                                        renderInput={(params) => <TextField {...params} label="Item Code"/>}
-                                    />
-                                    {
-                                        this.state.itemCodeObjectValidation ?
-                                            <MDBAlert color="danger">
-                                                Item Code Field Is Empty
+                                <br/>
+                                <MDBRow>
+                                    <MDBCol size="6">
+                                        <TextField id="standard-basic" label="Item Discount"
+                                                   value={this.state.itemDiscount}
+                                                   onChange={this.onChangeDiscount}
+                                                   style={{width: 300}}
+                                        />
+
+                                        {
+                                            this.state.itemDiscountValidation ? <MDBAlert color="danger">
+                                                Item Discount Field Is Empty
                                             </MDBAlert> : ''
-                                    }
-                                </MDBCol>
+                                        }
+                                        {
+                                            this.state.itemDiscountIncreaseValidation ? <MDBAlert color="danger">
+                                                Item Discount Is greter than 100
+                                            </MDBAlert> : ''
+                                        }
+
+                                    </MDBCol>
+
+
+                                </MDBRow>
+
                                 <br/>
 
-
-                                <br/>
-                                <br/>
-                                {/*<MDBRow>*/}
-                                    {/*<MDBCol size="6">*/}
-                                        {/*<MDBTable>*/}
-                                            {/*<MDBTableHead color="primary-color" textWhite>*/}
-                                                {/*<tr>*/}
-                                                    {/*<th>Item Code</th>*/}
-                                                    {/*<th>Item Name</th>*/}
-
-                                                {/*</tr>*/}
-                                            {/*</MDBTableHead>*/}
-                                            {/*<MDBTableBody>*/}
-                                                {/*{*/}
-                                                    {/*this.state.noItem ?*/}
-                                                        {/*<tr >*/}
-                                                            {/*<td colSpan="2">*/}
-                                                                {/*<MDBAlert color="danger" >*/}
-                                                                    {/*No Items In List*/}
-                                                                {/*</MDBAlert>*/}
-                                                            {/*</td>*/}
-                                                        {/*</tr>*/}
-                                                        {/*:*/}
-
-                                                        {/*this.state.newArraivalItemArray.map(newItem => {*/}
-                                                            {/*return (*/}
-                                                                {/*<tr key={newItem.newArraivalId}>*/}
-                                                                    {/*<td>{newItem.itemCode}</td>*/}
-                                                                    {/*<td>{newItem.itemName}</td>*/}
-                                                                    {/*<MDBBtn tag="a" size="sm" color="danger"*/}
-                                                                            {/*onClick={()=>this.deletenewArrailavls(newItem.newArraivalId)}>*/}
-                                                                        {/*<MDBIcon size="lg" icon="times-circle"/>*/}
-                                                                    {/*</MDBBtn>*/}
-
-                                                                {/*</tr>*/}
-                                                            {/*)*/}
-                                                        {/*})*/}
-                                                {/*}*/}
-
-
-                                            {/*</MDBTableBody>*/}
-                                        {/*</MDBTable>*/}
-                                    {/*</MDBCol>*/}
-
-
-                                {/*</MDBRow>*/}
                                 <MDBRow>
                                     <form onSubmit={this.saveDetails}>
                                         <MDBCol size="4">
