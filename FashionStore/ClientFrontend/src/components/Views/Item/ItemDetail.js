@@ -79,7 +79,11 @@ export class ItemDetail extends Component {
     getAverageRate() {
         axios.get(constants.backend_url + 'api/comment/getComment/' + this.state.item_Id).then(response => {
 
+            console.log("Resiponese")
+            console.log(response.data)
+            console.log("Resiponese")
             if(response.data !=='not found'){
+
                 this.setState({
                     ratingItems: response.data,
                     ratingItemsValidation :false
