@@ -122,12 +122,12 @@ class Wishlist extends Component {
         console.log("remove");
         axios.get(constants.backend_url + 'api/wishlist/deleteItem/'+ id).then(response => {
             if (response.data.wishlist === 'successful') {
-                Swal.fire(
-                     '',
-                    'Item Deleted Sucessfull',
-                    'success'
+                //Swal.fire(
+                  //   '',
+                    //'Item Deleted Sucessfull',
+                    //'success'
 
-                );
+                //);
                 this.getDetails();
 
             } else {

@@ -375,7 +375,7 @@ export class ItemDetail extends Component {
     checkInCart(){
         Swal.fire(
             '',
-            'Item is already in Cart!',
+            'Item is already in Cart!Try Increasing the Quantity in the Cart',
             'error'
         );
 
@@ -500,14 +500,14 @@ export class ItemDetail extends Component {
                                                                             {this.state.inCartStatus ?
                                                                                 <div>
                                                                                     <button type="button"
-                                                                                            className="btn btn-info" onClick={() => this.checkInCart()}>
+                                                                                            className="btn purple-gradient btn-rounded waves-effect" onClick={() => this.checkInCart()}>
                                                                                         Item In Cart
                                                                                     </button>
                                                                                 </div>
 
                                                                                 :
                                                                                 <button type="button"
-                                                                                        className="btn btn-primary"
+                                                                                        className="btn btn-info"
                                                                                         onClick={() => this.addToCart()}>Add
                                                                                     to Cart
                                                                                 </button>
@@ -526,7 +526,7 @@ export class ItemDetail extends Component {
                                                                     {this.state.inWishStatus ?
                                                                         <div>
                                                                             <button type="button"
-                                                                                    className="btn btn-info"
+                                                                                    className="btn purple-gradient btn-rounded waves-effect"
                                                                                     onClick={() => this.checkInWish()}>
                                                                                 Item In Wishlist
                                                                             </button>
@@ -534,7 +534,7 @@ export class ItemDetail extends Component {
                                                                         :
 
                                                                         <button type="button"
-                                                                                className="btn btn-primary"
+                                                                                className="btn btn-info"
                                                                                 onClick={() => this.addToWhishList()}>Add
                                                                             to
                                                                             WishList
