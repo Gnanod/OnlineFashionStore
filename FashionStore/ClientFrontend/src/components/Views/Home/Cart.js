@@ -178,7 +178,8 @@ class Cart extends Component {
     }
     confirmPurchase(){
             let a=this.getLastId();
-            console.log(this.state.orderId)
+            let mapCount = this.state.cartList.length;
+            let count =0;
         this.state.cartList.map(item => {
             let order={
                 orderId:a,
@@ -191,42 +192,44 @@ class Cart extends Component {
             }
             axios.post(constants.backend_url + 'api/cart/addOrder', order)
                     .then(res => {
-
-                        console.log("Order Confirm")
-                        console.log(res.data.order)
-                        console.log("Order Consirm")
-
-
+                        console.log("status");
+                        console.log(res.data)
+                        console.log("status")
                         if (res.data.order === 'successful') {
-
-
                             this.clearCart(this.state.userId);
-
+                            count +=1;
                         } else {
-                            Swal.fire(
-                                '',
-                                'Order Purchase Fail',
-                                'error'
+                            // Swal.fire(
+                            //     '',
+                            //     'Order Purchase Fail',
+                            //     'error'
+                            //
+                            // )
+                        }
+                        if(mapCount===count){
 
-                            )
+                            if(this.sendMail(a)===true){
+
+                            }else{
+                                //Swal.fire(
+                                // '',
+                                //'Order Purchase Fail',
+                                //'error'
+
+                                //)
+                            }
                         }
                     }
-                );
-            if(this.sendMail(a)==true){
-               // Swal.fire(
-                 //   '',
-                   // ' Your Order has Placed  Successfully.',
-                    //'success'
-                //);
-            }else{
-                //Swal.fire(
-                  // '',
-                    //'Order Purchase Fail',
-                    //'error'
 
-                //)
-            }
+
+                );
+
         })
+        console.log("Map Count :"+mapCount);
+        console.log("count Count :"+count);
+
+
+
 
         // window.location.reload(false);
 
@@ -268,9 +271,12 @@ class Cart extends Component {
 
             console.log(response.data[0].email)
             axios.get(constants.spring_backend_url + '/OrderController/sendMail/'+response.data[0].email+'/'+orderId+'/'+this.state.tot+'/'+this.state.fullDiscount).then(response => {
-                if(response.data==true){
-                    console.log("succ");
-                    return true;
+                if(response.data===true){
+                    Swal.fire(
+                        '',
+                        ' Your Order has Placed  Successfully.',
+                        'success'
+                    );
                 }
             }).catch(function (error) {
                 console.log(error);
@@ -345,16 +351,10 @@ class Cart extends Component {
                             </MDBBtn>
                             <div>Remove item</div>
                         </MDBTooltip>
-
                     </div>
-
                     <div>
-
                         <span className="block-example border-bottom border-light"></span>
-
                     </div>
-
-
                 </div>
 
 

@@ -58,19 +58,19 @@ export class Item extends Component {
         this.removePhoto = this.removePhoto.bind(this);
         this.onChangeDiscount = this.onChangeDiscount.bind(this);
 
-        if (localStorage.getItem("userLogged") !== "userLogged") {
-            this.props.history.push('/');
-            console.log("GGGGGGGGG")
-        }
+
     }
 
 
     componentDidMount() {
-        console.log("GGGGGGGGGGGG")
-
         this.getAllBrands();
         this.getAllCategories();
-
+        if (localStorage.getItem("userLogged") !== "userLogged") {
+            this.props.history.push('/');
+        }
+        if (localStorage.getItem("Position") === "Admin") {
+            this.props.history.push('item/brandcategory');
+        }
     }
 
     onChangeItemDescription(e) {
@@ -265,9 +265,29 @@ export class Item extends Component {
             <div>
                 <MDBCard className="mb-5">
                     <MDBCardBody id="breadcrumb" className="d-flex align-items-center justify-content-between">
-                        <NavLink exact={true} to="/item" activeClassName="activeClass">
-                            <button type="button" className="btn btn-primary">New Item</button>
-                        </NavLink>
+
+                        {
+                            localStorage.getItem("Position") === "StoreManager" ?
+                                <NavLink exact={true} to="/item" activeClassName="activeClass">
+                                    <button type="button" className="btn btn-primary">New Item</button>
+                                </NavLink>
+                                : ''
+                        }
+                        {
+                            localStorage.getItem("Position") === "StoreManager" ?
+                                <NavLink exact={true} to="/item/itemcolor">
+                                    <button type="button" className="btn btn-success"> ItemColor</button>
+                                </NavLink>
+                                : ''
+                        }
+                        {
+                            localStorage.getItem("Position") === "StoreManager" ?
+                                <NavLink exact={true} to="/item/newarraivalitems">
+                                    <button type="button" className="btn btn-success"> New Arrivals</button>
+
+                                </NavLink>
+                                : ''
+                        }
                         {
                             localStorage.getItem("Position") === "Admin" ?
                                 <NavLink exact={true} to="/item/brandcategory">
@@ -276,18 +296,13 @@ export class Item extends Component {
                                 :
                                 ''
                         }
-
-                        <NavLink exact={true} to="/item/itemcolor">
-                            <button type="button" className="btn btn-success"> ItemColor</button>
-                        </NavLink>
-
-                        <NavLink exact={true} to="/item/newarraivalitems">
-                            <button type="button" className="btn btn-success"> New Arrivals</button>
-
-                        </NavLink>
-                        <NavLink exact={true} to="/item/discount">
-                            <button type="button" className="btn btn-success">Discount</button>
-                        </NavLink>
+                        {
+                            localStorage.getItem("Position") === "StoreManager" ?
+                                <NavLink exact={true} to="/item/discount">
+                                    <button type="button" className="btn btn-success">Discount</button>
+                                </NavLink>
+                                : ''
+                        }
                         <div></div>
                         <div></div>
                         <div></div>
