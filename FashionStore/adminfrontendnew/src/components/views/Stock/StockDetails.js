@@ -68,7 +68,6 @@ export default class StockDetails extends Component {
         this.onChangeTotalPrice = this.onChangeTotalPrice.bind(this);
         this.onSubmitPrices = this.onSubmitPrices.bind(this);
         this.AddStockPricesToTable = this.AddStockPricesToTable.bind(this);
-        // this.AddStocksToTable = this.AddStocksToTable.bind(this);
         this.deleteStockPrice = this.deleteStockPrice.bind(this);
         // this.stockPriceArray = this.stockPriceArray.bind(this);
         this.getAllSuppliers = this.getAllSuppliers.bind(this);
