@@ -351,25 +351,44 @@ export default class BrandCategory extends Component {
                 <MDBCard className="mb-5">
                     <MDBCardBody id="breadcrumb" className="d-flex align-items-center justify-content-between">
                         {
-                            localStorage.getItem("Position") ==="StoreManager" ?
-                                <NavLink exact={true} to="/item/brandcategory" >
-                                    <button type="button" className="btn btn-success"> Brand & Category</button>
+                            localStorage.getItem("Position") === "Admin" ?
+                                <NavLink exact={true} to="/item/brandcategory">
+                                    <button type="button" className="btn btn-primary"> Brand & Category</button>
                                 </NavLink>
                                 :
                                 ''
                         }
-                        <NavLink exact={true} to="/item">
-                            <button type="button" className="btn btn-success">New Item</button>
-                        </NavLink>
 
-                        <NavLink exact={true} to="/item/itemcolor" >
-                            <button type="button" className="btn btn-success"> ItemColor</button>
-                        </NavLink>
+                        {/*{*/}
+                            {/*localStorage.getItem("Position") === "StoreManager" ?*/}
+                                {/*<NavLink exact={true} to="/item/newarraivalitems">*/}
+                                    {/*<button type="button" className="btn btn-success"> New Arrivals</button>*/}
 
-                        <NavLink exact={true} to="/item/newarraivalitems" >
-                            <button type="button" className="btn btn-success"> New Arrivals</button>
+                                {/*</NavLink>*/}
+                                {/*: ''*/}
+                        {/*}*/}
+                        {/*{*/}
+                            {/*localStorage.getItem("Position") === "StoreManager" ?*/}
+                                {/*<NavLink exact={true} to="/item/itemcolor">*/}
+                                    {/*<button type="button" className="btn btn-success"> ItemColor</button>*/}
+                                {/*</NavLink>*/}
+                                {/*: ''*/}
+                        {/*}*/}
+                        {/*{*/}
+                            {/*localStorage.getItem("Position") === "StoreManager" ?*/}
+                                {/*<NavLink exact={true} to="/item" activeClassName="activeClass">*/}
+                                    {/*<button type="button" className="btn btn-success">New Item</button>*/}
+                                {/*</NavLink>*/}
+                                {/*: ''*/}
+                        {/*}*/}
 
-                        </NavLink>
+                        {/*{*/}
+                            {/*localStorage.getItem("Position") === "StoreManager" ?*/}
+                                {/*<NavLink exact={true} to="/item/discount">*/}
+                                    {/*<button type="button" className="btn btn-primary ">Discount</button>*/}
+                                {/*</NavLink>*/}
+                                {/*: ''*/}
+                        {/*}*/}
                         <div></div>
                         <div></div>
                         <div></div>

@@ -496,7 +496,7 @@ render()
                                                 <p className="font-small grey-text d-flex justify-content-end">
                                                     Not a member?
                                                     <MDBBtn outline color="info" size="sm" onClick={this.toggle2}>Sign
-                                                        In</MDBBtn>
+                                                        Up</MDBBtn>
                                                 </p>
                                             </MDBModalFooter>
                                         </MDBCardBody>

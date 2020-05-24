@@ -47,7 +47,8 @@ export class ItemDetail extends Component {
             ratingItems: '',
             inCartStatus:false,
             inWishStatus:false,
-            ratingItemsValidation :true
+            ratingItemsValidation :true,
+            discount :0
 
         }
 
@@ -162,22 +163,21 @@ export class ItemDetail extends Component {
     onChangeItemSize(value) {
         if(value !==null){
             let price = value.itemSizes.price;
+            let discount = value.itemSizes.itemCode[0].discount;
             this.setState({
                 price: price,
-                selected:value
-            })
-
+                selected:value,
+                discount :discount
+            });
         }
         let cartItem = value;
         let id=localStorage.getItem("CustomerId");
         let itemId=cartItem.itemSizes._id;
         let itemSize=cartItem.itemSizes.itemSize;
         axios.get(constants.backend_url + 'api/cart/checkInCart/'+id+'/'+itemSize+'/'+itemId).then(res => {
-            console.log("LLLLLLLLLLLLLLLLLLLL")
-            console.log(res.data)
-            console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
+
             if(res.data.cart==='available'){
-                console.log("HHHHHHHHHHHHHHHHHHH");
+
                 this.setState({
                     inCartStatus:true
                 })
@@ -189,11 +189,8 @@ export class ItemDetail extends Component {
 
         });
         axios.get(constants.backend_url + 'api/wishlist/checkInWish/'+id+'/'+itemSize+'/'+itemId).then(res => {
-            console.log("LLLLLLLLLLLLLLLLLLLL")
-            console.log(res.data)
-            console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
+
             if(res.data.cart==='available'){
-                console.log("HHHHHHHHHHHHHHHHHHH");
                 this.setState({
                     inWishStatus:true
                 })
@@ -230,6 +227,7 @@ export class ItemDetail extends Component {
                     quantity:1,
                     itemTotal:cartItem.itemSizes.price,
                     itemId:cartItem.itemSizes._id,
+                    itemDiscount:this.state.discount,
                     itemSize:cartItem.itemSizes.itemSize
                 }
                 this.decrementQuantity(cartItem.itemSizes._id,cartItem.itemSizes.quantity);
@@ -342,7 +340,9 @@ export class ItemDetail extends Component {
             cartName:this.state.itemName,
             cartPrice:cartItem.itemSizes.price,
             itemSize:cartItem.itemSizes.itemSize,
+            itemDiscount:this.state.discount,
             itemId:cartItem.itemSizes._id
+
         }
             console.log(wishlist);
             axios.post(constants.backend_url + 'api/wishlist/add', wishlist)

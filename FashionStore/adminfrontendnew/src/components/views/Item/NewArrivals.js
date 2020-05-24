@@ -83,7 +83,6 @@ export class NewArrivals extends Component {
         }).catch(function (error) {
             console.log(error);
         })
-
     }
 
     sweetalertfunction(_id) {
@@ -231,24 +230,46 @@ export class NewArrivals extends Component {
 
                 <MDBCard className="mb-5">
                     <MDBCardBody id="breadcrumb" className="d-flex align-items-center justify-content-between">
-                        <NavLink exact={true} to="/item/newarraivalitems" >
-                            <button type="button" className="btn btn-primary"> New Arrivals</button>
 
-                        </NavLink>
-                        <NavLink exact={true} to="/item/itemcolor" >
-                            <button type="button" className="btn btn-success"> ItemColor</button>
-                        </NavLink>
-
-                        <NavLink exact={true} to="/item" activeClassName="activeClass">
-                            <button type="button" className="btn btn-success">New Item</button>
-                        </NavLink>
                         {
-                            localStorage.getItem("Position") ==="StoreManager" ?
-                                <NavLink exact={true} to="/item/brandcategory" >
+                            localStorage.getItem("Position") === "StoreManager" ?
+                                <NavLink exact={true} to="/item/newarraivalitems">
+                                    <button type="button" className="btn btn-primary "> New Arrivals</button>
+
+                                </NavLink>
+                                : ''
+                        }
+                        {
+                            localStorage.getItem("Position") === "StoreManager" ?
+                                <NavLink exact={true} to="/item/itemcolor">
+                                    <button type="button" className="btn btn-success"> ItemColor</button>
+                                </NavLink>
+                                : ''
+                        }
+
+                        {
+                            localStorage.getItem("Position") === "StoreManager" ?
+                                <NavLink exact={true} to="/item" activeClassName="activeClass">
+                                    <button type="button" className="btn btn-success">New Item</button>
+                                </NavLink>
+                                : ''
+                        }
+
+
+                        {
+                            localStorage.getItem("Position") === "Admin" ?
+                                <NavLink exact={true} to="/item/brandcategory">
                                     <button type="button" className="btn btn-success"> Brand & Category</button>
                                 </NavLink>
                                 :
                                 ''
+                        }
+                        {
+                            localStorage.getItem("Position") === "StoreManager" ?
+                                <NavLink exact={true} to="/item/discount">
+                                    <button type="button" className="btn btn-success">Discount</button>
+                                </NavLink>
+                                : ''
                         }
                         <div></div>
                         <div></div>

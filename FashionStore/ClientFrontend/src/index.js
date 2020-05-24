@@ -8,8 +8,7 @@ import
     'bootstrap-css-only/css/bootstrap.min.css';
 import
     'mdbreact/dist/css/mdb.css';
-import {BrowserRouter as Router} from 'react-router-dom';
-import {hashHistory} from 'react-router';
+
 
 ReactDOM.render(
         <App/>

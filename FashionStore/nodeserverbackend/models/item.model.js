@@ -16,6 +16,9 @@ let item = new Schema({
     description :{
         type :String
     },
+    discount :{
+        type :Number
+    }
 
 
 });

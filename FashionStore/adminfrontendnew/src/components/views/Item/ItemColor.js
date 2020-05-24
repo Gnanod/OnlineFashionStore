@@ -162,9 +162,6 @@ export default class ItemColor extends Component {
                     console.log( this.state.itemCodeObject.brandCategory[0]);
                     axios.get(constants.backend_url + 'api/brandcategory/getBrandCategory/'+this.state.itemCodeObject.brandCategory[0]).then(response => {
 
-                        console.log('kkkkkkkkkkkkkk');
-                      console.log(this.state.itemCodeObject.itemCode);
-                        console.log('kkkkkkkkkkkk');
                         const newItemColor = {
                             itemCode: this.state.itemCodeObject._id,
                             itemSize: this.state.itemSizeNameObject,
@@ -254,26 +251,45 @@ export default class ItemColor extends Component {
 
                 <MDBCard className="mb-5">
                     <MDBCardBody id="breadcrumb" className="d-flex align-items-center justify-content-between">
-                        <NavLink exact={true} to="/item/itemcolor" >
-                            <button type="button" className="btn btn-primary"> ItemColor</button>
-                        </NavLink>
-
-                        <NavLink exact={true} to="/item" activeClassName="activeClass">
-                            <button type="button" className="btn btn-success">New Item</button>
-                        </NavLink>
                         {
-                            localStorage.getItem("Position") ==="StoreManager" ?
-                                <NavLink exact={true} to="/item/brandcategory" >
+                            localStorage.getItem("Position") === "StoreManager" ?
+                                <NavLink exact={true} to="/item/itemcolor">
+                                    <button type="button" className="btn btn-primary "> ItemColor</button>
+                                </NavLink>
+                                : ''
+                        }
+
+                        {
+                            localStorage.getItem("Position") === "StoreManager" ?
+                                <NavLink exact={true} to="/item" activeClassName="activeClass">
+                                    <button type="button" className="btn btn-success">New Item</button>
+                                </NavLink>
+                                : ''
+                        }
+
+                        {
+                            localStorage.getItem("Position") === "StoreManager" ?
+                                <NavLink exact={true} to="/item/newarraivalitems">
+                                    <button type="button" className="btn btn-success"> New Arrivals</button>
+
+                                </NavLink>
+                                : ''
+                        }
+                        {
+                            localStorage.getItem("Position") === "Admin" ?
+                                <NavLink exact={true} to="/item/brandcategory">
                                     <button type="button" className="btn btn-success"> Brand & Category</button>
                                 </NavLink>
                                 :
                                 ''
                         }
-
-                        <NavLink exact={true} to="/item/newarraivalitems" >
-                            <button type="button" className="btn btn-success"> New Arrivals</button>
-
-                        </NavLink>
+                        {
+                            localStorage.getItem("Position") === "StoreManager" ?
+                                <NavLink exact={true} to="/item/discount">
+                                    <button type="button" className="btn btn-success">Discount</button>
+                                </NavLink>
+                                : ''
+                        }
                         <div></div>
                         <div></div>
                         <div></div>

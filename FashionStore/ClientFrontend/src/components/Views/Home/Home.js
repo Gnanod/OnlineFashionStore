@@ -173,6 +173,14 @@ export default class Home extends Component {
                                                             <MDBCardText>
                                                                 LKR  : {items.itemArray.price}
                                                             </MDBCardText>
+                                                            {
+                                                                items.itemArray.itemCode[0].discount!==0 ?
+                                                                    <MDBCardText>
+                                                                        Discount  : {items.itemArray.itemCode[0].discount+'%'}
+                                                                    </MDBCardText>
+                                                                    :
+                                                                    ''
+                                                            }
                                                             <div className="row">
                                                                 <div className="col-sm-3 "/>
                                                                 <div className="col-sm-6 ">

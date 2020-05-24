@@ -15,14 +15,14 @@ import javax.mail.Session;
 @RequestMapping(value = "/OrderController")
 public class OrderController {
 
-    @GetMapping(value = "/sendMail/{mail}/{orderId}/{itemTotal}")
-    public boolean sendEmail(@PathVariable String mail, @PathVariable String orderId, @PathVariable float itemTotal) {
+    @GetMapping(value = "/sendMail/{mail}/{orderId}/{itemTotal}/{fullDiscount}")
+    public boolean sendEmail(@PathVariable String mail, @PathVariable String orderId, @PathVariable float itemTotal,@PathVariable float fullDiscount) {
 
         System.out.println("GGGGGGGGG");
         System.out.println("mail" + mail);
         System.out.println("orderId" + orderId);
         System.out.println("itemTotal" + itemTotal);
-
+        System.out.println("itemTotal" + fullDiscount);
         try {
             final String fromEmail = "fashionstoregtsd@gmail.com"; //requires valid gmail id
             final String password = "Fashionstore123"; // correct password for gmail id
@@ -45,7 +45,7 @@ public class OrderController {
             Session session = Session.getInstance(props, auth);
 
             LocalDateTime now = LocalDateTime.now();
-            EmailUtil.sendEmail(session, toEmail,"Confirmation of Order", "You have been succesfully purchased the items."+"\n"+"Order Id  :"+orderId+"\n"+"Item Total  :"+itemTotal+"\n"+"Purchase Date  :"+now +"\n"+"Thank you for Shopping on GSTD Pvt(LTD).");
+            EmailUtil.sendEmail(session, toEmail,"Confirmation of Order", "You have been succesfully purchased the items."+"\n"+"Order Id  :"+orderId+"\n"+"Item Total  :"+itemTotal+"\n"+"Purchase Date  :"+now +"\n"+"Total Discount  :"+fullDiscount+"\n"+"Thank you for Shopping on GSTD Pvt(LTD).");
 
 
             return true;
