@@ -61,7 +61,6 @@ class Cart extends Component {
         if(localStorage.getItem("CustomerLogged")!=="CustomerLogged"){
             this.props.history.push('/Login');
         }else{
-
             this.setState({
                 userId:localStorage.getItem("CustomerId")
             })
@@ -192,7 +191,11 @@ class Cart extends Component {
             }
             axios.post(constants.backend_url + 'api/cart/addOrder', order)
                     .then(res => {
+
+                        console.log("Order Confirm")
                         console.log(res.data.order)
+                        console.log("Order Consirm")
+
 
                         if (res.data.order === 'successful') {
 

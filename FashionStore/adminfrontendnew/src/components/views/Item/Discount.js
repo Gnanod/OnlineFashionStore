@@ -189,7 +189,6 @@ export class Discount extends Component {
                                                    onChange={this.onChangeDiscount}
                                                    style={{width: 300}}
                                         />
-
                                         {
                                             this.state.itemDiscountValidation ? <MDBAlert color="danger">
                                                 Item Discount Field Is Empty
@@ -200,10 +199,7 @@ export class Discount extends Component {
                                                 Item Discount Is greter than 100
                                             </MDBAlert> : ''
                                         }
-
                                     </MDBCol>
-
-
                                 </MDBRow>
 
                                 <br/>

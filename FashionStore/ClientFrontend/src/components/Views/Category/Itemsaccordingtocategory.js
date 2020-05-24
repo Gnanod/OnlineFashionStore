@@ -136,6 +136,15 @@ export class Itemsaccordingtocategory extends Component {
                                                         <MDBCardText>
                                                             Size  : {items.itemArray.itemSize}
                                                         </MDBCardText>
+                                                        {
+                                                            items.itemArray.itemCode[0].discount!==0 ?
+                                                                <MDBCardText>
+                                                                    Discount  : {items.itemArray.itemCode[0].discount+'%'}
+                                                                </MDBCardText>
+                                                                :
+                                                                ''
+                                                        }
+
                                                         <div className="row">
                                                             <div className="col-sm-3 "/>
                                                             <div className="col-sm-6 ">
