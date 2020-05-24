@@ -20,7 +20,8 @@ import axios from "axios";
 import {InputGroup} from 'react-bootstrap';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import StockPriceTableBody from "./StockPriceTableBody";
-
+import jsPDF from "jspdf";
+import "jspdf-autotable"
 
 export default class SupplierTable extends Component{
 
@@ -30,6 +31,8 @@ export default class SupplierTable extends Component{
 
         this.state = {
             suppliers: [],
+            currentPage: 1,
+            userPerPage: 5,
             empty: false
 
         }
@@ -39,6 +42,11 @@ export default class SupplierTable extends Component{
         this.deleteSuppliers = this.deleteSuppliers.bind(this);
         this.getAllSuppliers();
 
+
+        this.firstPage = this.firstPage.bind(this);
+        this.prevPage = this.prevPage.bind(this);
+        this.nextPage = this.nextPage.bind(this);
+        this.lastPage = this.lastPage.bind(this);
     }
 
     componentDidMount(){
@@ -112,6 +120,31 @@ export default class SupplierTable extends Component{
         })
     }
 
+    exportPDF = () => {
+        const unit = "pt";
+        const size = "A4"; // Use A1, A2, A3 or A4
+        const orientation = "portrait"; // portrait or landscape
+
+        const marginLeft = 40;
+        const doc = new jsPDF(orientation, unit, size);
+
+        doc.setFontSize(15);
+
+        const title = "GSTD Pvt(LTD) Supplier Report ";
+        const headers = [["Company Name", "Name","Phone Number","Company Number","Email","Fax","Address1","Address2","City","Country"]];
+
+        const data = this.state.suppliers.map(elt=> [elt.companyName, elt.firstName,elt.phoneNumber,elt.companyNumber,elt.email,elt.fax,elt.address1,elt.address2,elt.city,elt.country]);
+
+        let content = {
+            startY: 50,
+            head: headers,
+            body: data
+        };
+
+        doc.text(title, marginLeft, 40);
+        doc.autoTable(content);
+        doc.save("GSTDSupplierReport.pdf")
+    }
 
     deleteSuppliers(id){
         const notDeletedItems = this.state.suppliers.filter(supplier => supplier._id !== id);
@@ -127,11 +160,65 @@ export default class SupplierTable extends Component{
         }
     }
 
+
+
+    firstPage() {
+        if (this.state.currentPage > 1) {
+            this.setState({
+                currentPage: 1
+            })
+        }
+    }
+
+    prevPage() {
+        if (this.state.currentPage > 1) {
+            this.setState({
+                currentPage: this.state.currentPage - 1
+            })
+        }
+
+    }
+
+    nextPage() {
+
+        if (this.state.currentPage < Math.ceil(this.state.suppliers.length / this.state.userPerPage)) {
+            this.setState({
+                currentPage: this.state.currentPage + 1
+            })
+        }
+
+    }
+
+    lastPage() {
+
+        if (this.state.currentPage < Math.ceil(this.state.suppliers.length / this.state.userPerPage)) {
+            this.setState({
+                currentPage: Math.ceil(this.state.suppliers.length / this.state.userPerPage)
+            })
+        }
+
+    }
+
+    changePage(event){
+        this.setState({
+            [event.target.name] : parseInt(event.target.value)
+        });
+    }
+
+
+
     render() {
 
-        const suppliersArr = this.state.suppliers;
+        //const suppliersArr = this.state.suppliers;
         // const {deleteSuppliers} = this.props;
         const deleteSuppliers = this.deleteStockPrice;
+
+        const { suppliers, currentPage, userPerPage} = this.state;
+        const lastIndex = currentPage * userPerPage;
+        const firstIndex = lastIndex - userPerPage;
+        const currentsuppliers = suppliers.slice(firstIndex, lastIndex);
+        const totalPages = Math.ceil(suppliers.length / userPerPage);
+
 
         return (
 
@@ -147,6 +234,8 @@ export default class SupplierTable extends Component{
                         <NavLink exact={true} to="/supplier/supplieranalysis" activeClassName="activeClass">
                             <button type="button" className="btn btn-success ">Supplier Details</button>
                         </NavLink>
+
+                        <button type="button" className="btn btn-primary" onClick={() => this.exportPDF()}>Export to PDF</button>
 
                         <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                     </MDBCardBody>
@@ -172,12 +261,13 @@ export default class SupplierTable extends Component{
                                 <th>City</th>
                                 <th>County</th>
                                 <th>State</th>
+                                <th>Action</th>
 
                             </tr>
 
                         </MDBTableHead>
                         {
-                            suppliersArr.length === 0 ?
+                            currentsuppliers.length === 0 ?
                                 <tr >
                                     <td colSpan="12" style={{textAlign : "center", fontWeight: "bold"}}>
                                         <MDBAlert color="danger" >
@@ -185,7 +275,7 @@ export default class SupplierTable extends Component{
                                         </MDBAlert>
                                     </td>
                                 </tr> :
-                                suppliersArr.map(sup => {
+                                currentsuppliers.map(sup => {
 
                                     return(
                                         <MDBTableBody>
@@ -214,6 +304,35 @@ export default class SupplierTable extends Component{
                                     )
                                 })}
                     </MDBTable>
+
+                    <div style={{"float": "left", "color": "#007bff"}}> Showing
+                        Page {currentPage} of {totalPages} </div>
+                    <div style={{"float": "right"}}>
+                        <InputGroup>
+                            <InputGroup.Prepend></InputGroup.Prepend>
+                            <MDBBtnGroup>
+                                <MDBBtn color="primary" size="sm"
+                                        disabled={currentPage === 1 ? true : false}
+                                        onClick={this.firstPage}>First</MDBBtn>
+                                <MDBBtn color="primary" size="sm"
+                                        disabled={currentPage === 1 ? true : false}
+                                        onClick={this.prevPage}>Prev</MDBBtn>
+                            </MDBBtnGroup>
+                            <input type="text" className="pageNumCss"
+                                   name="currentPage" value={currentPage}
+                                   onChange={this.changePage} disabled/>
+                            <InputGroup.Append>
+                                <MDBBtnGroup>
+                                    <MDBBtn color="primary" size="sm"
+                                            disabled={currentPage === totalPages ? true : false}
+                                            onClick={this.nextPage}>Next</MDBBtn>
+                                    <MDBBtn color="primary" size="sm"
+                                            disabled={currentPage === totalPages ? true : false}
+                                            onClick={this.lastPage}>Last</MDBBtn>
+                                </MDBBtnGroup>
+                            </InputGroup.Append>
+                        </InputGroup>
+                    </div>
                 </MDBCardBody>
             </MDBCard>
 

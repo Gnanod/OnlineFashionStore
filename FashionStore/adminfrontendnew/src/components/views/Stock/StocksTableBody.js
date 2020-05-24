@@ -51,6 +51,8 @@ export default class ItemTable extends Component {
             size: '',
             color: '',
             itemName: '',
+            currentPage: 1,
+            userPerPage: 5,
 
         }
 
@@ -63,6 +65,12 @@ export default class ItemTable extends Component {
         this.sendMail=this.sendMail.bind(this);
         this.getAllItemsCL();
         this.getAllSuppliers();
+
+        this.changePage = this.changePage.bind(this);
+        this.firstPage = this.firstPage.bind(this);
+        this.prevPage = this.prevPage.bind(this);
+        this.nextPage = this.nextPage.bind(this);
+        this.lastPage = this.lastPage.bind(this);
     }
 
     componentDidMount() {
@@ -81,6 +89,49 @@ export default class ItemTable extends Component {
             console.log(error);
         })
         console.log("ssss:"+this.state.suppliers);
+    }
+
+    changePage(event){
+        this.setState({
+            [event.target.name] : parseInt(event.target.value)
+        });
+    }
+
+    firstPage(){
+        if(this.state.currentPage > 1){
+            this.setState({
+                currentPage: 1
+            })
+        }
+    }
+
+    prevPage(){
+        if(this.state.currentPage > 1){
+            this.setState({
+                currentPage: this.state.currentPage - 1
+            })
+        }
+
+    }
+
+    nextPage(){
+
+        if(this.state.currentPage < Math.ceil(this.state.ItemColourId.length / this.state.userPerPage)){
+            this.setState({
+                currentPage: this.state.currentPage + 1
+            })
+        }
+
+    }
+
+    lastPage(){
+
+        if(this.state.currentPage < Math.ceil(this.state.ItemColourId.length / this.state.userPerPage)){
+            this.setState({
+                currentPage: Math.ceil(this.state.ItemColourId.length / this.state.userPerPage)
+            })
+        }
+
     }
 
     // getAllItemsCL() {
@@ -183,11 +234,15 @@ export default class ItemTable extends Component {
 
     render() {
         // const {itemsCL} = this.props;
-        const itemsArr = this.state.ItemColourId;
+        // const itemsArr = this.state.ItemColourId;
         // let itemsArr = this.state.itemsCL || {};
         // const itemsArr = this.state.itemsCL;
         // console.log("aaaaa:"+itemsArr);
-
+        const{ItemColourId, currentPage, userPerPage} = this.state;
+        const lastIndex = currentPage * userPerPage;
+        const firstIndex = lastIndex - userPerPage;
+        const currentitemsArr = ItemColourId.slice(firstIndex, lastIndex );
+        const totalPages = Math.ceil(ItemColourId.length / userPerPage) ;
 
         return (
 
@@ -240,13 +295,13 @@ export default class ItemTable extends Component {
                                     <th>Colour</th>
                                     <th>Quantity</th>
                                     <th>Price</th>
-
+                                    <th>Action</th>
 
                                 </tr>
 
                             </MDBTableHead>
                             {
-                                itemsArr.length === 0 ?
+                                currentitemsArr.length === 0 ?
                                     <tr>
                                         <td colSpan="12" style={{textAlign: "center", fontWeight: "bold"}}>
                                             <MDBAlert color="danger">
@@ -254,7 +309,7 @@ export default class ItemTable extends Component {
                                             </MDBAlert>
                                         </td>
                                     </tr> :
-                                    itemsArr.map(itm => {
+                                    currentitemsArr.map(itm => {
                                         console.log("Item");
                                         console.log(itm)
                                         console.log("Item");
@@ -266,7 +321,7 @@ export default class ItemTable extends Component {
                                                     <td>{itm.itemSize}</td>
                                                     <td>
                                                         <label
-                                                            style={{backgroundColor: itm.itemColor,width :100,height :50}}/>
+                                                            style={{backgroundColor: itm.itemColor,width :70,height :30}}/>
                                                     </td>
                                                     <td>{itm.quantity}</td>
                                                     <td>{itm.price}</td>
@@ -281,6 +336,24 @@ export default class ItemTable extends Component {
                                         )
                                     })}
                         </MDBTable>
+                        <div style={{"float" : "left" , "color" : "#007bff"}}> Showing Page {currentPage} of {totalPages} </div>
+                        <div style={{"float" : "right" }}>
+                            <InputGroup>
+                                <InputGroup.Prepend></InputGroup.Prepend>
+                                <MDBBtnGroup>
+                                    <MDBBtn color="primary" size="sm" disabled={currentPage === 1 ? true : false}  onClick={this.firstPage}>First</MDBBtn>
+                                    <MDBBtn color="primary" size="sm" disabled={currentPage === 1 ? true : false} onClick={this.prevPage} >Prev</MDBBtn>
+                                </MDBBtnGroup>
+                                {/*<FormControl className="pageNumCss" ></FormControl>*/}
+                                <input type="text" className="pageNumCss" name="currentPage" value={currentPage} onChange={this.changePage} disabled/>
+                                <InputGroup.Append>
+                                    <MDBBtnGroup>
+                                        <MDBBtn color="primary" size="sm" disabled={currentPage === totalPages ? true : false} onClick={this.nextPage}>Next</MDBBtn>
+                                        <MDBBtn color="primary" size="sm" disabled={currentPage === totalPages ? true : false} onClick={this.lastPage}>Last</MDBBtn>
+                                    </MDBBtnGroup>
+                                </InputGroup.Append>
+                            </InputGroup>
+                        </div>
                     </MDBCardBody>
                 </MDBCard>
 
@@ -357,6 +430,7 @@ export default class ItemTable extends Component {
                                         <th>Size</th>
                                         <th>Colour</th>
                                         <th>Quantity</th>
+
                                     </tr>
                                 </MDBTableHead>
                                 <MDBTableBody>
@@ -373,8 +447,8 @@ export default class ItemTable extends Component {
                                             <tr>
                                                 <td>{orders.itemCode[0].itemName}</td>
                                                 <td>{orders.itemSize}</td>
-                                                <label
-                                                    style={{backgroundColor: orders.itemColor,width :50,height :50}}/>
+                                                <br/><label
+                                                    style={{backgroundColor: orders.itemColor,width :40,height :20}}/>
                                                 <td>{orders.quantity}</td>
                                             </tr>
 

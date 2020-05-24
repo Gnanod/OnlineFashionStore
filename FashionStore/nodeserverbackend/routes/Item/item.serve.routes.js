@@ -27,7 +27,8 @@ router.route('/add').post(function (req, res) {
         itemCode: req.body.itemCode,
         itemName: req.body.itemName,
         brandCategory : req.body.brandCategoryId._id,
-        description : req.body.description
+        description : req.body.description,
+        discount : req.body.discount
     }
 
     let item = new Item(newItemObj);
