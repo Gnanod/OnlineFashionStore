@@ -16,6 +16,7 @@ import OrderTable from "./views/Order/OrderTable";
 import SupplierTable from "./views/Stock/SupplierTable";
 import ItemTable from "./views/Stock/StocksTableBody";
 
+
 class Routes extends React.Component {
     render() {
         return (

@@ -12,6 +12,8 @@
     "bootstrap": "^4.5.0",
     "form-data": "^3.0.0",
     "google-map-react": "^1.0.6",
+    "jspdf": "^1.5.3",
+    "jspdf-autotable": "^3.5.3",
     "mdbreact": "^4.9.0",
     "node-sass": "^4.13.1",
     "react": "^16.7.0",

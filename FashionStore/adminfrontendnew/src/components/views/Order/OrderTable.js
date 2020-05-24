@@ -19,7 +19,8 @@ import 'sweetalert2/src/sweetalert2.scss';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import constants from "../../../constants/constants";
 import {InputGroup} from "react-bootstrap";
-
+import jsPDF from "jspdf";
+import "jspdf-autotable"
 
 
 class OrderTable extends Component {
@@ -45,6 +46,7 @@ class OrderTable extends Component {
         this.prevPage = this.prevPage.bind(this);
         this.nextPage = this.nextPage.bind(this);
         this.lastPage = this.lastPage.bind(this);
+        this.exportPDF = this.exportPDF.bind(this);
 
     }
     componentDidMount() {
@@ -161,6 +163,31 @@ class OrderTable extends Component {
         }
 
     }
+    exportPDF = () => {
+        const unit = "pt";
+        const size = "A4"; // Use A1, A2, A3 or A4
+        const orientation = "portrait"; // portrait or landscape
+
+        const marginLeft = 40;
+        const doc = new jsPDF(orientation, unit, size);
+
+        doc.setFontSize(15);
+
+        const title = "GSTD Pvt(LTD) Order Report ";
+        const headers = [["Order ID", "Date","Total","User ID"]];
+
+        const data = this.state.resultArray.map(elt=> [elt.orderId, elt.oderTime,elt.itemTotal,elt.userId]);
+
+        let content = {
+            startY: 50,
+            head: headers,
+            body: data
+        };
+
+        doc.text(title, marginLeft, 40);
+        doc.autoTable(content);
+        doc.save("GSTDOrderReport.pdf")
+    }
 
     render() {
         const{resultArray, currentPage, userPerPage} = this.state;
@@ -177,6 +204,8 @@ class OrderTable extends Component {
                         <NavLink exact={true} to="/order" activeClassName="activeClass">
                             <button type="button" className="btn btn-primary">Order Details</button>
                         </NavLink>
+
+                            <button type="button" className="btn btn-primary" onClick={() => this.exportPDF()}>Export to PDF</button>
 
 
 
