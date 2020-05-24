@@ -195,18 +195,18 @@ class Cart extends Component {
                     }
                 );
             if(this.sendMail(a)==true){
-                Swal.fire(
-                    '',
-                    ' Your Order has Placed  Successfully.',
-                    'success'
-                );
+               // Swal.fire(
+                 //   '',
+                   // ' Your Order has Placed  Successfully.',
+                    //'success'
+                //);
             }else{
-                Swal.fire(
-                    '',
-                    'Order Purchase Fail',
-                    'error'
+                //Swal.fire(
+                  // '',
+                    //'Order Purchase Fail',
+                    //'error'
 
-                )
+                //)
             }
         })
 

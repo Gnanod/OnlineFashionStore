@@ -265,7 +265,7 @@ export class ItemDetail extends Component {
             }else {
                 Swal.fire(
                     '',
-                    'Sorry,This Item is not Available at the stocks now!',
+                    'Sorry,This Item is not Available in the stocks at the moment!',
                     'error'
                 )
             }
