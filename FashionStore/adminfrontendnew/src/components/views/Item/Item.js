@@ -53,17 +53,22 @@ export class Item extends Component{
         this.itemOnSubmit = this.itemOnSubmit.bind(this);
         this.onchangeFile = this.onchangeFile.bind(this);
         this.removePhoto = this.removePhoto.bind(this);
+
+        if(localStorage.getItem("userLogged")!== "userLogged"){
+            this.props.history.push('/');
+            console.log("GGGGGGGGG")
+        }
     }
 
 
 
 
     componentDidMount() {
+        console.log("GGGGGGGGGGGG")
+
         this.getAllBrands();
         this.getAllCategories();
-        if(localStorage.getItem("userLogged")!=="userLogged"){
-            this.props.history.push('/');
-        }
+
     }
 
     onChangeItemDescription(e) {
