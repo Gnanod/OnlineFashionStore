@@ -20,7 +20,8 @@ import axios from "axios";
 import {InputGroup} from 'react-bootstrap';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import StockPriceTableBody from "./StockPriceTableBody";
-
+import jsPDF from "jspdf";
+import "jspdf-autotable"
 
 export default class SupplierTable extends Component{
 
@@ -112,6 +113,31 @@ export default class SupplierTable extends Component{
         })
     }
 
+    exportPDF = () => {
+        const unit = "pt";
+        const size = "A4"; // Use A1, A2, A3 or A4
+        const orientation = "portrait"; // portrait or landscape
+
+        const marginLeft = 40;
+        const doc = new jsPDF(orientation, unit, size);
+
+        doc.setFontSize(15);
+
+        const title = "GSTD Pvt(LTD) Supplier Report ";
+        const headers = [["Company Name", "Name","Phone Number","Company Number","Email","Fax","Address1","Address2","City","Country"]];
+
+        const data = this.state.suppliers.map(elt=> [elt.companyName, elt.firstName,elt.phoneNumber,elt.companyNumber,elt.email,elt.fax,elt.address1,elt.address2,elt.city,elt.country]);
+
+        let content = {
+            startY: 50,
+            head: headers,
+            body: data
+        };
+
+        doc.text(title, marginLeft, 40);
+        doc.autoTable(content);
+        doc.save("GSTDSupplierReport.pdf")
+    }
 
     deleteSuppliers(id){
         const notDeletedItems = this.state.suppliers.filter(supplier => supplier._id !== id);
@@ -147,6 +173,8 @@ export default class SupplierTable extends Component{
                         <NavLink exact={true} to="/supplier/supplieranalysis" activeClassName="activeClass">
                             <button type="button" className="btn btn-success ">Supplier Details</button>
                         </NavLink>
+
+                        <button type="button" className="btn btn-primary" onClick={() => this.exportPDF()}>Export to PDF</button>
 
                         <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                     </MDBCardBody>
