@@ -364,8 +364,7 @@ export default class SupplierDetails extends Component{
         return(
     <div className="bg">
 
-    {/*<div><h1 className="font-weight-bold text-center">Supplier Details</h1></div>*/}
-            {/*<div className=" container-fluid BrandCategoryMain" >*/}
+  
         <MDBCard className="mb-5">
             <MDBCardBody id="breadcrumb" className="d-flex align-items-center justify-content-between">
 
