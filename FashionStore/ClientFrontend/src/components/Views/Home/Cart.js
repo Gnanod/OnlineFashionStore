@@ -35,6 +35,8 @@ class Cart extends Component {
             orderId:'',
             status:true,
             user:[],
+            fullDiscount:'',
+            tot:'',
             loaderStatus :true
 
         }
@@ -51,7 +53,7 @@ class Cart extends Component {
         this.transactionError=this.transactionError.bind(this);
         this.transactionCancel=this.transactionCancel.bind(this);
         this.sendMail=this.sendMail.bind(this);
-
+       this.getDiscount=this. getDiscount.bind(this);
     }
 
     componentDidMount() {
@@ -88,6 +90,7 @@ class Cart extends Component {
             console.log(error);
         })
         this.getSubTotal(this.state.userId);
+        this.getDiscount(this.state.userId);
     }
     decrement(id,quantity){
 
@@ -161,6 +164,16 @@ class Cart extends Component {
                 fullTot:response.data
             })
         });
+    }
+    getDiscount(userId){
+        console.log("dis");
+        axios.get(constants.backend_url + 'api/cart/getDis/'+ userId).then(response => {
+            this.setState({
+                fullDiscount:response.data,
+                tot:this.state.fullTot-response.data
+            })
+        });
+
     }
     confirmPurchase(){
             let a=this.getLastId();
@@ -296,7 +309,7 @@ class Cart extends Component {
                     </div>
 
                     <div className="col-10 mx-auto col-lg-2">
-                        <span><strong>$ {item.cartPrice}</strong></span>
+                        <span><strong>LKR {item.cartPrice-(item.itemDiscount)}</strong></span>
                     </div>
 
                     <div className="col-10 mx-auto col-lg-2 my-2 my-lg-0">
@@ -362,8 +375,24 @@ class Cart extends Component {
                 <div style={{ fontSize: "25px" }}>
 
 
-                    <span><strong>Full Total     :</strong></span>
+                    <span><strong>Sub Total     :</strong></span>
                     <span><strong>{this.state.fullTot}</strong></span>
+
+
+                </div>
+                <div style={{ fontSize: "25px" }}>
+
+
+                    <span><strong>Discount     :</strong></span>
+                    <span><strong>{this.state.fullDiscount}</strong></span>
+
+
+                </div>
+                <div style={{ fontSize: "25px" }}>
+
+
+                    <span><strong>Total     :</strong></span>
+                    <span><strong>{this.state.tot}</strong></span>
 
 
                 </div>

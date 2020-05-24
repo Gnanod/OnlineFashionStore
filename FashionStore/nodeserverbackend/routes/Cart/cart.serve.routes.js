@@ -188,8 +188,7 @@ router.route('/checkInCart/:id/:itemSize/:itemId').get(function (req, res) {
     console.log(itemSize)
     console.log(itemId)
 
-
-  Cart.find({ userId: id,itemId:itemId,itemSize:itemSize}).exec().then(item => {
+    Cart.find({ userId: id,itemId:itemId,itemSize:itemSize}).exec().then(item => {
        console.log("Item")
       console.log(item)
       console.log("Item")
@@ -199,6 +198,19 @@ router.route('/checkInCart/:id/:itemSize/:itemId').get(function (req, res) {
             res.status(200).json({'cart':'available'});
         }
 
+    })
+        .catch(err => {
+            console.log("fail")
+        });
+});
+router.route('/getDis/:id').get(function (req, res) {
+    let id =req.params.id;
+    let fullDis=0;
+    Cart.find({ userId: id }).exec().then(item => {
+        item.forEach(function(items, index, arr) {
+            fullDis=fullDis+items.itemDiscount;
+        })
+        res.json(fullDis);
     })
         .catch(err => {
             console.log("fail")

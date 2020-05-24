@@ -230,6 +230,7 @@ export class ItemDetail extends Component {
                     quantity:1,
                     itemTotal:cartItem.itemSizes.price,
                     itemId:cartItem.itemSizes._id,
+                    itemDiscount:100,
                     itemSize:cartItem.itemSizes.itemSize
                 }
                 this.decrementQuantity(cartItem.itemSizes._id,cartItem.itemSizes.quantity);
