@@ -172,6 +172,7 @@ export default class SupplierTable extends Component{
                                 <th>City</th>
                                 <th>County</th>
                                 <th>State</th>
+                                <th>Action</th>
 
                             </tr>
 

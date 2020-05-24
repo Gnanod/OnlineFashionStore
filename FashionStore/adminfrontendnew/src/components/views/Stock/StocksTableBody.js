@@ -240,7 +240,7 @@ export default class ItemTable extends Component {
                                     <th>Colour</th>
                                     <th>Quantity</th>
                                     <th>Price</th>
-
+                                    <th>Action</th>
 
                                 </tr>
 
@@ -266,7 +266,7 @@ export default class ItemTable extends Component {
                                                     <td>{itm.itemSize}</td>
                                                     <td>
                                                         <label
-                                                            style={{backgroundColor: itm.itemColor,width :80,height :35}}/>
+                                                            style={{backgroundColor: itm.itemColor,width :70,height :30}}/>
                                                     </td>
                                                     <td>{itm.quantity}</td>
                                                     <td>{itm.price}</td>
@@ -357,6 +357,7 @@ export default class ItemTable extends Component {
                                         <th>Size</th>
                                         <th>Colour</th>
                                         <th>Quantity</th>
+
                                     </tr>
                                 </MDBTableHead>
                                 <MDBTableBody>
@@ -374,7 +375,7 @@ export default class ItemTable extends Component {
                                                 <td>{orders.itemCode[0].itemName}</td>
                                                 <td>{orders.itemSize}</td>
                                                 <br/><label
-                                                    style={{backgroundColor: orders.itemColor,width :50,height :30}}/>
+                                                    style={{backgroundColor: orders.itemColor,width :40,height :20}}/>
                                                 <td>{orders.quantity}</td>
                                             </tr>
 
