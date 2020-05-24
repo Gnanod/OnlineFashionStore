@@ -262,7 +262,7 @@ export default class ItemColor extends Component {
                             <button type="button" className="btn btn-success">New Item</button>
                         </NavLink>
                         {
-                            localStorage.getItem("Position") ==="StoreManager" ?
+                            localStorage.getItem("Position") ==="Admin" ?
                                 <NavLink exact={true} to="/item/brandcategory" >
                                     <button type="button" className="btn btn-success"> Brand & Category</button>
                                 </NavLink>

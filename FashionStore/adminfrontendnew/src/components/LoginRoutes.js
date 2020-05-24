@@ -16,6 +16,7 @@ import Logout from "./views/LogOut/Logout";
 import AdminManage from "./views/UserManagement/AdminAdd";
 import SupplierTable from "./views/Stock/SupplierTable";
 import ItemTable from "./views/Stock/StocksTableBody";
+import {Discount} from "./views/Item/Discount";
 
 class LoginRoutes extends React.Component {
 
@@ -40,6 +41,7 @@ class LoginRoutes extends React.Component {
                 <Route exact path='/supplier/suppliermanage' component={SupplierDetails}/>
                 <Route exact path='/stock/stockmanage' component={StockDetails}/>
                 <Route exact path='/stock/stockanalysis' component={ItemTable}/>
+                <Route exact path='/item/discount' component={Discount}/>
             </Switch>
         );
     }

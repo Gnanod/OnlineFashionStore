@@ -133,6 +133,9 @@ export class Itemsaccordingtocategory extends Component {
                                                         <MDBCardText>
                                                             LKR  : {items.itemArray.price}
                                                         </MDBCardText>
+                                                        <MDBCardText>
+                                                            Size  : {items.itemArray.itemSize}
+                                                        </MDBCardText>
                                                         <div className="row">
                                                             <div className="col-sm-3 "/>
                                                             <div className="col-sm-6 ">

@@ -83,7 +83,6 @@ export class NewArrivals extends Component {
         }).catch(function (error) {
             console.log(error);
         })
-
     }
 
     sweetalertfunction(_id) {
@@ -243,7 +242,7 @@ export class NewArrivals extends Component {
                             <button type="button" className="btn btn-success">New Item</button>
                         </NavLink>
                         {
-                            localStorage.getItem("Position") ==="StoreManager" ?
+                            localStorage.getItem("Position") ==="Admin" ?
                                 <NavLink exact={true} to="/item/brandcategory" >
                                     <button type="button" className="btn btn-success"> Brand & Category</button>
                                 </NavLink>

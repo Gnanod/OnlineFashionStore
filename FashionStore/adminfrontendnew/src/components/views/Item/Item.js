@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     MDBAlert,
     MDBBtn,
@@ -16,7 +16,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import constants from "../../../constants/constants";
 
 
-export class Item extends Component{
+export class Item extends Component {
 
 
     constructor(props) {
@@ -39,7 +39,10 @@ export class Item extends Component{
             selectedCharacterObject: ' ',
             selectedCharacterObjectValidation: false,
             imageValidation: false,
-            brandCategory_Id: ''
+            brandCategory_Id: '',
+            itemDiscountValidation :false,
+            itemDiscount :0,
+            itemDiscountIncreaseValidation :false
         }
 
 
@@ -53,14 +56,13 @@ export class Item extends Component{
         this.itemOnSubmit = this.itemOnSubmit.bind(this);
         this.onchangeFile = this.onchangeFile.bind(this);
         this.removePhoto = this.removePhoto.bind(this);
+        this.onChangeDiscount = this.onChangeDiscount.bind(this);
 
-        if(localStorage.getItem("userLogged")!== "userLogged"){
+        if (localStorage.getItem("userLogged") !== "userLogged") {
             this.props.history.push('/');
             console.log("GGGGGGGGG")
         }
     }
-
-
 
 
     componentDidMount() {
@@ -129,7 +131,8 @@ export class Item extends Component{
                                     itemCode: this.state.itemCode,
                                     brandCategoryId: response.data,
                                     itemName: this.state.itemName,
-                                    description: this.state.itemDescription
+                                    description: this.state.itemDescription,
+                                    discount: this.state.itemDiscount
                                 }
                                 axios.post(constants.backend_url + 'api/item/add', newItem)
                                     .then(res => {
@@ -233,6 +236,23 @@ export class Item extends Component{
             itemCodeValidation: false
         });
     }
+    onChangeDiscount(e) {
+        if(e.target.value >=0 &&  e.target.value<=100){
+            this.setState({
+                itemDiscount: e.target.value,
+                itemDiscountValidation: false,
+                itemDiscountIncreaseValidation :false
+            });
+        }else{
+            this.setState({
+                itemDiscount: 0,
+                itemDiscountIncreaseValidation: true
+            });
+        }
+
+    }
+
+
 
     onChangeItemName(e) {
         this.setState({
@@ -240,6 +260,7 @@ export class Item extends Component{
             itemNameValidation: false
         })
     }
+
     render() {
         return (
             <div>
@@ -249,21 +270,24 @@ export class Item extends Component{
                             <button type="button" className="btn btn-primary">New Item</button>
                         </NavLink>
                         {
-                                localStorage.getItem("Position") ==="StoreManager" ?
-                                    <NavLink exact={true} to="/item/brandcategory" >
-                                        <button type="button" className="btn btn-success"> Brand & Category</button>
-                                    </NavLink>
-                                    :
-                                    ''
+                            localStorage.getItem("Position") === "Admin" ?
+                                <NavLink exact={true} to="/item/brandcategory">
+                                    <button type="button" className="btn btn-success"> Brand & Category</button>
+                                </NavLink>
+                                :
+                                ''
                         }
 
-                        <NavLink exact={true} to="/item/itemcolor" >
+                        <NavLink exact={true} to="/item/itemcolor">
                             <button type="button" className="btn btn-success"> ItemColor</button>
                         </NavLink>
 
-                        <NavLink exact={true} to="/item/newarraivalitems" >
+                        <NavLink exact={true} to="/item/newarraivalitems">
                             <button type="button" className="btn btn-success"> New Arrivals</button>
 
+                        </NavLink>
+                        <NavLink exact={true} to="/item/discount">
+                            <button type="button" className="btn btn-success">Discount</button>
                         </NavLink>
                         <div></div>
                         <div></div>
@@ -353,6 +377,30 @@ export class Item extends Component{
 
                                     <br/>
                                     <MDBRow>
+                                        <MDBCol size="5">
+                                            <TextField id="standard-basic" label="Item Discount"
+                                                       value={this.state.itemDiscount}
+                                                       onChange={this.onChangeDiscount}
+                                            />
+
+                                            {
+                                                this.state.itemDiscountValidation ? <MDBAlert color="danger">
+                                                    Item Discount Field Is Empty
+                                                </MDBAlert> : ''
+                                            }
+                                            {
+                                                this.state.itemDiscountIncreaseValidation ? <MDBAlert color="danger">
+                                                    Item Discount Is greter than 100
+                                                </MDBAlert> : ''
+                                            }
+
+                                        </MDBCol>
+
+
+                                    </MDBRow>
+
+                                    <br/>
+                                    <MDBRow>
                                         <MDBCol size="9">
                                             <div className="form-group">
                                                 <label htmlFor="descriptionItem">Description</label>
@@ -369,6 +417,7 @@ export class Item extends Component{
                                                         Description Name Field Is Empty
                                                     </MDBAlert> : ''
                                             }
+
                                         </MDBCol>
                                     </MDBRow>
 
