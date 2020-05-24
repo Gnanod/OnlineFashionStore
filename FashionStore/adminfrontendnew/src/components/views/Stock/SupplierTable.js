@@ -133,7 +133,7 @@ export default class SupplierTable extends Component{
         const title = "GSTD Pvt(LTD) Supplier Report ";
         const headers = [["Company Name", "Name","Phone Number","Company Number","Email","Fax","Address1","Address2","City","Country"]];
 
-        const data = this.state.suppliers.map(elt=> [elt.companyName, elt.firstName,elt.phoneNumber,elt.companyNumber,elt.email,elt.fax,elt.address1,elt.address2,elt.city,elt.country]);
+        const data = this.state.suppliers.map(elt=> [elt.companyName, elt.firstName,elt.mobileNumber,elt.companyNumber,elt.email,elt.fax,elt.address1,elt.address2,elt.city,elt.country]);
 
         let content = {
             startY: 50,
