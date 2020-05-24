@@ -228,7 +228,7 @@ class Cart extends Component {
             }
         })
 
-
+        // window.location.reload(false);
 
     }
     getLastId(){
@@ -267,7 +267,7 @@ class Cart extends Component {
            this.setState({user:response.data})
 
             console.log(response.data[0].email)
-            axios.get(constants.spring_backend_url + '/OrderController/sendMail/'+response.data[0].email+'/'+orderId+'/'+this.state.fullTot).then(response => {
+            axios.get(constants.spring_backend_url + '/OrderController/sendMail/'+response.data[0].email+'/'+orderId+'/'+this.state.tot+'/'+this.state.fullDiscount).then(response => {
                 if(response.data==true){
                     console.log("succ");
                     return true;
