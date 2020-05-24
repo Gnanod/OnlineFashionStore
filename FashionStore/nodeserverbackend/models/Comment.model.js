@@ -16,7 +16,7 @@ let comment = new Schema({
     // },
     userId :[{
         type :mongoose.Schema.Types.ObjectId,
-        ref : "UserDetail",
+        ref : "userdetails",
         required : true
     }],
     itemCode :[{
@@ -26,5 +26,5 @@ let comment = new Schema({
     }]
 });
 
-module.exports = mongoose.model('Comment',comment);
+module.exports = mongoose.model('comment',comment);
 
