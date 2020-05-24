@@ -576,6 +576,7 @@ export default class StockDetails extends Component {
                                                 <th>Quantity</th>
                                                 <th>Discount</th>
                                                 <th>Total Price</th>
+                                                <th>Action</th>
 
                                             </tr>
                                         </MDBTableHead>
