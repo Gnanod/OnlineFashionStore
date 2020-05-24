@@ -16,6 +16,7 @@ import OrderTable from "./views/Order/OrderTable";
 import SupplierTable from "./views/Stock/SupplierTable";
 import ItemTable from "./views/Stock/StocksTableBody";
 
+
 class Routes extends React.Component {
     render() {
         return (
@@ -34,6 +35,7 @@ class Routes extends React.Component {
                 <Route exact path='/logout' component={Logout}/>
                 <Route exact path='/usermanage/adminManage' component={AdminManage}/>
                 <Route exact path='/supplier/supplieranalysis' component={SupplierTable}/>
+                <Route exact path='/supplier/suppliermanage' component={SupplierDetails}/>
                 <Route exact path='/stock/stockmanage' component={StockDetails}/>
                 <Route exact path='/stock/stockanalysis' component={ItemTable}/>
             </Switch>

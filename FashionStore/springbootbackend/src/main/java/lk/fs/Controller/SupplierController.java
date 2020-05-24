@@ -12,21 +12,24 @@ import javax.mail.Session;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/OrderController")
-public class OrderController {
+@RequestMapping(value = "/supplierController")
 
-    @GetMapping(value = "/sendMail/{mail}/{orderId}/{itemTotal}")
-    public boolean sendEmail(@PathVariable String mail, @PathVariable String orderId, @PathVariable float itemTotal) {
+public class SupplierController {
+
+    @GetMapping(value = "/sendMail/{supplier}/{email}/{newQuantity}/{itemSize}/{itemName}")
+    public boolean sendEmail(@PathVariable String supplier,@PathVariable String email, @PathVariable int newQuantity,@PathVariable String itemSize,@PathVariable String itemName) {
 
         System.out.println("GGGGGGGGG");
-        System.out.println("mail" + mail);
-        System.out.println("orderId" + orderId);
-        System.out.println("itemTotal" + itemTotal);
+        System.out.println("mail" + email);
+        System.out.println("newQuantity" + newQuantity);
+//        System.out.println("itemSize" + itemSize);
+//        System.out.println("itemColor" + itemColor);
+//        System.out.println("quantity" + quantity);
 
         try {
             final String fromEmail = "fashionstoregtsd@gmail.com"; //requires valid gmail id
             final String password = "Fashionstore123"; // correct password for gmail id
-            final String toEmail = mail; // can be any email id
+            final String toEmail = email; // can be any email id
 
             System.out.println("TLSEmail Start");
             Properties props = new Properties();
@@ -45,7 +48,13 @@ public class OrderController {
             Session session = Session.getInstance(props, auth);
 
             LocalDateTime now = LocalDateTime.now();
-            EmailUtil.sendEmail(session, toEmail,"Confirmation of Order", "You have been succesfully purchased the items."+"\n"+"Order Id  :"+orderId+"\n"+"Item Total  :"+itemTotal+"\n"+"Purchase Date  :"+now +"\n"+"Thank you for Shopping on GSTD Pvt(LTD).");
+            EmailUtil.sendEmail(session, toEmail,"Requesting Products", "Dear Mr/Mrs,"+"\n"+"We are GSTD Pvt(LTD) who is a regular customer of you. As a company we are"+"\n"+
+                    "satisfying of your "+supplier+" products. Now, in our stock has a less number of "+"\n"+
+                    itemName+" items of your products. We are looking for number of new "+newQuantity+" items from "+"\n"+
+                    itemName+" item in size \""+itemSize+"\"."+"\n"+
+                    "Please provide details about the product specified here, as well as any"+"\n"+
+                    "additional offerings and new items that you have. We look forward to hearing from you soon."+"\n"+
+                    "Regards,"+"\n"+"[GSTD Pvt(LTD)]");
 
 
             return true;

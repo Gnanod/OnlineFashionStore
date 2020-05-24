@@ -110,7 +110,7 @@ export default class StockDetails extends Component {
         }).catch(function (error) {
             console.log(error);
         })
-        console.log(this.state.suppliers);
+        console.log("ssss:"+this.state.suppliers);
     }
 
     getAllItemColourId() {

@@ -12,21 +12,17 @@ import javax.mail.Session;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/OrderController")
-public class OrderController {
+@RequestMapping(value = "/userController")
+public class userController {
 
-    @GetMapping(value = "/sendMail/{mail}/{orderId}/{itemTotal}")
-    public boolean sendEmail(@PathVariable String mail, @PathVariable String orderId, @PathVariable float itemTotal) {
-
-        System.out.println("GGGGGGGGG");
-        System.out.println("mail" + mail);
-        System.out.println("orderId" + orderId);
-        System.out.println("itemTotal" + itemTotal);
+    @GetMapping(value = "/userMail/{name}/{email}")
+    public boolean sendEmail(@PathVariable String name, @PathVariable String email) {
 
         try {
-            final String fromEmail = "fashionstoregtsd@gmail.com"; //requires valid gmail id
-            final String password = "Fashionstore123"; // correct password for gmail id
-            final String toEmail = mail; // can be any email id
+            final String fromEmail = "fashionstoregtsd@gmail.com";
+            final String password = "Fashionstore123";
+            final String toEmail = email;
+
 
             System.out.println("TLSEmail Start");
             Properties props = new Properties();
@@ -45,7 +41,7 @@ public class OrderController {
             Session session = Session.getInstance(props, auth);
 
             LocalDateTime now = LocalDateTime.now();
-            EmailUtil.sendEmail(session, toEmail,"Confirmation of Order", "You have been succesfully purchased the items."+"\n"+"Order Id  :"+orderId+"\n"+"Item Total  :"+itemTotal+"\n"+"Purchase Date  :"+now +"\n"+"Thank you for Shopping on GSTD Pvt(LTD).");
+            EmailUtil.sendEmail(session, toEmail,"Account has been removed !", "Dear "+ name + ","+"\n\n\t"+"We have removed you as our customer due to unethical use of our website. For further information, please contact our Admin Gnanod Akalanka at " + fromEmail +"\n\n"+"Thank you and Best Regards,"+"\n"+"GSTD Pvt(LTD)." );
 
 
             return true;

@@ -35,7 +35,6 @@ export default class profile extends Component {
         this.sweetalertfunction = this.sweetalertfunction.bind(this);
         this.submitfeedback = this.submitfeedback.bind(this);
         this.getDetailuser = this.getDetailuser.bind(this);
-
         this.onChangeFeedback = this.onChangeFeedback.bind(this);
     }
 

@@ -15,6 +15,8 @@ class Wishlist extends Component {
             userId: localStorage.getItem("CustomerId"),
             Name: '',
             Price: '',
+            inCartStatus:false,
+            status:true,
             loaderStatus: true
 
         }
@@ -22,6 +24,7 @@ class Wishlist extends Component {
         this.addToCart=this.addToCart.bind(this);
         this.remove1=this.remove1.bind(this);
         this.clearWishlist=this.clearWishlist.bind(this);
+        this.decrementQuantity = this.decrementQuantity.bind(this);
     }
     componentDidMount() {
         if(localStorage.getItem("CustomerLogged")!=="CustomerLogged"){
@@ -36,6 +39,12 @@ class Wishlist extends Component {
         axios.get(constants.backend_url + 'api/wishlist/getDetails/'+ this.state.userId).then(response => {
             console.log("map")
             this.setState({wishList: response.data});
+            if(this.state.wishList!=''){
+                console.log("true")
+                this.setState({
+                    status:false
+                })
+            }
         }).catch(function (error) {
             console.log(error);
         })
@@ -44,58 +53,81 @@ class Wishlist extends Component {
     addToCart(item){
 
         let cartItem=item;
-       // this.decrementQuantity(cartItem.itemSizes._id,cartItem.itemSizes.quantity);
+      // this.decrementQuantity(cartItem.itemSizes._id,cartItem.itemSizes.quantity);
         console.log("HI wish cart")
-        const cartt = {
-            userId:localStorage.getItem("CustomerId"),
-            cartName:item.cartName,
-            cartPrice:item.cartPrice,
-            quantity:1,
-            itemTotal:item.cartPrice,
-            itemId:cartItem.itemId
-        }
 
-        axios.post(constants.backend_url + 'api/cart/add', cartt)
-            .then(res => {
-                    console.log("HI wish cart")
+        let id1=localStorage.getItem("CustomerId");
+        let itemId=cartItem.itemId;
+        let itemSize=cartItem.itemSize;
+        axios.get(constants.backend_url + 'api/cart/checkInCart/'+id1+'/'+itemSize+'/'+itemId).then(res => {
+            console.log("LLLLLLLLLLLLLLLLLLLL")
+            console.log(res.data)
+            console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
+            if(res.data.cart==='available'){
+                console.log("HHHHHHHHHHHHHHHHHHH");
+                Swal.fire(
+                    '',
 
-                    if (res.data.cart === 'successful') {
-                        this.remove1(item._id);
-                        Swal.fire(
-                            '',
-                            'Cart Details Added Successfully.',
-
-                            'success'
-
-                        );
-
-                    } else {
-                        Swal.fire(
-                            '',
-
-                            'Cart Added Fail',
-                            'success'
-                        )
-
-
-                    }
+                    'Item is Already in the cart!!',
+                    'error'
+                )
+            }else{
+                const cartt = {
+                    userId:localStorage.getItem("CustomerId"),
+                    cartName:item.cartName,
+                    cartPrice:item.cartPrice,
+                    quantity:1,
+                    itemTotal:item.cartPrice,
+                    itemId:cartItem.itemId,
+                    itemSize:cartItem.itemSize
                 }
-            );
+                this.decrementQuantity(cartItem.itemId,cartItem.quantity);
+                axios.post(constants.backend_url + 'api/cart/add', cartt)
+                    .then(res => {
+                            console.log("HI wish cart")
+
+                            if (res.data.cart === 'successful') {
+                                this.remove1(item._id);
+                                Swal.fire(
+                                    '',
+                                    'Cart Details Added Successfully.',
+
+                                    'success'
+
+                                );
+
+                            } else {
+                                Swal.fire(
+                                    '',
+
+                                    'Cart Added Fail',
+                                    'error'
+                                )
 
 
-        console.log(cartt);
+                            }
+                        }
+                    );
+                console.log(cartt);
+            }
+
+        });
+
+
+
+
 
     }
     remove1(id){
         console.log("remove");
         axios.get(constants.backend_url + 'api/wishlist/deleteItem/'+ id).then(response => {
             if (response.data.wishlist === 'successful') {
-                Swal.fire(
-                     '',
-                    'Item Deleted Sucessfull',
-                    'success'
+                //Swal.fire(
+                  //   '',
+                    //'Item Deleted Sucessfull',
+                    //'success'
 
-                );
+                //);
                 this.getDetails();
 
             } else {
@@ -116,6 +148,21 @@ class Wishlist extends Component {
 
         });
         window.location.reload(false);
+    }
+    decrementQuantity(id,quantity){
+        console.log(id);
+        axios.get(constants.backend_url + 'api/cart/updateQuantity/'+id+'/'+(quantity-1))
+            .then(res => {
+
+                    if (res.data.cart === 'success') {
+                        console.log("sucess update")
+
+                    } else {
+                        console.log("failure update")
+                    }
+                }
+            );
+
     }
 
     render() {
@@ -196,10 +243,20 @@ class Wishlist extends Component {
 
 
                     })}
-
-
-                <br/><br/>
-                    <MDBBtn gradient="blue" rounded onClick={()=>this.clearWishlist()}>Clear WishList</MDBBtn>
+                    {this.state.status ?
+                        <div>
+                            <br/><br/>
+                        <div className="alert alert-success" role="alert">
+                            Currently Product Wishlist is Empty!!
+                            <br/>
+                        </div>
+                        </div>
+                        :
+                        <div>
+                            <br/><br/>
+                            <MDBBtn gradient="blue" rounded onClick={() => this.clearWishlist()}>Clear WishList</MDBBtn>
+                        </div>
+                    }
                 </div>
             </div>
         );

@@ -81,7 +81,19 @@ router.route('/getItemSizes/:itemColorId').get(function (req, res) {
         });
 });
 
+router.route('/viewStocks/:id').get(function (req, res) {
+    let id =req.params.id;
+    console.log("aaaaa:"+ id);
+    itemcolor.find({ _id: id }).populate("itemCode").exec().then(item => {
+        //console.log(item)
+        res.status(200).json(item)
+    })
+        .catch(err => {
+            //  console.log("Fail")
+            res.status(500).json(err);
+        });
 
+});
 
 
 router.route('/getNewItemDetailsById').get(function (req, res) {
