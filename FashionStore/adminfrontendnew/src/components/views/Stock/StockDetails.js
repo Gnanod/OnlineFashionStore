@@ -457,8 +457,8 @@ export default class StockDetails extends Component {
                                                         </MDBAlert> : ''
                                                 }
 
-
                                                 <div className="md-form">
+                                                    <label htmlFor="defaultFormCardNameEx1" className="grey-text font-weight-light"><b>Start Date</b></label><br/>
                                                     <input placeholder="Start date" type="date"
                                                            id="date-picker-example"
                                                            className="form-control datepicker"
@@ -473,6 +473,7 @@ export default class StockDetails extends Component {
                                                 }
 
                                                 <div className="md-form">
+                                                    <label htmlFor="defaultFormCardNameEx1" className="grey-text font-weight-light"><b>End Date</b></label><br/>
                                                     <input placeholder="End date" type="date"
                                                            id="date-picker-example"
                                                            className="form-control datepicker"
