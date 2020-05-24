@@ -79,6 +79,7 @@ class Wishlist extends Component {
                     quantity:1,
                     itemTotal:item.cartPrice,
                     itemId:cartItem.itemId,
+                    itemDiscount:cartItem.itemDiscount,
                     itemSize:cartItem.itemSize
                 }
                 this.decrementQuantity(cartItem.itemId,cartItem.quantity);

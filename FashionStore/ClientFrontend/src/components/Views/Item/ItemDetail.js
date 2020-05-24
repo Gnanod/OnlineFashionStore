@@ -227,6 +227,7 @@ export class ItemDetail extends Component {
                     quantity:1,
                     itemTotal:cartItem.itemSizes.price,
                     itemId:cartItem.itemSizes._id,
+                    itemDiscount:this.state.discount,
                     itemSize:cartItem.itemSizes.itemSize
                 }
                 this.decrementQuantity(cartItem.itemSizes._id,cartItem.itemSizes.quantity);
@@ -339,7 +340,9 @@ export class ItemDetail extends Component {
             cartName:this.state.itemName,
             cartPrice:cartItem.itemSizes.price,
             itemSize:cartItem.itemSizes.itemSize,
+            itemDiscount:this.state.discount,
             itemId:cartItem.itemSizes._id
+
         }
             console.log(wishlist);
             axios.post(constants.backend_url + 'api/wishlist/add', wishlist)
