@@ -120,6 +120,9 @@ export default class SupplierDetails extends Component{
 
         onChangeFirstName(e)
         {
+            console.log("First Name");
+            console.log(e.target.value)
+            console.log("Fist Name")
             this.setState({
                 firstName: e.target.value,
                 firstNameValidation: false
@@ -333,7 +336,7 @@ export default class SupplierDetails extends Component{
                             }
                         }else{
                             this.setState({
-                                fistNameValidation: true
+                                firstNameValidation: true
                             })
                         }
                     // }else{
@@ -446,6 +449,7 @@ export default class SupplierDetails extends Component{
                                     />
 
                                     {
+
                                         this.state.firstNameValidation ? <MDBAlert color="danger">
                                             First Name Field Is Empty
                                         </MDBAlert> : ''

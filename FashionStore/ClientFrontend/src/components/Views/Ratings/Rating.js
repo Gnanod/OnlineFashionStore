@@ -88,7 +88,11 @@ export class Rating extends Component {
 
     render() {
         return <MDBContainer>
-            <MDBBtn color="primary" onClick={this.toggle(4)}>Add Ratings</MDBBtn>
+
+            <button type="button"
+                    className="btn btn-info"
+                    onClick={this.toggle(4)}>Add Ratings
+            </button>
             <MDBModal isOpen={this.state.modal4} toggle={this.toggle(4)} size="lg">
                 <MDBModalHeader toggle={this.toggle(4)}>Add New Rate & Comment</MDBModalHeader>
                 <MDBModalBody>

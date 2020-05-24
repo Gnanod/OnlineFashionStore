@@ -79,9 +79,6 @@ export class ItemDetail extends Component {
     getAverageRate() {
         axios.get(constants.backend_url + 'api/comment/getComment/' + this.state.item_Id).then(response => {
 
-            console.log("Resiponese")
-            console.log(response.data)
-            console.log("Resiponese")
             if(response.data !=='not found'){
 
                 this.setState({
@@ -453,22 +450,25 @@ export class ItemDetail extends Component {
                                                                 />
                                                             </div>
                                                             <div className="row">
-                                                                {
-                                                                    this.state.status ?
-                                                                        this.state.itemColorObj.map(item => {
-                                                                            const style = {
-                                                                                backgroundColor: item.itemColor,
-                                                                                width: 50,
-                                                                                height: 50
-                                                                            }
-                                                                            return (
-                                                                                <button style={style}
-                                                                                        onClick={() => this.changePhotoUrl(item)}>
-                                                                                </button>
-                                                                            )
-                                                                        })
-                                                                        : ''
-                                                                }
+
+                                                                    {
+                                                                        this.state.status ?
+                                                                            this.state.itemColorObj.map(item => {
+                                                                                const style = {
+                                                                                    backgroundColor: item.itemColor,
+                                                                                    width: 50,
+                                                                                    height: 50
+                                                                                }
+                                                                                return (
+                                                                                    <button style={style}
+                                                                                            onClick={() => this.changePhotoUrl(item)}>
+                                                                                    </button>
+                                                                                )
+                                                                            })
+                                                                            : ''
+                                                                    }
+
+
                                                             </div>
                                                             {/*</div>*/}
 
@@ -561,13 +561,7 @@ export class ItemDetail extends Component {
 
 
                                                             </div>
-                                                            {/*<div className="row">*/}
-                                                            {/*<div className="col-sm-12">*/}
-                                                            {/*<Rating*/}
-                                                            {/*selected={this.state.item_Id}*/}
-                                                            {/*/>*/}
-                                                            {/*</div>*/}
-                                                            {/*</div>*/}
+
                                                         </div>
                                                     </div>
 
