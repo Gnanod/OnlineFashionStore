@@ -90,7 +90,7 @@ class Cart extends Component {
             console.log(error);
         })
         this.getSubTotal(this.state.userId);
-        this.getDiscount(this.state.userId);
+
     }
     decrement(id,quantity){
 
@@ -160,17 +160,19 @@ class Cart extends Component {
     getSubTotal(userId){
         console.log("subbb");
         axios.get(constants.backend_url + 'api/cart/getSub/'+ userId).then(response => {
+            this.getDiscount(this.state.userId,response.data);
             this.setState({
                 fullTot:response.data
             })
         });
+
     }
-    getDiscount(userId){
+    getDiscount(userId,price){
         console.log("dis");
         axios.get(constants.backend_url + 'api/cart/getDis/'+ userId).then(response => {
             this.setState({
                 fullDiscount:response.data,
-                tot:this.state.fullTot-response.data
+                tot:price.valueOf()-response.data.valueOf()
             })
         });
 
@@ -305,11 +307,12 @@ class Cart extends Component {
                         <span style={{ font: "10px" }}><strong>{item.cartName}</strong></span>
                         <br/>
                        <p className="text-muted">Item Size  : {item.itemSize}</p>
-
+                        <p className="text-muted">Item Discount : {item.itemDiscount}</p>
                     </div>
 
                     <div className="col-10 mx-auto col-lg-2">
-                        <span><strong>LKR {item.cartPrice-(item.itemDiscount)}</strong></span>
+                        <span><strong>LKR {item.cartPrice}</strong></span>
+
                     </div>
 
                     <div className="col-10 mx-auto col-lg-2 my-2 my-lg-0">
@@ -329,7 +332,7 @@ class Cart extends Component {
                         </div>
                     </div>
                     <div className="col-10 mx-auto col-lg-2">
-                        <span><strong>$ {item.cartPrice * (item.quantity)}</strong></span>
+                        <span><strong>$ {(item.cartPrice.valueOf() * item.quantity)-(item.itemDiscount*item.quantity)}</strong></span>
                     </div>
                     <div className="col-10 mx-auto col-lg-2">
 
@@ -399,7 +402,7 @@ class Cart extends Component {
                 <br/>
 
                 <Paypal
-                    toPay={this.state.fullTot}
+                    toPay={this.state.tot}
                     onSuccess={()=>this.transactionSuccess()}
                     transactionError={()=>this.transactionError()}
                     transactioncancel={()=>this.transactionCancel()}/>

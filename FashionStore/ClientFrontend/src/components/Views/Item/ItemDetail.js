@@ -341,7 +341,9 @@ export class ItemDetail extends Component {
             cartName:this.state.itemName,
             cartPrice:cartItem.itemSizes.price,
             itemSize:cartItem.itemSizes.itemSize,
+            itemDiscount:this.state.discount,
             itemId:cartItem.itemSizes._id
+
         }
             console.log(wishlist);
             axios.post(constants.backend_url + 'api/wishlist/add', wishlist)

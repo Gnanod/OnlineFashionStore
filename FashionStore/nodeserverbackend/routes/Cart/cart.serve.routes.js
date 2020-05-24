@@ -208,7 +208,7 @@ router.route('/getDis/:id').get(function (req, res) {
     let fullDis=0;
     Cart.find({ userId: id }).exec().then(item => {
         item.forEach(function(items, index, arr) {
-            fullDis=fullDis+items.itemDiscount;
+            fullDis=fullDis+(items.itemDiscount*items.quantity);
         })
         res.json(fullDis);
     })

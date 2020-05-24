@@ -23,6 +23,10 @@ let wishlist = new Schema({
         contentType: String
 
     },
+    itemDiscount:{
+        type: Number,
+        required: true
+    },
     itemId:{
         type: String,
         required: true
