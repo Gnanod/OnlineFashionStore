@@ -15,7 +15,7 @@
     "jspdf": "^1.5.3",
     "jspdf-autotable": "^3.5.3",
     "mdbreact": "^4.9.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "react": "^16.7.0",
     "react-bootstrap": "^1.0.1",
     "react-color": "^2.18.0",
